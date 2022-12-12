@@ -11,14 +11,14 @@ import {
 
 // import CheckBox from '@react-native-community/checkbox';
 import TermsOfService2 from '../../components/bottomNav/termsOfService2';
-const Login = () => {
+const Login = ({navigation}) => {
   const a = ['a', 'b'];
   const styles = StyleSheet.create({
     full: {
       height: '100%',
       width: '100%',
 
-      backgroundColor: '#6C6E73',
+      backgroundColor: '#DEDEDE',
     },
     TopText: {
       color: '#292929',
@@ -30,7 +30,7 @@ const Login = () => {
     },
     inputbox1: {
       backgroundColor: 'white',
-      width: 350,
+      width: '85%',
       height: 48,
       marginTop: 15,
       marginLeft: 29,
@@ -39,7 +39,7 @@ const Login = () => {
     },
     inputbox2: {
       backgroundColor: 'white',
-      width: 350,
+      width: '85%',
       height: 48,
       marginTop: 15,
       marginLeft: 29,
@@ -74,7 +74,7 @@ const Login = () => {
     },
     lastBtn: {
       marginLeft: 29,
-      width: 350,
+      width: '80%',
       height: 51,
       marginTop: 30,
       borderRadius: 10,
@@ -158,8 +158,10 @@ const Login = () => {
         })}
       </View>
       <View>
-        <TouchableOpacity style={styles.lastBtn}>
-          <Text>가입하기</Text>
+        <TouchableOpacity
+          style={styles.lastBtn}
+          onPress={() => navigation.navigate('Login2')}>
+          <Text style={{color: 'white'}}>가입하기</Text>
         </TouchableOpacity>
       </View>
     </View>

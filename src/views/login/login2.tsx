@@ -6,13 +6,13 @@ import {
   View,
 } from 'react-native';
 
-const Login2 = () => {
+const Login2 = ({navigation}) => {
   const styles = StyleSheet.create({
     full: {
       height: '100%',
       width: '100%',
 
-      backgroundColor: '#6C6E73',
+      backgroundColor: '#DEDEDE',
     },
     TopText: {
       color: '#292929',
@@ -26,7 +26,7 @@ const Login2 = () => {
     },
     inputbox1: {
       backgroundColor: 'white',
-      width: 350,
+      width: '80%',
       height: 48,
       marginTop: 15,
       marginLeft: 29,
@@ -41,7 +41,7 @@ const Login2 = () => {
     },
     lastBtn: {
       marginLeft: 29,
-      width: 350,
+      width: '80%',
       height: 51,
       marginTop: 30,
       borderRadius: 10,
@@ -51,7 +51,7 @@ const Login2 = () => {
     },
     login2Btn: {
       marginLeft: 29,
-      width: 350,
+      width: '80%',
       height: 53,
       borderRadius: 10,
       borderColor: 'white',
@@ -71,8 +71,10 @@ const Login2 = () => {
         <TextInput
           style={styles.inputbox1}
           placeholder="사용자 비밀번호"></TextInput>
-        <TouchableOpacity style={styles.lastBtn}>
-          <Text>로그인</Text>
+        <TouchableOpacity
+          style={styles.lastBtn}
+          onPress={() => navigation.navigate('Home')}>
+          <Text style={{color: 'white'}}>로그인</Text>
         </TouchableOpacity>
       </View>
       <View style={{marginTop: 30}}>
@@ -83,7 +85,9 @@ const Login2 = () => {
         </TouchableOpacity>
       </View>
       <View style={{marginTop: 15}}>
-        <TouchableOpacity style={styles.login2Btn}>
+        <TouchableOpacity
+          style={styles.login2Btn}
+          onPress={() => navigation.push('Login')}>
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <Text style={styles.lastBtnText}>계정이 없으신가요?</Text>
             <Text
