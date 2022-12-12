@@ -17,9 +17,9 @@ const Intro = ({navigation}) => {
     }, 700);
   };
 
-  useEffect(() => {
-    accessToken();
-  }, []);
+  // useEffect(() => {
+  //   accessToken();
+  // }, []);
 
   return (
     <View style={styles.app}>
