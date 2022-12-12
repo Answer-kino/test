@@ -10,6 +10,7 @@ import Login2 from './src/views/login/login2';
 import Connect from './src/views/connect';
 import TermsOfService from './src/views/termsOfService';
 
+import Mypage from './src/views/mypage/mypage';
 const App = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -29,7 +30,7 @@ const App = () => {
         </Stack.Navigator>
       </NavigationContainer> */}
       <View>
-        <TermsOfService />
+        <Mypage />
       </View>
     </SafeAreaView>
   );
