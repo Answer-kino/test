@@ -4,66 +4,76 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  ImageBackground,
   Dimensions,
-  TouchableOpacity,
-  Touchable,
-  Button,
-  Pressable,
   FlatList,
+  Image,
 } from 'react-native';
 
+import image1 from '../../../assets/모니터링.png';
+import image2 from '../../../assets/차량진단.png';
+import image3 from '../../../assets/대시보드.png';
+import image4 from '../../../assets/연료.png';
+import image5 from '../../../assets/주행기록.png';
+import image6 from '../../../assets/주행일지.png';
+import image7 from '../../../assets/HUD.png';
+import image8 from '../../../assets/운전스타일.png';
+import image9 from '../../../assets/소모품관리.png';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
 interface ItemProps {
   title: string;
+  img: string;
 }
 
-const Item = (props: ItemProps) => (
-  <View
-    style={{
-      backgroundColor: '#f9c2ff',
-      padding: 20,
-      marginVertical: 8,
-      marginHorizontal: 16,
-    }}>
-    <Text style={{color: 'black', fontSize: 14}}>{props.title}</Text>
-  </View>
-);
+const Item = (props: ItemProps) => {
+  return (
+    <View style={styles.itemContainer}>
+      <View style={styles.item}>
+        {props.img === '1' && <Image source={image1} />}
+        {props.img === '2' && <Image source={image2} />}
+        {props.img === '3' && <Image source={image3} />}
+        {props.img === '4' && <Image source={image4} />}
+        {props.img === '5' && <Image source={image5} />}
+        {props.img === '6' && <Image source={image6} />}
+        {props.img === '7' && <Image source={image7} />}
+        {props.img === '8' && <Image source={image8} />}
+        {props.img === '9' && <Image source={image9} />}
+      </View>
+      <Text style={{color: 'black', fontSize: 14}}>{props.title}</Text>
+    </View>
+  );
+};
 
 const RaceInfo = () => {
   const DATA = [
-    {title: '모니터링'},
-    {title: '차량진단'},
-    {title: '대시보드'},
-    {title: '연료'},
-    {title: '주행기록'},
-    {title: '주행일지'},
-    {title: 'HUD'},
-    {title: '운전스타일'},
-    {title: '소모품관리'},
+    {title: '모니터링', img: '1'},
+    {title: '차량진단', img: '2'},
+    {title: '대시보드', img: '3'},
+    {title: '연료', img: '4'},
+    {title: '주행기록', img: '5'},
+    {title: '주행일지', img: '6'},
+    {title: 'HUD', img: '7'},
+    {title: '운전스타일', img: '8'},
+    {title: '소모품관리', img: '9'},
   ];
 
   return (
     <View>
       <TopNav title="내차 운행정보" />
-      <ScrollView
+      {/* <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
-        <View style={styles.container}>
-          <FlatList
-            data={DATA}
-            columnWrapperStyle={{
-              justifyContent: 'space-between',
-            }}
-            // onLayout={e => setContainerWidth(e.nativeEvent.layout.width)}
-            renderItem={({item}) => <Item title={item.title} />}
-            numColumns={3}
-          />
-        </View>
-      </ScrollView>
+        style={styles.scrollView}> */}
+      <View style={styles.container}>
+        <FlatList
+          data={DATA}
+          style={styles.flatList}
+          columnWrapperStyle={{justifyContent: 'space-between'}}
+          renderItem={({item}) => <Item title={item.title} img={item.img} />}
+          numColumns={3}
+        />
+      </View>
+      {/* </ScrollView> */}
       <BottomNav />
     </View>
   );
@@ -77,6 +87,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     marginVertical: 15,
   },
+  flatList: {
+    padding: -20,
+    marginVertical: -8,
+  },
   titleCode: {
     fontSize: 22,
     color: '#292929',
@@ -85,6 +99,20 @@ const styles = StyleSheet.create({
   },
   documentImage: {
     width: '100%',
+  },
+  itemContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    marginVertical: '1.5%',
+    marginHorizontal: '1.5%',
+    borderRadius: 20,
+    alignItems: 'center',
+    elevation: 3,
+  },
+  item: {
+    height: 50,
+    justifyContent: 'center',
+    marginVertical: 8,
   },
 });
 

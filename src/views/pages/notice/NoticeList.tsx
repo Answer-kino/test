@@ -1,0 +1,71 @@
+import React from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ImageBackground,
+  Dimensions,
+  TouchableOpacity,
+  Touchable,
+  Button,
+  Pressable,
+} from 'react-native';
+
+import BottomNav from '../../../components/bottomNav/BottomNav';
+import TopNav from '../../../components/topNav/TopNav';
+
+const NoticeList = ({navigation, route}) => {
+  return (
+    <View>
+      <TopNav title="공지사항" />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={styles.scrollView}>
+        <View style={styles.container}>
+          <Text style={styles.descriptionTitle}>{route.params.title}</Text>
+          <TouchableOpacity
+            onPress={() => navigation.push('Notice')}
+            style={styles.documentMenu}>
+            <Text style={styles.descriptionTitle}>캐피탈 서비스 점검 안내</Text>
+            <Text>2022.11.28 | 캐피탈공지</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.push('Notice')}
+            style={styles.documentMenu}>
+            <Text style={styles.descriptionTitle}>
+              신분증 진위확인 일시중단 안내
+            </Text>
+            <Text>2022.11.26 | 캐피탈공지</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+      <BottomNav />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  scrollView: {
+    height: Dimensions.get('window').height - 160,
+  },
+  container: {
+    marginHorizontal: 30,
+    marginTop: 15,
+  },
+  documentMenu: {
+    marginTop: 15,
+    paddingBottom: 15,
+    borderBottomWidth: 1,
+    borderColor: '#D8D8D8',
+  },
+  descriptionTitle: {
+    fontSize: 17,
+    color: '#292929',
+    lineHeight: 35,
+    letterSpacing: -0.05,
+  },
+});
+
+export default NoticeList;

@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderWidth: 2,
     justifyContent: 'space-between',
-    backgroundColor: 'white',
+    overflow: 'hidden',
   },
   rectangleContainer: {
     width: '100%',

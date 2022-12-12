@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 
 interface TopNavProps {
   title: string;
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   topTitle: {
+    color: 'black',
     fontSize: 21,
     lineHeight: 29,
     textAlign: 'center',

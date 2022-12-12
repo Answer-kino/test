@@ -80,7 +80,7 @@ const Home = ({navigation}) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.menuImage}
-                  onPress={() => navigation.push('ContractCheck')}>
+                  onPress={() => navigation.push('CommunityBoardList')}>
                   <Image source={require('../../assets/Group5.png')} />
                 </TouchableOpacity>
                 <View style={styles.menuImage} />
@@ -91,7 +91,9 @@ const Home = ({navigation}) => {
         </ImageBackground>
         {/**----------- */}
         <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionTitle}>공지사항</Text>
+          <TouchableOpacity onPress={() => navigation.push('NoticeCategory')}>
+            <Text style={styles.descriptionTitle}>공지사항</Text>
+          </TouchableOpacity>
           <View style={styles.descriptionRow}>
             <Text>[공지] 간편한 모바일 NFT보증서</Text>
             <Text>2022.10.31</Text>
