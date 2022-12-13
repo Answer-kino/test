@@ -1,6 +1,6 @@
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
-const Mypage = () => {
+const Mypage = ({navigation}) => {
   const styles = StyleSheet.create({
     full: {
       backgroundColor: '#F2F6F8',
@@ -42,7 +42,8 @@ const Mypage = () => {
       justifyContent: 'center',
       alignItems: 'center',
       marginRight: '2%',
-      height: '45%',
+      height: '38%',
+      marginTop: '2%',
     },
   });
   return (
@@ -91,7 +92,7 @@ const Mypage = () => {
         }}>
         <Image
           source={require('./../../assets/마이페이지이미지.png')}
-          style={{marginTop: '10%'}}></Image>
+          style={{marginTop: '20%'}}></Image>
       </View>
 
       <View>
@@ -101,7 +102,7 @@ const Mypage = () => {
             backgroundColor: 'white',
             borderRadius: 14,
             width: '83%',
-            marginTop: '30%',
+            marginTop: '20%',
           }}>
           <View
             style={{
@@ -117,6 +118,7 @@ const Mypage = () => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
+              marginTop: '1%',
             }}>
             <Text style={styles.text1}>현재비밀번호</Text>
             <View
@@ -125,7 +127,11 @@ const Mypage = () => {
                 flexDirection: 'row',
                 justifyContent: 'flex-end',
               }}>
-              <TouchableOpacity style={styles.btn}>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => {
+                  navigation.navigate('ChangePassword');
+                }}>
                 <Text style={styles.text3}>수정하기</Text>
               </TouchableOpacity>
               <Text style={styles.text2}>***********</Text>
@@ -136,7 +142,7 @@ const Mypage = () => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginTop: '-15%',
+              marginTop: '-12%',
             }}>
             <Text style={styles.text1}>신규비밀번호</Text>
             <Text style={styles.text2}>************</Text>
@@ -146,6 +152,7 @@ const Mypage = () => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
+              marginTop: '1%',
             }}>
             <Text style={styles.text1}>휴대폰번호</Text>
             <View
@@ -153,6 +160,7 @@ const Mypage = () => {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'flex-end',
+                marginTop: '1%',
               }}>
               <TouchableOpacity style={styles.btn}>
                 <Text style={styles.text3}>재인증하기</Text>
@@ -165,7 +173,7 @@ const Mypage = () => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginTop: '-15%',
+              marginTop: '-12%',
             }}>
             <Text style={styles.text1}>마케팅 정보 수신동의</Text>
             <Text style={styles.text2}>Y</Text>
@@ -175,6 +183,7 @@ const Mypage = () => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
+              marginTop: '1%',
             }}>
             <Text style={styles.text1}>메일수신동의</Text>
             <Text style={styles.text2}>N</Text>
@@ -184,6 +193,7 @@ const Mypage = () => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
+              marginTop: '1%',
             }}>
             <Text style={styles.text1}>SNS수신동의</Text>
             <Text style={styles.text2}>N</Text>

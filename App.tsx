@@ -15,6 +15,7 @@ import Connect from './src/views/connect';
 import TermsOfService from './src/views/termsOfService';
 import BottomNav from './src/components/bottomNav/BottomNav';
 import Mypage from './src/views/mypage/mypage';
+import ChangePassword from './src/views/mypage/changePassword';
 const App = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -74,6 +75,11 @@ const App = () => {
           <Stack.Screen
             name="Mypage"
             component={Mypage}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="ChangePassword"
+            component={ChangePassword}
             options={{headerShown: false}}
           />
         </Stack.Navigator>
