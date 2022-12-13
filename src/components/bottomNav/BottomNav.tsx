@@ -1,7 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
+import Mypage from '../../views/mypage/mypage';
 
-const BottomNav = () => {
+const BottomNav = ({}) => {
   return (
     <View style={styles.bottomNavContainer}>
       <View>
@@ -41,6 +42,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderWidth: 2,
     justifyContent: 'space-between',
+    backgroundColor: 'white',
   },
   rectangleContainer: {
     width: '100%',

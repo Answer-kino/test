@@ -3,20 +3,20 @@ import {View, Text, Image, StyleSheet} from 'react-native';
 const TermsOfService = () => {
   const styles = StyleSheet.create({
     full: {
-      backgroundColor: '#b6d3f3',
+      backgroundColor: '#F2F6F8',
       width: '100%',
       height: '100%',
     },
     image: {
-      width: 32,
-      height: 32,
+      width: '12%',
+      height: '100%',
     },
     text: {
       fontFamily: 'Noto Sans',
       fontWeight: '500',
       fontSize: 18,
       lineHeight: 35,
-      marginLeft: 15,
+      marginLeft: '5%',
       color: '#292929',
     },
     text2: {
@@ -36,9 +36,9 @@ const TermsOfService = () => {
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          marginLeft: 22,
+          marginLeft: '9%',
           marginTop: 21,
-          marginRight: 20,
+          marginRight: '9%',
         }}>
         <Image
           source={require('./../assets/back.png')}
@@ -49,6 +49,7 @@ const TermsOfService = () => {
             fontWeight: '700',
             fontSize: 21,
             lineHeight: 28,
+            color: 'black',
           }}>
           이용약관
         </Text>
@@ -59,7 +60,7 @@ const TermsOfService = () => {
       <View
         style={{
           borderBottomColor: '#8D8D8D',
-          marginLeft: 22,
+          marginLeft: '9%',
           marginRight: 20,
           borderWidth: 0.6,
           marginTop: 30,
@@ -68,10 +69,10 @@ const TermsOfService = () => {
         <View
           style={{
             backgroundColor: 'white',
-            marginLeft: 25,
-            marginRight: 21,
-            width: 344,
-            height: 934,
+            marginLeft: '9%',
+            marginRight: '9%',
+            width: '85%',
+            height: '90%',
             marginTop: 22,
             borderRadius: 10,
             display: 'flex',
