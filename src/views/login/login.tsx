@@ -151,7 +151,9 @@ const Login = ({navigation}) => {
       <View style={{marginTop: 10}}>
         {TermsOfService2.map((item, index) => {
           return (
-            <View style={{display: 'flex', flexDirection: 'row'}}>
+            <View
+              key={item.title}
+              style={{display: 'flex', flexDirection: 'row'}}>
               <Text key={item.title} style={styles.checkboxText}>
                 {item.title}
               </Text>
