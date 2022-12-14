@@ -91,7 +91,7 @@ const Mypage = ({navigation}) => {
           alignItems: 'center',
         }}>
         <Image
-          source={require('./../../assets/마이페이지이미지.png')}
+          source={require('../../assets/mypageIMG.png')}
           style={{marginTop: '20%'}}></Image>
       </View>
 

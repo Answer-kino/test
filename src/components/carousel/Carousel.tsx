@@ -66,6 +66,7 @@ const Carousel = () => {
                 {data.map((_, idx) => {
                   return (
                     <Image
+                      key={`${idx}carousel`}
                       style={styles.dot}
                       source={
                         index === idx
