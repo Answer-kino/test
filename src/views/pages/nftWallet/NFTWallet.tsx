@@ -16,10 +16,10 @@ import {
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const NFTWallet = () => {
+const NFTWallet = ({navigation}) => {
   return (
     <View>
-      <TopNav title="NFT 전자지갑" />
+      <TopNav navigation={navigation} title="NFT 전자지갑" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
@@ -27,19 +27,19 @@ const NFTWallet = () => {
           <Text style={styles.titleCode}>KMHDL4DP8A23456798</Text>
           <Image
             style={styles.documentImage}
-            source={require('../../../assets/nft_보증서.png')}
+            source={require('../../../assets/nft_document1.png')}
             resizeMode="stretch"
           />
         </View>
       </ScrollView>
-      <BottomNav />
+      <BottomNav navigation={navigation} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: Dimensions.get('window').height - 160,
+    height: Dimensions.get('window').height - 80,
   },
   container: {
     marginHorizontal: 30,

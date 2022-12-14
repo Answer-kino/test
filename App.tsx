@@ -24,7 +24,8 @@ import CommunityBoardWrite from './src/views/pages/community/CommunityBoardWrite
 import NoticeList from './src/views/pages/notice/NoticeList';
 import NoticeCategory from './src/views/pages/notice/NoticeCategory';
 import Notice from './src/views/pages/notice/Notice';
-
+import Mypage from './src/views/mypage/mypage';
+import NFTDocument from './src/views/pages/nftDocument/NFTDocument';
 const App = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -112,6 +113,16 @@ const App = () => {
             <Stack.Screen
               name="Notice"
               component={Notice}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Mypage"
+              component={Mypage}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="NFTDocument"
+              component={NFTDocument}
               options={{headerShown: false}}
             />
           </Stack.Navigator>

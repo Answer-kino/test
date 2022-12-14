@@ -19,7 +19,7 @@ import TopNav from '../../../components/topNav/TopNav';
 const CommunityBoardList = ({navigation}) => {
   return (
     <View>
-      <TopNav title="커뮤니티" />
+      <TopNav navigation={navigation} title="커뮤니티" />
       <TouchableOpacity
         style={styles.writeButtonFloat}
         onPress={() => {
@@ -111,14 +111,14 @@ const CommunityBoardList = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <BottomNav />
+      <BottomNav navigation={navigation} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: Dimensions.get('window').height - 160,
+    height: Dimensions.get('window').height - 80,
   },
   container: {
     marginHorizontal: 30,

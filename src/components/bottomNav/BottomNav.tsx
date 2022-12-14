@@ -1,7 +1,15 @@
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import Mypage from '../../views/mypage/mypage';
 
-const BottomNav = () => {
+const BottomNav = ({navigation}) => {
   return (
     <View style={styles.bottomNavContainer}>
       <View>
@@ -9,18 +17,34 @@ const BottomNav = () => {
           <View style={styles.rectangle} />
         </View>
         <View style={styles.buttonContainer}>
-          <View style={styles.imageContainer}>
-            <Image source={require('../../assets/nft보증서.png')} />
-          </View>
-          <View style={styles.imageContainer}>
-            <Image source={require('../../assets/마이페이지.png')} />
-          </View>
-          <View style={styles.imageContainer}>
-            <Image source={require('../../assets/설정.png')} />
-          </View>
-          <View style={styles.imageContainer}>
-            <Image source={require('../../assets/홈.png')} />
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Home');
+            }}
+            style={styles.imageContainer}>
+            <Image source={require('../../assets/home.png')} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.push('NFTDocument');
+            }}
+            style={styles.imageContainer}>
+            <Image source={require('../../assets/nft_document2.png')} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.push('Mypage');
+            }}
+            style={styles.imageContainer}>
+            <Image source={require('../../assets/mypage.png')} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              // navigation.push('');
+            }}
+            style={styles.imageContainer}>
+            <Image source={require('../../assets/setting.png')} />
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -30,6 +54,7 @@ const bottomNavHeight = 100;
 
 const styles = StyleSheet.create({
   bottomNavContainer: {
+    backgroundColor: 'white',
     width: '100%',
     position: 'absolute',
     top: Dimensions.get('window').height - bottomNavHeight,
@@ -39,7 +64,7 @@ const styles = StyleSheet.create({
     height: bottomNavHeight,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    borderWidth: 2,
+    elevation: 100,
     justifyContent: 'space-between',
     overflow: 'hidden',
   },
@@ -62,7 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     padding: 10,
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   },
   imageContainer: {
     width: 47,

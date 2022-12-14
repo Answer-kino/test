@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -11,15 +11,47 @@ import {
   Touchable,
   Button,
   Pressable,
+  Modal,
+  Alert,
 } from 'react-native';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const ContractCheck = () => {
+const ContractCheck = ({navigation}) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const openModal = () => setModalVisible(true);
+
   return (
     <View>
-      <TopNav title="계약확인" />
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TouchableOpacity
+              style={styles.modalClose}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Image source={require('../../../assets/blackX.png')} />
+            </TouchableOpacity>
+            <Text style={styles.modalText}>의무가입사항</Text>
+            <Text style={styles.modalText}>
+              대인배상1,2 , 대물배상, 무보함상해, 자기신체사고,차량손해면책제도
+            </Text>
+            <TouchableOpacity
+              style={styles.buttonClose}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.textStyle}>확 인</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <TopNav navigation={navigation} title="계약확인" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
@@ -136,9 +168,9 @@ const ContractCheck = () => {
             </View>
             <View style={styles.descriptionRow}>
               <Text>의무가입사항</Text>
-              <Pressable style={styles.button}>
+              <TouchableOpacity style={styles.button} onPress={openModal}>
                 <Text style={styles.buttonText}>확인하기</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
           {/**----------- */}
@@ -149,34 +181,26 @@ const ContractCheck = () => {
           </Text>
         </View>
       </ScrollView>
-      <BottomNav />
+      <BottomNav navigation={navigation} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: Dimensions.get('window').height - 160,
+    height: Dimensions.get('window').height - 80,
   },
   container: {
     marginHorizontal: 30,
     marginTop: 15,
     backgroundColor: 'white',
     borderRadius: 10,
-    shadowColor: 'rgba(0, 0, 0, 0.1)',
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowOpacity: 0.46,
-    shadowRadius: 11.14,
-
-    elevation: 17,
+    elevation: 4,
   },
   bottomDescription: {
     marginHorizontal: 50,
     marginTop: 10,
-    marginBottom: 50,
+    marginBottom: 100,
   },
   descriptionContainer: {
     marginHorizontal: 30,
@@ -212,6 +236,51 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'white',
     textAlign: 'center',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba( 0, 0, 0, 0.5 )',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 30,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: '80%',
+    overflow: 'hidden',
+  },
+  buttonClose: {
+    marginTop: 20,
+    marginBottom: -35,
+    backgroundColor: '#A7C1CF',
+    width: 1000,
+    height: 49,
+    justifyContent: 'center',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  modalClose: {
+    margin: -10,
+    width: '100%',
+    alignItems: 'flex-end',
   },
 });
 

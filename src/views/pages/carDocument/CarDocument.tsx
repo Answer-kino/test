@@ -16,30 +16,34 @@ import {
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const CarDocument = () => {
+const CarDocument = ({navigation}) => {
   return (
     <View>
-      <TopNav title="내차 NFT 증빙서류" />
+      <TopNav navigation={navigation} title="내차 NFT 증빙서류" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
         <View style={styles.container}>
-          <View style={styles.documentMenu}>
-            <Image source={require('../../../assets/챠량보증서.png')} />
+          <TouchableOpacity
+            style={styles.documentMenu}
+            onPress={() => {
+              navigation.push('NFTDocument');
+            }}>
+            <Image source={require('../../../assets/document2.png')} />
             <View style={styles.descriptionContainer}>
               <Text style={styles.descriptionTitle}>NFT 보증서</Text>
               <Text>나의 등록된 NFT 차량 보증서 확인하기</Text>
             </View>
-          </View>
+          </TouchableOpacity>
           <View style={styles.documentMenu}>
-            <Image source={require('../../../assets/차량등록증.png')} />
+            <Image source={require('../../../assets/document1.png')} />
             <View style={styles.descriptionContainer}>
               <Text style={styles.descriptionTitle}>차량등록증</Text>
               <Text>내 차량등록증 확인하기</Text>
             </View>
           </View>
           <View style={styles.documentMenu}>
-            <Image source={require('../../../assets/보험가입증명서.png')} />
+            <Image source={require('../../../assets/insurance.png')} />
             <View style={styles.descriptionContainer}>
               <Text style={styles.descriptionTitle}>보험가입증명서</Text>
               <Text>내 보험가입 증명서 확인하기</Text>
@@ -47,14 +51,14 @@ const CarDocument = () => {
           </View>
         </View>
       </ScrollView>
-      <BottomNav />
+      <BottomNav navigation={navigation} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: Dimensions.get('window').height - 160,
+    height: Dimensions.get('window').height - 80,
   },
   container: {
     marginHorizontal: 30,

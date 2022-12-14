@@ -16,7 +16,7 @@ const Login2 = ({navigation}) => {
     },
     TopText: {
       color: '#292929',
-      marginLeft: 26,
+      marginLeft: '7%',
       marginTop: 50,
       width: 81,
       height: 30,
@@ -29,7 +29,7 @@ const Login2 = ({navigation}) => {
       width: '80%',
       height: 48,
       marginTop: 15,
-      marginLeft: 29,
+      marginLeft: '9%',
       borderRadius: 10,
       paddingLeft: 15,
     },
@@ -40,7 +40,7 @@ const Login2 = ({navigation}) => {
       lineHeight: 18,
     },
     lastBtn: {
-      marginLeft: 29,
+      marginLeft: '9%',
       width: '80%',
       height: 51,
       marginTop: 30,
@@ -50,7 +50,7 @@ const Login2 = ({navigation}) => {
       alignItems: 'center',
     },
     login2Btn: {
-      marginLeft: 29,
+      marginLeft: '9%',
       width: '80%',
       height: 53,
       borderRadius: 10,
@@ -96,9 +96,9 @@ const Login2 = ({navigation}) => {
                 fontStyle: 'normal',
                 fontWeight: '400',
                 fontSize: 19,
-                lineHeight: 18,
+                lineHeight: 20,
                 color: '#2D9DB6',
-                marginLeft: 5,
+                // marginLeft: 5,
               }}>
               회원가입
             </Text>

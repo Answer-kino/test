@@ -17,10 +17,10 @@ import {
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const CommunityBoardWrite = () => {
+const CommunityBoardWrite = ({navigation}) => {
   return (
     <View>
-      <TopNav title="커뮤니티" />
+      <TopNav navigation={navigation} title="커뮤니티" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
@@ -38,14 +38,14 @@ const CommunityBoardWrite = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <BottomNav />
+      <BottomNav navigation={navigation} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: Dimensions.get('window').height - 160,
+    height: Dimensions.get('window').height - 80,
   },
   container: {
     marginHorizontal: 30,

@@ -22,7 +22,7 @@ const Login = ({navigation}) => {
     },
     TopText: {
       color: '#292929',
-      marginLeft: 26,
+      marginLeft: '7%',
       marginTop: 50,
       fontSize: 22,
       fontWeight: '700',
@@ -33,7 +33,7 @@ const Login = ({navigation}) => {
       width: '85%',
       height: 48,
       marginTop: 15,
-      marginLeft: 29,
+      marginLeft: '9%',
       borderRadius: 10,
       paddingLeft: 15,
     },
@@ -42,7 +42,7 @@ const Login = ({navigation}) => {
       width: '85%',
       height: 48,
       marginTop: 15,
-      marginLeft: 29,
+      marginLeft: '9%',
       borderRadius: 10,
       paddingLeft: 15,
     },
@@ -51,7 +51,7 @@ const Login = ({navigation}) => {
       height: 28,
       marginTop: 25,
       borderRadius: 6,
-      marginLeft: -70,
+      marginLeft: '-20%',
       backgroundColor: '#879BB9',
       alignItems: 'center',
       justifyContent: 'center',
@@ -69,12 +69,12 @@ const Login = ({navigation}) => {
       fontSize: 15,
       lineHeight: 20,
       color: 'black',
-      marginLeft: 66,
+      marginLeft: '20%',
       marginTop: 10,
     },
     lastBtn: {
-      marginLeft: 29,
-      width: '80%',
+      marginLeft: '9%',
+      width: '85%',
       height: 51,
       marginTop: 30,
       borderRadius: 10,
@@ -106,21 +106,21 @@ const Login = ({navigation}) => {
         <View style={{display: 'flex', flexDirection: 'row', marginTop: 8}}>
           <Text
             style={{
-              marginLeft: 47,
-              fontSize: 13,
+              marginLeft: '12%',
+              fontSize: 11,
               lineHeight: 18,
               fontWeight: '400',
               fontFamily: 'Noto Sans',
-              width: 155,
+              width: '35%',
               height: 18,
             }}>
             사용 가능한 차량번호입니다.
           </Text>
           <Text
             style={{
-              width: 175,
+              width: '50%',
               height: 18,
-              marginLeft: 5,
+              marginLeft: '2%',
               fontFamily: 'Noto Sans',
               fontWeight: '400',
               fontSize: 13,
@@ -151,16 +151,33 @@ const Login = ({navigation}) => {
       <View style={{marginTop: 10}}>
         {TermsOfService2.map((item, index) => {
           return (
-            <Text key={index} style={styles.checkboxText}>
-              {item}
-            </Text>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+              <Text key={item.title} style={styles.checkboxText}>
+                {item.title}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: 'Noto Sans',
+                  fontWeight: '400',
+                  fontSize: 15,
+                  lineHeight: 20,
+                  color: 'black',
+                  marginTop: 10,
+                  marginLeft: '1%',
+                }}
+                onPress={() => {
+                  navigation.navigate(item.navigate);
+                }}>
+                [보기]
+              </Text>
+            </View>
           );
         })}
       </View>
       <View>
         <TouchableOpacity
           style={styles.lastBtn}
-          onPress={() => navigation.navigate('Login2')}>
+          onPress={() => navigation.navigate('Mypage')}>
           <Text style={{color: 'white'}}>가입하기</Text>
         </TouchableOpacity>
       </View>

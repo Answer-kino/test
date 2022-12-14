@@ -19,7 +19,7 @@ import TopNav from '../../../components/topNav/TopNav';
 const NoticeList = ({navigation, route}) => {
   return (
     <View>
-      <TopNav title="공지사항" />
+      <TopNav navigation={navigation} title="공지사항" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
@@ -41,14 +41,14 @@ const NoticeList = ({navigation, route}) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <BottomNav />
+      <BottomNav navigation={navigation} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: Dimensions.get('window').height - 160,
+    height: Dimensions.get('window').height - 80,
   },
   container: {
     marginHorizontal: 30,

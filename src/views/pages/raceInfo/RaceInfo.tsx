@@ -9,15 +9,15 @@ import {
   Image,
 } from 'react-native';
 
-import image1 from '../../../assets/모니터링.png';
-import image2 from '../../../assets/차량진단.png';
-import image3 from '../../../assets/대시보드.png';
-import image4 from '../../../assets/연료.png';
-import image5 from '../../../assets/주행기록.png';
-import image6 from '../../../assets/주행일지.png';
+import image1 from '../../../assets/monitoring.png';
+import image2 from '../../../assets/scan.png';
+import image3 from '../../../assets/DashBoard.png';
+import image4 from '../../../assets/fuel.png';
+import image5 from '../../../assets/drive_records.png';
+import image6 from '../../../assets/daily.png';
 import image7 from '../../../assets/HUD.png';
-import image8 from '../../../assets/운전스타일.png';
-import image9 from '../../../assets/소모품관리.png';
+import image8 from '../../../assets/drive_style.png';
+import image9 from '../../../assets/expendables_maintanence.png';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
@@ -45,7 +45,7 @@ const Item = (props: ItemProps) => {
   );
 };
 
-const RaceInfo = () => {
+const RaceInfo = ({navigation}) => {
   const DATA = [
     {title: '모니터링', img: '1'},
     {title: '차량진단', img: '2'},
@@ -60,7 +60,7 @@ const RaceInfo = () => {
 
   return (
     <View>
-      <TopNav title="내차 운행정보" />
+      <TopNav navigation={navigation} title="내차 운행정보" />
       {/* <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}> */}
@@ -74,14 +74,14 @@ const RaceInfo = () => {
         />
       </View>
       {/* </ScrollView> */}
-      <BottomNav />
+      <BottomNav navigation={navigation} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: Dimensions.get('window').height - 160,
+    height: Dimensions.get('window').height - 80,
   },
   container: {
     marginHorizontal: 30,

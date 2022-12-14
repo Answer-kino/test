@@ -12,7 +12,7 @@ import RenderHtml from 'react-native-render-html';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const Notice = () => {
+const Notice = ({navigation}) => {
   const source = {
     html: `
     <div class="entry-content">
@@ -91,7 +91,7 @@ const Notice = () => {
   };
   return (
     <View>
-      <TopNav title="공지사항" />
+      <TopNav navigation={navigation} title="공지사항" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
@@ -103,14 +103,14 @@ const Notice = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <BottomNav />
+      <BottomNav navigation={navigation} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: Dimensions.get('window').height - 160,
+    height: Dimensions.get('window').height - 80,
   },
   container: {
     marginHorizontal: 30,

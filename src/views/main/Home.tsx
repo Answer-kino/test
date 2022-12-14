@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -9,22 +9,27 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-
 import BottomNav from '../../components/bottomNav/BottomNav';
+import Carousel from '../../components/carousel/Carousel';
+import SideMenu from '../../components/sideMenu/SideMenu';
 
 interface MainProps {
-  navigation: Function;
+  navigation: any;
 }
+const Home = ({navigation}: MainProps) => {
+  const [open, setOpen] = useState(false);
+  const toggleOpen = () => setOpen(!open);
 
-const Home = ({navigation}) => {
   return (
     <View>
+      <SideMenu open={open} toggleOpen={toggleOpen} />
+
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
         <ImageBackground
           style={styles.background}
-          source={require('../../assets/배경.png')}>
+          source={require('../../assets/background.png')}>
           {/**----------- */}
           <View style={styles.topTitle}>
             <Image
@@ -35,10 +40,12 @@ const Home = ({navigation}) => {
               <TouchableOpacity onPress={() => navigation.push('Connect')}>
                 <Text style={styles.topTitleContact}>연결</Text>
               </TouchableOpacity>
-              <Image
-                style={styles.topTitleHamburger}
-                source={require('../../assets/햄버거1.png')}
-              />
+              <TouchableOpacity onPress={() => toggleOpen()}>
+                <Image
+                  style={styles.topTitleHamburger}
+                  source={require('../../assets/hamburger1.png')}
+                />
+              </TouchableOpacity>
             </View>
           </View>
           {/**----------- */}
@@ -52,6 +59,14 @@ const Home = ({navigation}) => {
               계정확인 및 NFT차량 보증서 확인하기
             </Text>
           </View>
+          {/**----------- */}
+          {/* <View style={styles.align}>
+            <View style={styles.loginInfoContainer}>
+              <Text style={styles.carNumber}>차량번호: 123가 1234</Text>
+              <Image source={require('../../assets/el_barcode.png')} />
+            </View>
+          </View> */}
+          {/**----------- */}
           {/**----------- */}
           <View style={styles.align}>
             <View style={styles.menuContainer}>
@@ -108,11 +123,12 @@ const Home = ({navigation}) => {
           </View>
         </View>
         {/**----------- */}
-        <View>
-          <Image
-            source={require('../../assets/배너자리.png')}
-            style={styles.banner}
-          />
+        <View style={styles.banner}>
+          {/* <Image
+            source={require('../../assets/banner.png')}
+   
+          /> */}
+          <Carousel />
         </View>
         {/**----------- */}
         <View style={styles.descriptionContainer2}>
@@ -140,14 +156,14 @@ const Home = ({navigation}) => {
         </View>
         {/**----------- */}
       </ScrollView>
-      <BottomNav />
+      <BottomNav navigation={navigation} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: Dimensions.get('window').height - 100,
+    height: Dimensions.get('window').height - 80,
   },
   background: {
     height: 390,
@@ -220,16 +236,29 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderRadius: 50,
   },
+  loginInfoContainer: {
+    marginTop: 50,
+    width: '92%',
+    height: 52,
+    backgroundColor: 'white',
+    borderRadius: 15,
+    paddingLeft: 20,
+    paddingRight: 20,
+    elevation: 10,
+    marginBottom: -20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   menuContainer: {
     marginTop: 50,
-    width: 340,
+    width: '92%',
     height: 201,
     backgroundColor: 'white',
     borderRadius: 20,
     paddingLeft: 20,
     paddingRight: 20,
-    filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
-    borderWidth: 2,
+    elevation: 10,
   },
   menuRow1: {
     width: '100%',
@@ -252,9 +281,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   banner: {
-    width: '100%',
     marginTop: 20,
-    alignItems: 'center',
   },
   descriptionContainer: {
     paddingHorizontal: 30,
@@ -281,6 +308,12 @@ const styles = StyleSheet.create({
   descriptionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  carNumber: {
+    fontSize: 18,
+    lineHeight: 25,
+    letterSpacing: -0.02,
+    color: '#123D70',
   },
 });
 

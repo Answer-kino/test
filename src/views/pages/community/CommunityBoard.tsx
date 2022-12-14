@@ -17,10 +17,10 @@ import {
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const CommunityBoard = () => {
+const CommunityBoard = ({navigation}) => {
   return (
     <View>
-      <TopNav title="커뮤니티" />
+      <TopNav navigation={navigation} title="커뮤니티" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
@@ -45,7 +45,7 @@ const CommunityBoard = () => {
           <View style={styles.commentContainer}>
             <View style={styles.commentFront}>
               <View style={styles.profileImg}>
-                <Image source={require('../../../assets/댓글1.png')} />
+                <Image source={require('../../../assets/comment1.png')} />
               </View>
               <Text style={styles.comment}>K5가 더 좋을것 같습니다</Text>
             </View>
@@ -54,7 +54,7 @@ const CommunityBoard = () => {
           <View style={styles.commentContainer}>
             <View style={styles.commentFront}>
               <View style={styles.profileImg}>
-                <Image source={require('../../../assets/댓글2.png')} />
+                <Image source={require('../../../assets/comment2.png')} />
               </View>
               <Text style={styles.comment}>
                 K5도 좋지만 K7가 더 좋을것 같네요
@@ -65,7 +65,7 @@ const CommunityBoard = () => {
           <View style={styles.commentContainer}>
             <View style={styles.commentFront}>
               <View style={styles.profileImg}>
-                <Image source={require('../../../assets/댓글3.png')} />
+                <Image source={require('../../../assets/comment3.png')} />
               </View>
               <Text style={styles.comment}>
                 K5가 곧 풀체인지 되서 K5로 강력 추천!!!
@@ -81,14 +81,14 @@ const CommunityBoard = () => {
           </View>
         </View>
       </ScrollView>
-      <BottomNav />
+      <BottomNav navigation={navigation} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: Dimensions.get('window').height - 160,
+    height: Dimensions.get('window').height - 80,
   },
   container: {
     marginHorizontal: 30,

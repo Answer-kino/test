@@ -1,23 +1,30 @@
-import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import SideMenu from '../sideMenu/SideMenu';
 
 interface TopNavProps {
   title: string;
+  navigation: any;
 }
 
 const TopNav = (props: TopNavProps) => {
+  const [open, setOpen] = useState(false);
+  const toggleOpen = () => setOpen(!open);
   return (
     <View style={styles.topNavContainer}>
+      <SideMenu open={open} toggleOpen={toggleOpen} />
       <View style={styles.topNavSubContainer}>
-        <View style={styles.topNavSection}>
+        <TouchableOpacity
+          style={styles.topNavSection}
+          onPress={() => props.navigation.goBack()}>
           <Image source={require('../../assets/BackArrow.png')} />
-        </View>
+        </TouchableOpacity>
         <View style={styles.topNavSection2}>
           <Text style={styles.topTitle}>{props.title}</Text>
         </View>
-        <View style={styles.topNavSection3}>
-          <Image source={require('../../assets/햄버거2.png')} />
-        </View>
+        <TouchableOpacity style={styles.topNavSection3} onPress={toggleOpen}>
+          <Image source={require('../../assets/hamburger2.png')} />
+        </TouchableOpacity>
       </View>
     </View>
   );

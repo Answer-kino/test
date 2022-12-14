@@ -19,7 +19,7 @@ import TopNav from '../../../components/topNav/TopNav';
 const NoticeCategory = ({navigation}) => {
   return (
     <View>
-      <TopNav title="공지사항" />
+      <TopNav navigation={navigation} title="공지사항" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
@@ -31,7 +31,7 @@ const NoticeCategory = ({navigation}) => {
             style={styles.documentMenu}>
             <View style={styles.leftContainer}>
               <View style={styles.leftImg}>
-                <Image source={require('../../../assets/공지사항.png')} />
+                <Image source={require('../../../assets/notice.png')} />
               </View>
               <Text style={styles.descriptionTitle}>캐피탈 공지</Text>
             </View>
@@ -59,7 +59,7 @@ const NoticeCategory = ({navigation}) => {
             style={styles.documentMenu}>
             <View style={styles.leftContainer}>
               <View style={styles.leftImg3}>
-                <Image source={require('../../../assets/리콜.png')} />
+                <Image source={require('../../../assets/re_call.png')} />
               </View>
               <Text style={styles.descriptionTitle}>리콜 공지</Text>
             </View>
@@ -70,14 +70,14 @@ const NoticeCategory = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <BottomNav />
+      <BottomNav navigation={navigation} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: Dimensions.get('window').height - 160,
+    height: Dimensions.get('window').height - 80,
   },
   container: {
     marginHorizontal: 30,
