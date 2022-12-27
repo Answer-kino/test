@@ -58,6 +58,19 @@ const RaceInfo = ({navigation}) => {
     {title: '운전스타일', img: '8'},
     {title: '소모품관리', img: '9'},
   ];
+  useEffect(() => {
+    const backAction = () => {
+      navigation.pop();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <View>

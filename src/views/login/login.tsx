@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -12,25 +12,27 @@ import {
   Alert,
 } from 'react-native';
 import axios from 'axios';
-
+import CheckBox from '@react-native-community/checkbox';
 // import CheckBox from '@react-native-community/checkbox';
 import TermsOfService2 from '../../dummy/TermsOfService2';
 const Login = ({navigation}: any) => {
-  const backAction = () => {
-    Alert.alert('뒤로가기', '뒤로가기 누를 시 입력된 데이터가 사라집니다.', [
-      {
-        text: '취소',
-        onPress: () => null,
-      },
-      {text: '확인', onPress: () => navigation.pop()},
-    ]);
-    return true;
-  };
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert('뒤로가기', '뒤로가기 누를 시 입력된 데이터가 사라집니다.', [
+        {
+          text: '취소',
+          onPress: () => null,
+        },
+        {text: '확인', onPress: () => navigation.pop()},
+      ]);
+      return true;
+    };
 
-  const backHandler = BackHandler.addEventListener(
-    'hardwareBackPress',
-    backAction,
-  );
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+  }, []);
   // const [singupInfo, setSignupInfo] = useState({carNumber : '', email :'', pwd : '', phone : '', privacy:true ,location :true, promotion:true,marketing:true})
   const [carNumber, setCarNumber] = useState('');
   const [email, setEmail] = useState('');
@@ -40,6 +42,12 @@ const Login = ({navigation}: any) => {
   const [location, setLocation] = useState('');
   const [promotion, setPromotion] = useState('');
   const [marketing, setMarketing] = useState('');
+  const [termOfServiceCheck, settermOfServiceCheck] = useState(false);
+  const [privacyCheck, setPrivacyCheck] = useState(false);
+  const [locationCheck, setLocationCheck] = useState(false);
+  const [promotionCheck, setPromotionCheck] = useState(false);
+  const [marketingCheck, setMarketingCheck] = useState(false);
+
   const SignUpAxios = async () => {
     const signUpInfo = {
       carNumber: carNumber,
@@ -135,32 +143,67 @@ const Login = ({navigation}: any) => {
         </View>
       </View>
       <View style={{marginTop: 10}}>
-        {TermsOfService2.map((item, index) => {
-          return (
-            <View
-              key={item.title}
-              style={{display: 'flex', flexDirection: 'row'}}>
-              <Text key={item.title} style={styles.checkboxText}>
-                {item.title}
-              </Text>
-              <Text
-                style={{
-                  fontFamily: 'Noto Sans',
-                  fontWeight: '400',
-                  fontSize: 15,
-                  lineHeight: 20,
-                  color: 'black',
-                  marginTop: 10,
-                  marginLeft: '1%',
-                }}
-                onPress={() => {
-                  navigation.navigate(item.navigate);
-                }}>
-                [보기]
-              </Text>
-            </View>
-          );
-        })}
+        <View>
+          <View style={styles.checkboxcontainer}>
+            <CheckBox
+              style={styles.checkbox}
+              value={termOfServiceCheck}
+              onChange={() => {
+                settermOfServiceCheck(!termOfServiceCheck);
+              }}></CheckBox>
+            <Text style={styles.checkboxText}>이용약관 [보기]</Text>
+          </View>
+        </View>
+        <View>
+          <View style={styles.checkboxcontainer}>
+            <CheckBox
+              style={styles.checkbox}
+              value={privacyCheck}
+              onChange={() => {
+                setPrivacyCheck(!privacyCheck);
+              }}></CheckBox>
+            <Text style={styles.checkboxText}>개인정보수집 및 이용 [보기]</Text>
+          </View>
+        </View>
+        <View>
+          <View style={styles.checkboxcontainer}>
+            <CheckBox
+              style={styles.checkbox}
+              value={locationCheck}
+              onChange={() => {
+                setLocationCheck(!locationCheck);
+              }}></CheckBox>
+            <Text style={styles.checkboxText}>
+              위치기반서비스 이용약관 [보기]
+            </Text>
+          </View>
+        </View>
+        <View>
+          <View style={styles.checkboxcontainer}>
+            <CheckBox
+              style={styles.checkbox}
+              value={promotionCheck}
+              onChange={() => {
+                setPromotionCheck(!promotionCheck);
+              }}></CheckBox>
+            <Text style={styles.checkboxText}>
+              프로모션 정보수신약관 [보기]
+            </Text>
+          </View>
+        </View>
+        <View>
+          <View style={styles.checkboxcontainer}>
+            <CheckBox
+              style={styles.checkbox}
+              value={marketingCheck}
+              onChange={() => {
+                setMarketingCheck(!marketingCheck);
+              }}></CheckBox>
+            <Text style={styles.checkboxText}>
+              마케팅,SNS,이메일 수신동의 [보기]
+            </Text>
+          </View>
+        </View>
       </View>
       <View>
         <TouchableOpacity style={styles.lastBtn} onPress={() => SignUpAxios()}>
@@ -220,13 +263,17 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontFamily: 'Noto Sans',
   },
+  checkbox: {
+    marginLeft: '7%',
+    marginTop: '1%',
+  },
   checkboxText: {
     fontFamily: 'Noto Sans',
     fontWeight: '400',
     fontSize: 15,
     lineHeight: 20,
     color: 'black',
-    marginLeft: '20%',
+    marginLeft: '3%',
     marginTop: 10,
   },
   lastBtn: {
@@ -244,6 +291,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Noto Sans',
     fontSize: 16,
     lineHeight: 18,
+  },
+  checkboxcontainer: {
+    display: 'flex',
+    flexDirection: 'row',
   },
 });
 

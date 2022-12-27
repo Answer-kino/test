@@ -19,7 +19,7 @@ import {
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const ContractCheck = ({navigation}) => {
+const ContractCheck = ({navigation}: any) => {
   const [modalVisible, setModalVisible] = useState(false);
   const openModal = () => setModalVisible(true);
   useEffect(() => {

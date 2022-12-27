@@ -14,8 +14,16 @@ import {
 import BottomNav from '../../components/bottomNav/BottomNav';
 import Carousel from '../../components/carousel/Carousel';
 import SideMenu from '../../components/sideMenu/SideMenu';
+import Contract from '../../assets/contract.svg';
+import Cardocument from '../../assets/cardocument.svg';
+import NftWalletimg from '../../assets/nftWallet.svg';
+import Raceinfoimg from '../../assets/raceinfo.svg';
+import Community from '../../assets/community.svg';
 
-const Home = ({navigation}: any) => {
+const Home = ({navigation}: any, act: any) => {
+  useEffect(() => {
+    console.log(act);
+  }, [Home]);
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen(!open);
 
@@ -53,7 +61,7 @@ const Home = ({navigation}: any) => {
         style={styles.scrollView}>
         <ImageBackground
           style={styles.background}
-          source={require('../../assets/background.png')}>
+          source={require('./../../assets/background.png')}>
           {/**----------- */}
           <View style={styles.topTitle}>
             <Image
@@ -97,31 +105,66 @@ const Home = ({navigation}: any) => {
             <View style={styles.menuContainer}>
               <View style={styles.menuRow1}>
                 <TouchableOpacity
-                  style={styles.menuImage}
                   onPress={() => navigation.push('ContractCheck')}>
-                  <Image source={require('../../assets/Group1.png')} />
+                  {/* <Image source={require('../../assets/Group1.png')} /> */}
+                  <View style={styles.menu}>
+                    <Text style={{color: 'black'}}>계약확인</Text>
+                    <Contract style={styles.menuImage}></Contract>
+                  </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={styles.menuImage}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
                   onPress={() => navigation.push('CarDocument')}>
-                  <Image source={require('../../assets/Group2.png')} />
+                  {/* <Image source={require('../../assets/Group2.png')} /> */}
+                  <View style={styles.menu}>
+                    <Text style={styles.text}>내차</Text>
+                    <Text style={styles.text}>증빙서류</Text>
+                    <Cardocument style={styles.menuImage}></Cardocument>
+                  </View>
+                  {/* <Group2></Group2> */}
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.menuImage}
-                  onPress={() => navigation.push('NFTWallet')}>
-                  <Image source={require('../../assets/Group3.png')} />
+                <TouchableOpacity onPress={() => navigation.push('NFTWallet')}>
+                  {/* <Image source={require('../../assets/Group3.png')} /> */}
+                  <View style={styles.menu}>
+                    <Text style={styles.text}>NFT</Text>
+                    <Text style={styles.text}>전자지갑</Text>
+                    <NftWalletimg style={styles.menuImage}></NftWalletimg>
+                  </View>
                 </TouchableOpacity>
               </View>
               <View style={styles.menuRow2}>
                 <TouchableOpacity
                   style={styles.menuImage}
                   onPress={() => navigation.push('RaceInfo')}>
-                  <Image source={require('../../assets/Group4.png')} />
+                  {/* <Image source={require('../../assets/Group4.png')} /> */}
+                  <View style={styles.menu2}>
+                    <Text style={styles.text}>내차</Text>
+                    <Text style={styles.text}>운행정보</Text>
+                    <Raceinfoimg style={styles.menuImage}></Raceinfoimg>
+                  </View>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.menuImage}
                   onPress={() => navigation.push('CommunityBoardList')}>
-                  <Image source={require('../../assets/Group5.png')} />
+                  {/* <Image source={require('../../assets/Group5.png')} /> */}
+                  <View style={styles.menu2}>
+                    <Text style={styles.text}>커뮤니티</Text>
+                    <Community style={styles.menuImage}></Community>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.menuImage}
+                  onPress={() => navigation.push('CommunityBoardList')}>
+                  {/* <Image source={require('../../assets/Group5.png')} /> */}
+                  <View style={styles.menu2}>
+                    <Text style={styles.text}>커뮤니티</Text>
+                    <Community style={styles.menuImage}></Community>
+                  </View>
                 </TouchableOpacity>
                 <View style={styles.menuImage} />
               </View>
@@ -135,16 +178,16 @@ const Home = ({navigation}: any) => {
             <Text style={styles.descriptionTitle}>공지사항</Text>
           </TouchableOpacity>
           <View style={styles.descriptionRow}>
-            <Text>[공지] 간편한 모바일 NFT보증서</Text>
-            <Text>2022.10.31</Text>
+            <Text style={styles.text}>[공지] 간편한 모바일 NFT보증서</Text>
+            <Text style={styles.text}>2022.10.31</Text>
           </View>
           <View style={styles.descriptionRow}>
-            <Text>[공지] 간편한 모바일 NFT보증서</Text>
-            <Text>2022.10.31</Text>
+            <Text style={styles.text}>[공지] 간편한 모바일 NFT보증서</Text>
+            <Text style={styles.text}>2022.10.31</Text>
           </View>
           <View style={styles.descriptionRow}>
-            <Text>[공지] 간편한 모바일 NFT보증서</Text>
-            <Text>2022.10.31</Text>
+            <Text style={styles.text}>[공지] 간편한 모바일 NFT보증서</Text>
+            <Text style={styles.text}>2022.10.31</Text>
           </View>
         </View>
         {/**----------- */}
@@ -159,25 +202,29 @@ const Home = ({navigation}: any) => {
         <View style={styles.descriptionContainer2}>
           <Text style={styles.descriptionTitle}>콜센터</Text>
           <View style={styles.descriptionRow}>
-            <Text>캐피탈 콜센터</Text>
-            <Text>1533-3753</Text>
+            <Text style={styles.text}>캐피탈 콜센터</Text>
+            <Text style={styles.text}>1533-3753</Text>
           </View>
           <View style={styles.descriptionRow}>
-            <Text>[ARS이용시간]</Text>
-            <Text>365일 (10:00 ~ 18:00)</Text>
+            <Text style={styles.text}>[ARS이용시간]</Text>
+            <Text style={styles.text}>365일 (10:00 ~ 18:00)</Text>
           </View>
         </View>
         {/**----------- */}
         <View style={styles.descriptionContainer}>
-          <Text>
+          <Text style={styles.text}>
             이용약관 | 위치기반서비스 이용약관 | 개인정보처리방침 | 전자금융거래
             이용약관
           </Text>
         </View>
         {/**----------- */}
         <View style={styles.descriptionContainer3}>
-          <Text>경기도 용인시 기흥구 기흥로 58, 기흥 ITC벨리 B동 2101호</Text>
-          <Text>사업자등록번호 418-88-02279 418-88-02279</Text>
+          <Text style={styles.text}>
+            경기도 용인시 기흥구 기흥로 58, 기흥 ITC벨리 B동 2101호
+          </Text>
+          <Text style={styles.text}>
+            사업자등록번호 418-88-02279 418-88-02279
+          </Text>
         </View>
         {/**----------- */}
       </ScrollView>
@@ -287,7 +334,7 @@ const styles = StyleSheet.create({
   },
   menuRow1: {
     width: '100%',
-    height: '50%',
+    height: '45%',
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
@@ -296,14 +343,13 @@ const styles = StyleSheet.create({
   },
   menuRow2: {
     width: '100%',
-    height: '50%',
+    height: '45%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
   },
   menuImage: {
-    width: 84,
-    alignItems: 'center',
+    marginTop: '10%',
   },
   banner: {
     marginTop: 20,
@@ -329,6 +375,7 @@ const styles = StyleSheet.create({
   descriptionTitle: {
     fontSize: 17,
     marginVertical: 3,
+    color: 'black',
   },
   descriptionRow: {
     flexDirection: 'row',
@@ -339,6 +386,18 @@ const styles = StyleSheet.create({
     lineHeight: 25,
     letterSpacing: -0.02,
     color: '#123D70',
+  },
+  text: {
+    color: 'black',
+  },
+  menu: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  menu2: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: '10%',
   },
 });
 

@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     height: 47,
     marginBottom: 13,
     paddingHorizontal: 28,
+    marginTop: '3%',
   },
   topNavSubContainer: {
     paddingVertical: 13,

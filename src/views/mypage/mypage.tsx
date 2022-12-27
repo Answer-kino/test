@@ -1,4 +1,5 @@
 import {useEffect} from 'react';
+import TopNav from '../../components/topNav/TopNav';
 import {
   View,
   Text,
@@ -8,7 +9,7 @@ import {
   BackHandler,
 } from 'react-native';
 
-const Mypage = ({navigation}) => {
+const Mypage = ({navigation}: any) => {
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -70,42 +71,7 @@ const Mypage = ({navigation}) => {
   });
   return (
     <View style={styles.full}>
-      <>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginLeft: '9%',
-            marginRight: '9%',
-            marginTop: 21,
-          }}>
-          <Image
-            source={require('./../../assets/back.png')}
-            style={styles.image}></Image>
-          <Text
-            style={{
-              fontFamily: 'Noto Sans',
-              fontWeight: '700',
-              fontSize: 21,
-              lineHeight: 28,
-              color: 'black',
-            }}>
-            마이페이지
-          </Text>
-          <Image
-            source={require('./../../assets/list.png')}
-            style={styles.image}></Image>
-        </View>
-        <View
-          style={{
-            borderBottomColor: '#8D8D8D',
-            borderWidth: 0.4,
-            marginTop: '5%',
-            marginLeft: '9%',
-            marginRight: '9%',
-          }}></View>
-      </>
+      <TopNav navigation={navigation} title="마이페이지" />
       <View
         style={{
           display: 'flex',

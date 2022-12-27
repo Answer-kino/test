@@ -17,7 +17,7 @@ import {
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const CarDocument = ({navigation}) => {
+const CarDocument = ({navigation}: any) => {
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -47,23 +47,35 @@ const CarDocument = ({navigation}) => {
             <Image source={require('../../../assets/document2.png')} />
             <View style={styles.descriptionContainer}>
               <Text style={styles.descriptionTitle}>NFT 보증서</Text>
-              <Text>나의 등록된 NFT 차량 보증서 확인하기</Text>
+              <Text style={styles.text}>
+                나의 등록된 NFT 차량 보증서 확인하기
+              </Text>
             </View>
           </TouchableOpacity>
-          <View style={styles.documentMenu}>
-            <Image source={require('../../../assets/document1.png')} />
-            <View style={styles.descriptionContainer}>
-              <Text style={styles.descriptionTitle}>차량등록증</Text>
-              <Text>내 차량등록증 확인하기</Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('CarRegister');
+            }}>
+            <View style={styles.documentMenu}>
+              <Image source={require('../../../assets/document1.png')} />
+              <View style={styles.descriptionContainer}>
+                <Text style={styles.descriptionTitle}>차량등록증</Text>
+                <Text style={styles.text}>내 차량등록증 확인하기</Text>
+              </View>
             </View>
-          </View>
-          <View style={styles.documentMenu}>
-            <Image source={require('../../../assets/insurance.png')} />
-            <View style={styles.descriptionContainer}>
-              <Text style={styles.descriptionTitle}>보험가입증명서</Text>
-              <Text>내 보험가입 증명서 확인하기</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Insurance');
+            }}>
+            <View style={styles.documentMenu}>
+              <Image source={require('../../../assets/insurance.png')} />
+              <View style={styles.descriptionContainer}>
+                <Text style={styles.descriptionTitle}>보험가입증명서</Text>
+                <Text style={styles.text}>내 보험가입 증명서 확인하기</Text>
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
       </ScrollView>
       <BottomNav navigation={navigation} />
@@ -96,6 +108,9 @@ const styles = StyleSheet.create({
     color: '#292929',
     lineHeight: 35,
     letterSpacing: -0.05,
+  },
+  text: {
+    color: 'black',
   },
 });
 

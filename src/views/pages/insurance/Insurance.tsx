@@ -5,7 +5,7 @@ import TopNav from '../../../components/topNav/TopNav';
 const Insurance = ({navigation}: any) => {
   return (
     <View>
-      <TopNav navigation={navigation} title="차량등록증" />
+      <TopNav navigation={navigation} title="보험가입증명서" />
       <BottomNav navigation={navigation} />
     </View>
   );
