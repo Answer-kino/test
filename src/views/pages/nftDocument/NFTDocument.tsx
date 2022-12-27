@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -13,11 +13,53 @@ import {
   Pressable,
   BackHandler,
 } from 'react-native';
+import _ from 'lodash';
+import API_NFT_SERVICE from '../../../@api/nft/nft';
+import API_TOKEN_SERVICE from '../../../@api/token/token';
+import {ENftInfo} from '../../../@entity/nft/entity';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
+import {globalConfig} from '../../../@config/config';
 
-const NFTDocument = ({navigation}) => {
+const NFTDocument = ({navigation}: any) => {
+  const TOKEN_SERVICE = new API_TOKEN_SERVICE();
+  const NFT_SERVICE = new API_NFT_SERVICE();
+  const {URL} = globalConfig;
+  const [nftInfo, setNftInfo] = useState<ENftInfo>();
+  const [nftImgUri, setNftImgUri] = useState<string>();
+  const [metaInfo, setMetaInfo] = useState<any>();
+
+  const getCapitalInfo = async () => {
+    try {
+      const data = await NFT_SERVICE.GET();
+
+      setNftInfo(data);
+    } catch (error) {
+      const success = await TOKEN_SERVICE.REFRESH__TOKEN();
+      if (success) {
+        alert('로그인 재시도');
+        navigation.push('NFTDocument');
+      } else {
+        alert('로그인을 다시 시도해주세요.');
+        navigation.push('Login2');
+      }
+    }
+  };
+
+  useEffect(() => {
+    getCapitalInfo();
+  }, []);
+  useEffect(() => {
+    if (!_.isUndefined(nftInfo)) {
+      const imgUrl = URL.IMG + nftInfo?.ImgName + `?type=${nftInfo?.Category}`;
+      setNftImgUri(imgUrl);
+
+      const metaInfo = JSON.parse(nftInfo.MetaInfo);
+      setMetaInfo(metaInfo);
+    }
+  }, [nftInfo]);
+
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -26,7 +68,7 @@ const NFTDocument = ({navigation}) => {
 
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-      backAction,
+      backAction
     );
 
     return () => backHandler.remove();
@@ -39,13 +81,10 @@ const NFTDocument = ({navigation}) => {
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
         <View style={styles.container}>
-          <Text style={styles.titleCode}>KMHDL4DP8A23456798</Text>
-          <Image
-            style={styles.documentImage}
-            source={require('../../../assets/nft_document1.png')}
-            resizeMode="stretch"
-          />
-          <Text>Owned by mynftcar</Text>
+          <Text style={styles.titleCode}>{nftInfo?.VehicleId}</Text>
+
+          <Image style={styles.documentImage} source={{uri: nftImgUri}} />
+          <Text>Owned by {metaInfo?.name || 'mynftcar'}</Text>
 
           <View style={styles.descriptionBox}>
             <View style={styles.descriptionTitleContainer}>
@@ -54,8 +93,9 @@ const NFTDocument = ({navigation}) => {
             </View>
 
             <Text>
-              차량은 캐피탈사의 공식 보증된차이며, 한국보증협회의 엄격한 품질
-              검사와 검사를 198회 통과한 인증 중고차임을 증명합니다.
+              {metaInfo?.description ||
+                'Example : 차량은 캐피탈사의 공식 보증된차이며, 한국보증협회의 엄격한 품질' +
+                  '검사와 검사를 198회 통과한 인증 중고차임을 증명합니다.'}
             </Text>
             <TouchableOpacity style={styles.offerButton}>
               <Text style={styles.offerButtonText}>Make offer</Text>
@@ -90,8 +130,9 @@ const styles = StyleSheet.create({
     letterSpacing: -0.05,
   },
   documentImage: {
-    width: '100%',
+    height: 600,
     marginVertical: 10,
+    resizeMode: 'contain',
   },
   descriptionTitleContainer: {
     flexDirection: 'row',
