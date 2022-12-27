@@ -1,5 +1,4 @@
-import axios from 'axios';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Alert,
   BackHandler,
@@ -10,10 +9,11 @@ import {
   View,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import API_SIGN_SERVICE from '../../api/sign/sign';
 const Login2 = ({navigation}: any) => {
+  const SIGN_SERVICE = new API_SIGN_SERVICE();
   const [carNumber, setCarNumber] = useState('');
   const [pwd, setPwd] = useState('');
-  const [token, setToken] = useState({act: undefined, rct: undefined});
 
   const LoginAxios = async () => {
     const signInInfo = {
@@ -21,41 +21,19 @@ const Login2 = ({navigation}: any) => {
       pwd: pwd,
     };
     try {
-      const {data}: any = await axios.post(
-        'http://223.130.129.121:4500/api/sign/in',
-        signInInfo,
-      );
-      const {act, rct} = data;
-      setToken({act, rct});
-      // console.log(act);
-      // console.log(AsyncStorage.getItem('act2'));
-      // navigation.navigate('Home');
+      const {act, rct, success} = await SIGN_SERVICE.SIGNIN(signInInfo);
+      if (!success) {
+        return Alert.alert('아이디와 패스워드를 확인해주세요.');
+      }
+
+      await AsyncStorage.setItem('act', act);
+      const tmp = await AsyncStorage.getItem('act');
+      console.log(tmp);
     } catch (error) {
       console.log(error);
       Alert.alert('아이디와 패스워드를 확인해주세요.');
     }
   };
-  useEffect(() => {
-    console.log(token);
-  }, [LoginAxios]);
-
-  const tokens = async () => {
-    try {
-      await AsyncStorage.setItem('tokens', JSON.stringify(token)); // 객체 형태 저장
-    } catch (e) {
-      // 오류 예외 처리
-    }
-  };
-
-  // useEffect(() => {
-  //   for (let [key, value] of Object.entries(token)) {
-  //     if (value === undefined) throw new Error('토큰 못받아옴');
-  //     else {
-  //       await AsyncStorage.setItem(key, value);
-  //     }
-  //   }
-  //   navigation.navigate('Home');
-  // }, [token]);
 
   useEffect(() => {
     const backAction = () => {
