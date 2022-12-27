@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import MenuDrawer from 'react-native-side-drawer';
@@ -61,7 +62,13 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                 <TouchableOpacity>
                   <View style={styles.sideMenuSectionLeft2}>
                     <Image source={require('../../assets/logout.png')} />
-                    <Text style={styles.menuText}>로그아웃</Text>
+                    <Text
+                      style={styles.menuText}
+                      onPress={async () => {
+                        await AsyncStorage.clear();
+                      }}>
+                      로그아웃
+                    </Text>
                   </View>
                 </TouchableOpacity>
               </View>

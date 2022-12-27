@@ -30,7 +30,7 @@ const Login = ({navigation}: any) => {
 
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-      backAction,
+      backAction
     );
   }, []);
   // const [singupInfo, setSignupInfo] = useState({carNumber : '', email :'', pwd : '', phone : '', privacy:true ,location :true, promotion:true,marketing:true})
@@ -49,6 +49,7 @@ const Login = ({navigation}: any) => {
   const [marketingCheck, setMarketingCheck] = useState(false);
 
   const SignUpAxios = async () => {
+    setPrivacy;
     const signUpInfo = {
       carNumber: carNumber,
       pwd: pwd,
@@ -62,7 +63,7 @@ const Login = ({navigation}: any) => {
     try {
       const {data}: any = await axios.post(
         'http://223.130.129.121:4500/api/sign/up',
-        signUpInfo,
+        signUpInfo
       );
       console.log(data);
       navigation.navigate('Home');
