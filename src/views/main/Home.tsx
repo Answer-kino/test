@@ -11,21 +11,36 @@ import {
   BackHandler,
   ToastAndroid,
 } from 'react-native';
+import API_HOME_SERVICE from '../../@api/home/home';
+import {EUserInfo} from '../../@entity/user/entity';
 import BottomNav from '../../components/bottomNav/BottomNav';
 import Carousel from '../../components/carousel/Carousel';
 import SideMenu from '../../components/sideMenu/SideMenu';
 
 const Home = ({navigation}: any) => {
+  const HOME_SERVICE = new API_HOME_SERVICE();
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen(!open);
-
   const [count, setCount] = useState(0);
+  const [isAccess, setIsAccess] = useState(false);
+  const [userInfo, setUserInfo] = useState<EUserInfo>();
+
+  const getMyInfo = async () => {
+    try {
+      const userInfo = await HOME_SERVICE.INFO();
+      setUserInfo(userInfo);
+      setIsAccess(true);
+    } catch (error) {
+      setIsAccess(false);
+    }
+  };
   const toastWithDurationHandler = () => {
     ToastAndroid.show(
       "2초 이내로 '뒤로' 버튼을 한번 더 누르시면 종료됩니다.",
-      ToastAndroid.SHORT,
+      ToastAndroid.SHORT
     );
   };
+
   const backAction = () => {
     if (count === 0) {
       setCount(count + 1);
@@ -39,6 +54,10 @@ const Home = ({navigation}: any) => {
     }
     return true;
   };
+
+  useEffect(() => {
+    getMyInfo();
+  }, []);
   useEffect(() => {
     const back = BackHandler.addEventListener('hardwareBackPress', backAction);
     return () => back.remove();
@@ -61,9 +80,9 @@ const Home = ({navigation}: any) => {
               source={require('../../assets/logo1.png')}
             />
             <View style={styles.topTitleSubContainer}>
-              <TouchableOpacity onPress={() => navigation.push('Connect')}>
+              {/* <TouchableOpacity onPress={() => navigation.push('Connect')}>
                 <Text style={styles.topTitleContact}>연결</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <TouchableOpacity onPress={() => toggleOpen()}>
                 <Image
                   style={styles.topTitleHamburger}
@@ -73,24 +92,32 @@ const Home = ({navigation}: any) => {
             </View>
           </View>
           {/**----------- */}
-          <View style={styles.loginTextContainer}>
-            {/* 토큰있으면 숨김처리 */}
-            <TouchableOpacity
-              onPress={() => navigation.push('Login2')}
-              style={styles.loginText1Container}>
-              <Text style={styles.loginText1}>로그인</Text>
-            </TouchableOpacity>
-            <Text style={styles.loginText2}>
-              계정확인 및 NFT차량 보증서 확인하기
-            </Text>
-          </View>
-          {/**----------- */}
-          {/* <View style={styles.align}>
-            <View style={styles.loginInfoContainer}>
-              <Text style={styles.carNumber}>차량번호: 123가 1234</Text>
-              <Image source={require('../../assets/el_barcode.png')} />
+          {/* 토큰있으면 숨김처리 */}
+          {isAccess && isAccess ? (
+            <View style={styles.align}>
+              <View style={styles.loginInfoContainer}>
+                <Text
+                  style={
+                    styles.carNumber
+                  }>{`차량번호: ${userInfo?.CarNumber}`}</Text>
+                <Image source={require('../../assets/el_barcode.png')} />
+              </View>
             </View>
-          </View> */}
+          ) : (
+            <View style={styles.loginTextContainer}>
+              <TouchableOpacity
+                onPress={() => navigation.push('Login2')}
+                style={styles.loginText1Container}>
+                <Text style={styles.loginText1}>로그인</Text>
+              </TouchableOpacity>
+              <Text style={styles.loginText2}>
+                계정확인 및 NFT차량 보증서 확인하기
+              </Text>
+            </View>
+          )}
+
+          {/**----------- */}
+
           {/**----------- */}
           {/**----------- */}
           <View style={styles.align}>
