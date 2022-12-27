@@ -1,17 +1,9 @@
+import {ESignIn} from '../../@entity/sign/sign';
+import {ISignIn} from '../../@interface/ISign';
 import AxiosInstance from '../CustomAxios';
 
-interface ISIGNIN {
-  carNumber: string;
-  pwd: string;
-}
-interface ESIGNIN {
-  act: string;
-  rct: string;
-  success: boolean;
-}
-
 class API_SIGN_SERVICE extends AxiosInstance {
-  async SIGNIN({carNumber, pwd}: ISIGNIN): Promise<ESIGNIN> {
+  async SIGNIN({carNumber, pwd}: ISignIn): Promise<ESignIn> {
     try {
       const url = 'sign/in';
       const {data} = await this.API.post(url, {carNumber, pwd});

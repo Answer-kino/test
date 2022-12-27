@@ -15,13 +15,43 @@ import {
   Alert,
   BackHandler,
 } from 'react-native';
+import API_CAPITAL_SERVICE from '../../../@api/capital/capital';
+import API_TOKEN_SERVICE from '../../../@api/token/token';
+import {ECapitalInfo} from '../../../@entity/capital/entity';
+import {addComma, cutOff__10000} from '../../../@utility/number';
+import {convertTime} from '../../../@utility/time';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
 const ContractCheck = ({navigation}: any) => {
+  const CAPITAL_SERVICE = new API_CAPITAL_SERVICE();
+  const TOKEN_SERVICE = new API_TOKEN_SERVICE();
+
+  const [capitalInfo, setCapitalInfo] = useState<ECapitalInfo>({});
   const [modalVisible, setModalVisible] = useState(false);
   const openModal = () => setModalVisible(true);
+
+  const getCapitalInfo = async () => {
+    try {
+      const data = await CAPITAL_SERVICE.GET();
+      setCapitalInfo(data);
+    } catch (error) {
+      const success = await TOKEN_SERVICE.REFRESH__TOKEN();
+
+      if (success) {
+        alert('로그인 재시도');
+        navigation.push('ContractCheck');
+      } else {
+        alert('로그인을 다시 시도해주세요.');
+        navigation.push('Login2');
+      }
+    }
+  };
+
+  useEffect(() => {
+    getCapitalInfo();
+  }, []);
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -30,7 +60,7 @@ const ContractCheck = ({navigation}: any) => {
 
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-      backAction,
+      backAction
     );
 
     return () => backHandler.remove();
@@ -55,7 +85,7 @@ const ContractCheck = ({navigation}: any) => {
             </TouchableOpacity>
             <Text style={styles.modalText}>의무가입사항</Text>
             <Text style={styles.modalText}>
-              대인배상1,2 , 대물배상, 무보함상해, 자기신체사고,차량손해면책제도
+              {capitalInfo?.CompulsorySubscription}
             </Text>
             <TouchableOpacity
               style={styles.buttonClose}
@@ -73,15 +103,15 @@ const ContractCheck = ({navigation}: any) => {
           <View style={styles.descriptionContainer}>
             <View style={styles.descriptionRow}>
               <Text>이용자명</Text>
-              <Text>홍길동</Text>
+              <Text>{capitalInfo?.Name}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>사업자</Text>
-              <Text>법인/개인사업자</Text>
+              <Text>{capitalInfo?.Business}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>대상구분</Text>
-              <Text>신규</Text>
+              <Text>{capitalInfo?.Division}</Text>
             </View>
           </View>
           {/**----------- */}
@@ -90,23 +120,23 @@ const ContractCheck = ({navigation}: any) => {
             <Text style={styles.descriptionTitle}>이용차량의 표시</Text>
             <View style={styles.descriptionRow}>
               <Text>개시일</Text>
-              <Text>2023.12.12</Text>
+              <Text>{convertTime(capitalInfo?.StartAt)}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>만기일</Text>
-              <Text>2027.12.12</Text>
+              <Text>{convertTime(capitalInfo?.DueAt)}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>차량번호</Text>
-              <Text>123가1263</Text>
+              <Text>{capitalInfo?.CarNumber}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>차대번호</Text>
-              <Text>12368FVGZ36W4R</Text>
+              <Text>{capitalInfo?.VehicleId}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>차량명</Text>
-              <Text>GV80 가솔린 2.5</Text>
+              <Text>{capitalInfo?.VehicleName}</Text>
             </View>
           </View>
           {/**----------- */}
@@ -116,23 +146,23 @@ const ContractCheck = ({navigation}: any) => {
             <Text style={styles.descriptionTitle}>주요계약조건</Text>
             <View style={styles.descriptionRow}>
               <Text>대여기간</Text>
-              <Text>2023.12.12</Text>
+              <Text>{convertTime(capitalInfo?.RentalPeriod)}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>약정 운행거리</Text>
-              <Text>80,000km</Text>
+              <Text>{`${addComma(capitalInfo?.ContractedMileage)} km`}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>보증금</Text>
-              <Text>5,000,000원</Text>
+              <Text>{`${addComma(capitalInfo?.Subsidy)} 원`}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>선수금</Text>
-              <Text>1,000,000원</Text>
+              <Text>{`${addComma(capitalInfo?.AdvancePay)} 원`}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>계약해지시</Text>
-              <Text>반납 또는 인수</Text>
+              <Text>{capitalInfo?.AcquisitionOrReturn}</Text>
             </View>
           </View>
           {/**----------- */}
@@ -141,23 +171,23 @@ const ContractCheck = ({navigation}: any) => {
             <Text style={styles.descriptionTitle}>결제정보</Text>
             <View style={styles.descriptionRow}>
               <Text>정비 서비스</Text>
-              <Text>셀프정비 또는 순회정비</Text>
+              <Text>{capitalInfo?.Repair}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>결제방법</Text>
-              <Text>자동이체</Text>
+              <Text>{capitalInfo?.PaymentMethod}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>결제은행</Text>
-              <Text>국민은행</Text>
+              <Text>{capitalInfo?.PaymentBank}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>결제일</Text>
-              <Text>매월 5일</Text>
+              <Text>{`매월 ${capitalInfo?.PaymentAt} 일`}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>예금주</Text>
-              <Text>홍길동</Text>
+              <Text>{capitalInfo?.AccountHolder}</Text>
             </View>
           </View>
           {/**----------- */}
@@ -166,19 +196,23 @@ const ContractCheck = ({navigation}: any) => {
             <Text style={styles.descriptionTitle}>보험내용</Text>
             <View style={styles.descriptionRow}>
               <Text>운전자 연령</Text>
-              <Text>26세이상</Text>
+              <Text>{`${capitalInfo?.DriverAge} 세이상`}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>자기부담금</Text>
-              <Text>30만원</Text>
+              <Text>{`${cutOff__10000(capitalInfo?.Dedutible)} 만원`}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>차량반납시 차량훼손 면책금</Text>
-              <Text>30만원</Text>
+              <Text>{`${cutOff__10000(
+                capitalInfo?.IndemnityReturn
+              )} 만원`}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>차량전손시 차량손해 면책금</Text>
-              <Text>50만원</Text>
+              <Text>{`${cutOff__10000(
+                capitalInfo?.IndemnityTotalLoss
+              )} 만원`}</Text>
             </View>
             <View style={styles.descriptionRow}>
               <Text>의무가입사항</Text>
@@ -191,7 +225,7 @@ const ContractCheck = ({navigation}: any) => {
         </View>
         <View style={styles.bottomDescription}>
           <Text>
-            ※상기 계약과 같이 OOO렌트카 계약이 체결되었음을 확인합니다.
+            {`※상기 계약과 같이 ${capitalInfo?.Capital} 렌트카 계약이 체결되었음을 확인합니다.`}
           </Text>
         </View>
       </ScrollView>
