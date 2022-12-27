@@ -15,10 +15,7 @@ import BottomNav from '../../components/bottomNav/BottomNav';
 import Carousel from '../../components/carousel/Carousel';
 import SideMenu from '../../components/sideMenu/SideMenu';
 
-interface MainProps {
-  navigation: any;
-}
-const Home = ({navigation}: MainProps) => {
+const Home = ({navigation}: any) => {
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen(!open);
 
@@ -77,6 +74,7 @@ const Home = ({navigation}: MainProps) => {
           </View>
           {/**----------- */}
           <View style={styles.loginTextContainer}>
+            {/* 토큰있으면 숨김처리 */}
             <TouchableOpacity
               onPress={() => navigation.push('Login2')}
               style={styles.loginText1Container}>

@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -10,6 +11,7 @@ import {
   BackHandler,
   Alert,
 } from 'react-native';
+import axios from 'axios';
 
 // import CheckBox from '@react-native-community/checkbox';
 import TermsOfService2 from '../../dummy/TermsOfService2';
@@ -29,84 +31,37 @@ const Login = ({navigation}: any) => {
     'hardwareBackPress',
     backAction,
   );
-
-  const a = ['a', 'b'];
-  const styles = StyleSheet.create({
-    full: {
-      height: '100%',
-      width: '100%',
-
-      backgroundColor: '#DEDEDE',
-    },
-    TopText: {
-      color: '#292929',
-      marginLeft: '7%',
-      marginTop: 50,
-      fontSize: 22,
-      fontWeight: '700',
-      fontFamily: 'Noto Sans',
-    },
-    inputbox1: {
-      backgroundColor: 'white',
-      width: '85%',
-      height: 48,
-      marginTop: 15,
-      marginLeft: '9%',
-      borderRadius: 10,
-      paddingLeft: 15,
-    },
-    inputbox2: {
-      backgroundColor: 'white',
-      width: '85%',
-      height: 48,
-      marginTop: 15,
-      marginLeft: '9%',
-      borderRadius: 10,
-      paddingLeft: 15,
-    },
-    checkButton: {
-      width: 58,
-      height: 28,
-      marginTop: 25,
-      borderRadius: 6,
-      marginLeft: '-20%',
-      backgroundColor: '#879BB9',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    buttonText: {
-      color: 'white',
-      fontSize: 13,
-      fontWeight: '500',
-      fontStyle: 'normal',
-      fontFamily: 'Noto Sans',
-    },
-    checkboxText: {
-      fontFamily: 'Noto Sans',
-      fontWeight: '400',
-      fontSize: 15,
-      lineHeight: 20,
-      color: 'black',
-      marginLeft: '20%',
-      marginTop: 10,
-    },
-    lastBtn: {
-      marginLeft: '9%',
-      width: '85%',
-      height: 51,
-      marginTop: 30,
-      borderRadius: 10,
-      backgroundColor: '#6DADDB',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    lastBtnText: {
-      fontWeight: '500',
-      fontFamily: 'Noto Sans',
-      fontSize: 16,
-      lineHeight: 18,
-    },
-  });
+  // const [singupInfo, setSignupInfo] = useState({carNumber : '', email :'', pwd : '', phone : '', privacy:true ,location :true, promotion:true,marketing:true})
+  const [carNumber, setCarNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [pwd, setPwd] = useState('');
+  const [phone, setPhone] = useState('');
+  const [privacy, setPrivacy] = useState('');
+  const [location, setLocation] = useState('');
+  const [promotion, setPromotion] = useState('');
+  const [marketing, setMarketing] = useState('');
+  const SignUpAxios = async () => {
+    const signUpInfo = {
+      carNumber: carNumber,
+      pwd: pwd,
+      email: email,
+      phone: phone,
+      privacy: privacy,
+      location: location,
+      promotion: promotion,
+      marketing: marketing,
+    };
+    try {
+      const {data}: any = await axios.post(
+        'http://223.130.129.121:4500/api/sign/up',
+        signUpInfo,
+      );
+      console.log(data);
+      navigation.navigate('Home');
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View style={styles.full}>
       <View>
@@ -116,7 +71,9 @@ const Login = ({navigation}: any) => {
         <View style={{display: 'flex', flexDirection: 'row'}}>
           <TextInput
             style={styles.inputbox1}
-            placeholder="차량번호"></TextInput>
+            placeholder="차량번호"
+            placeholderTextColor="black"
+            onChangeText={text => setCarNumber(text)}></TextInput>
           <TouchableOpacity style={styles.checkButton}>
             <Text style={styles.buttonText}>중복확인</Text>
           </TouchableOpacity>
@@ -147,12 +104,21 @@ const Login = ({navigation}: any) => {
             사용 불가능한 차량번호입니다.
           </Text>
         </View>
-        <TextInput style={styles.inputbox2} placeholder="비밀번호"></TextInput>
         <TextInput
           style={styles.inputbox2}
-          placeholder="비밀번호 확인"></TextInput>
+          placeholder="비밀번호"
+          placeholderTextColor="black"
+          onChangeText={text => setPwd(text)}></TextInput>
+        <TextInput
+          style={styles.inputbox2}
+          placeholder="비밀번호 확인"
+          placeholderTextColor="black"></TextInput>
         <View style={{display: 'flex', flexDirection: 'row'}}>
-          <TextInput style={styles.inputbox1} placeholder="휴대폰"></TextInput>
+          <TextInput
+            style={styles.inputbox1}
+            placeholder="휴대폰"
+            placeholderTextColor="black"
+            onChangeText={text => setPhone(text)}></TextInput>
           <TouchableOpacity style={styles.checkButton}>
             <Text style={styles.buttonText}>인증하기</Text>
           </TouchableOpacity>
@@ -160,7 +126,9 @@ const Login = ({navigation}: any) => {
         <View style={{display: 'flex', flexDirection: 'row'}}>
           <TextInput
             style={styles.inputbox1}
-            placeholder="이메일인증"></TextInput>
+            placeholder="이메일인증"
+            placeholderTextColor="black"
+            onChangeText={text => setEmail(text)}></TextInput>
           <TouchableOpacity style={styles.checkButton}>
             <Text style={styles.buttonText}>인증하기</Text>
           </TouchableOpacity>
@@ -195,14 +163,88 @@ const Login = ({navigation}: any) => {
         })}
       </View>
       <View>
-        <TouchableOpacity
-          style={styles.lastBtn}
-          onPress={() => navigation.navigate('Mypage')}>
+        <TouchableOpacity style={styles.lastBtn} onPress={() => SignUpAxios()}>
           <Text style={{color: 'white'}}>가입하기</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
+const styles = StyleSheet.create({
+  full: {
+    height: '100%',
+    width: '100%',
+
+    backgroundColor: '#DEDEDE',
+  },
+  TopText: {
+    color: '#292929',
+    marginLeft: '7%',
+    marginTop: 50,
+    fontSize: 22,
+    fontWeight: '700',
+    fontFamily: 'Noto Sans',
+  },
+  inputbox1: {
+    backgroundColor: 'white',
+    width: '85%',
+    height: 48,
+    marginTop: 15,
+    marginLeft: '9%',
+    borderRadius: 10,
+    paddingLeft: 15,
+  },
+  inputbox2: {
+    backgroundColor: 'white',
+    width: '85%',
+    height: 48,
+    marginTop: 15,
+    marginLeft: '9%',
+    borderRadius: 10,
+    paddingLeft: 15,
+  },
+  checkButton: {
+    width: 58,
+    height: 28,
+    marginTop: 25,
+    borderRadius: 6,
+    marginLeft: '-20%',
+    backgroundColor: '#879BB9',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 13,
+    fontWeight: '500',
+    fontStyle: 'normal',
+    fontFamily: 'Noto Sans',
+  },
+  checkboxText: {
+    fontFamily: 'Noto Sans',
+    fontWeight: '400',
+    fontSize: 15,
+    lineHeight: 20,
+    color: 'black',
+    marginLeft: '20%',
+    marginTop: 10,
+  },
+  lastBtn: {
+    marginLeft: '9%',
+    width: '85%',
+    height: 51,
+    marginTop: 30,
+    borderRadius: 10,
+    backgroundColor: '#6DADDB',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  lastBtnText: {
+    fontWeight: '500',
+    fontFamily: 'Noto Sans',
+    fontSize: 16,
+    lineHeight: 18,
+  },
+});
 
 export default Login;
