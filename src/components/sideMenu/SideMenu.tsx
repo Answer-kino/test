@@ -4,12 +4,13 @@ import MenuDrawer from 'react-native-side-drawer';
 interface SideMenuProps {
   open: boolean;
   toggleOpen: Function;
+  navigation: any;
 }
 
-const SideMenu = (props: SideMenuProps) => {
+const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
   return (
     <MenuDrawer
-      open={props.open}
+      open={open}
       position={'right'}
       drawerContent={
         <View style={styles.container}>
@@ -24,27 +25,44 @@ const SideMenu = (props: SideMenuProps) => {
                   </View>
                   <Text style={styles.carNumber}>차량번호 : 123가1234</Text>
                 </View>
-                <TouchableOpacity onPress={() => props.toggleOpen()}>
+                <TouchableOpacity onPress={() => toggleOpen()}>
                   <Image
                     style={styles.closeButton}
                     source={require('../../assets/x.png')}
                   />
                 </TouchableOpacity>
               </View>
+
               <View style={styles.sideMenuContainer}>
-                <TouchableOpacity style={styles.sideMenuSection}>
+                <TouchableOpacity
+                  style={styles.sideMenuSection}
+                  onPress={() => {
+                    navigation.push('Question');
+                  }}>
                   <View style={styles.sideMenuSectionLeft}>
                     <Image source={require('../../assets/question.png')} />
                     <Text style={styles.menuText}>자주묻는질문</Text>
                   </View>
                   <Image source={require('../../assets/sideArrow.png')} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.sideMenuSection}>
+                <TouchableOpacity
+                  style={styles.sideMenuSection}
+                  onPress={() => {
+                    navigation.push('Inquiry');
+                  }}>
                   <View style={styles.sideMenuSectionLeft}>
                     <Image source={require('../../assets/inquiry.png')} />
                     <Text style={styles.menuText}>문의하기</Text>
                   </View>
                   <Image source={require('../../assets/sideArrow.png')} />
+                </TouchableOpacity>
+              </View>
+              <View>
+                <TouchableOpacity>
+                  <View style={styles.sideMenuSectionLeft2}>
+                    <Image source={require('../../assets/logout.png')} />
+                    <Text style={styles.menuText}>로그아웃</Text>
+                  </View>
                 </TouchableOpacity>
               </View>
             </View>
@@ -121,12 +139,22 @@ const styles = StyleSheet.create({
     lineHeight: 32,
     letterSpacing: -0.05,
     marginLeft: 10,
+    color: 'black',
   },
   body: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F04812',
+  },
+  sideMenuSectionLeft2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: '180%',
+    backgroundColor: 'white',
+    color: 'black',
+    height: '10%',
+    marginLeft: '60%',
   },
 });
 

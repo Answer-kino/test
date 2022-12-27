@@ -7,11 +7,29 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
+  BackHandler,
+  Alert,
 } from 'react-native';
 
 // import CheckBox from '@react-native-community/checkbox';
-import TermsOfService2 from '../../components/bottomNav/termsOfService2';
-const Login = ({navigation}) => {
+import TermsOfService2 from '../../dummy/TermsOfService2';
+const Login = ({navigation}: any) => {
+  const backAction = () => {
+    Alert.alert('뒤로가기', '뒤로가기 누를 시 입력된 데이터가 사라집니다.', [
+      {
+        text: '취소',
+        onPress: () => null,
+      },
+      {text: '확인', onPress: () => navigation.pop()},
+    ]);
+    return true;
+  };
+
+  const backHandler = BackHandler.addEventListener(
+    'hardwareBackPress',
+    backAction,
+  );
+
   const a = ['a', 'b'];
   const styles = StyleSheet.create({
     full: {

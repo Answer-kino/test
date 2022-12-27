@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -13,6 +13,7 @@ import {
   Pressable,
   Modal,
   Alert,
+  BackHandler,
 } from 'react-native';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
@@ -21,6 +22,19 @@ import TopNav from '../../../components/topNav/TopNav';
 const ContractCheck = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const openModal = () => setModalVisible(true);
+  useEffect(() => {
+    const backAction = () => {
+      navigation.pop();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <View>

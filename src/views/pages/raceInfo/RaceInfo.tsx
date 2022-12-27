@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  BackHandler,
 } from 'react-native';
 
 import image1 from '../../../assets/monitoring.png';

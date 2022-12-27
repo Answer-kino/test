@@ -1,6 +1,20 @@
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {useEffect} from 'react';
+import {View, Text, Image, StyleSheet, BackHandler} from 'react-native';
 
-const Connect = () => {
+const Connect = ({navigation}) => {
+  useEffect(() => {
+    const backAction = () => {
+      navigation.pop();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
   const styles = StyleSheet.create({
     full: {
       backgroundColor: '#b6d3f3',

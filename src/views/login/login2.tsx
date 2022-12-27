@@ -1,4 +1,6 @@
+import {useEffect} from 'react';
 import {
+  BackHandler,
   StyleSheet,
   Text,
   TextInput,
@@ -7,6 +9,20 @@ import {
 } from 'react-native';
 
 const Login2 = ({navigation}) => {
+  useEffect(() => {
+    const backAction = () => {
+      navigation.pop();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   const styles = StyleSheet.create({
     full: {
       height: '100%',
@@ -61,6 +77,7 @@ const Login2 = ({navigation}) => {
       //   backgroundColor: 'white',
     },
   });
+
   return (
     <View style={styles.full}>
       <View>

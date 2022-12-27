@@ -27,6 +27,11 @@ import Notice from './src/views/pages/notice/Notice';
 import Mypage from './src/views/mypage/mypage';
 import NFTDocument from './src/views/pages/nftDocument/NFTDocument';
 import ChangePassword from './src/views/mypage/changePassword';
+import SideMenu from './src/components/sideMenu/SideMenu';
+import Inquiry from './src/views/pages/inquiry/Inquiry';
+import Question from './src/views/pages/question/Question';
+import CarRegister from './src/views/pages/carRegister/CarRegister';
+import Insurance from './src/views/pages/insurance/Insurance';
 const App = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -129,6 +134,27 @@ const App = () => {
             <Stack.Screen
               name="ChangePassword"
               component={ChangePassword}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Inquiry"
+              component={Inquiry}
+              options={{headerShown: false}}
+            />
+
+            <Stack.Screen
+              name="Question"
+              component={Question}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="CarRegister"
+              component={CarRegister}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Insurance"
+              component={Insurance}
               options={{headerShown: false}}
             />
           </Stack.Navigator>

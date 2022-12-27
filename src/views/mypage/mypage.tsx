@@ -1,6 +1,28 @@
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {useEffect} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  BackHandler,
+} from 'react-native';
 
 const Mypage = ({navigation}) => {
+  useEffect(() => {
+    const backAction = () => {
+      navigation.pop();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   const styles = StyleSheet.create({
     full: {
       backgroundColor: '#F2F6F8',

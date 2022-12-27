@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -12,14 +12,33 @@ import {
   Button,
   Pressable,
   TextInput,
+  BackHandler,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
 const CommunityBoard = ({navigation}) => {
+  useEffect(() => {
+    const backAction = () => {
+      navigation.pop();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   return (
-    <View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container2}>
       <TopNav navigation={navigation} title="커뮤니티" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -82,7 +101,7 @@ const CommunityBoard = ({navigation}) => {
         </View>
       </ScrollView>
       <BottomNav navigation={navigation} />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -93,6 +112,9 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: 30,
     marginTop: 15,
+  },
+  container2: {
+    flex: 1,
   },
   titleContainer: {
     flexDirection: 'row',

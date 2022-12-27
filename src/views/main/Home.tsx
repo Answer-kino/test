@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -8,6 +8,8 @@ import {
   ImageBackground,
   Dimensions,
   TouchableOpacity,
+  BackHandler,
+  ToastAndroid,
 } from 'react-native';
 import BottomNav from '../../components/bottomNav/BottomNav';
 import Carousel from '../../components/carousel/Carousel';
@@ -20,9 +22,34 @@ const Home = ({navigation}: MainProps) => {
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen(!open);
 
+  const [count, setCount] = useState(0);
+  const toastWithDurationHandler = () => {
+    ToastAndroid.show(
+      "2초 이내로 '뒤로' 버튼을 한번 더 누르시면 종료됩니다.",
+      ToastAndroid.SHORT,
+    );
+  };
+  const backAction = () => {
+    if (count === 0) {
+      setCount(count + 1);
+      toastWithDurationHandler();
+      setTimeout(() => {
+        setCount(0);
+      }, 2000);
+    } else if (count >= 1) {
+      BackHandler.exitApp();
+      setCount(0);
+    }
+    return true;
+  };
+  useEffect(() => {
+    const back = BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => back.remove();
+  }, [backAction]);
+
   return (
     <View>
-      <SideMenu open={open} toggleOpen={toggleOpen} />
+      <SideMenu open={open} toggleOpen={toggleOpen} navigation={navigation} />
 
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"

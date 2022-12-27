@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Mypage from '../../views/mypage/mypage';
 
-const BottomNav = ({navigation}) => {
+const BottomNav = ({navigation}: any) => {
   return (
     <View style={styles.bottomNavContainer}>
       <View>
