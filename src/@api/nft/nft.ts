@@ -14,17 +14,6 @@ class API_NFT_SERVICE extends AxiosInstance {
       throw new Error(error);
     }
   };
-
-  META = async (cid: string) => {
-    try {
-      const {data} = await this.IPFS.get(cid);
-
-      return data;
-    } catch (error) {
-      console.log('META ERROR');
-      console.dir(error);
-    }
-  };
 }
 
 export default API_NFT_SERVICE;
