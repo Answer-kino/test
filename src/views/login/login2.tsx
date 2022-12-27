@@ -9,9 +9,11 @@ import {
   View,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import API_SIGN_SERVICE from '../../api/sign/sign';
+import API_SIGN_SERVICE from '../../@api/sign/sign';
+
 const Login2 = ({navigation}: any) => {
   const SIGN_SERVICE = new API_SIGN_SERVICE();
+
   const [carNumber, setCarNumber] = useState('');
   const [pwd, setPwd] = useState('');
 
@@ -21,16 +23,13 @@ const Login2 = ({navigation}: any) => {
       pwd: pwd,
     };
     try {
-      const {act, rct, success} = await SIGN_SERVICE.SIGNIN(signInInfo);
-      if (!success) {
-        return Alert.alert('아이디와 패스워드를 확인해주세요.');
-      }
+      const {act, rct} = await SIGN_SERVICE.SIGNIN(signInInfo);
 
       await AsyncStorage.setItem('act', act);
-      const tmp = await AsyncStorage.getItem('act');
-      console.log(tmp);
+      await AsyncStorage.setItem('rct', rct);
+      navigation.push('Home');
     } catch (error) {
-      console.log(error);
+      console.error(error);
       Alert.alert('아이디와 패스워드를 확인해주세요.');
     }
   };
@@ -43,7 +42,7 @@ const Login2 = ({navigation}: any) => {
 
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-      backAction,
+      backAction
     );
 
     return () => backHandler.remove();
