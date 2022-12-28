@@ -20,7 +20,7 @@ const Inquiry = ({navigation}: any) => {
     };
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-      backAction,
+      backAction
     );
 
     return () => backHandler.remove();
@@ -44,7 +44,7 @@ const Inquiry = ({navigation}: any) => {
         <TouchableOpacity
           style={{}}
           onPress={() => {
-            navigation.push('CarRegister');
+            navigation.push('Home');
           }}>
           <View style={styles.button}>
             <Text style={{}}>확인</Text>

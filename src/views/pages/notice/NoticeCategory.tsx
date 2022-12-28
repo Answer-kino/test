@@ -17,7 +17,7 @@ import {
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const NoticeCategory = ({navigation}) => {
+const NoticeCategory = ({navigation}: any) => {
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -26,7 +26,7 @@ const NoticeCategory = ({navigation}) => {
 
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-      backAction,
+      backAction
     );
 
     return () => backHandler.remove();

@@ -18,7 +18,7 @@ import {
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const CommunityBoardWrite = ({navigation}) => {
+const CommunityBoardWrite = ({navigation}: any) => {
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -27,7 +27,7 @@ const CommunityBoardWrite = ({navigation}) => {
 
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-      backAction,
+      backAction
     );
 
     return () => backHandler.remove();

@@ -48,8 +48,31 @@ const Login = ({navigation}: any) => {
   const [promotionCheck, setPromotionCheck] = useState(false);
   const [marketingCheck, setMarketingCheck] = useState(false);
 
+  const postData = () => {
+    if (privacyCheck === true) {
+      setPrivacy('Y');
+    } else {
+      setPrivacy('N');
+    }
+    if (locationCheck === true) {
+      setLocation('Y');
+    } else {
+      setLocation('N');
+    }
+    if (promotionCheck === true) {
+      setPromotion('Y');
+    } else {
+      setPromotion('N');
+    }
+    if (marketingCheck === true) {
+      setPromotion('Y');
+    } else {
+      setPromotion('N');
+    }
+  };
+
   const SignUpAxios = async () => {
-    setPrivacy;
+    postData();
     const signUpInfo = {
       carNumber: carNumber,
       pwd: pwd,

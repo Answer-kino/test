@@ -1,8 +1,25 @@
+import axios from 'axios';
+import {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import API_VEHICLE_SERVICE from '../../../@api/vehicle/vehicle';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
 const CarRegister = ({navigation}: any) => {
+  const VEHICLE_SERVICE = new API_VEHICLE_SERVICE();
+  const [vehicleInfo, setVehicleInfo] = useState('');
+  const getCapitalInfo = async () => {
+    try {
+      const data = await VEHICLE_SERVICE.GET();
+
+      setVehicleInfo(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getCapitalInfo();
+  }, []);
   return (
     <View>
       <View>

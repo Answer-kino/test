@@ -92,7 +92,7 @@ const NFTDocument = ({navigation}: any) => {
               <Image source={require('../../../assets/logos_ethereum.png')} />
             </View>
 
-            <Text>
+            <Text style={{color: 'black'}}>
               {metaInfo?.description ||
                 'Example : 차량은 캐피탈사의 공식 보증된차이며, 한국보증협회의 엄격한 품질' +
                   '검사와 검사를 198회 통과한 인증 중고차임을 증명합니다.'}

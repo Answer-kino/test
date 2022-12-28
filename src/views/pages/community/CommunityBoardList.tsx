@@ -17,7 +17,7 @@ import {
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const CommunityBoardList = ({navigation}) => {
+const CommunityBoardList = ({navigation}: any) => {
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -26,7 +26,7 @@ const CommunityBoardList = ({navigation}) => {
 
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-      backAction,
+      backAction
     );
 
     return () => backHandler.remove();
@@ -56,7 +56,7 @@ const CommunityBoardList = ({navigation}) => {
               <Text style={styles.descriptionTitle}>K5 vs K7</Text>
               <Text style={styles.comment}>3</Text>
             </View>
-            <Text>3시간 전</Text>
+            <Text style={styles.commentAt}>3시간 전</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.push('CommunityBoard')}
@@ -67,7 +67,7 @@ const CommunityBoardList = ({navigation}) => {
               </Text>
               <Text style={styles.comment}>5</Text>
             </View>
-            <Text>12시간 전</Text>
+            <Text style={styles.commentAt}>12시간 전</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.push('CommunityBoard')}
@@ -78,7 +78,7 @@ const CommunityBoardList = ({navigation}) => {
               </Text>
               <Text style={styles.comment}>{''}</Text>
             </View>
-            <Text>2022.11.10</Text>
+            <Text style={styles.commentAt}>2022.11.10</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.push('CommunityBoard')}
@@ -89,7 +89,7 @@ const CommunityBoardList = ({navigation}) => {
               </Text>
               <Text style={styles.comment}>{''}</Text>
             </View>
-            <Text>2022.11.09</Text>
+            <Text style={styles.commentAt}>2022.11.09</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.push('CommunityBoard')}
@@ -100,7 +100,7 @@ const CommunityBoardList = ({navigation}) => {
               </Text>
               <Text style={styles.comment}>2</Text>
             </View>
-            <Text>2022.11.09</Text>
+            <Text style={styles.commentAt}>2022.11.09</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.push('CommunityBoard')}
@@ -111,7 +111,7 @@ const CommunityBoardList = ({navigation}) => {
               </Text>
               <Text style={styles.comment}>8</Text>
             </View>
-            <Text>2022.11.08</Text>
+            <Text style={styles.commentAt}>2022.11.08</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.push('CommunityBoard')}
@@ -122,7 +122,7 @@ const CommunityBoardList = ({navigation}) => {
               </Text>
               <Text style={styles.comment}>6</Text>
             </View>
-            <Text>2022.11.08</Text>
+            <Text style={styles.commentAt}>2022.11.08</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -179,6 +179,9 @@ const styles = StyleSheet.create({
     borderBottomColor: 'white',
     paddingBottom: 4,
     borderBottomWidth: 3,
+  },
+  commentAt: {
+    color: '#666666',
   },
 });
 

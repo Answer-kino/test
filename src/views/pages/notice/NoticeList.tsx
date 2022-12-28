@@ -13,11 +13,12 @@ import {
   Pressable,
   BackHandler,
 } from 'react-native';
+import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const NoticeList = ({navigation, route}) => {
+const NoticeList = ({navigation, route}: any) => {
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -26,12 +27,24 @@ const NoticeList = ({navigation, route}) => {
 
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-      backAction,
+      backAction
     );
 
     return () => backHandler.remove();
   }, []);
+  const BBS_SERVICE = new API_BBS_SERVICE();
+  const NoticeList = async () => {
+    try {
+      const result = await BBS_SERVICE.BBS_Main_Notice();
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  useEffect(() => {
+    NoticeList();
+  }, []);
   return (
     <View>
       <TopNav navigation={navigation} title="공지사항" />
@@ -44,7 +57,7 @@ const NoticeList = ({navigation, route}) => {
             onPress={() => navigation.push('Notice')}
             style={styles.documentMenu}>
             <Text style={styles.descriptionTitle}>캐피탈 서비스 점검 안내</Text>
-            <Text>2022.11.28 | 캐피탈공지</Text>
+            <Text style={{color: 'black'}}>2022.11.28 | 캐피탈공지</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.push('Notice')}
@@ -52,7 +65,7 @@ const NoticeList = ({navigation, route}) => {
             <Text style={styles.descriptionTitle}>
               신분증 진위확인 일시중단 안내
             </Text>
-            <Text>2022.11.26 | 캐피탈공지</Text>
+            <Text style={{color: 'black'}}>2022.11.26 | 캐피탈공지</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

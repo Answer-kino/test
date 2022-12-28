@@ -20,7 +20,7 @@ import {
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const CommunityBoard = ({navigation}) => {
+const CommunityBoard = ({navigation}: any) => {
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -29,7 +29,7 @@ const CommunityBoard = ({navigation}) => {
 
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-      backAction,
+      backAction
     );
 
     return () => backHandler.remove();
@@ -37,7 +37,7 @@ const CommunityBoard = ({navigation}) => {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'android' ? 'position' : 'padding'}
       style={styles.container2}>
       <TopNav navigation={navigation} title="커뮤니티" />
       <ScrollView
@@ -49,7 +49,7 @@ const CommunityBoard = ({navigation}) => {
             <Text style={styles.commentLength}>3</Text>
           </View>
           <View style={styles.content}>
-            <Text>
+            <Text style={styles.text}>
               요즘 차를 사려고 계속 알아보고 있습니다. K5 또는 K7를 사고 싶은데
               어떤게 좋은지 고민중입니다. 예산은 3500입니다.
             </Text>
@@ -106,6 +106,9 @@ const CommunityBoard = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  text: {
+    color: 'black',
+  },
   scrollView: {
     height: Dimensions.get('window').height - 80,
   },
@@ -149,6 +152,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     letterSpacing: -0.05,
     paddingRight: 10,
+    color: 'black',
   },
   commentAt: {
     fontSize: 12,
@@ -214,6 +218,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     paddingHorizontal: 10,
+    color: 'black',
     borderColor: '#DEDEDE',
   },
 });

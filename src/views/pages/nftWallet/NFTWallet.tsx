@@ -34,6 +34,7 @@ const NFTWallet = ({navigation}: any) => {
       const data = await NFT_SERVICE.GET();
 
       setNftInfo(data);
+      console.log(data);
     } catch (error) {
       const success = await TOKEN_SERVICE.REFRESH__TOKEN();
       if (success) {
