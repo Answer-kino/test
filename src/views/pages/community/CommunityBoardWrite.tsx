@@ -1,24 +1,39 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
   Text,
   View,
-  Image,
-  ImageBackground,
   Dimensions,
   TouchableOpacity,
-  Touchable,
-  Button,
-  Pressable,
   TextInput,
   BackHandler,
+  Alert,
 } from 'react-native';
-
+import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
 const CommunityBoardWrite = ({navigation}: any) => {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const BBS_SERVICE = new API_BBS_SERVICE();
+  const WriteBoard = async () => {
+    const data = {
+      title: title,
+      content: content,
+      category: 'BBS_BC_100003',
+    };
+
+    try {
+      const result = BBS_SERVICE.BBS_Board_Regist(data);
+      console.log(result);
+      navigation.push('CommunityBoardList');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -34,27 +49,48 @@ const CommunityBoardWrite = ({navigation}: any) => {
   }, []);
 
   return (
-    <View>
-      <TopNav navigation={navigation} title="커뮤니티" />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      style={styles.scrollView}>
+      <View>
+        <TopNav navigation={navigation} title="커뮤니티" />
         <View style={styles.container}>
           <Text style={styles.descriptionTitle}>글쓰기</Text>
-          <TextInput placeholder="제목" style={styles.titleInput} />
+          <TextInput
+            placeholder="제목"
+            style={styles.titleInput}
+            placeholderTextColor="black"
+            onChangeText={text => {
+              setTitle(text);
+            }}
+          />
           <TextInput
             placeholder="내용"
             style={styles.contentInput}
             multiline={true}
             numberOfLines={17}
+            placeholderTextColor="black"
+            onChangeText={text => {
+              setContent(text);
+            }}
           />
-          <TouchableOpacity style={styles.writeButton}>
-            <Text style={styles.writeButtonText}>글쓰기</Text>
-          </TouchableOpacity>
+          <View style={{flex: 1}}>
+            <TouchableOpacity
+              style={styles.writeButton}
+              onPress={() => {
+                {
+                  title !== '' && content !== ''
+                    ? WriteBoard()
+                    : Alert.alert('제목과 내용을 입력해주세요.');
+                }
+              }}>
+              <Text style={styles.writeButtonText}>글쓰기</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </ScrollView>
-      <BottomNav navigation={navigation} />
-    </View>
+        <BottomNav navigation={navigation} />
+      </View>
+    </ScrollView>
   );
 };
 
@@ -79,6 +115,7 @@ const styles = StyleSheet.create({
     height: 54,
     borderRadius: 10,
     paddingHorizontal: 20,
+    color: 'black',
   },
   contentInput: {
     marginTop: 10,
@@ -90,6 +127,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'flex-start',
     textAlignVertical: 'top',
+    color: 'black',
   },
   writeButton: {
     marginTop: 10,
@@ -104,6 +142,9 @@ const styles = StyleSheet.create({
     color: 'white',
     alignItems: 'center',
     textAlign: 'center',
+  },
+  container2: {
+    flex: 1,
   },
 });
 

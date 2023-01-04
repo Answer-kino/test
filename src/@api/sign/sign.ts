@@ -51,6 +51,7 @@ class API_SIGN_SERVICE extends AxiosInstance {
   }
 
   async signUp(signInfo: any): Promise<any> {
+    console.log('tw :', signInfo);
     try {
       const url = 'sign/up';
       await this.API.post(url, signInfo);

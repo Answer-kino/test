@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -19,8 +19,60 @@ import {
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
+import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 
-const CommunityBoard = ({navigation}: any) => {
+const CommunityBoard = ({navigation, route}: any) => {
+  const boardIdx = route.params.boardIdx;
+  const BBS_SERVICE = new API_BBS_SERVICE();
+  const [detailInfo, setDetailInfo] = useState<Array<any>>();
+  const [commentInfo, setCommentInfo] = useState([]);
+  const [registComment, setRegistComment] = useState('');
+  const getCommunityBoardDetail = async () => {
+    try {
+      const result: any = await BBS_SERVICE.BBS_Community_Detail(boardIdx);
+      console.log('tw123', result);
+      setDetailInfo(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getComment = async () => {
+    try {
+      const result: any = await BBS_SERVICE.BBS_Comment(boardIdx);
+      console.log('tw123', result);
+      setCommentInfo(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const registCommentAxios = async () => {
+    const data = {
+      boardIdx: boardIdx,
+      comment: registComment,
+    };
+    // console.log(data);
+    try {
+      const result: any = await BBS_SERVICE.BBS_Regist_Comment(data);
+      console.log('tw123', result);
+      getComment();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const enrollBtnHandler = () => {
+    if (registComment !== '') {
+      registCommentAxios();
+      setRegistComment('');
+    }
+  };
+  useEffect(() => {
+    getCommunityBoardDetail();
+    getComment();
+  }, []);
+
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -45,14 +97,11 @@ const CommunityBoard = ({navigation}: any) => {
         style={styles.scrollView}>
         <View style={styles.container}>
           <View style={styles.titleContainer}>
-            <Text style={styles.descriptionTitle}>K5 vs K7</Text>
-            <Text style={styles.commentLength}>3</Text>
+            <Text style={styles.descriptionTitle}>{detailInfo?.Title}</Text>
+            <Text style={styles.commentLength}>{detailInfo?.CommentCnt}</Text>
           </View>
           <View style={styles.content}>
-            <Text style={styles.text}>
-              요즘 차를 사려고 계속 알아보고 있습니다. K5 또는 K7를 사고 싶은데
-              어떤게 좋은지 고민중입니다. 예산은 3500입니다.
-            </Text>
+            <Text style={styles.text}>{detailInfo?.Content}</Text>
           </View>
           <View style={styles.endLine}>
             <TouchableOpacity style={styles.modifyButton}>
@@ -61,43 +110,41 @@ const CommunityBoard = ({navigation}: any) => {
           </View>
 
           <Text style={styles.descriptionTitle}>댓글</Text>
-          <View style={styles.commentContainer}>
-            <View style={styles.commentFront}>
-              <View style={styles.profileImg}>
-                <Image source={require('../../../assets/comment1.png')} />
+
+          {commentInfo?.map(item => {
+            const comment = item.Comment;
+            const temp = item.CreatedDay;
+            const CreateDay =
+              // temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
+              temp.split('T')[0];
+            return (
+              <View style={styles.commentContainer}>
+                <View style={styles.commentFront}>
+                  <View style={styles.profileImg}>
+                    <Image source={require('../../../assets/comment3.png')} />
+                  </View>
+                  <Text style={styles.comment}>{comment}</Text>
+                </View>
+                <Text style={styles.commentAt}>{CreateDay}</Text>
               </View>
-              <Text style={styles.comment}>K5가 더 좋을것 같습니다</Text>
-            </View>
-            <Text style={styles.commentAt}>3시간 전</Text>
-          </View>
-          <View style={styles.commentContainer}>
-            <View style={styles.commentFront}>
-              <View style={styles.profileImg}>
-                <Image source={require('../../../assets/comment2.png')} />
-              </View>
-              <Text style={styles.comment}>
-                K5도 좋지만 K7가 더 좋을것 같네요
-              </Text>
-            </View>
-            <Text style={styles.commentAt}>2022/11/24</Text>
-          </View>
-          <View style={styles.commentContainer}>
-            <View style={styles.commentFront}>
-              <View style={styles.profileImg}>
-                <Image source={require('../../../assets/comment3.png')} />
-              </View>
-              <Text style={styles.comment}>
-                K5가 곧 풀체인지 되서 K5로 강력 추천!!!
-              </Text>
-            </View>
-            <Text style={styles.commentAt}>2022/11/13</Text>
-          </View>
+            );
+          })}
+
           <View style={styles.commentInputContainer}>
-            <TextInput style={styles.registInput} />
-            <TouchableOpacity style={styles.registButton}>
+            <TextInput
+              style={styles.registInput}
+              value={registComment}
+              onChangeText={text => {
+                setRegistComment(text);
+              }}
+            />
+            <TouchableOpacity
+              style={styles.registButton}
+              onPress={() => enrollBtnHandler()}>
               <Text style={styles.registButtonText}>등록</Text>
             </TouchableOpacity>
           </View>
+          <View style={{height: 100, width: 360}}></View>
         </View>
       </ScrollView>
       <BottomNav navigation={navigation} />
@@ -133,6 +180,7 @@ const styles = StyleSheet.create({
     borderColor: '#D8D8D8',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    // flex: 1,
   },
   descriptionTitle: {
     fontSize: 17,
@@ -159,6 +207,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     letterSpacing: -0.05,
     flex: 1.2,
+    color: 'black',
   },
   commentFront: {
     flexDirection: 'row',
@@ -208,7 +257,8 @@ const styles = StyleSheet.create({
   registButtonText: {
     fontSize: 16,
     color: 'white',
-    lineHeight: 22,
+    lineHeight: 32,
+    flex: 1,
   },
   registInput: {
     backgroundColor: 'white',

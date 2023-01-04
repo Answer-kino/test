@@ -29,7 +29,7 @@ const NFTWallet = ({navigation}: any) => {
   const [nftInfo, setNftInfo] = useState<ENftInfo>();
   const [nftImgUri, setNftImgUri] = useState<string>();
 
-  const getCapitalInfo = async () => {
+  const getNftInfo = async () => {
     try {
       const data = await NFT_SERVICE.GET();
 
@@ -48,7 +48,7 @@ const NFTWallet = ({navigation}: any) => {
   };
 
   useEffect(() => {
-    getCapitalInfo();
+    getNftInfo();
   }, []);
   useEffect(() => {
     if (!_.isUndefined(nftInfo)) {

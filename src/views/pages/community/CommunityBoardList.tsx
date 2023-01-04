@@ -1,23 +1,100 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  ScrollView,
   StyleSheet,
   Text,
   View,
   Image,
-  ImageBackground,
   Dimensions,
   TouchableOpacity,
-  Touchable,
-  Button,
-  Pressable,
   BackHandler,
+  FlatList,
 } from 'react-native';
+
+import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
 const CommunityBoardList = ({navigation}: any) => {
+  const BBS_SERVICE = new API_BBS_SERVICE();
+
+  const [scrollInfo, setScrollInfo] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [infoCnt, setInfoCnt] = useState(0);
+  const [totalCnt, setTotalCnt] = useState(0);
+
+  const getCommunity = async () => {
+    try {
+      const obj: any = {
+        category: 'BBS_BC_100003',
+        limit: 10,
+        offset: 0,
+      };
+      const result: any = await BBS_SERVICE.BBS_Community_LIst(obj);
+      // console.log(result);
+      setTotalCnt(result.totalCnt.TotalCnt);
+    } catch (error) {
+      // console.log('getNotice :', error);
+    }
+  };
+
+  const ScrollGetData = async () => {
+    // console.log(totalCnt);
+    // console.log(totalCnt.TotalCnt, infoCnt);
+    if (totalCnt > infoCnt) {
+      try {
+        setLoading(true);
+        const obj: any = {
+          category: 'BBS_BC_100003',
+          limit: 10,
+          offset: 0 + infoCnt,
+        };
+        const result: any = await BBS_SERVICE.BBS_Category_Notice(obj);
+        let copy: any = [...scrollInfo, ...result];
+        setScrollInfo(copy);
+
+        setLoading(false);
+        setInfoCnt(infoCnt + 10);
+        // console.log('abc', scrollInfo);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const onEndReached = () => {
+    if (!loading) {
+      ScrollGetData();
+    }
+  };
+  const renderItem = ({item}: any) => {
+    const temp = item.CreatedDay;
+    const CreateDay =
+      temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
+    // item.CreatedDay.split('T')[0];
+    // console.log('item', item.IDX_BOARD);
+
+    return (
+      <TouchableOpacity
+        onPress={() =>
+          navigation.push('CommunityBoard', {boardIdx: item.IDX_BOARD})
+        }
+        style={styles.documentMenu}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.descriptionTitle}>{item.Title}</Text>
+          <Text style={styles.comment}>{item.CommentCnt}</Text>
+        </View>
+        <Text style={styles.commentAt}>{CreateDay}</Text>
+      </TouchableOpacity>
+    );
+  };
+  useEffect(() => {
+    getCommunity();
+  }, []);
+  useEffect(() => {
+    ScrollGetData();
+  }, [totalCnt]);
+
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -33,7 +110,7 @@ const CommunityBoardList = ({navigation}: any) => {
   }, []);
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <TopNav navigation={navigation} title="커뮤니티" />
       <TouchableOpacity
         style={styles.writeButtonFloat}
@@ -44,97 +121,26 @@ const CommunityBoardList = ({navigation}: any) => {
           <Image source={require('../../../assets/write.png')} />
         </View>
       </TouchableOpacity>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
-        <View style={styles.container}>
-          <Text style={styles.descriptionTitle}>자유게시판</Text>
-          <TouchableOpacity
-            onPress={() => navigation.push('CommunityBoard')}
-            style={styles.documentMenu}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.descriptionTitle}>K5 vs K7</Text>
-              <Text style={styles.comment}>3</Text>
-            </View>
-            <Text style={styles.commentAt}>3시간 전</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.push('CommunityBoard')}
-            style={styles.documentMenu}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.descriptionTitle}>
-                예산에 맞는 차량 추천해주세요
-              </Text>
-              <Text style={styles.comment}>5</Text>
-            </View>
-            <Text style={styles.commentAt}>12시간 전</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.push('CommunityBoard')}
-            style={styles.documentMenu}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.descriptionTitle}>
-                20대 초반 수입차 고민입니다
-              </Text>
-              <Text style={styles.comment}>{''}</Text>
-            </View>
-            <Text style={styles.commentAt}>2022.11.10</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.push('CommunityBoard')}
-            style={styles.documentMenu}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.descriptionTitle}>
-                이번에 새로나온 투싼 어떤가요?
-              </Text>
-              <Text style={styles.comment}>{''}</Text>
-            </View>
-            <Text style={styles.commentAt}>2022.11.09</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.push('CommunityBoard')}
-            style={styles.documentMenu}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.descriptionTitle}>
-                BMW5시리즈 고민됩니다. 여러분이라면...
-              </Text>
-              <Text style={styles.comment}>2</Text>
-            </View>
-            <Text style={styles.commentAt}>2022.11.09</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.push('CommunityBoard')}
-            style={styles.documentMenu}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.descriptionTitle}>
-                리스 렌트 차량을 알아보고 있는데 좋은 업...
-              </Text>
-              <Text style={styles.comment}>8</Text>
-            </View>
-            <Text style={styles.commentAt}>2022.11.08</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.push('CommunityBoard')}
-            style={styles.documentMenu}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.descriptionTitle}>
-                NFT보증된 차량을 구매 원합니다
-              </Text>
-              <Text style={styles.comment}>6</Text>
-            </View>
-            <Text style={styles.commentAt}>2022.11.08</Text>
-          </TouchableOpacity>
+
+      <View style={styles.container}>
+        <Text style={styles.descriptionTitle}>자유게시판</Text>
+        <View>
+          <FlatList
+            renderItem={renderItem}
+            data={scrollInfo}
+            onEndReached={onEndReached}
+            onEndReachedThreshold={1}
+            // ListFooterComponent={loading && <ActivityIndicator />}
+          />
         </View>
-      </ScrollView>
+      </View>
+
       <BottomNav navigation={navigation} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollView: {
-    height: Dimensions.get('window').height - 80,
-  },
   container: {
     marginHorizontal: 30,
     marginTop: 15,
@@ -147,6 +153,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     borderBottomWidth: 1,
     borderColor: '#D8D8D8',
+    flexGrow: 1,
   },
   descriptionTitle: {
     fontSize: 17,

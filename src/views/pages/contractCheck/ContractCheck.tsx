@@ -23,6 +23,7 @@ import {convertTime} from '../../../@utility/time';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
+import ModalCloseBtn from '../../../assets/modalclosetbtn.svg';
 
 const ContractCheck = ({navigation}: any) => {
   const CAPITAL_SERVICE = new API_CAPITAL_SERVICE();
@@ -81,7 +82,7 @@ const ContractCheck = ({navigation}: any) => {
             <TouchableOpacity
               style={styles.modalClose}
               onPress={() => setModalVisible(!modalVisible)}>
-              <Image source={require('../../../assets/blackX.png')} />
+              <ModalCloseBtn style={{marginLeft: '95%'}}></ModalCloseBtn>
             </TouchableOpacity>
             <Text style={styles.modalTitle}>의무가입사항</Text>
             <Text style={styles.modalText}>
@@ -291,6 +292,8 @@ const styles = StyleSheet.create({
     color: '#292929',
     lineHeight: 35,
     letterSpacing: -0.05,
+    fontFamily: 'Noto Sans',
+    fontWeight: '700',
   },
   descriptionText: {
     marginVertical: 3,
@@ -344,7 +347,9 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'black',
-    fontWeight: 'bold',
+    fontFamily: 'Noto Sans',
+    fontWeight: '500',
+    fontSize: 15,
     textAlign: 'center',
   },
   modalTitle: {
@@ -360,9 +365,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modalClose: {
-    margin: -10,
+    // margin: -10,
+    marginTop: '-10%',
     width: '100%',
-    alignItems: 'flex-end',
+    // alignItems: 'flex-end',
   },
 });
 

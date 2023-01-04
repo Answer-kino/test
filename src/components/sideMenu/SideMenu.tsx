@@ -2,6 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import MenuDrawer from 'react-native-side-drawer';
+import Banner from '../../assets/sidemenubanner.svg';
+
 interface SideMenuProps {
   open: boolean;
   toggleOpen: Function;
@@ -55,23 +57,46 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                     <Image source={require('../../assets/inquiry.png')} />
                     <Text style={styles.menuText}>문의하기</Text>
                   </View>
+
+                  <Image source={require('../../assets/sideArrow.png')} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.sideMenuSection}
+                  onPress={() => {
+                    navigation.push('InquiryList');
+                  }}>
+                  <View style={styles.sideMenuSectionLeft}>
+                    <Image source={require('../../assets/inquiry.png')} />
+                    <Text style={styles.menuText}>문의글보기</Text>
+                  </View>
+
                   <Image source={require('../../assets/sideArrow.png')} />
                 </TouchableOpacity>
               </View>
-              <View>
-                <TouchableOpacity>
-                  <View style={styles.sideMenuSectionLeft2}>
-                    <Image source={require('../../assets/logout.png')} />
-                    <Text
-                      style={styles.menuText}
-                      onPress={async () => {
-                        await AsyncStorage.clear();
-                      }}>
-                      로그아웃
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+              <View style={{height: '30%'}}>
+                <Banner style={{marginTop: '90%', width: '0%'}}></Banner>
               </View>
+
+              <TouchableOpacity
+                style={{
+                  backgroundColor: 'black',
+                  height: '10%',
+                  marginTop: '150%',
+                  width: '30%',
+                  marginLeft: '60%',
+                }}>
+                <View style={styles.sideMenuSectionLeft2}>
+                  <Image source={require('../../assets/logout.png')} />
+                  <Text
+                    style={styles.menuText}
+                    onPress={async () => {
+                      await AsyncStorage.clear();
+                      navigation.push('Home');
+                    }}>
+                    로그아웃
+                  </Text>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -143,7 +168,7 @@ const styles = StyleSheet.create({
   },
   menuText: {
     fontSize: 15,
-    lineHeight: 32,
+    // lineHeight: 32,
     letterSpacing: -0.05,
     marginLeft: 10,
     color: 'black',
@@ -157,11 +182,10 @@ const styles = StyleSheet.create({
   sideMenuSectionLeft2: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: '180%',
     backgroundColor: 'white',
     color: 'black',
-    height: '10%',
-    marginLeft: '60%',
+
+    // marginLeft: '60%',
   },
 });
 

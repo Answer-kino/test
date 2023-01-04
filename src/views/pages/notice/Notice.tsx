@@ -13,7 +13,7 @@ import RenderHtml from 'react-native-render-html';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const Notice = ({navigation}) => {
+const Notice = ({navigation}: any) => {
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -22,7 +22,7 @@ const Notice = ({navigation}) => {
 
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-      backAction,
+      backAction
     );
 
     return () => backHandler.remove();

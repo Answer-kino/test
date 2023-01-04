@@ -84,12 +84,17 @@ const NFTDocument = ({navigation}: any) => {
           <Text style={styles.titleCode}>{nftInfo?.VehicleId}</Text>
 
           <Image style={styles.documentImage} source={{uri: nftImgUri}} />
-          <Text>Owned by {metaInfo?.name || 'mynftcar'}</Text>
-
+          <View style={{display: 'flex', flexDirection: 'row'}}>
+            <Text style={styles.text}>Owned by</Text>
+            <Text style={styles.text2}>{metaInfo?.name || 'mynftcar'}</Text>
+          </View>
           <View style={styles.descriptionBox}>
             <View style={styles.descriptionTitleContainer}>
-              <Text>Description</Text>
-              <Image source={require('../../../assets/logos_ethereum.png')} />
+              <Text style={styles.text}>Description</Text>
+              <Image
+                style={{marginLeft: '2%'}}
+                source={require('../../../assets/logos_ethereum.png')}
+              />
             </View>
 
             <Text style={{color: 'black'}}>
@@ -97,9 +102,6 @@ const NFTDocument = ({navigation}: any) => {
                 'Example : 차량은 캐피탈사의 공식 보증된차이며, 한국보증협회의 엄격한 품질' +
                   '검사와 검사를 198회 통과한 인증 중고차임을 증명합니다.'}
             </Text>
-            <TouchableOpacity style={styles.offerButton}>
-              <Text style={styles.offerButtonText}>Make offer</Text>
-            </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.detailBox}>
             <View style={styles.detailBoxLeft}>
@@ -130,7 +132,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.05,
   },
   documentImage: {
-    height: 600,
+    height: 500,
     marginVertical: 10,
     resizeMode: 'contain',
   },
@@ -139,7 +141,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   descriptionBox: {
-    marginTop: 20,
+    marginTop: '15%',
     height: 'auto',
     backgroundColor: 'white',
     borderRadius: 15,
@@ -178,6 +180,19 @@ const styles = StyleSheet.create({
     color: '#226EC8',
     fontSize: 18,
     lineHeight: 18,
+  },
+  text: {
+    color: 'black',
+    fontFamily: 'Noto Sans',
+    fontSize: 16,
+    fontWeight: '400',
+  },
+  text2: {
+    color: '#34ABD0',
+    fontFamily: 'Noto Sans',
+    fontSize: 16,
+    fontWeight: '400',
+    marginLeft: '2%',
   },
 });
 

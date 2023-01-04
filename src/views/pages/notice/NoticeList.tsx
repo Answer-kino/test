@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -13,12 +13,77 @@ import {
   Pressable,
   BackHandler,
 } from 'react-native';
+import _ from 'lodash';
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
+const tmpObj: {[key: string]: any} = {
+  capital: {
+    title: '캐피탈 공지',
+    key: 'BBS_BC_200001',
+    bottomTitle: '캐피탈공지',
+  },
+  nft: {title: 'NFT 공지', key: 'BBS_BC_200002', bottomTitle: 'NFT공지'},
+  recall: {title: '리콜 공지', key: 'BBS_BC_200003', bottomTitle: '리콜공지'},
+};
+
 const NoticeList = ({navigation, route}: any) => {
+  const BBS_SERVICE = new API_BBS_SERVICE();
+  const [noticeTitle, setNoticeTitle] = useState<string>();
+  const [category, setCategory] = useState<any>();
+  const [categoryKey, setCategoryKey] = useState<string>();
+  const [category2, setCategory2] = useState('');
+  const [noticeInfo, setNoticeInfo] = useState([]);
+
+  const setCategoryHandler = (category: string) => {
+    setCategory(category);
+  };
+
+  const setHandler = () => {
+    try {
+      const {title, key, bottomTitle} = tmpObj[category];
+      setNoticeTitle(title);
+      setCategoryKey(key);
+      setCategory2(bottomTitle);
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
+
+  const getNotice = async () => {
+    try {
+      const obj: any = {category: categoryKey, limit: 10, offset: 0};
+      const result: any = await BBS_SERVICE.BBS_Category_Notice(obj);
+      setNoticeInfo(result);
+    } catch (error) {
+      // console.log('getNotice :', error);
+    }
+  };
+
+  useEffect(() => {
+    const {category} = route.params;
+    /**
+     * Error 핸들링
+     */
+    setCategoryHandler(category);
+  }, [route]);
+
+  useEffect(() => {
+    if (!_.isUndefined(category)) {
+      // console.log('category : ', category);
+      setHandler();
+    }
+  }, [category]);
+
+  useEffect(() => {
+    if (!_.isUndefined(categoryKey)) {
+      getNotice();
+      // console.log('taewon1', noticeInfo);
+    }
+  }, [categoryKey]);
+
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -32,19 +97,7 @@ const NoticeList = ({navigation, route}: any) => {
 
     return () => backHandler.remove();
   }, []);
-  const BBS_SERVICE = new API_BBS_SERVICE();
-  const NoticeList = async () => {
-    try {
-      const result = await BBS_SERVICE.BBS_Main_Notice();
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  useEffect(() => {
-    NoticeList();
-  }, []);
   return (
     <View>
       <TopNav navigation={navigation} title="공지사항" />
@@ -52,21 +105,24 @@ const NoticeList = ({navigation, route}: any) => {
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
         <View style={styles.container}>
-          <Text style={styles.descriptionTitle}>{route.params.title}</Text>
-          <TouchableOpacity
-            onPress={() => navigation.push('Notice')}
-            style={styles.documentMenu}>
-            <Text style={styles.descriptionTitle}>캐피탈 서비스 점검 안내</Text>
-            <Text style={{color: 'black'}}>2022.11.28 | 캐피탈공지</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.push('Notice')}
-            style={styles.documentMenu}>
-            <Text style={styles.descriptionTitle}>
-              신분증 진위확인 일시중단 안내
-            </Text>
-            <Text style={{color: 'black'}}>2022.11.26 | 캐피탈공지</Text>
-          </TouchableOpacity>
+          <Text style={styles.descriptionTitle}>{noticeTitle}</Text>
+          {noticeInfo.map((item, index): any => {
+            const Title = item.Title;
+            const temp = item.CreatedDay;
+            const CreateDay =
+              temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
+            return (
+              <TouchableOpacity
+                key={index}
+                onPress={() => navigation.push('Notice')}
+                style={styles.documentMenu}>
+                <Text style={styles.descriptionTitle}>{Title}</Text>
+                <Text style={{color: 'black'}}>
+                  {CreateDay} | {category2}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </ScrollView>
       <BottomNav navigation={navigation} />

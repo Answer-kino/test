@@ -7,8 +7,10 @@ class API_HOME_SERVICE extends AxiosInstance {
       await this.getActHeader();
 
       const {data} = await this.API.get(url);
+      // console.log('tw1', data.result.CarNumber);
 
-      return data.result[0];
+      // return data.result[0];
+      return data.result.CarNumber;
     } catch (error: any) {
       console.error('API_HOME_SERVICE : ', error);
       throw new Error(error);

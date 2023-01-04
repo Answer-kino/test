@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
-import Questionlist from '../../../dummy/Questionlist';
 
 const Question = ({navigation}: any) => {
   useEffect(() => {
@@ -35,37 +34,6 @@ const Question = ({navigation}: any) => {
           display: 'flex',
           flexDirection: 'column',
         }}>
-        {/* {Questionlist.map((item, index): any => {
-          const {title, content} = item;
-          return (
-            <View>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginTop: '5%',
-                }}>
-                <Text style={styles.questionmark}>Q</Text>
-                <Text style={styles.questiontitle}>{title}</Text>
-                <TouchableOpacity
-                  style={{marginTop: '3%'}}
-                  onPress={() => {
-                    setDropdown(!dropdown);
-                    setDropdownTitle(title)
-                  }}>
-                  <Image
-                    style={styles.dropdownimg}
-                    source={require('./../../../assets/dropdown.png')}></Image>
-                </TouchableOpacity>
-              </View>
-              <View>
-                {dropdown === true ? (
-                  <Text style={styles.contenttext}>{content}</Text>
-                ) : null}
-              </View>
-            </View>
-          );
-        })} */}
         <View>
           <View>
             <TouchableOpacity

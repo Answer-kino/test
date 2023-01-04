@@ -18,6 +18,10 @@ import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
 const NoticeCategory = ({navigation}: any) => {
+  const naviHander = (category: string) => {
+    navigation.push('NoticeList', {category});
+  };
+
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -40,9 +44,10 @@ const NoticeCategory = ({navigation}: any) => {
         style={styles.scrollView}>
         <View style={styles.container}>
           <TouchableOpacity
-            onPress={() =>
-              navigation.push('NoticeList', {title: '캐피탈 공지'})
-            }
+            // onPress={() =>
+            //   navigation.push('NoticeList', {title: '캐피탈 공지'})
+            // }
+            onPress={() => naviHander('capital')}
             style={styles.documentMenu}>
             <View style={styles.leftContainer}>
               <View style={styles.leftImg}>
@@ -56,7 +61,8 @@ const NoticeCategory = ({navigation}: any) => {
             />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.push('NoticeList', {title: 'NFT공지'})}
+            // onPress={() => navigation.push('NoticeList', {title: 'NFT공지'})}
+            onPress={() => naviHander('nft')}
             style={styles.documentMenu}>
             <View style={styles.leftContainer}>
               <View style={styles.leftImg2}>
@@ -70,7 +76,8 @@ const NoticeCategory = ({navigation}: any) => {
             />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.push('NoticeList', {title: '리콜 공지'})}
+            // onPress={() => navigation.push('NoticeList', {title: '리콜 공지'})}
+            onPress={() => naviHander('recall')}
             style={styles.documentMenu}>
             <View style={styles.leftContainer}>
               <View style={styles.leftImg3}>

@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {
   BackHandler,
   View,
@@ -7,12 +7,33 @@ import {
   StyleSheet,
   Button,
   TouchableOpacity,
+  TouchableOpacityComponent,
+  Alert,
 } from 'react-native';
+import API_Inquiry_Service from '../../../@api/inquiry/inquiry';
 import BottomNav from '../../../components/bottomNav/BottomNav';
-
 import TopNav from '../../../components/topNav/TopNav';
 
 const Inquiry = ({navigation}: any) => {
+  const [content, setContent] = useState('');
+  const [title, setTitle] = useState('');
+  const API_Inquiry = new API_Inquiry_Service();
+
+  const writeInquiry = async () => {
+    if (title !== '' && content !== '') {
+      try {
+        // console.log(data, content);
+        const result = await API_Inquiry.POST_INQUIRY({title, content});
+        navigation.push('InquiryList');
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      Alert.alert('문의 제목, 문의 내용을 확인해주세요.');
+    }
+  };
+
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -31,23 +52,25 @@ const Inquiry = ({navigation}: any) => {
       <View>
         <TextInput
           style={styles.text1}
-          placeholder="받을 이메일"
-          placeholderTextColor="#898989"></TextInput>
-        <TextInput
-          style={styles.text1}
           placeholder="문의 제목"
-          placeholderTextColor="#898989"></TextInput>
+          placeholderTextColor="#898989"
+          onChangeText={text => {
+            setTitle(text);
+          }}></TextInput>
         <TextInput
           style={styles.text2}
           placeholder="문의 내용"
-          placeholderTextColor="#898989"></TextInput>
+          placeholderTextColor="#898989"
+          onChangeText={text => {
+            setContent(text);
+          }}></TextInput>
         <TouchableOpacity
           style={{}}
           onPress={() => {
-            navigation.push('Home');
+            writeInquiry();
           }}>
           <View style={styles.button}>
-            <Text style={{}}>확인</Text>
+            <Text>확인</Text>
           </View>
         </TouchableOpacity>
       </View>

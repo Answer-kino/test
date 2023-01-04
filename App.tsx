@@ -17,14 +17,14 @@ import RaceInfo from './src/views/pages/raceInfo/RaceInfo';
 import Login from './src/views/login/login';
 import Login2 from './src/views/login/login2';
 import Connect from './src/views/connect';
-import TermsOfService from './src/views/termsOfService';
+import TermsOfService from './src/views/pages/terms/termsOfService';
 import CommunityBoardList from './src/views/pages/community/CommunityBoardList';
 import CommunityBoard from './src/views/pages/community/CommunityBoard';
 import CommunityBoardWrite from './src/views/pages/community/CommunityBoardWrite';
 import NoticeList from './src/views/pages/notice/NoticeList';
 import NoticeCategory from './src/views/pages/notice/NoticeCategory';
 import Notice from './src/views/pages/notice/Notice';
-import Mypage from './src/views/mypage/mypage';
+import Mypage from './src/views/mypage/Mypage';
 import NFTDocument from './src/views/pages/nftDocument/NFTDocument';
 import ChangePassword from './src/views/mypage/changePassword';
 import SideMenu from './src/components/sideMenu/SideMenu';
@@ -32,6 +32,10 @@ import Inquiry from './src/views/pages/inquiry/Inquiry';
 import Question from './src/views/pages/question/Question';
 import CarRegister from './src/views/pages/carRegister/CarRegister';
 import Insurance from './src/views/pages/insurance/Insurance';
+import Privacy from './src/views/pages/terms/privacy';
+import Promotion from './src/views/pages/terms/promotion';
+import Marketing from './src/views/pages/terms/marketing';
+import InquiryList from './src/views/pages/inquiry/inquirylist';
 const App = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -69,6 +73,21 @@ const App = () => {
             <Stack.Screen
               name="TermsOfService"
               component={TermsOfService}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Privacy"
+              component={Privacy}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Promotion"
+              component={Promotion}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Marketing"
+              component={Marketing}
               options={{headerShown: false}}
             />
             <Stack.Screen
@@ -139,6 +158,11 @@ const App = () => {
             <Stack.Screen
               name="Inquiry"
               component={Inquiry}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="InquiryList"
+              component={InquiryList}
               options={{headerShown: false}}
             />
 

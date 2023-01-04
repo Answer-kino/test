@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import Mypage from '../../views/mypage/mypage';
+import Mypage from '../../views/mypage/Mypage';
 
 const BottomNav = ({navigation}: any) => {
   return (

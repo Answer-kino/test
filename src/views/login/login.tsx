@@ -27,10 +27,13 @@ type TSignInfo = {
 };
 
 enum EActiveInfoKey {
+  all = 'all',
   privacy = 'privacy',
   location = 'location',
   promotion = 'promotion',
   marketing = 'marketing',
+  eamilConsent = 'emailConsent',
+  SnsConsent = 'SnsConsent',
 }
 type TActiveInfoValue = 'Y' | 'N';
 type TActiveInfo = {
@@ -38,6 +41,7 @@ type TActiveInfo = {
 };
 
 enum ESignCheckBoxKey {
+  all = 'all',
   termOfService = 'termOfService',
   privacy = 'privacy',
   location = 'location',
@@ -77,12 +81,16 @@ const Login = ({navigation}: any) => {
   const [curPwd, setCurPwd] = useState<string>('');
   const [digitCode, setDigitCode] = useState({email: '', phone: ''});
   const [activeInfo, setActiveInfo] = useState<TActiveInfo>({
+    all: 'N',
     privacy: 'N',
     location: 'N',
     promotion: 'N',
     marketing: 'N',
+    emailConsent: 'N',
+    SnsConsent: 'N',
   });
   const [checkBox, setCheckBox] = useState<TSignCheckBox>({
+    all: false,
     termOfService: false,
     privacy: false,
     location: false,
@@ -110,6 +118,38 @@ const Login = ({navigation}: any) => {
     setCheckBox(cur => ({...cur, [key]: checkBoxBoolean}));
     if (key !== ESignCheckBoxKey.termOfService)
       setActiveInfo(cur => ({...cur, [key]: activeInfoValue}));
+  };
+
+  //리팩토링 필요
+  const setCheckBoxHandler2 = (key: ESignCheckBoxKey) => (e: any) => {
+    const checkBoxBoolean = !checkBox[key];
+    const activeInfoValue = 'Y';
+    setCheckBox(cur => ({...cur, [key]: checkBoxBoolean}));
+    setCheckBox(cur => ({...cur, location: checkBoxBoolean}));
+    setCheckBox(cur => ({...cur, marketing: checkBoxBoolean}));
+    setCheckBox(cur => ({...cur, privacy: checkBoxBoolean}));
+    setCheckBox(cur => ({...cur, promotion: checkBoxBoolean}));
+    setCheckBox(cur => ({...cur, termOfService: checkBoxBoolean}));
+    console.log(activeInfo);
+    // if (key !== ESignCheckBoxKey.termOfService)
+    //   setActiveInfo(cur => ({...cur, [key]: activeInfoValue}));
+    if (checkBox.all) {
+      setActiveInfo(cur => ({...cur, all: 'Y'}));
+      setActiveInfo(cur => ({...cur, location: 'Y'}));
+      setActiveInfo(cur => ({...cur, marketing: 'Y'}));
+      setActiveInfo(cur => ({...cur, privacy: 'Y'}));
+      setActiveInfo(cur => ({...cur, promotion: 'Y'}));
+      setActiveInfo(cur => ({...cur, emailConsent: 'Y'}));
+      setActiveInfo(cur => ({...cur, SnsConsent: 'Y'}));
+    } else {
+      setActiveInfo(cur => ({...cur, all: 'N'}));
+      setActiveInfo(cur => ({...cur, location: 'N'}));
+      setActiveInfo(cur => ({...cur, marketing: 'N'}));
+      setActiveInfo(cur => ({...cur, privacy: 'N'}));
+      setActiveInfo(cur => ({...cur, promotion: 'N'}));
+      setActiveInfo(cur => ({...cur, emailConsent: 'N'}));
+      setActiveInfo(cur => ({...cur, SnsConsent: 'N'}));
+    }
   };
 
   const sendDigitCodeApiMap = {
@@ -173,12 +213,16 @@ const Login = ({navigation}: any) => {
     setCurPwd('');
     setDigitCode({email: '', phone: ''});
     setActiveInfo({
+      all: 'N',
       privacy: 'N',
       location: 'N',
       promotion: 'N',
       marketing: 'N',
+      emailConsent: 'N',
+      SnsConsent: 'N',
     });
     setCheckBox({
+      all: false,
       termOfService: false,
       privacy: false,
       location: false,
@@ -215,31 +259,37 @@ const Login = ({navigation}: any) => {
     }
 
     try {
+      // console.log('tw123', delete activeInfo.emailConsent, activeInfo);
+      delete activeInfo.all;
       const signUpInfo = {...signInfo, ...activeInfo};
+      // console.log('tw1234', signUpInfo);
+
+      console.log('tw2', signUpInfo);
       await SIGN_SERVICE.signUp(signUpInfo);
+      // console.log('tw:', signInfo);
       alert('회원가입이 완료 되었습니다.');
       initState();
-      navigation.push('Home');
+      // navigation.push('Home');
     } catch (error) {
       alert('회원가입에 실패했습니다.');
     }
   };
 
-  useEffect(() => {
-    console.log(signInfo);
-  }, [signInfo]);
-  useEffect(() => {
-    console.log(activeInfo);
-  }, [activeInfo]);
-  useEffect(() => {
-    console.log(checkBox);
-  }, [checkBox]);
-  useEffect(() => {
-    console.log(valid);
-  }, [valid]);
-  useEffect(() => {
-    console.log(digitCode);
-  }, [digitCode]);
+  // useEffect(() => {
+  //   console.log(signInfo);
+  // }, [signInfo]);
+  // useEffect(() => {
+  //   console.log(activeInfo);
+  // }, [activeInfo]);
+  // useEffect(() => {
+  //   console.log(checkBox);
+  // }, [checkBox]);
+  // useEffect(() => {
+  //   console.log(valid);
+  // }, [valid]);
+  // useEffect(() => {
+  //   console.log(digitCode);
+  // }, [digitCode]);
 
   useEffect(() => {
     const backAction = () => {
@@ -376,11 +426,23 @@ const Login = ({navigation}: any) => {
             <View style={styles.checkboxcontainer}>
               <CheckBox
                 style={styles.checkbox}
+                value={checkBox.all}
+                onChange={setCheckBoxHandler2(ESignCheckBoxKey.all)}></CheckBox>
+              <Text style={styles.checkboxText}>전체 동의</Text>
+            </View>
+            <View style={styles.checkboxcontainer}>
+              <CheckBox
+                style={styles.checkbox}
                 value={checkBox.termOfService}
                 onChange={setCheckBoxHandler(
                   ESignCheckBoxKey.termOfService
                 )}></CheckBox>
-              <Text style={styles.checkboxText}>이용약관 [보기]</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.push('TermsOfService');
+                }}>
+                <Text style={styles.checkboxText}> 이용약관 [보기]</Text>
+              </TouchableOpacity>
             </View>
           </View>
           <View>
@@ -391,9 +453,14 @@ const Login = ({navigation}: any) => {
                 onChange={setCheckBoxHandler(
                   ESignCheckBoxKey.privacy
                 )}></CheckBox>
-              <Text style={styles.checkboxText}>
-                개인정보수집 및 이용 [보기]
-              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.push('Privacy');
+                }}>
+                <Text style={styles.checkboxText}>
+                  개인정보수집 및 이용 [보기]
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
           <View>
@@ -417,9 +484,14 @@ const Login = ({navigation}: any) => {
                 onChange={setCheckBoxHandler(
                   ESignCheckBoxKey.promotion
                 )}></CheckBox>
-              <Text style={styles.checkboxText}>
-                프로모션 정보수신약관 [보기]
-              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.push('Promotion');
+                }}>
+                <Text style={styles.checkboxText}>
+                  프로모션 정보수신약관 [보기]
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
           <View>
@@ -430,9 +502,14 @@ const Login = ({navigation}: any) => {
                 onChange={setCheckBoxHandler(
                   ESignCheckBoxKey.marketing
                 )}></CheckBox>
-              <Text style={styles.checkboxText}>
-                마케팅,SNS,이메일 수신동의 [보기]
-              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.push('Marketing');
+                }}>
+                <Text style={styles.checkboxText}>
+                  마케팅,SNS,이메일 수신동의 [보기]
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -474,6 +551,7 @@ const styles = StyleSheet.create({
     marginLeft: '9%',
     borderRadius: 10,
     paddingLeft: 15,
+    color: 'black',
   },
   inputbox2: {
     backgroundColor: 'white',
@@ -483,6 +561,7 @@ const styles = StyleSheet.create({
     marginLeft: '9%',
     borderRadius: 10,
     paddingLeft: 15,
+    color: 'black',
   },
   checkButton: {
     width: 58,

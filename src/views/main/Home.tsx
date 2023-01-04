@@ -21,6 +21,7 @@ import Cardocument from '../../assets/cardocument.svg';
 import NftWalletimg from '../../assets/nftWallet.svg';
 import Raceinfoimg from '../../assets/raceinfo.svg';
 import Community from '../../assets/community.svg';
+import API_BBS_SERVICE from '../../@api/bbs/bbs';
 
 const Home = ({navigation}: any) => {
   const HOME_SERVICE = new API_HOME_SERVICE();
@@ -29,10 +30,12 @@ const Home = ({navigation}: any) => {
   const [count, setCount] = useState(0);
   const [isAccess, setIsAccess] = useState(false);
   const [userInfo, setUserInfo] = useState<EUserInfo>();
-
+  const BBS_SERVICE = new API_BBS_SERVICE();
+  const [noticeInfo, setNoticeInfo] = useState([]);
   const getMyInfo = async () => {
     try {
       const userInfo = await HOME_SERVICE.INFO();
+      // console.log('tw', userInfo);
       setUserInfo(userInfo);
       setIsAccess(true);
     } catch (error) {
@@ -60,13 +63,27 @@ const Home = ({navigation}: any) => {
     return true;
   };
 
+  const getNotice = async () => {
+    try {
+      // const obj: any = {category: categoryKey, limit: 10, offset: 0};
+      const result = await BBS_SERVICE.BBS_Main_Notice();
+      // console.log('getNotice : ', result);
+      setNoticeInfo(result);
+    } catch (error) {
+      console.log('getNotice :', error);
+    }
+  };
+
   useEffect(() => {
     getMyInfo();
+    getNotice();
   }, []);
   useEffect(() => {
     const back = BackHandler.addEventListener('hardwareBackPress', backAction);
     return () => back.remove();
   }, [backAction]);
+
+  useEffect(() => {});
 
   return (
     <View>
@@ -101,11 +118,7 @@ const Home = ({navigation}: any) => {
           {isAccess && isAccess ? (
             <View style={styles.align}>
               <View style={styles.loginInfoContainer}>
-                <Text
-                  style={
-                    styles.carNumber
-                  }>{`차량번호: ${userInfo?.CarNumber}`}</Text>
-                <Image source={require('../../assets/el_barcode.png')} />
+                <Text style={styles.carNumber}>{`차량번호: ${userInfo}`}</Text>
               </View>
             </View>
           ) : (
@@ -201,18 +214,18 @@ const Home = ({navigation}: any) => {
           <TouchableOpacity onPress={() => navigation.push('NoticeCategory')}>
             <Text style={styles.descriptionTitle}>공지사항</Text>
           </TouchableOpacity>
-          <View style={styles.descriptionRow}>
-            <Text style={styles.text}>[공지] 간편한 모바일 NFT보증서</Text>
-            <Text style={styles.text}>2022.10.31</Text>
-          </View>
-          <View style={styles.descriptionRow}>
-            <Text style={styles.text}>[공지] 간편한 모바일 NFT보증서</Text>
-            <Text style={styles.text}>2022.10.31</Text>
-          </View>
-          <View style={styles.descriptionRow}>
-            <Text style={styles.text}>[공지] 간편한 모바일 NFT보증서</Text>
-            <Text style={styles.text}>2022.10.31</Text>
-          </View>
+          {noticeInfo.map((item: any, index: number) => {
+            // console.log(noticeInfo);
+            const Title = item.Title;
+            const temp = item.CreatedDay;
+            const CreateDay = temp.split('T')[0];
+            return (
+              <View style={styles.descriptionRow} key={index}>
+                <Text style={styles.text}> {Title}</Text>
+                <Text style={styles.text}>{CreateDay}</Text>
+              </View>
+            );
+          })}
         </View>
         {/**----------- */}
         <View style={styles.banner}>
@@ -237,17 +250,16 @@ const Home = ({navigation}: any) => {
         {/**----------- */}
         <View style={styles.descriptionContainer}>
           <Text style={styles.text}>
-            이용약관 | 위치기반서비스 이용약관 | 개인정보처리방침 | 전자금융거래
-            이용약관
+            이용약관 | 개인정보처리방침 | 전자금융거래 이용약관
           </Text>
         </View>
         {/**----------- */}
         <View style={styles.descriptionContainer3}>
-          <Text style={styles.text}>
+          <Text style={styles.text2}>
             경기도 용인시 기흥구 기흥로 58, 기흥 ITC벨리 B동 2101호
           </Text>
-          <Text style={styles.text}>
-            사업자등록번호 418-88-02279 418-88-02279
+          <Text style={styles.text2}>
+            사업자등록번호 418-88-02279 전화번호 1533-3753
           </Text>
         </View>
         {/**----------- */}
@@ -290,6 +302,7 @@ const styles = StyleSheet.create({
     height: 38,
     borderBottomWidth: 1,
     borderColor: 'white',
+    marginLeft: '8%',
   },
   topTitleContact: {
     width: 49,
@@ -413,7 +426,17 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'black',
+    fontFamily: 'Noto Sans',
+    fontWeight: '400',
+    fontSize: 13,
   },
+  text2: {
+    color: '#666666',
+    fontFamily: 'Noto Sans',
+    fontWeight: '400',
+    fontSize: 13,
+  },
+
   menu: {
     justifyContent: 'center',
     alignItems: 'center',
