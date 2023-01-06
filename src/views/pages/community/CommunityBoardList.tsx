@@ -1,3 +1,4 @@
+import {useIsFocused} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
@@ -17,12 +18,12 @@ import TopNav from '../../../components/topNav/TopNav';
 
 const CommunityBoardList = ({navigation}: any) => {
   const BBS_SERVICE = new API_BBS_SERVICE();
-
+  const [communityInfo, setCommunityInfo] = useState([]);
   const [scrollInfo, setScrollInfo] = useState([]);
   const [loading, setLoading] = useState(false);
   const [infoCnt, setInfoCnt] = useState(0);
   const [totalCnt, setTotalCnt] = useState(0);
-
+  const isFocused = useIsFocused();
   const getCommunity = async () => {
     try {
       const obj: any = {
@@ -31,7 +32,8 @@ const CommunityBoardList = ({navigation}: any) => {
         offset: 0,
       };
       const result: any = await BBS_SERVICE.BBS_Community_LIst(obj);
-      // console.log(result);
+      setCommunityInfo(result);
+      console.log('0106123', result);
       setTotalCnt(result.totalCnt.TotalCnt);
     } catch (error) {
       // console.log('getNotice :', error);
@@ -90,7 +92,7 @@ const CommunityBoardList = ({navigation}: any) => {
   };
   useEffect(() => {
     getCommunity();
-  }, []);
+  }, [isFocused]);
   useEffect(() => {
     ScrollGetData();
   }, [totalCnt]);

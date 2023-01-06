@@ -231,6 +231,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.05,
     paddingRight: 10,
     color: 'black',
+    marginLeft: '3%',
   },
   commentAt: {
     fontSize: 12,
@@ -304,6 +305,7 @@ const styles = StyleSheet.create({
   useImg: {
     height: 10,
     width: 10,
+    marginLeft: '3%',
   },
 });
 

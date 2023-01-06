@@ -226,6 +226,9 @@ const Login = ({navigation}: any) => {
       const value = await setValidApiMap[key]();
       console.log('value', value);
       setValid(cur => ({...cur, [key]: value}));
+
+      if (value) {
+      }
       // if (key !== EValidKey.carNumber) {
       //   setAuthRequest(cur => ({...cur, [key]: false}));
       // }
@@ -337,25 +340,6 @@ const Login = ({navigation}: any) => {
     email: 0,
   });
 
-  const Timer = (key: any) => {
-    setMinutes((cur: any) => ({...cur, [key]: 240}));
-    setSeconds((cur: any) => ({...cur, [key]: 0}));
-    const countdown = setInterval(() => {
-      if (seconds[key] > 0) {
-        setSeconds((cur: any) => ({...cur, [key]: minutes[key] - 1}));
-      }
-      if (seconds[key] === 0) {
-        if (minutes[key] === 0) {
-          clearInterval(countdown);
-        } else {
-          setMinutes((cur: any) => ({...cur, [key]: minutes[key] - 1}));
-          setSeconds((cur: any) => ({...cur, [key]: 59}));
-        }
-      }
-    }, 1000);
-    return () => clearInterval(countdown);
-  };
-
   useEffect(() => {
     const backAction = () => {
       Alert.alert('뒤로가기', '뒤로가기 누를 시 입력된 데이터가 사라집니다.', [
@@ -387,14 +371,19 @@ const Login = ({navigation}: any) => {
     },
   });
 
-  const timerStart = (key: string) => () => {
+  const [validationTime, setValidationTime] = useState<any>({
+    email: false,
+    phone: false,
+  });
+  const timerStart = (key: string) => {
     try {
-      console.log('key : ', key);
+      if (validationTime[key]) return;
       initTime.current[key] = 4 * 60;
-
+      console.log(`${key} 타이머가 작동을 시작합니다.`);
       interval.current[key] = setInterval(() => {
-        if (initTime.current[key] === 0) {
+        if (initTime.current[key] < 1) {
           clearInterval(interval.current[key]);
+          setValidationTime(cur => ({...cur, [key]: true}));
         }
 
         const min = initTime.current[key] / 60;
@@ -405,7 +394,7 @@ const Login = ({navigation}: any) => {
           sec: String(sec).padStart(2, '0'),
         };
         setTime((cur): any => ({...cur, [key]: tmpObj}));
-      }, 10);
+      }, 1000);
 
       return () => clearInterval(interval.current[key]);
     } catch (error) {
@@ -489,35 +478,6 @@ const Login = ({navigation}: any) => {
             </Text>
           )}
 
-          {/* 타이머 예시 */}
-          <View style={{display: 'flex', flexDirection: 'row'}}>
-            <TextInput
-              style={styles.inputbox1}
-              placeholder="Phone 타이머"
-              placeholderTextColor="black"
-              value={`${time.phone.min} : ${time.phone.sec}`}
-              onChangeText={setSignInfoHandler(ESignInfoKey.phone)}></TextInput>
-            <TouchableOpacity
-              style={styles.checkButton}
-              onPress={timerStart('phone')}>
-              <Text style={styles.buttonText}>Start</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{display: 'flex', flexDirection: 'row'}}>
-            <TextInput
-              style={styles.inputbox1}
-              placeholder="Email 타이머"
-              placeholderTextColor="black"
-              value={`${time.email.min} : ${time.email.sec}`}
-              onChangeText={setSignInfoHandler(ESignInfoKey.phone)}></TextInput>
-            <TouchableOpacity
-              style={styles.checkButton}
-              onPress={timerStart('email')}>
-              <Text style={styles.buttonText}>Start</Text>
-            </TouchableOpacity>
-          </View>
-          {/* end 타이머 예시 */}
-
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <TextInput
               style={styles.inputbox1}
@@ -528,7 +488,7 @@ const Login = ({navigation}: any) => {
             <TouchableOpacity
               style={styles.checkButton}
               onPress={() => {
-                Timer('phone');
+                timerStart('phone');
                 sendDigitCodeHandler(EDigitCodeKey.phone);
               }}>
               {/* onPress={() => setValidHandler(EValidKey.phone)}> */}
@@ -550,7 +510,11 @@ const Login = ({navigation}: any) => {
 
           {authRequest.phone ? (
             <>
-              <View style={{display: 'flex', flexDirection: 'row'}}>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                }}>
                 <TextInput
                   style={styles.inputbox1}
                   placeholder="핸드폰인증번호"
@@ -559,11 +523,12 @@ const Login = ({navigation}: any) => {
                   onChangeText={setDigitCodeHandler(
                     EDigitCodeKey.phone
                   )}></TextInput>
-                <Text style={{color: 'black'}}>
-                  {minutes.phone}:{seconds.phone}
+                <Text
+                  style={{color: 'black', marginTop: '8%', marginLeft: '-33%'}}>
+                  {time.phone.min} : {time.phone.sec}
                 </Text>
                 <TouchableOpacity
-                  style={styles.checkButton}
+                  style={styles.checkButton2}
                   onPress={() => setValidHandler(EValidKey.phone)}>
                   <Text style={styles.buttonText}>인증하기</Text>
                 </TouchableOpacity>
@@ -588,7 +553,13 @@ const Login = ({navigation}: any) => {
               onChangeText={setSignInfoHandler(ESignInfoKey.email)}></TextInput>
             <TouchableOpacity
               style={styles.checkButton}
-              onPress={() => sendDigitCodeHandler(EDigitCodeKey.email)}>
+              // onPress={() =>
+              // timerStart()
+              // sendDigitCodeHandler(EDigitCodeKey.email)}
+              onPress={() => {
+                timerStart('email');
+                sendDigitCodeHandler(EDigitCodeKey.email);
+              }}>
               <Text style={styles.buttonText}>인증요청</Text>
             </TouchableOpacity>
           </View>
@@ -604,8 +575,12 @@ const Login = ({navigation}: any) => {
                   onChangeText={setDigitCodeHandler(
                     EDigitCodeKey.email
                   )}></TextInput>
+                <Text
+                  style={{color: 'black', marginTop: '8%', marginLeft: '-33%'}}>
+                  {time.email.min} : {time.email.sec}
+                </Text>
                 <TouchableOpacity
-                  style={styles.checkButton}
+                  style={styles.checkButton2}
                   onPress={() => setValidHandler(EValidKey.email)}>
                   <Text style={styles.buttonText}>인증하기</Text>
                 </TouchableOpacity>
@@ -822,6 +797,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#879BB9',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  checkButton2: {
+    width: 58,
+    height: 28,
+    marginTop: '7%',
+    borderRadius: 6,
+    // marginLeft: '-20%',
+    backgroundColor: '#879BB9',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: '1%',
   },
   buttonText: {
     color: 'white',

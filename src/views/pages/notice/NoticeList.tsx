@@ -57,6 +57,7 @@ const NoticeList = ({navigation, route}: any) => {
       const obj: any = {category: categoryKey, limit: 10, offset: 0};
       const result: any = await BBS_SERVICE.BBS_Category_Notice(obj);
       setNoticeInfo(result);
+      console.log('0106', result);
     } catch (error) {
       // console.log('getNotice :', error);
     }
