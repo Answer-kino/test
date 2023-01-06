@@ -12,13 +12,13 @@ import {
   Switch,
 } from 'react-native';
 import API_Mypage from '../../@api/mypage/Mypage';
-import Icon0 from '../../assets/icon0.svg';
-import Icon1 from '../../assets/icon1.svg';
-import Icon2 from '../../assets/icon2.svg';
-import Icon3 from '../../assets/icon3.svg';
-import Icon4 from '../../assets/icon4.svg';
-import Icon5 from '../../assets/icon5.svg';
-import Icon6 from '../../assets/icon6.svg';
+import Icon0 from '../../assets/icon0_big.svg';
+import Icon1 from '../../assets/icon1_big.svg';
+import Icon2 from '../../assets/icon2_big.svg';
+import Icon3 from '../../assets/icon3_big.svg';
+import Icon4 from '../../assets/icon4_big.svg';
+import Icon5 from '../../assets/icon5_big.svg';
+import Icon6 from '../../assets/icon6_big.svg';
 import ModalSelect from '../../assets/modal_select.svg';
 
 interface myDatatype {
@@ -110,7 +110,6 @@ const Mypage = ({navigation}: any) => {
   const patchMyData = async () => {
     try {
       const {ProfileImg, Email, Marketing, SNS}: any = myData;
-
       const patchMyDataInfo: patchMyDataInfo = {
         ProfileImg,
         Email,
@@ -118,6 +117,7 @@ const Mypage = ({navigation}: any) => {
         SNS,
       };
       await MypageApi.patchMyData(patchMyDataInfo);
+      navigation.push('Home');
     } catch (error) {
       alert(error);
     }
@@ -284,7 +284,6 @@ const Mypage = ({navigation}: any) => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginTop: '1%',
             }}>
             <Text style={styles.text1}>현재비밀번호</Text>
             <View
@@ -303,22 +302,13 @@ const Mypage = ({navigation}: any) => {
               <Text style={styles.text2}>***********</Text>
             </View>
           </View>
+
           <View
             style={{
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginTop: '-12%',
-            }}>
-            <Text style={styles.text1}>신규비밀번호</Text>
-            <Text style={styles.text2}>************</Text>
-          </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: '1%',
+              marginTop: '-10%',
             }}>
             <Text style={styles.text1}>휴대폰번호</Text>
             <View
@@ -413,6 +403,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 40,
     marginLeft: '5%',
+    height: 30,
   },
   text2: {
     display: 'flex',
@@ -422,6 +413,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 40,
     marginRight: '5%',
+    height: 30,
   },
   text3: {
     color: 'white',

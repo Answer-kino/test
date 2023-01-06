@@ -16,7 +16,7 @@ import NFTWallet from './src/views/pages/nftWallet/NFTWallet';
 import RaceInfo from './src/views/pages/raceInfo/RaceInfo';
 import Login from './src/views/login/login';
 import Login2 from './src/views/login/login2';
-import Connect from './src/views/connect';
+import Connect from './src/views/setting';
 import TermsOfService from './src/views/pages/terms/termsOfService';
 import CommunityBoardList from './src/views/pages/community/CommunityBoardList';
 import CommunityBoard from './src/views/pages/community/CommunityBoard';
@@ -36,6 +36,7 @@ import Privacy from './src/views/pages/terms/privacy';
 import Promotion from './src/views/pages/terms/promotion';
 import Marketing from './src/views/pages/terms/marketing';
 import InquiryList from './src/views/pages/inquiry/inquirylist';
+import Setting from './src/views/setting';
 const App = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -66,8 +67,8 @@ const App = () => {
               options={{headerShown: false}}
             />
             <Stack.Screen
-              name="Connect"
-              component={Connect}
+              name="Setting"
+              component={Setting}
               options={{headerShown: false}}
             />
             <Stack.Screen

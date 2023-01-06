@@ -1,5 +1,6 @@
 import AxiosInstance from '../CustomAxios';
 import {MypageType} from '../../@interface/MypageType';
+import ChangePwd from '../../@interface/Passwd';
 
 class API_Mypage extends AxiosInstance {
   async getMyData() {
@@ -24,7 +25,21 @@ class API_Mypage extends AxiosInstance {
         snsConsent: SNS,
         profileImg: ProfileImg,
       });
-      console.log('tw', data);
+      // console.log('tw', data);
+      return data;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+  async changePasswd({curPwd, newPwd}: ChangePwd) {
+    try {
+      await this.getActHeader();
+      const url = 'user/pwd';
+      const {data} = await this.API.patch(url, {
+        curPwd: curPwd,
+        prevPwd: newPwd,
+      });
+      console.log('tw123123', data);
       return data;
     } catch (error: any) {
       throw new Error(error);

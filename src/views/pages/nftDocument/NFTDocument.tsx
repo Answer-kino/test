@@ -17,23 +17,29 @@ import _ from 'lodash';
 import API_NFT_SERVICE from '../../../@api/nft/nft';
 import API_TOKEN_SERVICE from '../../../@api/token/token';
 import {ENftInfo} from '../../../@entity/nft/entity';
-
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 import {globalConfig} from '../../../@config/config';
+import API_Mypage from '../../../@api/mypage/Mypage';
+
+interface CapitalInfo {
+  Capital: any;
+}
 
 const NFTDocument = ({navigation}: any) => {
   const TOKEN_SERVICE = new API_TOKEN_SERVICE();
   const NFT_SERVICE = new API_NFT_SERVICE();
+  const MYypage_SERVICE = new API_Mypage();
   const {URL} = globalConfig;
   const [nftInfo, setNftInfo] = useState<ENftInfo>();
   const [nftImgUri, setNftImgUri] = useState<string>();
   const [metaInfo, setMetaInfo] = useState<any>();
+  const [capital, setCapital] = useState<CapitalInfo>();
 
   const getCapitalInfo = async () => {
     try {
       const data = await NFT_SERVICE.GET();
-
+      console.log('NFT', data);
       setNftInfo(data);
     } catch (error) {
       const success = await TOKEN_SERVICE.REFRESH__TOKEN();
@@ -47,8 +53,20 @@ const NFTDocument = ({navigation}: any) => {
     }
   };
 
+  const getCapital = async () => {
+    try {
+      const result = await MYypage_SERVICE.getMyData();
+      console.log('capital', result);
+      setCapital(result);
+      console.log('tw', result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getCapitalInfo();
+    getCapital();
   }, []);
   useEffect(() => {
     if (!_.isUndefined(nftInfo)) {
@@ -86,7 +104,9 @@ const NFTDocument = ({navigation}: any) => {
           <Image style={styles.documentImage} source={{uri: nftImgUri}} />
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <Text style={styles.text}>Owned by</Text>
-            <Text style={styles.text2}>{metaInfo?.name || 'mynftcar'}</Text>
+            <Text style={styles.text2}>
+              {capital?.Capital !== '' ? capital?.Capital : null}
+            </Text>
           </View>
           <View style={styles.descriptionBox}>
             <View style={styles.descriptionTitleContainer}>
@@ -98,9 +118,11 @@ const NFTDocument = ({navigation}: any) => {
             </View>
 
             <Text style={{color: 'black'}}>
-              {metaInfo?.description ||
+              {/* {metaInfo?.description ||
                 'Example : 차량은 캐피탈사의 공식 보증된차이며, 한국보증협회의 엄격한 품질' +
-                  '검사와 검사를 198회 통과한 인증 중고차임을 증명합니다.'}
+                  '검사와 검사를 198회 통과한 인증 중고차임을 증명합니다.'} */}
+              차량은 캐피탈사의 공식 보증된차이며, 한국보증협회의 엄격한 품질
+              검사와 검사를 198회 통과한 인증 중고차임을 증명합니다.
             </Text>
           </View>
           <TouchableOpacity style={styles.detailBox}>

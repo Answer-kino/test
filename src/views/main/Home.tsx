@@ -22,20 +22,29 @@ import NftWalletimg from '../../assets/nftWallet.svg';
 import Raceinfoimg from '../../assets/raceinfo.svg';
 import Community from '../../assets/community.svg';
 import API_BBS_SERVICE from '../../@api/bbs/bbs';
+import API_Mypage from '../../@api/mypage/Mypage';
+
+interface Capitalinfo {
+  Capital: any;
+  ContactTime: any;
+  Contact: any;
+}
 
 const Home = ({navigation}: any) => {
   const HOME_SERVICE = new API_HOME_SERVICE();
+  const Mypage = new API_Mypage();
+  const BBS_SERVICE = new API_BBS_SERVICE();
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen(!open);
   const [count, setCount] = useState(0);
   const [isAccess, setIsAccess] = useState(false);
   const [userInfo, setUserInfo] = useState<EUserInfo>();
-  const BBS_SERVICE = new API_BBS_SERVICE();
+  const [capitalInfo, setCapitalInfo] = useState<Capitalinfo>();
   const [noticeInfo, setNoticeInfo] = useState([]);
   const getMyInfo = async () => {
     try {
       const userInfo = await HOME_SERVICE.INFO();
-      // console.log('tw', userInfo);
+      console.log('tw', userInfo);
       setUserInfo(userInfo);
       setIsAccess(true);
     } catch (error) {
@@ -74,21 +83,29 @@ const Home = ({navigation}: any) => {
     }
   };
 
+  const getCapitalinfo = async () => {
+    try {
+      const result = await Mypage.getMyData();
+      console.log('capital', result);
+      setCapitalInfo(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getMyInfo();
     getNotice();
+    getCapitalinfo();
   }, []);
   useEffect(() => {
     const back = BackHandler.addEventListener('hardwareBackPress', backAction);
     return () => back.remove();
   }, [backAction]);
 
-  useEffect(() => {});
-
   return (
     <View>
       <SideMenu open={open} toggleOpen={toggleOpen} navigation={navigation} />
-
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
@@ -239,12 +256,12 @@ const Home = ({navigation}: any) => {
         <View style={styles.descriptionContainer2}>
           <Text style={styles.descriptionTitle}>콜센터</Text>
           <View style={styles.descriptionRow}>
-            <Text style={styles.text}>캐피탈 콜센터</Text>
-            <Text style={styles.text}>1533-3753</Text>
+            <Text style={styles.text}>{capitalInfo?.Capital}</Text>
+            <Text style={styles.text}>{capitalInfo?.Contact}</Text>
           </View>
           <View style={styles.descriptionRow}>
             <Text style={styles.text}>[ARS이용시간]</Text>
-            <Text style={styles.text}>365일 (10:00 ~ 18:00)</Text>
+            <Text style={styles.text}>{capitalInfo?.ContactTime}</Text>
           </View>
         </View>
         {/**----------- */}

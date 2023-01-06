@@ -20,13 +20,41 @@ import {
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
+import Icon0 from '../../../assets/icon0.svg';
+import Icon1 from '../../../assets/icon1.svg';
+import Icon2 from '../../../assets/icon2.svg';
+import Icon3 from '../../../assets/icon3.svg';
+import Icon4 from '../../../assets/icon4.svg';
+import Icon5 from '../../../assets/icon5.svg';
+import Icon6 from '../../../assets/icon6.svg';
 
 const CommunityBoard = ({navigation, route}: any) => {
   const boardIdx = route.params.boardIdx;
   const BBS_SERVICE = new API_BBS_SERVICE();
+
   const [detailInfo, setDetailInfo] = useState<Array<any>>();
   const [commentInfo, setCommentInfo] = useState([]);
   const [registComment, setRegistComment] = useState('');
+
+  const myPageProfileMap = (num: any) => {
+    switch (num) {
+      case 1:
+        return <Icon1 style={styles.useImg} />;
+      case 2:
+        return <Icon2 style={styles.useImg} />;
+      case 3:
+        return <Icon3 style={styles.useImg} />;
+      case 4:
+        return <Icon4 style={styles.useImg} />;
+      case 5:
+        return <Icon5 style={styles.useImg} />;
+      case 6:
+        return <Icon6 style={styles.useImg} />;
+      default:
+        return <Icon0 style={styles.useImg} />;
+    }
+  };
+
   const getCommunityBoardDetail = async () => {
     try {
       const result: any = await BBS_SERVICE.BBS_Community_Detail(boardIdx);
@@ -40,7 +68,8 @@ const CommunityBoard = ({navigation, route}: any) => {
   const getComment = async () => {
     try {
       const result: any = await BBS_SERVICE.BBS_Comment(boardIdx);
-      console.log('tw123', result);
+      console.log('tw123123123', result);
+
       setCommentInfo(result);
     } catch (error) {
       console.log(error);
@@ -69,8 +98,8 @@ const CommunityBoard = ({navigation, route}: any) => {
     }
   };
   useEffect(() => {
-    getCommunityBoardDetail();
     getComment();
+    getCommunityBoardDetail();
   }, []);
 
   useEffect(() => {
@@ -114,6 +143,7 @@ const CommunityBoard = ({navigation, route}: any) => {
           {commentInfo?.map(item => {
             const comment = item.Comment;
             const temp = item.CreatedDay;
+            const imgNum = item.ProfileImg;
             const CreateDay =
               // temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
               temp.split('T')[0];
@@ -121,7 +151,7 @@ const CommunityBoard = ({navigation, route}: any) => {
               <View style={styles.commentContainer}>
                 <View style={styles.commentFront}>
                   <View style={styles.profileImg}>
-                    <Image source={require('../../../assets/comment3.png')} />
+                    {myPageProfileMap(imgNum)}
                   </View>
                   <Text style={styles.comment}>{comment}</Text>
                 </View>
@@ -233,8 +263,8 @@ const styles = StyleSheet.create({
   },
   profileImg: {
     backgroundColor: '#A7C1CF',
-    width: 24,
-    height: 24,
+    width: 10,
+    height: 10,
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
@@ -270,6 +300,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: 'black',
     borderColor: '#DEDEDE',
+  },
+  useImg: {
+    height: 10,
+    width: 10,
   },
 });
 

@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -11,11 +11,12 @@ import {
   BackHandler,
   Alert,
   Dimensions,
+  Modal,
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import _ from 'lodash';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
-
+import ModalCloseBtn from '../../assets/modalclosetbtn.svg';
 enum ESignInfoKey {
   carNumber = 'carNumber',
   email = 'email',
@@ -79,6 +80,7 @@ const Login = ({navigation}: any) => {
     phone: '',
   });
   const [curPwd, setCurPwd] = useState<string>('');
+  const [modalVisible, setModalVisible] = useState(false);
   const [digitCode, setDigitCode] = useState({email: '', phone: ''});
   const [activeInfo, setActiveInfo] = useState<TActiveInfo>({
     all: 'N',
@@ -106,6 +108,16 @@ const Login = ({navigation}: any) => {
     phone: false,
     email: false,
   });
+  const [validationCheck, setValidationCheck] = useState({
+    phone: true,
+    email: true,
+  });
+
+  const [phoneValidationCheckText, setPhoneValidationCheckText] =
+    useState(false);
+
+  let regPwd =
+    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
 
   const setSignInfoHandler = (key: ESignInfoKey) => (text: string) => {
     setSignInfo(cur => ({...cur, [key]: text}));
@@ -154,14 +166,15 @@ const Login = ({navigation}: any) => {
 
   const sendDigitCodeApiMap = {
     phone: async () => {
-      // :TODO: 모바일 인증 신청 이후 가능
-      return true;
+      return await SIGN_SERVICE.sendPhoneDigitCode(signInfo.phone);
     },
     email: async () => {
       return await SIGN_SERVICE.sendEmailDigitCode(signInfo.email);
     },
   };
+
   const sendDigitCodeHandler = async (key: EDigitCodeKey) => {
+    setPhoneValidationCheckText(true);
     try {
       await sendDigitCodeApiMap[key]();
       setAuthRequest(cur => ({...cur, [key]: true}));
@@ -170,6 +183,7 @@ const Login = ({navigation}: any) => {
       alert(error);
     }
   };
+
   const setDigitCodeHandler = (key: EDigitCodeKey) => (text: string) => {
     setDigitCode(cur => ({...cur, [key]: text}));
   };
@@ -178,7 +192,18 @@ const Login = ({navigation}: any) => {
       return await SIGN_SERVICE.OverLapCar(signInfo.carNumber);
     },
     phone: async () => {
-      // :TODO: 모바일 인증 신청 이후 가능
+      const PhoneDigitCode = {
+        phone: signInfo.phone,
+        digitCode: digitCode.phone,
+      };
+      const t = await SIGN_SERVICE.checkPhoneDigitCode(PhoneDigitCode);
+      if (t === false) {
+        setValidationCheck(cur => ({...cur, phone: true}));
+      } else {
+        setValidationCheck(cur => ({...cur, phone: false}));
+      }
+
+      console.log('validationCheck', validationCheck);
       return true;
     },
     email: async () => {
@@ -187,17 +212,23 @@ const Login = ({navigation}: any) => {
         digitCode: digitCode.email,
       };
       const t = await SIGN_SERVICE.checkEmailDigitCode(checkEMailDigitcodeInfo);
+      if (t === false) {
+        setValidationCheck(cur => ({...cur, email: true}));
+      } else {
+        setValidationCheck(cur => ({...cur, email: false}));
+      }
       return true;
     },
   };
   const setValidHandler = async (key: EValidKey) => {
+    console.log('validationCheck', validationCheck);
     try {
       const value = await setValidApiMap[key]();
-
+      console.log('value', value);
       setValid(cur => ({...cur, [key]: value}));
-      if (key !== EValidKey.carNumber) {
-        setAuthRequest(cur => ({...cur, [key]: false}));
-      }
+      // if (key !== EValidKey.carNumber) {
+      //   setAuthRequest(cur => ({...cur, [key]: false}));
+      // }
     } catch (error) {
       alert('인증 요청에 실패 했습니다.');
     }
@@ -243,6 +274,9 @@ const Login = ({navigation}: any) => {
     if (!valid.carNumber) {
       return alert('차량번호 중복확인 해주세요.');
     }
+    if (!regPwd.test(signInfo.pwd)) {
+      return alert('비밀번호 형식을 확인해주세요.');
+    }
     if (signInfo.pwd !== curPwd) {
       return alert('패스워드가 일치하지 않습니다.');
     }
@@ -252,11 +286,14 @@ const Login = ({navigation}: any) => {
     if (!valid.email) {
       return alert('이메일 인증 해주세요.');
     }
-    for (let [key, value] of Object.entries(checkBox)) {
-      if (!value) {
-        return alert(`[${key}] 확인해주세요.`);
-      }
+    if (!checkBox.termOfService || !checkBox.privacy) {
+      return alert('이용약관 확인해주세요.');
     }
+    // for (let [key, value] of Object.entries(checkBox)) {
+    //   if (!value) {
+    //     return alert(`[${key}] 확인해주세요.`);
+    //   }
+    // }
 
     try {
       // console.log('tw123', delete activeInfo.emailConsent, activeInfo);
@@ -267,9 +304,8 @@ const Login = ({navigation}: any) => {
       console.log('tw2', signUpInfo);
       await SIGN_SERVICE.signUp(signUpInfo);
       // console.log('tw:', signInfo);
-      alert('회원가입이 완료 되었습니다.');
-      initState();
-      // navigation.push('Home');
+      setModalVisible(true);
+      // initState();
     } catch (error) {
       alert('회원가입에 실패했습니다.');
     }
@@ -291,6 +327,35 @@ const Login = ({navigation}: any) => {
   //   console.log(digitCode);
   // }, [digitCode]);
 
+  const [seconds, setSeconds] = useState<any>({
+    phone: 0,
+    email: 0,
+  });
+
+  const [minutes, setMinutes] = useState<any>({
+    phone: 0,
+    email: 0,
+  });
+
+  const Timer = (key: any) => {
+    setMinutes((cur: any) => ({...cur, [key]: 240}));
+    setSeconds((cur: any) => ({...cur, [key]: 0}));
+    const countdown = setInterval(() => {
+      if (seconds[key] > 0) {
+        setSeconds((cur: any) => ({...cur, [key]: minutes[key] - 1}));
+      }
+      if (seconds[key] === 0) {
+        if (minutes[key] === 0) {
+          clearInterval(countdown);
+        } else {
+          setMinutes((cur: any) => ({...cur, [key]: minutes[key] - 1}));
+          setSeconds((cur: any) => ({...cur, [key]: 59}));
+        }
+      }
+    }, 1000);
+    return () => clearInterval(countdown);
+  };
+
   useEffect(() => {
     const backAction = () => {
       Alert.alert('뒤로가기', '뒤로가기 누를 시 입력된 데이터가 사라집니다.', [
@@ -308,11 +373,52 @@ const Login = ({navigation}: any) => {
       backAction
     );
   }, []);
+
+  const initTime = useRef<any>({phone: 0, email: 0});
+  const interval = useRef<any>({phone: null, email: null});
+  const [time, setTime] = useState<any>({
+    phone: {
+      min: '0',
+      sec: '0',
+    },
+    email: {
+      min: '0',
+      sec: '0',
+    },
+  });
+
+  const timerStart = (key: string) => () => {
+    try {
+      console.log('key : ', key);
+      initTime.current[key] = 4 * 60;
+
+      interval.current[key] = setInterval(() => {
+        if (initTime.current[key] === 0) {
+          clearInterval(interval.current[key]);
+        }
+
+        const min = initTime.current[key] / 60;
+        const sec = initTime.current[key] % 60;
+        initTime.current[key] -= 1;
+        const tmpObj = {
+          min: String(Math.floor(min)).padStart(2, '0'),
+          sec: String(sec).padStart(2, '0'),
+        };
+        setTime((cur): any => ({...cur, [key]: tmpObj}));
+      }, 10);
+
+      return () => clearInterval(interval.current[key]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <View style={styles.full}>
       <View>
         <Text style={styles.TopText}>회원가입</Text>
       </View>
+
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
@@ -367,6 +473,9 @@ const Login = ({navigation}: any) => {
             value={signInfo?.pwd}
             secureTextEntry={true}
             onChangeText={setSignInfoHandler(ESignInfoKey.pwd)}></TextInput>
+          {regPwd.test(signInfo.pwd) ? null : (
+            <Text style={styles.pwdValidationText}>형식에 맞지 않습니다.</Text>
+          )}
           <TextInput
             style={styles.inputbox2}
             placeholder="비밀번호 확인"
@@ -374,6 +483,41 @@ const Login = ({navigation}: any) => {
             value={curPwd}
             secureTextEntry={true}
             onChangeText={text => setCurPwd(text)}></TextInput>
+          {curPwd === signInfo.pwd ? null : (
+            <Text style={styles.pwdValidationText}>
+              비밀번호를 확인해주세요.
+            </Text>
+          )}
+
+          {/* 타이머 예시 */}
+          <View style={{display: 'flex', flexDirection: 'row'}}>
+            <TextInput
+              style={styles.inputbox1}
+              placeholder="Phone 타이머"
+              placeholderTextColor="black"
+              value={`${time.phone.min} : ${time.phone.sec}`}
+              onChangeText={setSignInfoHandler(ESignInfoKey.phone)}></TextInput>
+            <TouchableOpacity
+              style={styles.checkButton}
+              onPress={timerStart('phone')}>
+              <Text style={styles.buttonText}>Start</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{display: 'flex', flexDirection: 'row'}}>
+            <TextInput
+              style={styles.inputbox1}
+              placeholder="Email 타이머"
+              placeholderTextColor="black"
+              value={`${time.email.min} : ${time.email.sec}`}
+              onChangeText={setSignInfoHandler(ESignInfoKey.phone)}></TextInput>
+            <TouchableOpacity
+              style={styles.checkButton}
+              onPress={timerStart('email')}>
+              <Text style={styles.buttonText}>Start</Text>
+            </TouchableOpacity>
+          </View>
+          {/* end 타이머 예시 */}
+
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <TextInput
               style={styles.inputbox1}
@@ -383,11 +527,58 @@ const Login = ({navigation}: any) => {
               onChangeText={setSignInfoHandler(ESignInfoKey.phone)}></TextInput>
             <TouchableOpacity
               style={styles.checkButton}
-              // onPress={() => sendDigitCodeHandler(EDigitCodeKey.phone)}>
-              onPress={() => setValidHandler(EValidKey.phone)}>
+              onPress={() => {
+                Timer('phone');
+                sendDigitCodeHandler(EDigitCodeKey.phone);
+              }}>
+              {/* onPress={() => setValidHandler(EValidKey.phone)}> */}
               <Text style={styles.buttonText}>인증요청</Text>
             </TouchableOpacity>
           </View>
+          {phoneValidationCheckText ? (
+            <>
+              <Text style={styles.phoneValidText}>
+                인증번호를 발송했습니다. (유효시간 4분)
+              </Text>
+              <Text style={styles.phoneValidText2}>
+                인증번호가 오지 않으면 입력하신 정보가 정확한지 확인하여주세요.
+                이미 가입된 번호이거나, 가상전화번호는 인증번호를 받을 수
+                없습니다.
+              </Text>
+            </>
+          ) : null}
+
+          {authRequest.phone ? (
+            <>
+              <View style={{display: 'flex', flexDirection: 'row'}}>
+                <TextInput
+                  style={styles.inputbox1}
+                  placeholder="핸드폰인증번호"
+                  placeholderTextColor="black"
+                  value={digitCode.phone}
+                  onChangeText={setDigitCodeHandler(
+                    EDigitCodeKey.phone
+                  )}></TextInput>
+                <Text style={{color: 'black'}}>
+                  {minutes.phone}:{seconds.phone}
+                </Text>
+                <TouchableOpacity
+                  style={styles.checkButton}
+                  onPress={() => setValidHandler(EValidKey.phone)}>
+                  <Text style={styles.buttonText}>인증하기</Text>
+                </TouchableOpacity>
+              </View>
+              {validationCheck.phone === true ? (
+                <Text style={styles.pwdValidationText}>
+                  인증번호를 확인해주세요.
+                </Text>
+              ) : (
+                <Text style={styles.pwdValidationText}>인증 완료</Text>
+              )}
+            </>
+          ) : (
+            ''
+          )}
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <TextInput
               style={styles.inputbox1}
@@ -401,22 +592,32 @@ const Login = ({navigation}: any) => {
               <Text style={styles.buttonText}>인증요청</Text>
             </TouchableOpacity>
           </View>
+
           {authRequest.email ? (
-            <View style={{display: 'flex', flexDirection: 'row'}}>
-              <TextInput
-                style={styles.inputbox1}
-                placeholder="이메일인증번호"
-                placeholderTextColor="black"
-                value={digitCode.email}
-                onChangeText={setDigitCodeHandler(
-                  EDigitCodeKey.email
-                )}></TextInput>
-              <TouchableOpacity
-                style={styles.checkButton}
-                onPress={() => setValidHandler(EValidKey.email)}>
-                <Text style={styles.buttonText}>인증하기</Text>
-              </TouchableOpacity>
-            </View>
+            <>
+              <View style={{display: 'flex', flexDirection: 'row'}}>
+                <TextInput
+                  style={styles.inputbox1}
+                  placeholder="이메일인증번호"
+                  placeholderTextColor="black"
+                  value={digitCode.email}
+                  onChangeText={setDigitCodeHandler(
+                    EDigitCodeKey.email
+                  )}></TextInput>
+                <TouchableOpacity
+                  style={styles.checkButton}
+                  onPress={() => setValidHandler(EValidKey.email)}>
+                  <Text style={styles.buttonText}>인증하기</Text>
+                </TouchableOpacity>
+              </View>
+              {validationCheck.email === true ? (
+                <Text style={styles.pwdValidationText}>
+                  인증번호를 확인해주세요.
+                </Text>
+              ) : (
+                <Text style={styles.pwdValidationText}>인증 완료</Text>
+              )}
+            </>
           ) : (
             ''
           )}
@@ -441,7 +642,10 @@ const Login = ({navigation}: any) => {
                 onPress={() => {
                   navigation.push('TermsOfService');
                 }}>
-                <Text style={styles.checkboxText}> 이용약관 [보기]</Text>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                  <Text style={styles.checkboxText2}>필수</Text>
+                  <Text style={styles.checkboxText}> 이용약관 [보기]</Text>
+                </View>
               </TouchableOpacity>
             </View>
           </View>
@@ -457,24 +661,30 @@ const Login = ({navigation}: any) => {
                 onPress={() => {
                   navigation.push('Privacy');
                 }}>
-                <Text style={styles.checkboxText}>
-                  개인정보수집 및 이용 [보기]
-                </Text>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                  <Text style={styles.checkboxText2}>필수</Text>
+                  <Text style={styles.checkboxText}>
+                    개인정보수집 및 이용 [보기]
+                  </Text>
+                </View>
               </TouchableOpacity>
             </View>
           </View>
           <View>
-            <View style={styles.checkboxcontainer}>
+            {/* <View style={styles.checkboxcontainer}>
               <CheckBox
                 style={styles.checkbox}
                 value={checkBox.location}
                 onChange={setCheckBoxHandler(
                   ESignCheckBoxKey.location
                 )}></CheckBox>
-              <Text style={styles.checkboxText}>
-                위치기반서비스 이용약관 [보기]
-              </Text>
-            </View>
+              <View style={{display: 'flex', flexDirection: 'row'}}>
+                <Text style={styles.checkboxText3}>선택</Text>
+                <Text style={styles.checkboxText}>
+                  위치기반서비스 이용약관 [보기]
+                </Text>
+              </View>
+            </View> */}
           </View>
           <View>
             <View style={styles.checkboxcontainer}>
@@ -488,9 +698,12 @@ const Login = ({navigation}: any) => {
                 onPress={() => {
                   navigation.push('Promotion');
                 }}>
-                <Text style={styles.checkboxText}>
-                  프로모션 정보수신약관 [보기]
-                </Text>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                  <Text style={styles.checkboxText3}>선택</Text>
+                  <Text style={styles.checkboxText}>
+                    프로모션 정보수신약관 [보기]
+                  </Text>
+                </View>
               </TouchableOpacity>
             </View>
           </View>
@@ -506,13 +719,19 @@ const Login = ({navigation}: any) => {
                 onPress={() => {
                   navigation.push('Marketing');
                 }}>
-                <Text style={styles.checkboxText}>
-                  마케팅,SNS,이메일 수신동의 [보기]
-                </Text>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                  <Text style={styles.checkboxText3}>선택</Text>
+                  <Text style={styles.checkboxText}>
+                    마케팅,SNS,이메일 수신동의 [보기]
+                  </Text>
+                </View>
               </TouchableOpacity>
             </View>
           </View>
         </View>
+        <Text style={{color: 'red', fontSize: 13, marginLeft: '12%'}}>
+          이용 약관과 개인정보수집 및 이용 안내에 모두 동의해주세요.
+        </Text>
         <View>
           <TouchableOpacity
             style={styles.lastBtn}
@@ -521,6 +740,37 @@ const Login = ({navigation}: any) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          // setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <TouchableOpacity style={{width: '100%'}}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalText1}>환영합니다!</Text>
+              <Text style={styles.modalText2}>
+                NFT차량 가입이 완료됐습니다.
+              </Text>
+              <Text style={styles.modalText3}>
+                차량번호 : {signInfo && signInfo.carNumber}
+              </Text>
+              <View style={styles.modalBtn}>
+                <TouchableOpacity
+                  // style={{backgroundColor: 'black'}}
+                  onPress={() => {
+                    initState();
+                    navigation.push('Login2');
+                  }}>
+                  <Text style={styles.modalText4}>시작하기</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -580,13 +830,55 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontFamily: 'Noto Sans',
   },
+  phoneValidText: {
+    marginLeft: '12%',
+    color: '#2D9DB6',
+    fontSize: 12,
+    marginTop: '1%',
+  },
+  phoneValidText2: {
+    marginLeft: '12%',
+    color: '#2D9DB6',
+    fontSize: 12,
+  },
   checkbox: {
     marginLeft: '7%',
     marginTop: '1%',
   },
+  pwdValidationText: {
+    color: 'red',
+    marginLeft: '12%',
+    fontSize: 12,
+    marginTop: '1%',
+  },
+  validationCheck: {
+    color: 'red',
+    fontSize: 12,
+    marginLeft: '12%',
+    marginTop: '1%',
+  },
+
   checkboxText: {
     fontFamily: 'Noto Sans',
     fontWeight: '400',
+    fontSize: 15,
+    lineHeight: 20,
+    color: '#797979',
+    marginLeft: '3%',
+    marginTop: 10,
+  },
+  checkboxText2: {
+    fontFamily: 'Noto Sans',
+    fontWeight: '400',
+    fontSize: 15,
+    lineHeight: 20,
+    color: '#226EC8',
+    marginLeft: '3%',
+    marginTop: 10,
+  },
+  checkboxText3: {
+    fontFamily: 'Noto Sans',
+    fontWeight: '600',
     fontSize: 15,
     lineHeight: 20,
     color: 'black',
@@ -612,6 +904,59 @@ const styles = StyleSheet.create({
   checkboxcontainer: {
     display: 'flex',
     flexDirection: 'row',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba( 0, 0, 0, 0.5 )',
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '80%',
+    marginLeft: '10%',
+    borderRadius: 20,
+  },
+  modalText1: {
+    fontSize: 20,
+    color: 'black',
+    fontWeight: '700',
+    marginTop: '10%',
+    fontFamily: 'Noto Sans',
+  },
+  modalText2: {
+    fontSize: 14,
+    color: '#666666',
+    fontWeight: '500',
+    marginTop: '10%',
+    fontFamily: 'Noto Sans',
+  },
+  modalText3: {
+    fontSize: 14,
+    color: '#226EC8',
+    fontWeight: '500',
+    fontFamily: 'Noto Sans',
+  },
+  modalText4: {
+    fontSize: 17,
+    color: '#FFFFFF',
+    fontWeight: '500',
+
+    fontFamily: 'Noto Sans',
+  },
+  modalBtn: {
+    borderBottomLeftRadius: 9,
+    borderBottomRightRadius: 9,
+    backgroundColor: '#A7C1CF',
+    width: '100%',
+    marginTop: '10%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '20%',
+
+    marginBottom: '-10%',
   },
 });
 

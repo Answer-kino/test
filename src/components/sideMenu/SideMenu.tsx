@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import MenuDrawer from 'react-native-side-drawer';
+import API_HOME_SERVICE from '../../@api/home/home';
 import Banner from '../../assets/sidemenubanner.svg';
 
 interface SideMenuProps {
@@ -11,6 +12,20 @@ interface SideMenuProps {
 }
 
 const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
+  const HOME_SERVICE = new API_HOME_SERVICE();
+  const [userInfo, setUserInfo] = useState();
+  const getMyInfo = async () => {
+    try {
+      const userInfo = await HOME_SERVICE.INFO();
+      console.log('tw', userInfo);
+      setUserInfo(userInfo);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getMyInfo();
+  }, []);
   return (
     <MenuDrawer
       open={open}
@@ -26,7 +41,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                       source={require('../../assets/fa-solid_car-alt.png')}
                     />
                   </View>
-                  <Text style={styles.carNumber}>차량번호 : 123가1234</Text>
+                  <Text style={styles.carNumber}>차량번호 : {userInfo}</Text>
                 </View>
                 <TouchableOpacity onPress={() => toggleOpen()}>
                   <Image

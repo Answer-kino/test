@@ -40,7 +40,7 @@ const BottomNav = ({navigation}: any) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              // navigation.push('');
+              navigation.push('Setting');
             }}
             style={styles.imageContainer}>
             <Image source={require('../../assets/setting.png')} />

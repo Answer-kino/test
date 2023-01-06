@@ -62,12 +62,12 @@ class API_BBS_SERVICE extends AxiosInstance {
   }
   async BBS_Comment(boardIdx: any) {
     try {
+      await this.getActHeader();
       let url = `bbs/comment?boardIdx=${boardIdx}`;
       // console.log('taewon', url);
       // if (limit && offset) url += `&limit=${limit}&offset=${offset}`;
-
       const {data} = await this.API.get(url);
-      // console.log('tw1', data);
+      console.log('comment', data);
       return data?.result;
 
       // console.log('taewon', data);
@@ -77,12 +77,13 @@ class API_BBS_SERVICE extends AxiosInstance {
   }
   async BBS_Regist_Comment({comment, boardIdx}: any) {
     try {
-      console.log('comment : ', comment);
-      console.log('boardIdx : ', boardIdx);
-      const url = 'bbs/registComment';
+      // console.log('comment : ', comment);
+      // console.log('boardIdx : ', boardIdx);
       await this.getActHeader();
+      const url = 'bbs/registComment';
+
       const {data} = await this.API.post(url, {comment, boardIdx});
-      // console.log('tw1', data);
+      console.log('regist', data);
       return data;
 
       // console.log('taewon', data);
