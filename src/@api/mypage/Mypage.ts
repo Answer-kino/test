@@ -1,6 +1,8 @@
 import AxiosInstance from '../CustomAxios';
 import {MypageType} from '../../@interface/MypageType';
 import ChangePwd from '../../@interface/Passwd';
+import ChangePhoneNumber from '../../@interface/PhoneNumber';
+import ValidPhoneNumber from '../../@interface/ValidPhoneNumber';
 
 class API_Mypage extends AxiosInstance {
   async getMyData() {
@@ -40,6 +42,36 @@ class API_Mypage extends AxiosInstance {
         prevPwd: newPwd,
       });
       console.log('tw123123', data);
+      return data;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+  async changePhoneNumber({phone, prevPhone}: ChangePhoneNumber) {
+    try {
+      await this.getActHeader();
+      const url = 'user/phone';
+      const {data} = await this.API.patch(url, {
+        curPwd: phone,
+        prevPwd: prevPhone,
+      });
+      console.log('핸드폰변경', data);
+      return data;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+  async validPhoneNumber({type, redisKey}: ValidPhoneNumber) {
+    try {
+      console.log('aaa');
+      await this.getActHeader();
+      const url = 'user/auth/phone';
+      console.log(url, type, redisKey);
+      const {data} = await this.API.post(url, {
+        type: type,
+        redisKey: redisKey,
+      });
+      console.log('핸드폰인증번호', data);
       return data;
     } catch (error: any) {
       throw new Error(error);

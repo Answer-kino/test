@@ -113,11 +113,28 @@ const Login = ({navigation}: any) => {
     email: true,
   });
 
+  const [pwdValidationCheck, setPwdValidationCheck] = useState(true);
+  const [pwdEqualCheck, setPwdEqualCheck] = useState(true);
   const [phoneValidationCheckText, setPhoneValidationCheckText] =
     useState(false);
 
   let regPwd =
     /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
+
+  const pwdValidationHandler = () => {
+    if (regPwd.test(signInfo.pwd)) {
+      setPwdValidationCheck(true);
+    } else {
+      setPwdValidationCheck(false);
+    }
+  };
+  const pwdEqualCheckHandler = () => {
+    if (curPwd === signInfo.pwd) {
+      setPwdEqualCheck(true);
+    } else {
+      setPwdEqualCheck(false);
+    }
+  };
 
   const setSignInfoHandler = (key: ESignInfoKey) => (text: string) => {
     setSignInfo(cur => ({...cur, [key]: text}));
@@ -438,6 +455,7 @@ const Login = ({navigation}: any) => {
                   lineHeight: 18,
                   fontWeight: '400',
                   fontFamily: 'Noto Sans',
+                  color: 'black',
                 }}>
                 사용 가능한 차량번호입니다.
               </Text>
@@ -461,8 +479,11 @@ const Login = ({navigation}: any) => {
             placeholderTextColor="black"
             value={signInfo?.pwd}
             secureTextEntry={true}
+            onBlur={() => {
+              pwdValidationHandler();
+            }}
             onChangeText={setSignInfoHandler(ESignInfoKey.pwd)}></TextInput>
-          {regPwd.test(signInfo.pwd) ? null : (
+          {pwdValidationCheck ? null : (
             <Text style={styles.pwdValidationText}>형식에 맞지 않습니다.</Text>
           )}
           <TextInput
@@ -471,8 +492,11 @@ const Login = ({navigation}: any) => {
             placeholderTextColor="black"
             value={curPwd}
             secureTextEntry={true}
-            onChangeText={text => setCurPwd(text)}></TextInput>
-          {curPwd === signInfo.pwd ? null : (
+            onChangeText={text => setCurPwd(text)}
+            onBlur={() => {
+              pwdEqualCheckHandler();
+            }}></TextInput>
+          {pwdEqualCheck ? null : (
             <Text style={styles.pwdValidationText}>
               비밀번호를 확인해주세요.
             </Text>

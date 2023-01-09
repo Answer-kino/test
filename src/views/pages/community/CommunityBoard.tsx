@@ -58,7 +58,7 @@ const CommunityBoard = ({navigation, route}: any) => {
   const getCommunityBoardDetail = async () => {
     try {
       const result: any = await BBS_SERVICE.BBS_Community_Detail(boardIdx);
-      console.log('tw123', result);
+      console.log('이태원', result);
       setDetailInfo(result);
     } catch (error) {
       console.log(error);
@@ -68,7 +68,7 @@ const CommunityBoard = ({navigation, route}: any) => {
   const getComment = async () => {
     try {
       const result: any = await BBS_SERVICE.BBS_Comment(boardIdx);
-      console.log('tw123123123', result);
+      console.log('comment', result);
 
       setCommentInfo(result);
     } catch (error) {
@@ -93,8 +93,10 @@ const CommunityBoard = ({navigation, route}: any) => {
 
   const enrollBtnHandler = () => {
     if (registComment !== '') {
+      console.log('20230109');
       registCommentAxios();
       setRegistComment('');
+      getCommunityBoardDetail();
     }
   };
   useEffect(() => {

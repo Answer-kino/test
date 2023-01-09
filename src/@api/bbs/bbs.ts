@@ -48,7 +48,7 @@ class API_BBS_SERVICE extends AxiosInstance {
   async BBS_Community_Detail(boardIdx: any) {
     try {
       let url = `bbs/content?boardIdx=${boardIdx}`;
-      // console.log('taewon', url);
+      console.log('url체크', url);
       // if (limit && offset) url += `&limit=${limit}&offset=${offset}`;
 
       const {data} = await this.API.get(url);

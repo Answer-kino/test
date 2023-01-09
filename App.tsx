@@ -37,6 +37,7 @@ import Promotion from './src/views/pages/terms/promotion';
 import Marketing from './src/views/pages/terms/marketing';
 import InquiryList from './src/views/pages/inquiry/inquirylist';
 import Setting from './src/views/setting';
+import ChangePhoneNumber from './src/views/mypage/changePhoneNumber';
 const App = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -154,6 +155,11 @@ const App = () => {
             <Stack.Screen
               name="ChangePassword"
               component={ChangePassword}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="ChangePhoneNumber"
+              component={ChangePhoneNumber}
               options={{headerShown: false}}
             />
             <Stack.Screen

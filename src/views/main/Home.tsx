@@ -256,12 +256,20 @@ const Home = ({navigation}: any) => {
         <View style={styles.descriptionContainer2}>
           <Text style={styles.descriptionTitle}>콜센터</Text>
           <View style={styles.descriptionRow}>
-            <Text style={styles.text}>{capitalInfo?.Capital}</Text>
-            <Text style={styles.text}>{capitalInfo?.Contact}</Text>
+            <Text style={styles.text}>
+              {capitalInfo?.Capital ? capitalInfo?.Capital : '캐피탈 콜센터'}
+            </Text>
+            <Text style={styles.text}>
+              {capitalInfo?.Contact ? capitalInfo?.Contact : '1588-2114'}
+            </Text>
           </View>
           <View style={styles.descriptionRow}>
             <Text style={styles.text}>[ARS이용시간]</Text>
-            <Text style={styles.text}>{capitalInfo?.ContactTime}</Text>
+            <Text style={styles.text}>
+              {capitalInfo?.ContactTime
+                ? capitalInfo?.ContactTime
+                : '365일(10:00 ~ 18:00)'}
+            </Text>
           </View>
         </View>
         {/**----------- */}

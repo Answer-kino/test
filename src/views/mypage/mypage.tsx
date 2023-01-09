@@ -318,8 +318,14 @@ const Mypage = ({navigation}: any) => {
                 justifyContent: 'flex-end',
                 marginTop: '1%',
               }}>
-              <TouchableOpacity style={styles.btn}>
-                <Text style={styles.text3}>재인증하기</Text>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => {
+                  navigation.push('ChangePhoneNumber', {
+                    phoneNumber: myData.Phone,
+                  });
+                }}>
+                <Text style={styles.text3}>변경하기</Text>
               </TouchableOpacity>
               <Text style={styles.text2}>
                 {myData?.Phone?.toString().replace(
