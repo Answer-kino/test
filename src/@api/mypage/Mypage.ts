@@ -37,6 +37,7 @@ class API_Mypage extends AxiosInstance {
     try {
       await this.getActHeader();
       const url = 'user/pwd';
+      console.log(curPwd, newPwd, url);
       const {data} = await this.API.patch(url, {
         curPwd: curPwd,
         prevPwd: newPwd,
@@ -44,7 +45,11 @@ class API_Mypage extends AxiosInstance {
       console.log('tw123123', data);
       return data;
     } catch (error: any) {
+      if (error.response.data.code === 'WRONG_PASSWORD') {
+        alert('기존 패스워드를 확인해주세요.');
+      }
       throw new Error(error);
+      // console.log(error.response.data.code);
     }
   }
   async changePhoneNumber(phone: string) {
@@ -75,10 +80,14 @@ class API_Mypage extends AxiosInstance {
     }
   }
   async changeEmail(email: string) {
+    // console.log('abcdefg');
     try {
       await this.getActHeader();
       const url = 'user/email';
-      const {data} = await this.API.patch(url, email);
+      console.log(typeof email);
+      console.log(email);
+
+      const data = await this.API.patch(url, {email});
       console.log('이메일변경', data);
       return data;
     } catch (error: any) {
