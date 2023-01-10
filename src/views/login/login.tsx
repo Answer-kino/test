@@ -28,7 +28,6 @@ type TSignInfo = {
 };
 
 enum EActiveInfoKey {
-  all = 'all',
   privacy = 'privacy',
   location = 'location',
   promotion = 'promotion',
@@ -79,11 +78,11 @@ const Login = ({navigation}: any) => {
     pwd: '',
     phone: '',
   });
+
   const [curPwd, setCurPwd] = useState<string>('');
   const [modalVisible, setModalVisible] = useState(false);
   const [digitCode, setDigitCode] = useState({email: '', phone: ''});
   const [activeInfo, setActiveInfo] = useState<TActiveInfo>({
-    all: 'N',
     privacy: 'N',
     location: 'N',
     promotion: 'N',
@@ -149,36 +148,21 @@ const Login = ({navigation}: any) => {
       setActiveInfo(cur => ({...cur, [key]: activeInfoValue}));
   };
 
-  //리팩토링 필요
-  const setCheckBoxHandler2 = (key: ESignCheckBoxKey) => (e: any) => {
-    const checkBoxBoolean = !checkBox[key];
-    const activeInfoValue = 'Y';
-    setCheckBox(cur => ({...cur, [key]: checkBoxBoolean}));
-    setCheckBox(cur => ({...cur, location: checkBoxBoolean}));
-    setCheckBox(cur => ({...cur, marketing: checkBoxBoolean}));
-    setCheckBox(cur => ({...cur, privacy: checkBoxBoolean}));
-    setCheckBox(cur => ({...cur, promotion: checkBoxBoolean}));
-    setCheckBox(cur => ({...cur, termOfService: checkBoxBoolean}));
-    console.log(activeInfo);
-    // if (key !== ESignCheckBoxKey.termOfService)
-    //   setActiveInfo(cur => ({...cur, [key]: activeInfoValue}));
-    if (checkBox.all) {
-      setActiveInfo(cur => ({...cur, all: 'Y'}));
-      setActiveInfo(cur => ({...cur, location: 'Y'}));
-      setActiveInfo(cur => ({...cur, marketing: 'Y'}));
-      setActiveInfo(cur => ({...cur, privacy: 'Y'}));
-      setActiveInfo(cur => ({...cur, promotion: 'Y'}));
-      setActiveInfo(cur => ({...cur, emailConsent: 'Y'}));
-      setActiveInfo(cur => ({...cur, SnsConsent: 'Y'}));
-    } else {
-      setActiveInfo(cur => ({...cur, all: 'N'}));
-      setActiveInfo(cur => ({...cur, location: 'N'}));
-      setActiveInfo(cur => ({...cur, marketing: 'N'}));
-      setActiveInfo(cur => ({...cur, privacy: 'N'}));
-      setActiveInfo(cur => ({...cur, promotion: 'N'}));
-      setActiveInfo(cur => ({...cur, emailConsent: 'N'}));
-      setActiveInfo(cur => ({...cur, SnsConsent: 'N'}));
-    }
+  const setAllCheckBoxHandler = () => () => {
+    const checkBoxBoolean = !checkBox.all;
+    const activeInfoValue = checkBoxBoolean ? 'Y' : 'N';
+
+    const tmpCheckBox: any = {};
+    Object.keys(checkBox).map(key => {
+      tmpCheckBox[key] = checkBoxBoolean;
+    });
+    setCheckBox(tmpCheckBox);
+
+    const tmpActiveInfo: any = {};
+    Object.keys(activeInfo).map(key => {
+      tmpActiveInfo[key] = activeInfoValue;
+    });
+    setActiveInfo(tmpActiveInfo);
   };
 
   const sendDigitCodeApiMap = {
@@ -264,7 +248,6 @@ const Login = ({navigation}: any) => {
     setCurPwd('');
     setDigitCode({email: '', phone: ''});
     setActiveInfo({
-      all: 'N',
       privacy: 'N',
       location: 'N',
       promotion: 'N',
@@ -316,14 +299,10 @@ const Login = ({navigation}: any) => {
     // }
 
     try {
-      // console.log('tw123', delete activeInfo.emailConsent, activeInfo);
-      delete activeInfo?.all;
       const signUpInfo = {...signInfo, ...activeInfo};
-      // console.log('tw1234', signUpInfo);
 
-      console.log('tw2', signUpInfo);
       await SIGN_SERVICE.signUp(signUpInfo);
-      // console.log('tw:', signInfo);
+
       setModalVisible(true);
       // initState();
     } catch (error) {
@@ -627,7 +606,7 @@ const Login = ({navigation}: any) => {
               <CheckBox
                 style={styles.checkbox}
                 value={checkBox.all}
-                onChange={setCheckBoxHandler2(ESignCheckBoxKey.all)}></CheckBox>
+                onChange={setAllCheckBoxHandler()}></CheckBox>
               <Text style={styles.checkboxText}>전체 동의</Text>
             </View>
             <View style={styles.checkboxcontainer}>
