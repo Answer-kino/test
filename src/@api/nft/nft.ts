@@ -8,11 +8,8 @@ class API_NFT_SERVICE extends AxiosInstance {
 
       const {data} = await this.API.get(url);
 
-      console.log(data);
       return data.nftInfo[0];
-      // return data.nftInfo;
     } catch (error: any) {
-      console.error('API_NFT_SERVICE : ', error);
       throw new Error(error);
     }
   };

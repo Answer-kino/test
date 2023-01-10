@@ -4,13 +4,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  ImageBackground,
   Dimensions,
   TouchableOpacity,
-  Touchable,
-  Button,
-  Pressable,
   TextInput,
   BackHandler,
   KeyboardAvoidingView,
@@ -27,13 +22,14 @@ import Icon3 from '../../../assets/icon3.svg';
 import Icon4 from '../../../assets/icon4.svg';
 import Icon5 from '../../../assets/icon5.svg';
 import Icon6 from '../../../assets/icon6.svg';
+import {ICommentInfo, IDetailInfo} from '../../../@interface/community';
 
 const CommunityBoard = ({navigation, route}: any) => {
   const boardIdx = route.params.boardIdx;
   const BBS_SERVICE = new API_BBS_SERVICE();
 
-  const [detailInfo, setDetailInfo] = useState<Array<any>>();
-  const [commentInfo, setCommentInfo] = useState([]);
+  const [detailInfo, setDetailInfo] = useState<IDetailInfo>();
+  const [commentInfo, setCommentInfo] = useState<ICommentInfo[]>();
   const [registComment, setRegistComment] = useState('');
 
   const myPageProfileMap = (num: any) => {
@@ -57,51 +53,54 @@ const CommunityBoard = ({navigation, route}: any) => {
 
   const getCommunityBoardDetail = async () => {
     try {
-      const result: any = await BBS_SERVICE.BBS_Community_Detail(boardIdx);
-      console.log('이태원', result);
-      setDetailInfo(result);
+      const detailInfo: any = await BBS_SERVICE.BBS_Community_Detail(boardIdx);
+
+      setDetailInfo(detailInfo);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   const getComment = async () => {
     try {
-      const result: any = await BBS_SERVICE.BBS_Comment(boardIdx);
-      console.log('comment', result);
+      const commentInfo: any = await BBS_SERVICE.BBS_Comment(boardIdx);
 
-      setCommentInfo(result);
+      setCommentInfo(commentInfo);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   const registCommentAxios = async () => {
-    const data = {
-      boardIdx: boardIdx,
-      comment: registComment,
-    };
-    // console.log(data);
     try {
-      const result: any = await BBS_SERVICE.BBS_Regist_Comment(data);
-      console.log('tw123', result);
-      getComment();
+      const registCommentData = {
+        boardIdx: boardIdx,
+        comment: registComment,
+      };
+
+      await BBS_SERVICE.BBS_Regist_Comment(registCommentData);
+
+      initBoardPage();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   const enrollBtnHandler = () => {
     if (registComment !== '') {
-      console.log('20230109');
       registCommentAxios();
       setRegistComment('');
       getCommunityBoardDetail();
     }
   };
-  useEffect(() => {
+
+  const initBoardPage = () => {
     getComment();
     getCommunityBoardDetail();
+  };
+
+  useEffect(() => {
+    initBoardPage();
   }, []);
 
   useEffect(() => {
@@ -142,7 +141,7 @@ const CommunityBoard = ({navigation, route}: any) => {
 
           <Text style={styles.descriptionTitle}>댓글</Text>
 
-          {commentInfo?.map(item => {
+          {commentInfo?.map((item, index) => {
             const comment = item.Comment;
             const temp = item.CreatedDay;
             const imgNum = item.ProfileImg;
@@ -150,7 +149,7 @@ const CommunityBoard = ({navigation, route}: any) => {
               // temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
               temp.split('T')[0];
             return (
-              <View style={styles.commentContainer}>
+              <View key={index} style={styles.commentContainer}>
                 <View style={styles.commentFront}>
                   <View style={styles.profileImg}>
                     {myPageProfileMap(imgNum)}

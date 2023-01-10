@@ -5,15 +5,11 @@ import {
   Text,
   View,
   Image,
-  ImageBackground,
   Dimensions,
-  TouchableOpacity,
-  Touchable,
-  Button,
-  Pressable,
   BackHandler,
 } from 'react-native';
 import _ from 'lodash';
+import {AxiosError} from 'axios';
 import API_NFT_SERVICE from '../../../@api/nft/nft';
 import API_TOKEN_SERVICE from '../../../@api/token/token';
 import {globalConfig} from '../../../@config/config';
@@ -34,12 +30,11 @@ const NFTWallet = ({navigation}: any) => {
       const data = await NFT_SERVICE.GET();
 
       setNftInfo(data);
-      console.log(data);
     } catch (error) {
       const success = await TOKEN_SERVICE.REFRESH__TOKEN();
+
       if (success) {
-        alert('로그인 재시도');
-        navigation.push('NFTDocument');
+        alert('관리자에게 문의해주세요.');
       } else {
         alert('로그인을 다시 시도해주세요.');
         navigation.push('Login2');

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -39,8 +39,13 @@ import InquiryList from './src/views/pages/inquiry/inquirylist';
 import Setting from './src/views/setting';
 import ChangePhoneNumber from './src/views/mypage/changePhoneNumber';
 import ChangeEmail from './src/views/mypage/changeEmail';
+import {accesstokenReissue} from './src/@api/setInterval/reissueToken';
+
 const App = () => {
   const Stack = createNativeStackNavigator();
+
+  accesstokenReissue();
+
   return (
     <SafeAreaView style={styles.appContainer}>
       <KeyboardAvoidingView
