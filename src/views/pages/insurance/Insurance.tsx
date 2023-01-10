@@ -27,9 +27,9 @@ const Insurance = ({navigation}: any) => {
       console.log('data:', data);
     } catch (error) {
       const success = await TOKEN_SERVICE.REFRESH__TOKEN();
+
       if (success) {
-        alert('로그인 재시도');
-        navigation.push('Insurance');
+        alert('관리자에게 문의해주세요.');
       } else {
         alert('로그인을 다시 시도해주세요.');
         navigation.push('Login2');
