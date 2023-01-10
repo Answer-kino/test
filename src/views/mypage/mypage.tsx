@@ -28,6 +28,7 @@ interface myDatatype {
   Email?: string;
   SNS?: string;
   Marketing?: string;
+  UserEmail?: string;
 }
 interface patchMyDataInfo {
   ProfileImg: number;
@@ -76,10 +77,13 @@ const Mypage = ({navigation}: any) => {
       const result = await MypageApi.getMyData();
       getSwitchToggleHandler(result);
       setMyData(result);
+      console.log('내정보', result);
     } catch (error) {
       alert(error);
     }
   };
+
+  const getEmail = async () => {};
   const getSwitchToggleHandler = (result: any) => {
     try {
       const {Email, Marketing, SNS} = result;
@@ -291,6 +295,7 @@ const Mypage = ({navigation}: any) => {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'flex-end',
+                marginTop: '3%',
               }}>
               <TouchableOpacity
                 style={styles.btn}
@@ -308,7 +313,7 @@ const Mypage = ({navigation}: any) => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginTop: '-10%',
+              marginTop: '-13%',
             }}>
             <Text style={styles.text1}>휴대폰번호</Text>
             <View
@@ -316,7 +321,7 @@ const Mypage = ({navigation}: any) => {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'flex-end',
-                marginTop: '1%',
+                marginTop: '2%',
               }}>
               <TouchableOpacity
                 style={styles.btn}
@@ -340,12 +345,38 @@ const Mypage = ({navigation}: any) => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginTop: '-12%',
+              marginTop: '-13%',
+            }}>
+            <Text style={styles.text1}>이메일</Text>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+                marginTop: '1%',
+              }}>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => {
+                  navigation.push('ChangeEmail', {
+                    email: myData.UserEmail,
+                  });
+                }}>
+                <Text style={styles.text3}>변경하기</Text>
+              </TouchableOpacity>
+              <Text style={styles.text2}>{myData?.UserEmail}</Text>
+            </View>
+          </View>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: '-13%',
             }}>
             <Text style={styles.text1}>마케팅 정보 수신동의</Text>
             <Switch
               trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={switchToggle.Marketing ? '#f5dd4b' : '#f4f3f4'}
               // ios_backgroundColor="#3e3e3e"
               onValueChange={toggleHandler(toggleKey.marketing)}
               value={switchToggle.Marketing}
@@ -362,7 +393,6 @@ const Mypage = ({navigation}: any) => {
             <Text style={styles.text1}>메일수신동의</Text>
             <Switch
               trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={switchToggle.Email ? '#f5dd4b' : '#f4f3f4'}
               // ios_backgroundColor="#3e3e3e"
               onValueChange={toggleHandler(toggleKey.mail)}
               value={switchToggle.Email}
@@ -378,7 +408,6 @@ const Mypage = ({navigation}: any) => {
             <Text style={styles.text1}>SNS수신동의</Text>
             <Switch
               trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={switchToggle.SNS ? '#f5dd4b' : '#f4f3f4'}
               // ios_backgroundColor="#3e3e3e"
               onValueChange={toggleHandler(toggleKey.sns)}
               value={switchToggle.SNS}
@@ -417,7 +446,7 @@ const styles = StyleSheet.create({
     font: 'Noto Sans',
     fontWeight: '500',
     fontSize: 15,
-    lineHeight: 40,
+    lineHeight: 30,
     marginRight: '5%',
     height: 30,
   },
@@ -435,8 +464,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: '2%',
-    height: '38%',
-    marginTop: '2%',
+    height: '35%',
+    // marginTop: '2%',
   },
   centeredView: {
     flex: 1,

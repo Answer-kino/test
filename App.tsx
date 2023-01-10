@@ -38,6 +38,7 @@ import Marketing from './src/views/pages/terms/marketing';
 import InquiryList from './src/views/pages/inquiry/inquirylist';
 import Setting from './src/views/setting';
 import ChangePhoneNumber from './src/views/mypage/changePhoneNumber';
+import ChangeEmail from './src/views/mypage/changeEmail';
 const App = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -160,6 +161,11 @@ const App = () => {
             <Stack.Screen
               name="ChangePhoneNumber"
               component={ChangePhoneNumber}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="ChangeEmail"
+              component={ChangeEmail}
               options={{headerShown: false}}
             />
             <Stack.Screen

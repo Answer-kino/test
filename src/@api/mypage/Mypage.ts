@@ -1,7 +1,7 @@
 import AxiosInstance from '../CustomAxios';
 import {MypageType} from '../../@interface/MypageType';
 import ChangePwd from '../../@interface/Passwd';
-import ChangePhoneNumber from '../../@interface/PhoneNumber';
+
 import ValidPhoneNumber from '../../@interface/ValidPhoneNumber';
 
 class API_Mypage extends AxiosInstance {
@@ -47,14 +47,11 @@ class API_Mypage extends AxiosInstance {
       throw new Error(error);
     }
   }
-  async changePhoneNumber({phone, prevPhone}: ChangePhoneNumber) {
+  async changePhoneNumber(phone: string) {
     try {
       await this.getActHeader();
       const url = 'user/phone';
-      const {data} = await this.API.patch(url, {
-        curPwd: phone,
-        prevPwd: prevPhone,
-      });
+      const {data} = await this.API.patch(url, phone);
       console.log('핸드폰변경', data);
       return data;
     } catch (error: any) {
@@ -72,6 +69,17 @@ class API_Mypage extends AxiosInstance {
         redisKey: redisKey,
       });
       console.log('핸드폰인증번호', data);
+      return data;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+  async changeEmail(email: string) {
+    try {
+      await this.getActHeader();
+      const url = 'user/email';
+      const {data} = await this.API.patch(url, email);
+      console.log('이메일변경', data);
       return data;
     } catch (error: any) {
       throw new Error(error);
