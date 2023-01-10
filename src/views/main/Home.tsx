@@ -23,6 +23,7 @@ import Raceinfoimg from '../../assets/raceinfo.svg';
 import Community from '../../assets/community.svg';
 import API_BBS_SERVICE from '../../@api/bbs/bbs';
 import API_Mypage from '../../@api/mypage/Mypage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Capitalinfo {
   Capital: any;
@@ -41,14 +42,18 @@ const Home = ({navigation}: any) => {
   const [userInfo, setUserInfo] = useState<EUserInfo>();
   const [capitalInfo, setCapitalInfo] = useState<Capitalinfo>();
   const [noticeInfo, setNoticeInfo] = useState([]);
+
   const getMyInfo = async () => {
-    try {
-      const userInfo = await HOME_SERVICE.INFO();
-      console.log('tw', userInfo);
-      setUserInfo(userInfo);
-      setIsAccess(true);
-    } catch (error) {
-      setIsAccess(false);
+    const act = await AsyncStorage.getItem('act');
+    if (act) {
+      try {
+        const userInfo = await HOME_SERVICE.INFO();
+        console.log('tw', userInfo);
+        setUserInfo(userInfo);
+        setIsAccess(true);
+      } catch (error) {
+        setIsAccess(false);
+      }
     }
   };
   const toastWithDurationHandler = () => {

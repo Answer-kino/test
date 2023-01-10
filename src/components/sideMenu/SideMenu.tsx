@@ -15,12 +15,15 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
   const HOME_SERVICE = new API_HOME_SERVICE();
   const [userInfo, setUserInfo] = useState();
   const getMyInfo = async () => {
-    try {
-      const userInfo = await HOME_SERVICE.INFO();
-      console.log('tw', userInfo);
-      setUserInfo(userInfo);
-    } catch (error) {
-      console.log(error);
+    const act = await AsyncStorage.getItem('act');
+    if (act) {
+      try {
+        const userInfo = await HOME_SERVICE.INFO();
+        console.log('tw', userInfo);
+        setUserInfo(userInfo);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
   useEffect(() => {
