@@ -15,12 +15,16 @@ const ChangeEmail = ({navigation, route}: any) => {
   const [newEmail, setNewEmail] = useState<string>('');
   const Mypage = new API_Mypage();
   const changeEmail = async () => {
-    const email = newEmail;
-    try {
-      const result = Mypage.changeEmail(email);
-      console.log('이메일인증', result);
-    } catch (error) {
-      console.log(error);
+    if (newEmail !== '') {
+      const email = newEmail;
+      try {
+        const result = Mypage.changeEmail(email);
+        navigation.push('Mypage');
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      alert('이메일을 확인해주세요.');
     }
   };
   return (

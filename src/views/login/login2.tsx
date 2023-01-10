@@ -36,6 +36,7 @@ const Login2 = ({navigation}: any) => {
       pwd: pwd,
     };
     try {
+      console.log('hi');
       const {act, rct} = await SIGN_SERVICE.SIGNIN(signInInfo);
 
       await AsyncStorage.setItem('act', act);

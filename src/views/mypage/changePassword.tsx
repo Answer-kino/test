@@ -15,24 +15,46 @@ const ChangePassword = ({navigation}: any) => {
   const [curPwd, setCurPwd] = useState<string>('');
   const [newPwd, setNewPwd] = useState<string>('');
   const [newPwd2, setNewPwd2] = useState<string>('');
+  const [pwdValidation, setPwdValidation] = useState(false);
   let regPwd =
     /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
   const Mypage = new API_Mypage();
 
-  const changePwd = async () => {
-    if (!regPwd.test(newPwd)) {
-      return alert(
-        '패스워드를 영문+숫자+특수문자 : 8자리 이상을 사용해주세요.'
-      );
+  const errorHandler = () => {
+    if (curPwd === newPwd) {
+      alert('현재 비밀번호와 새로운 비밀번호가 동일합니다.');
     }
     if (newPwd !== newPwd2) {
-      return alert('패스워드가 서로 다릅니다.');
+      alert('새로운 비밀번호를 확인해주세요.');
     }
-    try {
-      const result = Mypage.changePasswd({curPwd, newPwd});
-      console.log('twresult', result);
-    } catch (error) {
-      console.log(error);
+    if (!regPwd.test(newPwd)) {
+      alert('패스워드를 영문+숫자+특수문자 : 8자리 이상을 사용해주세요.');
+    }
+
+    console.log(curPwd, newPwd, newPwd2, regPwd.test(newPwd), pwdValidation);
+  };
+
+  const changePwd = async () => {
+    errorHandler();
+    // console.log(
+    //   curPwd === newPwd,
+    //   newPwd !== newPwd2,
+    //   !regPwd.test(newPwd),
+    //   'pwdValidation',
+    //   pwdValidation
+    // );
+    if (curPwd !== newPwd && newPwd === newPwd2 && regPwd.test(newPwd)) {
+      try {
+        const result = await Mypage.changePasswd({curPwd, newPwd});
+        console.log('twresult', result);
+        navigation.push('Mypage');
+        setCurPwd('');
+        setNewPwd('');
+        setNewPwd2('');
+      } catch (error: any) {
+        // console.log(error);
+        console.log(error.response);
+      }
     }
   };
   useEffect(() => {
@@ -46,6 +68,7 @@ const ChangePassword = ({navigation}: any) => {
         style={styles.inputbox}
         placeholder="비밀번호"
         placeholderTextColor="#898989"
+        value={curPwd}
         onChangeText={text => {
           setCurPwd(text);
         }}
@@ -54,6 +77,7 @@ const ChangePassword = ({navigation}: any) => {
         style={styles.inputbox2}
         placeholder="새 비밀번호"
         placeholderTextColor="#898989"
+        value={newPwd}
         onChangeText={text => {
           setNewPwd(text);
         }}
@@ -68,6 +92,7 @@ const ChangePassword = ({navigation}: any) => {
         placeholder="새 비밀번호 확인"
         placeholderTextColor="#898989"
         secureTextEntry={true}
+        value={newPwd2}
         onChangeText={text => {
           setNewPwd2(text);
         }}></TextInput>
@@ -142,6 +167,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Noto Sans',
     fontWeight: '700',
     fontSize: 17,
+  },
+  text: {
+    // backgroundColor: 'white',
+    color: '#898989',
+    //   color: 'black',
+    fontFamily: 'Noto Sans',
+    fontWeight: '400',
+    fontSize: 15,
+
+    paddingLeft: 15,
   },
 });
 export default ChangePassword;

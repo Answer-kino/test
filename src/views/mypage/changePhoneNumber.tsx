@@ -14,15 +14,18 @@ import API_SIGN_SERVICE from '../../@api/sign/sign';
 const ChangePhoneNumber = ({navigation, route}: any) => {
   const [newPhoneNumber, setNewPhoneNumber] = useState<string>('');
   const [validationText, setValidationText] = useState(false);
+  const [validation, setValidation] = useState(false);
   const [digitCode, setDigitCode] = useState('');
   const initTime = useRef<any>({phone: 0});
   const interval = useRef<any>({phone: null});
+  const [validTimeCheck, setValidTimeCheck] = useState(false);
   const [time, setTime] = useState<any>({
     phone: {
       min: '0',
       sec: '0',
     },
   });
+
   const Mypage = new API_Mypage();
   const Valid = new API_SIGN_SERVICE();
   const [validationTime, setValidationTime] = useState<any>({
@@ -54,15 +57,26 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
       console.error(error);
     }
   };
-  const changePhoneNumber = async () => {
-    const phone = newPhoneNumber;
+  const validTime = () => {
+    if (time.phone.min == '00' && time.phone.sec == '00') {
+      setValidTimeCheck(true);
+    } else {
+      setValidTimeCheck(false);
+    }
+  };
 
-    try {
-      const result = Mypage.changePhoneNumber(phone);
-      console.log('수정완료', result);
-      navigation.push('Mypage');
-    } catch (error) {
-      console.log(error);
+  const changePhoneNumber = async () => {
+    if (validation === true) {
+      const phone = newPhoneNumber;
+      try {
+        const result = Mypage.changePhoneNumber(phone);
+        console.log('수정완료', result);
+        navigation.push('Mypage');
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      alert('핸드폰을 인증해주세요.');
     }
   };
   const validPhoneNumber = async () => {
@@ -78,18 +92,34 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
 
   const validPhoneNumberCheck = async () => {
     const phone = newPhoneNumber;
-
     try {
-      const result = Valid.checkPhoneDigitCode({phone, digitCode});
-      //   console.log('수정완료', result);
+      const result = await Valid.checkPhoneDigitCode({phone, digitCode});
+      console.log('수정완료', result);
+      if (result.data.digitCode === false) {
+        alert('인증번호가 틀립니다.');
+      } else {
+        setValidation(true);
+      }
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <View style={styles.full}>
       <TopNav navigation={navigation} title="휴대폰 번호 변경" />
-
+      <View
+        style={{
+          marginLeft: '9%',
+          borderRadius: 10,
+          width: '82%',
+          marginTop: '5%',
+          height: '6%',
+          backgroundColor: 'white',
+          justifyContent: 'center',
+        }}>
+        <Text style={styles.text}>{route.params.phoneNumber}</Text>
+      </View>
       <View style={{display: 'flex', flexDirection: 'row'}}>
         <TextInput
           style={styles.inputbox}
@@ -139,10 +169,19 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
               style={styles.checkButton2}
               onPress={() => {
                 validPhoneNumberCheck();
+                validTime();
               }}>
               <Text style={styles.buttonText}>인증하기</Text>
             </TouchableOpacity>
           </View>
+          {validation ? (
+            <Text style={styles.validationTimeText}>인증 되었습니다.</Text>
+          ) : null}
+          {time.phone.min === '00' && time.phone.sec === '00' ? (
+            <Text style={styles.validationTimeText}>
+              인증시간이 만료되었습니다. 다시 인증해주세요.
+            </Text>
+          ) : null}
           {/* {validationCheck.phone === true ? (
                 <Text style={styles.phoneValidationText}>
                   인증번호를 확인해주세요.
@@ -166,7 +205,8 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
         style={styles.modifyBtn}
         onPress={() => {
           changePhoneNumber();
-        }}>
+        }}
+        disabled={validTimeCheck}>
         <Text style={styles.modifyBtnText}>수정 완료</Text>
       </TouchableOpacity>
     </View>
@@ -276,6 +316,22 @@ const styles = StyleSheet.create({
   phoneValidText2: {
     marginLeft: '12%',
     color: '#2D9DB6',
+    fontSize: 12,
+  },
+  text: {
+    // backgroundColor: 'white',
+    // color: '#898989',
+    color: 'black',
+    fontFamily: 'Noto Sans',
+    fontWeight: '400',
+    fontSize: 15,
+
+    paddingLeft: 15,
+  },
+  validationTimeText: {
+    color: 'black',
+    marginLeft: '12%',
+    marginTop: '1%',
     fontSize: 12,
   },
 });

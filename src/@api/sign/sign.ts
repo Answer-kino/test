@@ -9,7 +9,7 @@ class API_SIGN_SERVICE extends AxiosInstance {
       const {data} = await this.API.post(url, {carNumber, pwd});
 
       return data;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error('아이디 또는 비밀번호가 일치하지 않습니다.');
     }
   }
@@ -75,7 +75,7 @@ class API_SIGN_SERVICE extends AxiosInstance {
         digitCode: digitCode,
       });
       console.log(data);
-      return data;
+      return {data};
     } catch (error: any) {
       throw new Error('핸드폰 인증에 실패 했습니다.');
     }

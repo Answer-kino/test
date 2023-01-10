@@ -77,6 +77,7 @@ const Mypage = ({navigation}: any) => {
       const result = await MypageApi.getMyData();
       getSwitchToggleHandler(result);
       setMyData(result);
+
       console.log('내정보', result);
     } catch (error) {
       alert(error);
@@ -274,6 +275,7 @@ const Mypage = ({navigation}: any) => {
             width: '83%',
             marginTop: '20%',
           }}>
+          <View></View>
           <View
             style={{
               display: 'flex',
@@ -288,24 +290,16 @@ const Mypage = ({navigation}: any) => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
+              width: '100%',
             }}>
-            <Text style={styles.text1}>현재비밀번호</Text>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                marginTop: '3%',
+            <Text style={styles.text1}>비밀번호</Text>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                navigation.navigate('ChangePassword');
               }}>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={() => {
-                  navigation.navigate('ChangePassword');
-                }}>
-                <Text style={styles.text3}>수정하기</Text>
-              </TouchableOpacity>
-              <Text style={styles.text2}>***********</Text>
-            </View>
+              <Text style={styles.text3}>수정하기</Text>
+            </TouchableOpacity>
           </View>
 
           <View
@@ -314,58 +308,40 @@ const Mypage = ({navigation}: any) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               marginTop: '-13%',
+              width: '100%',
             }}>
             <Text style={styles.text1}>휴대폰번호</Text>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                marginTop: '2%',
+
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                navigation.push('ChangePhoneNumber', {
+                  phoneNumber: myData.Phone,
+                });
               }}>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={() => {
-                  navigation.push('ChangePhoneNumber', {
-                    phoneNumber: myData.Phone,
-                  });
-                }}>
-                <Text style={styles.text3}>변경하기</Text>
-              </TouchableOpacity>
-              <Text style={styles.text2}>
-                {myData?.Phone?.toString().replace(
-                  /^(\d{2,3})(\d{3,4})(\d{4})$/,
-                  `$1-$2-$3`
-                )}
-              </Text>
-            </View>
+              <Text style={styles.text3}>변경하기</Text>
+            </TouchableOpacity>
           </View>
+
           <View
             style={{
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginTop: '-13%',
+              marginTop: '-14%',
+              width: '100%',
             }}>
             <Text style={styles.text1}>이메일</Text>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                marginTop: '1%',
+
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                navigation.push('ChangeEmail', {
+                  email: myData.UserEmail,
+                });
               }}>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={() => {
-                  navigation.push('ChangeEmail', {
-                    email: myData.UserEmail,
-                  });
-                }}>
-                <Text style={styles.text3}>변경하기</Text>
-              </TouchableOpacity>
-              <Text style={styles.text2}>{myData?.UserEmail}</Text>
-            </View>
+              <Text style={styles.text3}>변경하기</Text>
+            </TouchableOpacity>
           </View>
           <View
             style={{
@@ -436,9 +412,9 @@ const styles = StyleSheet.create({
     font: 'Noto Sans',
     fontWeight: '500',
     fontSize: 15,
-    lineHeight: 40,
+    // lineHeight: 40,
     marginLeft: '5%',
-    height: 30,
+    // height: 30,
   },
   text2: {
     display: 'flex',
@@ -447,7 +423,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 15,
     lineHeight: 30,
-    marginRight: '5%',
+    marginRight: '03%',
     height: 30,
   },
   text3: {
@@ -463,7 +439,7 @@ const styles = StyleSheet.create({
     width: '30%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: '2%',
+    marginRight: '1%',
     height: '35%',
     // marginTop: '2%',
   },

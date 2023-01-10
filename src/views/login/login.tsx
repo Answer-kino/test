@@ -116,7 +116,10 @@ const Login = ({navigation}: any) => {
   const [pwdEqualCheck, setPwdEqualCheck] = useState(true);
   const [phoneValidationCheckText, setPhoneValidationCheckText] =
     useState(false);
-
+  const [validTimeCheck, setValidTimeCheck] = useState({
+    phone: false,
+    email: false,
+  });
   let regPwd =
     /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
 
@@ -198,6 +201,7 @@ const Login = ({navigation}: any) => {
         digitCode: digitCode.phone,
       };
       const t = await SIGN_SERVICE.checkPhoneDigitCode(PhoneDigitCode);
+
       if (t === false) {
         setValidationCheck(cur => ({...cur, phone: true}));
       } else {
@@ -397,6 +401,13 @@ const Login = ({navigation}: any) => {
       console.error(error);
     }
   };
+  const validTime = (key: any) => {
+    if (time.phone.min == '00' && time.phone.sec == '00') {
+      setValidTimeCheck(cur => ({...cur, [key]: false}));
+    } else {
+      setValidTimeCheck(cur => ({...cur, [key]: true}));
+    }
+  };
 
   return (
     <View style={styles.full}>
@@ -532,17 +543,27 @@ const Login = ({navigation}: any) => {
                 </Text>
                 <TouchableOpacity
                   style={styles.checkButton2}
-                  onPress={() => setValidHandler(EValidKey.phone)}>
+                  onPress={() => {
+                    setValidHandler(EValidKey.phone);
+                    validTime('phone');
+                  }}>
                   <Text style={styles.buttonText}>인증하기</Text>
                 </TouchableOpacity>
               </View>
-              {validationCheck.phone === true ? (
-                <Text style={styles.pwdValidationText}>
-                  인증번호를 확인해주세요.
-                </Text>
-              ) : (
-                <Text style={styles.pwdValidationText}>인증 완료</Text>
-              )}
+              <View style={{display: 'flex', flexDirection: 'row'}}>
+                {validationCheck.phone === true ? (
+                  <Text style={styles.pwdValidationText}>
+                    인증번호를 확인해주세요.
+                  </Text>
+                ) : (
+                  <Text style={styles.pwdValidationText}>인증 완료</Text>
+                )}
+                {time.phone.min === '00' && time.phone.sec === '00' ? (
+                  <Text style={styles.pwdValidationText2}>
+                    인증시간이 만료되었습니다.
+                  </Text>
+                ) : null}
+              </View>
             </>
           ) : (
             ''
@@ -584,7 +605,10 @@ const Login = ({navigation}: any) => {
                 </Text>
                 <TouchableOpacity
                   style={styles.checkButton2}
-                  onPress={() => setValidHandler(EValidKey.email)}>
+                  onPress={() => {
+                    setValidHandler(EValidKey.email);
+                    validTime('email');
+                  }}>
                   <Text style={styles.buttonText}>인증하기</Text>
                 </TouchableOpacity>
               </View>
@@ -713,7 +737,8 @@ const Login = ({navigation}: any) => {
         <View>
           <TouchableOpacity
             style={styles.lastBtn}
-            onPress={() => signUpHandler()}>
+            onPress={() => signUpHandler()}
+            disabled={!validTimeCheck.email && !validTimeCheck.phone}>
             <Text style={{color: 'white'}}>가입하기</Text>
           </TouchableOpacity>
         </View>
@@ -837,6 +862,12 @@ const styles = StyleSheet.create({
   pwdValidationText: {
     color: 'red',
     marginLeft: '12%',
+    fontSize: 12,
+    marginTop: '1%',
+  },
+  pwdValidationText2: {
+    color: 'red',
+    marginLeft: '3%',
     fontSize: 12,
     marginTop: '1%',
   },
