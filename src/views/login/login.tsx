@@ -38,7 +38,7 @@ enum EActiveInfoKey {
 }
 type TActiveInfoValue = 'Y' | 'N';
 type TActiveInfo = {
-  [key in EActiveInfoKey]: TActiveInfoValue;
+  [key in EActiveInfoKey]?: TActiveInfoValue;
 };
 
 enum ESignCheckBoxKey {
