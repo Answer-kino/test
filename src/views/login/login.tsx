@@ -317,7 +317,7 @@ const Login = ({navigation}: any) => {
 
     try {
       // console.log('tw123', delete activeInfo.emailConsent, activeInfo);
-      delete activeInfo.all;
+      delete activeInfo?.all;
       const signUpInfo = {...signInfo, ...activeInfo};
       // console.log('tw1234', signUpInfo);
 
@@ -400,7 +400,7 @@ const Login = ({navigation}: any) => {
       interval.current[key] = setInterval(() => {
         if (initTime.current[key] < 1) {
           clearInterval(interval.current[key]);
-          setValidationTime(cur => ({...cur, [key]: true}));
+          setValidationTime((cur: any) => ({...cur, [key]: true}));
         }
 
         const min = initTime.current[key] / 60;
@@ -410,7 +410,7 @@ const Login = ({navigation}: any) => {
           min: String(Math.floor(min)).padStart(2, '0'),
           sec: String(sec).padStart(2, '0'),
         };
-        setTime((cur): any => ({...cur, [key]: tmpObj}));
+        setTime((cur: any) => ({...cur, [key]: tmpObj}));
       }, 1000);
 
       return () => clearInterval(interval.current[key]);

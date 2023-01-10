@@ -10,10 +10,11 @@ import {
 } from 'react-native';
 import API_Mypage from '../../@api/mypage/Mypage';
 import TopNav from '../../components/topNav/TopNav';
-
+import API_SIGN_SERVICE from '../../@api/sign/sign';
 const ChangePhoneNumber = ({navigation, route}: any) => {
   const [newPhoneNumber, setNewPhoneNumber] = useState<string>('');
   const [validationText, setValidationText] = useState(false);
+  const [digitCode, setDigitCode] = useState('');
   const initTime = useRef<any>({phone: 0});
   const interval = useRef<any>({phone: null});
   const [time, setTime] = useState<any>({
@@ -23,6 +24,7 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
     },
   });
   const Mypage = new API_Mypage();
+  const Valid = new API_SIGN_SERVICE();
   const [validationTime, setValidationTime] = useState<any>({
     phone: false,
   });
@@ -54,10 +56,11 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
   };
   const changePhoneNumber = async () => {
     const phone = newPhoneNumber;
-    const prevPhone = route.params.phoneNumber;
+
     try {
-      const result = Mypage.changePhoneNumber({phone, prevPhone});
-      console.log(result);
+      const result = Mypage.changePhoneNumber(phone);
+      console.log('수정완료', result);
+      navigation.push('Mypage');
     } catch (error) {
       console.log(error);
     }
@@ -68,6 +71,17 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
     const redisKey = newPhoneNumber;
     try {
       const result = Mypage.validPhoneNumber({type, redisKey});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const validPhoneNumberCheck = async () => {
+    const phone = newPhoneNumber;
+
+    try {
+      const result = Valid.checkPhoneDigitCode({phone, digitCode});
+      //   console.log('수정완료', result);
     } catch (error) {
       console.log(error);
     }
@@ -115,11 +129,17 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
               style={styles.inputbox}
               placeholder="휴대폰인증번호"
               placeholderTextColor="#898989"
-              onChangeText={() => {}}></TextInput>
+              onChangeText={text => {
+                setDigitCode(text);
+              }}></TextInput>
             <Text style={{color: 'black', marginTop: '7%', marginLeft: '-33%'}}>
               {time.phone.min} : {time.phone.sec}
             </Text>
-            <TouchableOpacity style={styles.checkButton2} onPress={() => {}}>
+            <TouchableOpacity
+              style={styles.checkButton2}
+              onPress={() => {
+                validPhoneNumberCheck();
+              }}>
               <Text style={styles.buttonText}>인증하기</Text>
             </TouchableOpacity>
           </View>

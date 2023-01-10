@@ -74,8 +74,8 @@ class API_SIGN_SERVICE extends AxiosInstance {
         redisKey: phone,
         digitCode: digitCode,
       });
-      console.log(data.digitCode);
-      return data.digitCode;
+      console.log(data);
+      return data;
     } catch (error: any) {
       throw new Error('핸드폰 인증에 실패 했습니다.');
     }
