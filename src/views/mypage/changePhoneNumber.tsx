@@ -46,7 +46,7 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
           min: String(Math.floor(min)).padStart(2, '0'),
           sec: String(sec).padStart(2, '0'),
         };
-        setTime((cur): any => ({...cur, [key]: tmpObj}));
+        setTime((cur: any) => ({...cur, [key]: tmpObj}));
       }, 1000);
 
       return () => clearInterval(interval.current[key]);
