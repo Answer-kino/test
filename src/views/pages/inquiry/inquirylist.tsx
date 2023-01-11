@@ -11,8 +11,12 @@ import API_Inquiry_Service from '../../../@api/inquiry/inquiry';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
+type dropDownType = {
+  [key: number]: boolean;
+};
+
 const InquiryList = ({navigation}: any) => {
-  const [dropDown, setDropDown] = useState({});
+  const [dropDown, setDropDown] = useState<dropDownType>({});
   const [dropDown2, setDropDown2] = useState(false);
   const [inquiryListInfo, setInquiryListInfo] = useState([]);
   const Inquiry_SerVice = new API_Inquiry_Service();

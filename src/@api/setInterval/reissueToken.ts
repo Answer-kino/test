@@ -7,14 +7,14 @@ const accesstokenReissue = async () => {
     const rct = await AsyncStorage.getItem('rct');
     if (rct) {
       try {
-        console.log('act reissue');
+        // console.log('act reissue');
         await API.REISSUE_ACT();
       } catch (error) {
         console.log('delete act');
         alert('토큰이 만료되었습니다.');
       }
     }
-  }, 10000);
+  }, 1000000000000);
 };
 
 export {accesstokenReissue};

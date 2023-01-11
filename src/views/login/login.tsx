@@ -111,6 +111,16 @@ const Login = ({navigation}: any) => {
     phone: true,
     email: true,
   });
+  const [time, setTime] = useState<any>({
+    phone: {
+      min: '0',
+      sec: '0',
+    },
+    email: {
+      min: '0',
+      sec: '0',
+    },
+  });
 
   const [pwdValidationCheck, setPwdValidationCheck] = useState(true);
   const [pwdEqualCheck, setPwdEqualCheck] = useState(true);
@@ -142,32 +152,6 @@ const Login = ({navigation}: any) => {
     setSignInfo(cur => ({...cur, [key]: text}));
   };
 
-  const setCheckBoxHandler = (key: ESignCheckBoxKey) => (e: any) => {
-    const checkBoxBoolean = !checkBox[key];
-    const activeInfoValue = checkBoxBoolean ? 'Y' : 'N';
-
-    setCheckBox(cur => ({...cur, [key]: checkBoxBoolean}));
-    if (key !== ESignCheckBoxKey.termOfService)
-      setActiveInfo(cur => ({...cur, [key]: activeInfoValue}));
-  };
-
-  const setAllCheckBoxHandler = () => () => {
-    const checkBoxBoolean = !checkBox.all;
-    const activeInfoValue = checkBoxBoolean ? 'Y' : 'N';
-
-    const tmpCheckBox: any = {};
-    Object.keys(checkBox).map(key => {
-      tmpCheckBox[key] = checkBoxBoolean;
-    });
-    setCheckBox(tmpCheckBox);
-
-    const tmpActiveInfo: any = {};
-    Object.keys(activeInfo).map(key => {
-      tmpActiveInfo[key] = activeInfoValue;
-    });
-    setActiveInfo(tmpActiveInfo);
-  };
-
   const sendDigitCodeApiMap = {
     phone: async () => {
       return await SIGN_SERVICE.sendPhoneDigitCode(signInfo.phone);
@@ -190,6 +174,40 @@ const Login = ({navigation}: any) => {
 
   const setDigitCodeHandler = (key: EDigitCodeKey) => (text: string) => {
     setDigitCode(cur => ({...cur, [key]: text}));
+  };
+
+  const timerStart = (key: string) => {
+    try {
+      if (validationTime[key]) return;
+      initTime.current[key] = 4 * 60;
+      console.log(`${key} 타이머가 작동을 시작합니다.`);
+      interval.current[key] = setInterval(() => {
+        if (initTime.current[key] < 1) {
+          clearInterval(interval.current[key]);
+          setValidationTime((cur: any) => ({...cur, [key]: true}));
+        }
+
+        const min = initTime.current[key] / 60;
+        const sec = initTime.current[key] % 60;
+        initTime.current[key] -= 1;
+        const tmpObj = {
+          min: String(Math.floor(min)).padStart(2, '0'),
+          sec: String(sec).padStart(2, '0'),
+        };
+        setTime((cur: any) => ({...cur, [key]: tmpObj}));
+      }, 1000);
+
+      return () => clearInterval(interval.current[key]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const validTime = (key: any) => {
+    if (time.phone.min == '00' && time.phone.sec == '00') {
+      setValidTimeCheck(cur => ({...cur, [key]: false}));
+    } else {
+      setValidTimeCheck(cur => ({...cur, [key]: true}));
+    }
   };
   const setValidApiMap = {
     carNumber: async () => {
@@ -296,11 +314,6 @@ const Login = ({navigation}: any) => {
     if (!checkBox.termOfService || !checkBox.privacy) {
       return alert('이용약관 확인해주세요.');
     }
-    // for (let [key, value] of Object.entries(checkBox)) {
-    //   if (!value) {
-    //     return alert(`[${key}] 확인해주세요.`);
-    //   }
-    // }
 
     try {
       const signUpInfo = {...signInfo, ...activeInfo};
@@ -314,31 +327,39 @@ const Login = ({navigation}: any) => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(signInfo);
-  // }, [signInfo]);
-  // useEffect(() => {
-  //   console.log(activeInfo);
-  // }, [activeInfo]);
-  // useEffect(() => {
-  //   console.log(checkBox);
-  // }, [checkBox]);
-  // useEffect(() => {
-  //   console.log(valid);
-  // }, [valid]);
-  // useEffect(() => {
-  //   console.log(digitCode);
-  // }, [digitCode]);
+  const initTime = useRef<any>({phone: 0, email: 0});
+  const interval = useRef<any>({phone: null, email: null});
 
-  const [seconds, setSeconds] = useState<any>({
-    phone: 0,
-    email: 0,
+  const [validationTime, setValidationTime] = useState<any>({
+    email: false,
+    phone: false,
   });
 
-  const [minutes, setMinutes] = useState<any>({
-    phone: 0,
-    email: 0,
-  });
+  const setCheckBoxHandler = (key: ESignCheckBoxKey) => (e: any) => {
+    const checkBoxBoolean = !checkBox[key];
+    const activeInfoValue = checkBoxBoolean ? 'Y' : 'N';
+
+    setCheckBox(cur => ({...cur, [key]: checkBoxBoolean}));
+    if (key !== ESignCheckBoxKey.termOfService)
+      setActiveInfo(cur => ({...cur, [key]: activeInfoValue}));
+  };
+
+  const setAllCheckBoxHandler = () => () => {
+    const checkBoxBoolean = !checkBox.all;
+    const activeInfoValue = checkBoxBoolean ? 'Y' : 'N';
+
+    const tmpCheckBox: any = {};
+    Object.keys(checkBox).map(key => {
+      tmpCheckBox[key] = checkBoxBoolean;
+    });
+    setCheckBox(tmpCheckBox);
+
+    const tmpActiveInfo: any = {};
+    Object.keys(activeInfo).map(key => {
+      tmpActiveInfo[key] = activeInfoValue;
+    });
+    setActiveInfo(tmpActiveInfo);
+  };
 
   useEffect(() => {
     const backAction = () => {
@@ -357,57 +378,6 @@ const Login = ({navigation}: any) => {
       backAction
     );
   }, []);
-
-  const initTime = useRef<any>({phone: 0, email: 0});
-  const interval = useRef<any>({phone: null, email: null});
-  const [time, setTime] = useState<any>({
-    phone: {
-      min: '0',
-      sec: '0',
-    },
-    email: {
-      min: '0',
-      sec: '0',
-    },
-  });
-
-  const [validationTime, setValidationTime] = useState<any>({
-    email: false,
-    phone: false,
-  });
-  const timerStart = (key: string) => {
-    try {
-      if (validationTime[key]) return;
-      initTime.current[key] = 4 * 60;
-      console.log(`${key} 타이머가 작동을 시작합니다.`);
-      interval.current[key] = setInterval(() => {
-        if (initTime.current[key] < 1) {
-          clearInterval(interval.current[key]);
-          setValidationTime((cur: any) => ({...cur, [key]: true}));
-        }
-
-        const min = initTime.current[key] / 60;
-        const sec = initTime.current[key] % 60;
-        initTime.current[key] -= 1;
-        const tmpObj = {
-          min: String(Math.floor(min)).padStart(2, '0'),
-          sec: String(sec).padStart(2, '0'),
-        };
-        setTime((cur: any) => ({...cur, [key]: tmpObj}));
-      }, 1000);
-
-      return () => clearInterval(interval.current[key]);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const validTime = (key: any) => {
-    if (time.phone.min == '00' && time.phone.sec == '00') {
-      setValidTimeCheck(cur => ({...cur, [key]: false}));
-    } else {
-      setValidTimeCheck(cur => ({...cur, [key]: true}));
-    }
-  };
 
   return (
     <View style={styles.full}>

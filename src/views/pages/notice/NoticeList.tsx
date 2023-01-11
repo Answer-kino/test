@@ -107,7 +107,7 @@ const NoticeList = ({navigation, route}: any) => {
         style={styles.scrollView}>
         <View style={styles.container}>
           <Text style={styles.descriptionTitle}>{noticeTitle}</Text>
-          {noticeInfo.map((item, index): any => {
+          {noticeInfo.map((item: any, index: any) => {
             const Title = item.Title;
             const temp = item.CreatedDay;
             const CreateDay =

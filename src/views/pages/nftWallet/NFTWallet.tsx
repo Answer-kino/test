@@ -28,7 +28,7 @@ const NFTWallet = ({navigation}: any) => {
   const getNftInfo = async () => {
     try {
       const data = await NFT_SERVICE.GET();
-
+      console.log('data', data);
       setNftInfo(data);
     } catch (error) {
       const success = await TOKEN_SERVICE.REFRESH__TOKEN();
@@ -49,6 +49,7 @@ const NFTWallet = ({navigation}: any) => {
     if (!_.isUndefined(nftInfo)) {
       const imgUrl = URL.IMG + nftInfo?.ImgName + `?type=${nftInfo?.Category}`;
       setNftImgUri(imgUrl);
+      console.log('imgUrl', imgUrl);
     }
   }, [nftInfo]);
 

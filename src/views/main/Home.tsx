@@ -216,15 +216,7 @@ const Home = ({navigation}: any) => {
                     <Community style={styles.menuImage}></Community>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.menuImage}
-                  onPress={() => navigation.push('CommunityBoardList')}>
-                  {/* <Image source={require('../../assets/Group5.png')} /> */}
-                  <View style={styles.menu2}>
-                    <Text style={styles.text}>커뮤니티</Text>
-                    <Community style={styles.menuImage}></Community>
-                  </View>
-                </TouchableOpacity>
+
                 <View style={styles.menuImage} />
               </View>
             </View>
