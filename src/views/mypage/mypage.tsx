@@ -80,11 +80,10 @@ const Mypage = ({navigation}: any) => {
 
       console.log('내정보', result);
     } catch (error) {
-      alert(error);
+      // alert(error);
     }
   };
 
-  const getEmail = async () => {};
   const getSwitchToggleHandler = (result: any) => {
     try {
       const {Email, Marketing, SNS} = result;

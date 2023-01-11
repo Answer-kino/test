@@ -5,7 +5,6 @@ class API_Question extends AxiosInstance {
     try {
       const url = 'bbs/faqList';
       const {data} = await this.API.get(url);
-      console.log(data);
       return data;
     } catch (error: any) {
       throw new Error(error);

@@ -1,4 +1,5 @@
-import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,6 +11,26 @@ import {
 import Mypage from '../../views/mypage/Mypage';
 
 const BottomNav = ({navigation}: any) => {
+  const enterMypage = async () => {
+    const act = await AsyncStorage.getItem('act');
+    console.log(act);
+    if (act === null) {
+      alert('로그인 해주세요.');
+    } else {
+      navigation.push('Mypage');
+    }
+    // if (act) {
+    //   try {
+    //     const userInfo = await HOME_SERVICE.INFO();
+    //     console.log('tw', userInfo);
+    //     setUserInfo(userInfo);
+    //     setIsAccess(true);
+    //   } catch (error) {
+    //     setIsAccess(false);
+    //   }
+    // }
+  };
+
   return (
     <View style={styles.bottomNavContainer}>
       <View>
@@ -33,7 +54,8 @@ const BottomNav = ({navigation}: any) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              navigation.push('Mypage');
+              enterMypage();
+              // navigation.push('Mypage');
             }}
             style={styles.imageContainer}>
             <Image source={require('../../assets/mypage.png')} />

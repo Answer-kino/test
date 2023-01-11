@@ -480,7 +480,7 @@ const Login = ({navigation}: any) => {
             </TouchableOpacity>
           </View>
           {phoneValidationCheckText ? (
-            <>
+            <View style={{width: '80%', marginLeft: '12%'}}>
               <Text style={styles.phoneValidText}>
                 인증번호를 발송했습니다. (유효시간 4분)
               </Text>
@@ -489,7 +489,7 @@ const Login = ({navigation}: any) => {
                 이미 가입된 번호이거나, 가상전화번호는 인증번호를 받을 수
                 없습니다.
               </Text>
-            </>
+            </View>
           ) : null}
 
           {authRequest.phone ? (
@@ -498,6 +498,7 @@ const Login = ({navigation}: any) => {
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
+                  // alignItems: 'center',
                 }}>
                 <TextInput
                   style={styles.inputbox1}
@@ -508,7 +509,11 @@ const Login = ({navigation}: any) => {
                     EDigitCodeKey.phone
                   )}></TextInput>
                 <Text
-                  style={{color: 'black', marginTop: '8%', marginLeft: '-33%'}}>
+                  style={{
+                    color: 'black',
+                    marginTop: '8%',
+                    marginLeft: '-33%',
+                  }}>
                   {time.phone.min} : {time.phone.sec}
                 </Text>
                 <TouchableOpacity
@@ -570,7 +575,11 @@ const Login = ({navigation}: any) => {
                     EDigitCodeKey.email
                   )}></TextInput>
                 <Text
-                  style={{color: 'black', marginTop: '8%', marginLeft: '-33%'}}>
+                  style={{
+                    color: 'black',
+                    marginTop: '8%',
+                    marginLeft: '-33%',
+                  }}>
                   {time.email.min} : {time.email.sec}
                 </Text>
                 <TouchableOpacity
@@ -815,13 +824,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Noto Sans',
   },
   phoneValidText: {
-    marginLeft: '12%',
     color: '#2D9DB6',
     fontSize: 12,
     marginTop: '1%',
   },
   phoneValidText2: {
-    marginLeft: '12%',
     color: '#2D9DB6',
     fontSize: 12,
   },

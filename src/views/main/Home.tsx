@@ -90,7 +90,7 @@ const Home = ({navigation}: any) => {
 
   const getCapitalinfo = async () => {
     try {
-      const result = await Mypage.getMyData();
+      const result = await Mypage.home_getMyData();
       console.log('capital', result);
       setCapitalInfo(result);
     } catch (error) {

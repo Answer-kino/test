@@ -14,7 +14,7 @@ const accesstokenReissue = async () => {
         alert('토큰이 만료되었습니다.');
       }
     }
-  }, 1000000000000);
+  }, 3300000);
 };
 
 export {accesstokenReissue};

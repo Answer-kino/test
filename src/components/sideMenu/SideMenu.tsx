@@ -26,6 +26,16 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
       }
     }
   };
+
+  const enterPage = async (key: any) => {
+    const act = await AsyncStorage.getItem('act');
+    console.log(act);
+    if (act === null) {
+      alert('로그인 해주세요.');
+    } else {
+      navigation.push(key);
+    }
+  };
   useEffect(() => {
     getMyInfo();
   }, []);
@@ -69,7 +79,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                 <TouchableOpacity
                   style={styles.sideMenuSection}
                   onPress={() => {
-                    navigation.push('Inquiry');
+                    enterPage('Inquiry');
                   }}>
                   <View style={styles.sideMenuSectionLeft}>
                     <Image source={require('../../assets/inquiry.png')} />
@@ -81,7 +91,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                 <TouchableOpacity
                   style={styles.sideMenuSection}
                   onPress={() => {
-                    navigation.push('InquiryList');
+                    enterPage('InquiryList');
                   }}>
                   <View style={styles.sideMenuSectionLeft}>
                     <Image source={require('../../assets/inquiry.png')} />
