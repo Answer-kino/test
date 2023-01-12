@@ -12,19 +12,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
 
 const Login2 = ({navigation}: any) => {
-  useEffect(() => {
-    const backAction = () => {
-      navigation.pop();
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction
-    );
-
-    return () => backHandler.remove();
-  }, []);
   const SIGN_SERVICE = new API_SIGN_SERVICE();
 
   const [carNumber, setCarNumber] = useState('');
@@ -47,7 +34,6 @@ const Login2 = ({navigation}: any) => {
       Alert.alert('아이디와 패스워드를 확인해주세요.');
     }
   };
-
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
