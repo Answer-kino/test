@@ -29,7 +29,7 @@ class API_SIGN_SERVICE extends AxiosInstance {
     try {
       const url = 'sign/auth/email';
       const {data} = await this.API.post(url, {type: 'email', redisKey: email});
-      console.log(data);
+      return data;
     } catch (error: any) {
       throw new Error('메일 전송에 실패 했습니다.');
     }
@@ -37,7 +37,6 @@ class API_SIGN_SERVICE extends AxiosInstance {
 
   async sendPhoneDigitCode(phoneNumber: any): Promise<any> {
     try {
-      console.log('a');
       const url = 'sign/auth/phone';
       const {data} = await this.API.post(url, {
         type: 'phone',
@@ -46,7 +45,8 @@ class API_SIGN_SERVICE extends AxiosInstance {
 
       return data;
     } catch (error: any) {
-      throw new Error('메일 인증에 실패 했습니다.');
+      throw new Error(error.message);
+      // throw new Error('메일 인증에 실패 했습니다.');
     }
   }
 
@@ -75,8 +75,8 @@ class API_SIGN_SERVICE extends AxiosInstance {
         redisKey: phone,
         digitCode: digitCode,
       });
-      console.log(data);
-      return {data};
+
+      return data;
     } catch (error: any) {
       throw new Error('핸드폰 인증에 실패 했습니다.');
     }
