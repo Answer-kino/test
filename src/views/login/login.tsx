@@ -12,6 +12,7 @@ import {
   Alert,
   Dimensions,
   Modal,
+  ActivityIndicator,
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import _ from 'lodash';
@@ -70,6 +71,10 @@ enum EDigitCodeKey {
 type TSendDigitCode = {
   [key in EDigitCodeKey]: undefined | boolean;
 };
+
+type checkValid = {
+  [key: string]: boolean;
+};
 const Login = ({navigation}: any) => {
   const SIGN_SERVICE = new API_SIGN_SERVICE();
   const [signInfo, setSignInfo] = useState<TSignInfo>({
@@ -81,6 +86,7 @@ const Login = ({navigation}: any) => {
 
   const [curPwd, setCurPwd] = useState<string>('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [loadingModal, setLoadingModal] = useState(false);
   const [digitCode, setDigitCode] = useState({email: '', phone: ''});
   const [activeInfo, setActiveInfo] = useState<TActiveInfo>({
     privacy: 'N',
@@ -107,9 +113,13 @@ const Login = ({navigation}: any) => {
     phone: false,
     email: false,
   });
-  const [validationCheck, setValidationCheck] = useState({
+  const [validationCheck, setValidationCheck] = useState<checkValid>({
     phone: true,
     email: true,
+  });
+  const [count, setCount] = useState({
+    phone: 0,
+    email: 0,
   });
   const [time, setTime] = useState<any>({
     phone: {
@@ -121,7 +131,8 @@ const Login = ({navigation}: any) => {
       sec: '0',
     },
   });
-
+  const [stopTimer, setStopTimer] = useState(false);
+  const [stopTimerEmail, setStopTimerEmail] = useState(false);
   const [pwdValidationCheck, setPwdValidationCheck] = useState(true);
   const [pwdEqualCheck, setPwdEqualCheck] = useState(true);
   const [phoneValidationCheckText, setPhoneValidationCheckText] =
@@ -130,6 +141,12 @@ const Login = ({navigation}: any) => {
     phone: false,
     email: false,
   });
+  const [loading, setLoading] = useState({
+    carNumber: false,
+    phone: false,
+    email: false,
+  });
+
   let regPwd =
     /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
 
@@ -162,14 +179,34 @@ const Login = ({navigation}: any) => {
   };
 
   const sendDigitCodeHandler = async (key: EDigitCodeKey) => {
+    timerStart(key);
     setPhoneValidationCheckText(true);
+    console.log('인증번호횟수');
     try {
       await sendDigitCodeApiMap[key]();
       setAuthRequest(cur => ({...cur, [key]: true}));
+      setCount(cur => ({...cur, [key]: 1}));
     } catch (error) {
       setAuthRequest(cur => ({...cur, [key]: false}));
       alert(error);
     }
+  };
+
+  const reValid = (key: EDigitCodeKey) => {
+    if (count[key] > 0) {
+      Alert.alert('인증', '재인증 하시겠습니까?', [
+        {
+          text: '예',
+          onPress: () => {
+            sendDigitCodeHandler(key);
+          },
+        },
+        {text: '아니요', onPress: () => {}},
+      ]);
+    } else {
+      sendDigitCodeHandler(key);
+    }
+    console.log('카운트', count);
   };
 
   const setDigitCodeHandler = (key: EDigitCodeKey) => (text: string) => {
@@ -186,7 +223,7 @@ const Login = ({navigation}: any) => {
           clearInterval(interval.current[key]);
           setValidationTime((cur: any) => ({...cur, [key]: true}));
         }
-
+        // console.log(validationCheck);
         const min = initTime.current[key] / 60;
         const sec = initTime.current[key] % 60;
         initTime.current[key] -= 1;
@@ -202,12 +239,22 @@ const Login = ({navigation}: any) => {
       console.error(error);
     }
   };
+
   const validTime = (key: any) => {
     if (time.phone.min == '00' && time.phone.sec == '00') {
       setValidTimeCheck(cur => ({...cur, [key]: false}));
     } else {
       setValidTimeCheck(cur => ({...cur, [key]: true}));
     }
+  };
+
+  const stopTimerHandler = () => {
+    initTime.current.phone = 1;
+    setStopTimer(true);
+  };
+  const stopTimerHandler2 = () => {
+    initTime.current.email = 1;
+    setStopTimerEmail(true);
   };
   const setValidApiMap = {
     carNumber: async () => {
@@ -219,36 +266,43 @@ const Login = ({navigation}: any) => {
         digitCode: digitCode.phone,
       };
       const t = await SIGN_SERVICE.checkPhoneDigitCode(PhoneDigitCode);
-
-      if (t === false) {
-        setValidationCheck(cur => ({...cur, phone: true}));
-      } else {
+      console.log('t', t);
+      if (t.data.digitCode === true) {
         setValidationCheck(cur => ({...cur, phone: false}));
+        stopTimerHandler();
+      } else {
+        setValidationCheck(cur => ({...cur, phone: true}));
       }
+      console.log(digitCode);
 
-      console.log('validationCheck', validationCheck);
       return true;
     },
     email: async () => {
+      console.log('aaaaaaaaaa');
       const checkEMailDigitcodeInfo = {
         email: signInfo.email,
         digitCode: digitCode.email,
       };
       const t = await SIGN_SERVICE.checkEmailDigitCode(checkEMailDigitcodeInfo);
+      console.log(t.data);
       if (t === false) {
         setValidationCheck(cur => ({...cur, email: true}));
       } else {
         setValidationCheck(cur => ({...cur, email: false}));
+        stopTimerHandler2();
       }
       return true;
     },
   };
   const setValidHandler = async (key: EValidKey) => {
-    console.log('validationCheck', validationCheck);
     try {
+      setLoadingModal(true);
+
       const value = await setValidApiMap[key]();
-      console.log('value', value);
+
       setValid(cur => ({...cur, [key]: value}));
+
+      setLoadingModal(false);
 
       if (value) {
       }
@@ -384,11 +438,21 @@ const Login = ({navigation}: any) => {
       <View>
         <Text style={styles.TopText}>회원가입</Text>
       </View>
-
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
         <View>
+          <Modal transparent={true} visible={loadingModal}>
+            <ActivityIndicator
+              size="large"
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'rgba( 0, 0, 0, 0.5 )',
+              }}
+            />
+          </Modal>
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <TextInput
               style={styles.inputbox1}
@@ -472,9 +536,10 @@ const Login = ({navigation}: any) => {
             <TouchableOpacity
               style={styles.checkButton}
               onPress={() => {
-                timerStart('phone');
-                sendDigitCodeHandler(EDigitCodeKey.phone);
-              }}>
+                // sendDigitCodeHandler(EDigitCodeKey.phone);
+                reValid(EDigitCodeKey.phone);
+              }}
+              disabled={signInfo.phone === ''}>
               {/* onPress={() => setValidHandler(EValidKey.phone)}> */}
               <Text style={styles.buttonText}>인증요청</Text>
             </TouchableOpacity>
@@ -521,7 +586,8 @@ const Login = ({navigation}: any) => {
                   onPress={() => {
                     setValidHandler(EValidKey.phone);
                     validTime('phone');
-                  }}>
+                  }}
+                  disabled={digitCode.phone === ''}>
                   <Text style={styles.buttonText}>인증하기</Text>
                 </TouchableOpacity>
               </View>
@@ -534,9 +600,11 @@ const Login = ({navigation}: any) => {
                   <Text style={styles.pwdValidationText}>인증 완료</Text>
                 )}
                 {time.phone.min === '00' && time.phone.sec === '00' ? (
-                  <Text style={styles.pwdValidationText2}>
-                    인증시간이 만료되었습니다.
-                  </Text>
+                  stopTimer === true ? null : (
+                    <Text style={styles.pwdValidationText2}>
+                      인증시간이 만료되었습니다.
+                    </Text>
+                  )
                 ) : null}
               </View>
             </>
@@ -552,13 +620,11 @@ const Login = ({navigation}: any) => {
               onChangeText={setSignInfoHandler(ESignInfoKey.email)}></TextInput>
             <TouchableOpacity
               style={styles.checkButton}
-              // onPress={() =>
-              // timerStart()
-              // sendDigitCodeHandler(EDigitCodeKey.email)}
               onPress={() => {
                 timerStart('email');
-                sendDigitCodeHandler(EDigitCodeKey.email);
-              }}>
+                reValid(EDigitCodeKey.email);
+              }}
+              disabled={signInfo.email === ''}>
               <Text style={styles.buttonText}>인증요청</Text>
             </TouchableOpacity>
           </View>
@@ -587,10 +653,12 @@ const Login = ({navigation}: any) => {
                   onPress={() => {
                     setValidHandler(EValidKey.email);
                     validTime('email');
-                  }}>
+                  }}
+                  disabled={digitCode.email === ''}>
                   <Text style={styles.buttonText}>인증하기</Text>
                 </TouchableOpacity>
               </View>
+
               {validationCheck.email === true ? (
                 <Text style={styles.pwdValidationText}>
                   인증번호를 확인해주세요.
@@ -651,22 +719,7 @@ const Login = ({navigation}: any) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View>
-            {/* <View style={styles.checkboxcontainer}>
-              <CheckBox
-                style={styles.checkbox}
-                value={checkBox.location}
-                onChange={setCheckBoxHandler(
-                  ESignCheckBoxKey.location
-                )}></CheckBox>
-              <View style={{display: 'flex', flexDirection: 'row'}}>
-                <Text style={styles.checkboxText3}>선택</Text>
-                <Text style={styles.checkboxText}>
-                  위치기반서비스 이용약관 [보기]
-                </Text>
-              </View>
-            </View> */}
-          </View>
+          <View></View>
           <View>
             <View style={styles.checkboxcontainer}>
               <CheckBox
