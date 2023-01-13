@@ -12,6 +12,7 @@ import {
   Modal,
   ActivityIndicator,
 } from 'react-native';
+import {Divider} from '@rneui/themed';
 import CheckBox from '@react-native-community/checkbox';
 import _ from 'lodash';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
@@ -64,6 +65,15 @@ const Login = ({navigation}: any) => {
     phone: '',
     email: '',
   });
+  // 회원 체크박스 정보
+  const [activeInfo, setActiveInfo] = useState({
+    termsOfService: 'N',
+    privacy: 'N',
+    promotion: 'N',
+    marketing: 'N',
+    emailConsent: 'N',
+    snsConsent: 'N',
+  });
   // 패스워드2, 인증번호 & 인증번호전송 가능여부
   const [checkedInfo, setCheckedInfo] = useState<TCheckedInfo>({
     checkPwd: '',
@@ -71,7 +81,10 @@ const Login = ({navigation}: any) => {
     email: {digitCode: '', isAllow: false},
   });
   // 차량 중복확인
-  const [carNubmerOverLap, setCarNubmerOverLap] = useState(null);
+  const [carNubmerOverLap, setCarNubmerOverLap] = useState<tmpType>({
+    status: null,
+    carNumber: null,
+  });
   // 패스워드 정규표현식, 패스워드1,2 동일 여부
   const [pwdChecked, setPwdChecked] = useState<IPwdChecked>({
     reg: null,
@@ -95,12 +108,21 @@ const Login = ({navigation}: any) => {
     phone: false,
     email: false,
   });
+  // 체크박스 선택 여부
+  const [checkBox, setCheckBox] = useState<tmpType>({
+    termsOfService: false,
+    privacy: false,
+    promotion: false,
+    snsEmailMarketing: false,
+  });
   // 회원가입 올바르지 않은 값 확인용
   const [isAllowSignInfo, setIsAllowSignInfo] = useState({
     carNumber: false,
     pwd: false,
     phone: false,
     email: false,
+    termsOfService: false,
+    privacy: false,
   });
 
   // 로딩여부
@@ -112,6 +134,11 @@ const Login = ({navigation}: any) => {
     email: false,
   });
 
+  // 네비게이션 함수
+  const navigationHandler = (key: string) => () => {
+    navigation.push(key);
+  };
+
   // 차번호 중복 확인
   const carNumberOverLapCheckedHandler = async () => {
     const {carNumber} = signInfo;
@@ -122,7 +149,8 @@ const Login = ({navigation}: any) => {
     try {
       setIsLoding(true);
       const duplicate = await SIGN_SERVICE.OverLapCar(signInfo.carNumber);
-      setCarNubmerOverLap(duplicate);
+      setCarNubmerOverLap({status: duplicate, carNumber});
+      setIsAllowSignInfo(cur => ({...cur, carNumber: true}));
     } catch (error) {
       alert('중복된 차량번호가 존재합니다.');
     } finally {
@@ -250,6 +278,7 @@ const Login = ({navigation}: any) => {
         if (!isTure) {
           throw new Error('인증번호가 일치하지 않습니다.');
         }
+        clearInterval(intervalTimer.current[key]);
       } catch (error) {
         alert('인증번호가 일치하지 않습니다.');
       } finally {
@@ -258,9 +287,59 @@ const Login = ({navigation}: any) => {
     }
   };
 
+  // 체크박스 선택 [ All ]
+  const setAllCheckBoxHandler = () => {
+    const checkBoxBoolean = Object.values(checkBox).some(el => el !== true);
+    const activeInfoValue = checkBoxBoolean ? 'Y' : 'N';
+
+    const tmpCheckBox: any = {};
+    Object.keys(checkBox).map(key => {
+      tmpCheckBox[key] = checkBoxBoolean;
+    });
+    setCheckBox(tmpCheckBox);
+
+    const tmpActiveInfo: any = {};
+    Object.keys(activeInfo).map(key => {
+      tmpActiveInfo[key] = activeInfoValue;
+    });
+    setActiveInfo(tmpActiveInfo);
+  };
+  // 체크박스 선택 [ 단일 ]
+  const setCheckBoxHandler = (key: string) => (e: any) => {
+    const checkBoxBoolean = !checkBox[key];
+    const activeInfoValue = checkBoxBoolean ? 'Y' : 'N';
+
+    setCheckBox(cur => ({...cur, [key]: checkBoxBoolean}));
+    setActiveInfoHandler(key, activeInfoValue);
+  };
+  const setActiveInfoHandler = (key: string, value: string) => {
+    if (key === 'snsEmailMarketing') {
+      const tmpObj: tmpType = {};
+      ['marketing', 'emailConsent', 'snsConsent'].map(
+        key => (tmpObj[key] = value)
+      );
+      setActiveInfo(cur => ({...cur, ...tmpObj}));
+    } else {
+      setActiveInfo(cur => ({...cur, [key]: value}));
+    }
+  };
+
+  // 회원가입 신청
+  const signUpHandler = () => {
+    console.log(isAllowSignInfo);
+  };
   /**
    * useEffect Hook API
    */
+  useEffect(() => {
+    const {carNumber} = carNubmerOverLap;
+
+    if (carNumber === signInfo.carNumber) {
+      setCarNubmerOverLap(cur => ({...cur, status: false}));
+    } else {
+      setCarNubmerOverLap(cur => ({...cur, status: null}));
+    }
+  }, [signInfo.carNumber]);
   // 패스워드 일치 && 정규표현식 일치 확인
   useEffect(() => {
     if (pwdChecked.reg && pwdChecked.same) {
@@ -284,18 +363,29 @@ const Login = ({navigation}: any) => {
   // 이메일 정규표현식 일치 확인
   useEffect(() => {
     regExp__email.test(signInfo.email)
-      ? (setCheckedInfo(cur => ({
+      ? setCheckedInfo(cur => ({
           ...cur,
           email: {...cur.email, isAllow: true},
-        })),
-        setIsAllowSignInfo(cur => ({...cur, email: true})))
-      : (setCheckedInfo(cur => ({
+        }))
+      : setCheckedInfo(cur => ({
           ...cur,
           email: {...cur.email, isAllow: false},
-        })),
-        setIsAllowSignInfo(cur => ({...cur, email: false})));
+        }));
   }, [signInfo.email]);
-
+  // 체크박스 필수 조건 여부 확인
+  useEffect(() => {
+    const {termsOfService, privacy} = activeInfo;
+    if (termsOfService === 'Y') {
+      setIsAllowSignInfo(cur => ({...cur, termsOfService: true}));
+    } else {
+      setIsAllowSignInfo(cur => ({...cur, termsOfService: false}));
+    }
+    if (privacy === 'Y') {
+      setIsAllowSignInfo(cur => ({...cur, privacy: true}));
+    } else {
+      setIsAllowSignInfo(cur => ({...cur, privacy: false}));
+    }
+  }, [activeInfo]);
   useEffect(() => {
     const backAction = () => {
       Alert.alert('뒤로가기', '뒤로가기 누를 시 입력된 데이터가 사라집니다.', [
@@ -326,7 +416,7 @@ const Login = ({navigation}: any) => {
         />
       </Modal>
       <View>
-        <Text style={styles.TopText}>로그인</Text>
+        <Text style={styles.TopText}>회원가입</Text>
       </View>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -346,9 +436,9 @@ const Login = ({navigation}: any) => {
             </TouchableOpacity>
           </View>
           <View style={styles.flexRowText}>
-            {_.isNull(carNubmerOverLap) ? (
+            {_.isNull(carNubmerOverLap.status) ? (
               ''
-            ) : carNubmerOverLap ? (
+            ) : carNubmerOverLap.status ? (
               <Text style={styles.errorMsg}>사용 불가능한 차량번호입니다.</Text>
             ) : (
               <Text style={styles.successMsg}>사용 가능한 차량번호입니다.</Text>
@@ -421,15 +511,20 @@ const Login = ({navigation}: any) => {
               </TouchableOpacity>
             )}
           </View>
+
           {showTextInput.phone ? (
             <>
-              <View style={styles.flexRowText}>
-                <Text style={styles.warringMsg}>
-                  인증번호를 발송했습니다.(유효시간 4분) 인증번호가오지 않으면
-                  입력하신 정보가 정확한지 확인하여주세요. 이미 가입된
-                  번호이거나, 가상전화번호는 인증번호를 받을 수 없습니다.
-                </Text>
-              </View>
+              {isAllowSignInfo.phone ? (
+                <></>
+              ) : (
+                <View style={styles.flexRowText}>
+                  <Text style={styles.warringMsg}>
+                    인증번호를 발송했습니다.(유효시간 4분) 인증번호가오지 않으면
+                    입력하신 정보가 정확한지 확인하여주세요. 이미 가입된
+                    번호이거나, 가상전화번호는 인증번호를 받을 수 없습니다.
+                  </Text>
+                </View>
+              )}
               <View style={styles.flexRowWithBtn}>
                 <TextInput
                   style={styles.inputBoxWithBtn}
@@ -441,10 +536,11 @@ const Login = ({navigation}: any) => {
                   onBlur={checkedDigitCodeHandler('phone')}
                 />
                 <View>
-                  <Text
-                    style={
-                      styles.inputTimer
-                    }>{`${timer.phone.min} : ${timer.phone.sec}`}</Text>
+                  <Text style={styles.inputTimer}>
+                    {isAllowSignInfo.phone
+                      ? `인증완료`
+                      : `${timer.phone.min} : ${timer.phone.sec}`}
+                  </Text>
                 </View>
               </View>
               {isAllowSignInfo.phone ? (
@@ -483,14 +579,18 @@ const Login = ({navigation}: any) => {
 
           {showTextInput.email ? (
             <>
-              <View style={styles.flexRowText}>
-                <Text style={styles.warringMsg}>
-                  인증번호를 발송했습니다.(유효시간 4분) 인증번호가오지 않으면
-                  입력하신 정보가 정확한지 확인하여주세요. 이미 가입된
-                  이메일이거나, 존재하지 않는 이메일은 인증번호를 받을 수
-                  없습니다.
-                </Text>
-              </View>
+              {isAllowSignInfo.email ? (
+                <></>
+              ) : (
+                <View style={styles.flexRowText}>
+                  <Text style={styles.warringMsg}>
+                    인증번호를 발송했습니다.(유효시간 4분) 인증번호가오지 않으면
+                    입력하신 정보가 정확한지 확인하여주세요. 이미 가입된
+                    이메일이거나, 존재하지 않는 이메일은 인증번호를 받을 수
+                    없습니다.
+                  </Text>
+                </View>
+              )}
               <View style={styles.flexRowWithBtn}>
                 <TextInput
                   style={styles.inputBoxWithBtn}
@@ -502,7 +602,12 @@ const Login = ({navigation}: any) => {
                   onBlur={checkedDigitCodeHandler('email')}
                 />
                 <View>
-                  <Text style={styles.inputTimer}>04:00</Text>
+                  <Text style={styles.inputTimer}>
+                    {' '}
+                    {isAllowSignInfo.email
+                      ? `인증완료`
+                      : `${timer.email.min} : ${timer.email.sec}`}
+                  </Text>
                 </View>
               </View>
               {isAllowSignInfo.email ? (
@@ -519,8 +624,83 @@ const Login = ({navigation}: any) => {
             <></>
           )}
 
+          {/* 체크박스 */}
+          <View>
+            <View style={styles.checkBoxView}>
+              <CheckBox
+                value={!Object.values(checkBox).some(el => el !== true)}
+                onChange={setAllCheckBoxHandler}
+              />
+              <TouchableOpacity
+                style={styles.checkBoxLabelWrap}
+                onPress={setAllCheckBoxHandler}>
+                <Text>약관 전체동의</Text>
+              </TouchableOpacity>
+            </View>
+            <Divider width={2} style={{marginBottom: 8, marginTop: 8}} />
+            <View style={styles.checkBoxView}>
+              <CheckBox
+                value={checkBox.termsOfService}
+                onChange={setCheckBoxHandler('termsOfService')}
+              />
+              <TouchableOpacity
+                style={styles.checkBoxLabelWrap}
+                onPress={setCheckBoxHandler('termsOfService')}>
+                <Text style={styles.requirementsMsg}>필수</Text>
+                <Text>이용약관</Text>
+              </TouchableOpacity>
+              <Text onPress={navigationHandler('TermsOfService')}>
+                {' '}
+                [내용보기]
+              </Text>
+            </View>
+            <View style={styles.checkBoxView}>
+              <CheckBox
+                value={checkBox.privacy}
+                onChange={setCheckBoxHandler('privacy')}
+              />
+              <TouchableOpacity
+                style={styles.checkBoxLabelWrap}
+                onPress={setCheckBoxHandler('privacy')}>
+                <Text style={styles.requirementsMsg}>필수</Text>
+                <Text>개인정보수집 및 이용</Text>
+              </TouchableOpacity>
+              <Text onPress={navigationHandler('Privacy')}> [내용보기]</Text>
+            </View>
+            <View style={styles.checkBoxView}>
+              <CheckBox
+                value={checkBox.promotion}
+                onChange={setCheckBoxHandler('promotion')}
+              />
+              <TouchableOpacity
+                style={styles.checkBoxLabelWrap}
+                onPress={setCheckBoxHandler('promotion')}>
+                <Text style={styles.selectionMsg}>선택</Text>
+                <Text>프로모션 정보수신약관</Text>
+              </TouchableOpacity>
+              <Text onPress={navigationHandler('Promotion')}> [내용보기]</Text>
+            </View>
+            <View style={styles.checkBoxView}>
+              <CheckBox
+                value={checkBox.snsEmailMarketing}
+                onChange={setCheckBoxHandler('snsEmailMarketing')}
+              />
+              <TouchableOpacity
+                style={styles.checkBoxLabelWrap}
+                onPress={setCheckBoxHandler('snsEmailMarketing')}>
+                <Text style={styles.selectionMsg}>선택</Text>
+                <Text>마케팅,SNS,이메일 수신동의</Text>
+              </TouchableOpacity>
+              <Text onPress={navigationHandler('Marketing')}> [내용보기]</Text>
+            </View>
+            <View style={styles.checkBoxView}>
+              <Text style={{color: 'red', fontSize: 13}}>
+                이용 약관과 개인정보수집 및 이용 안내에 모두 동의해주세요.
+              </Text>
+            </View>
+          </View>
           <View style={styles.flexRow}>
-            <TouchableOpacity style={styles.lastBtn}>
+            <TouchableOpacity style={styles.lastBtn} onPress={signUpHandler}>
               <Text style={{color: 'white'}}>회원가입</Text>
             </TouchableOpacity>
           </View>
@@ -533,7 +713,6 @@ const Login = ({navigation}: any) => {
 const styles = StyleSheet.create({
   scrollView: {
     height: Dimensions.get('window').height,
-    marginBottom: 20,
   },
   full: {
     height: '100%',
@@ -544,11 +723,14 @@ const styles = StyleSheet.create({
     color: '#292929',
     marginLeft: '7%',
     marginTop: 50,
+    width: 81,
+    height: 30,
     fontSize: 22,
     fontWeight: '700',
     fontFamily: 'Noto Sans',
   },
   viewWrap: {
+    marginTop: 20,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -619,6 +801,33 @@ const styles = StyleSheet.create({
     lineHeight: 28,
     color: '#FFFFFF',
   },
+  checkBoxView: {
+    display: 'flex',
+    height: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  checkBoxLabelWrap: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  requirementsMsg: {
+    fontFamily: 'Noto Sans',
+    fontWeight: '600',
+    fontSize: 15,
+    lineHeight: 20,
+    color: '#226EC8',
+    marginRight: 5,
+  },
+  selectionMsg: {
+    fontFamily: 'Noto Sans',
+    fontWeight: '600',
+    fontSize: 15,
+    lineHeight: 20,
+    color: '#000000',
+    marginRight: 5,
+  },
   successMsg: {
     width: '100%',
     textAlign: 'left',
@@ -643,7 +852,7 @@ const styles = StyleSheet.create({
   lastBtn: {
     flex: 1,
     height: 51,
-    marginTop: 30,
+    marginTop: 10,
     borderRadius: 10,
     backgroundColor: '#6DADDB',
     justifyContent: 'center',
