@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   BackHandler,
   ToastAndroid,
+  Platform,
 } from 'react-native';
 import API_HOME_SERVICE from '../../@api/home/home';
 import {EUserInfo} from '../../@entity/user/entity';
@@ -24,6 +25,7 @@ import Community from '../../assets/community.svg';
 import API_BBS_SERVICE from '../../@api/bbs/bbs';
 import API_Mypage from '../../@api/mypage/Mypage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Divider} from '@rneui/base';
 
 interface Capitalinfo {
   Capital: any;
@@ -43,19 +45,39 @@ const Home = ({navigation}: any) => {
   const [capitalInfo, setCapitalInfo] = useState<Capitalinfo>();
   const [noticeInfo, setNoticeInfo] = useState([]);
 
+  // 네비게이션 함수
+  const navigationPushHandler = (key: string) => () => {
+    navigation.push(key);
+  };
+
   const getMyInfo = async () => {
-    const act = await AsyncStorage.getItem('act');
-    if (act) {
-      try {
-        const userInfo = await HOME_SERVICE.INFO();
-        console.log('tw', userInfo);
-        setUserInfo(userInfo);
-        setIsAccess(true);
-      } catch (error) {
-        setIsAccess(false);
-      }
+    try {
+      const userInfo = await HOME_SERVICE.INFO();
+      setUserInfo(userInfo);
+      setIsAccess(true);
+    } catch (error) {
+      setIsAccess(false);
     }
   };
+
+  const getNotice = async () => {
+    try {
+      const result = await BBS_SERVICE.BBS_Main_Notice();
+      setNoticeInfo(result);
+    } catch (error) {
+      console.log('getNotice :', error);
+    }
+  };
+
+  const getCapitalinfo = async () => {
+    try {
+      const result = await Mypage.getMyData();
+      setCapitalInfo(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const toastWithDurationHandler = () => {
     ToastAndroid.show(
       "2초 이내로 '뒤로' 버튼을 한번 더 누르시면 종료됩니다.",
@@ -77,27 +99,6 @@ const Home = ({navigation}: any) => {
     return true;
   };
 
-  const getNotice = async () => {
-    try {
-      // const obj: any = {category: categoryKey, limit: 10, offset: 0};
-      const result = await BBS_SERVICE.BBS_Main_Notice();
-      // console.log('getNotice : ', result);
-      setNoticeInfo(result);
-    } catch (error) {
-      console.log('getNotice :', error);
-    }
-  };
-
-  const getCapitalinfo = async () => {
-    try {
-      const result = await Mypage.home_getMyData();
-      console.log('capital', result);
-      setCapitalInfo(result);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     getMyInfo();
     getNotice();
@@ -117,7 +118,6 @@ const Home = ({navigation}: any) => {
         <ImageBackground
           style={styles.background}
           source={require('./../../assets/background.png')}>
-          {/**----------- */}
           <View style={styles.topTitle}>
             <Image
               style={styles.topTitleLogo}
@@ -135,93 +135,118 @@ const Home = ({navigation}: any) => {
               </TouchableOpacity>
             </View>
           </View>
+          <Divider width={1} color={'white'} />
           {/**----------- */}
-          {/* 토큰있으면 숨김처리 */}
-          {isAccess && isAccess ? (
-            <View style={styles.align}>
-              <View style={styles.loginInfoContainer}>
-                <Text style={styles.carNumber}>{`차량번호: ${userInfo}`}</Text>
+          {false ? (
+            <View style={styles.mainTopLoginWrap}>
+              <View style={styles.mainTopLoginBtn}>
+                <Text style={styles.mainTopLoginBtnText}>로그인</Text>
+              </View>
+              <View style={styles.mainTopLoginContents}>
+                <Text style={styles.mainTopLoginContentsText}>
+                  계정확인 및 FNT차량 보증서 확인하기
+                </Text>
               </View>
             </View>
           ) : (
-            <View style={styles.loginTextContainer}>
-              <TouchableOpacity
-                onPress={() => navigation.push('Login2')}
-                style={styles.loginText1Container}>
-                <Text style={styles.loginText1}>로그인</Text>
-              </TouchableOpacity>
-              <Text style={styles.loginText2}>
-                계정확인 및 NFT차량 보증서 확인하기
-              </Text>
+            <View style={styles.mainTopCarNumberWrap}>
+              <View style={styles.mainTopCarNumberBorder}>
+                <Text style={styles.mainTopCarNumberBorderText}>
+                  차량번호 : {userInfo?.CarNumber}
+                </Text>
+              </View>
             </View>
           )}
 
           {/**----------- */}
-
-          {/**----------- */}
-          {/**----------- */}
-          <View style={styles.align}>
-            <View style={styles.menuContainer}>
-              <View style={styles.menuRow1}>
+          <View style={styles.mainBottomNavigationWrap}>
+            <View style={styles.mainBottomNavigationBorderWrap}>
+              <View style={styles.mainBottomNavigationBorder}>
                 <TouchableOpacity
-                  onPress={() => navigation.push('ContractCheck')}>
-                  {/* <Image source={require('../../assets/Group1.png')} /> */}
-                  <View style={styles.menu}>
-                    <Text style={{color: 'black'}}>계약확인</Text>
-                    <Contract style={styles.menuImage}></Contract>
+                  style={styles.mainBottomNavigationBorderBtnWrap}
+                  onPress={navigationPushHandler('ContractCheck')}>
+                  <View style={styles.mainBottomNavigationBorderBtn}>
+                    <Text style={styles.mainBottomNavigationBorderBtnText}>
+                      {'\n'}계약확인
+                    </Text>
+                  </View>
+                  <View style={styles.mainBottomNavigationBorderBtnImgWrap}>
+                    <Contract />
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                  onPress={() => navigation.push('CarDocument')}>
-                  {/* <Image source={require('../../assets/Group2.png')} /> */}
-                  <View style={styles.menu}>
-                    <Text style={styles.text}>내차</Text>
-                    <Text style={styles.text}>증빙서류</Text>
-                    <Cardocument style={styles.menuImage}></Cardocument>
+                  style={styles.mainBottomNavigationBorderBtnWrap}
+                  onPress={navigationPushHandler('CarDocument')}>
+                  <View style={styles.mainBottomNavigationBorderBtn}>
+                    <Text style={styles.mainBottomNavigationBorderBtnText}>
+                      내차{'\n'}NFT 증빙서류
+                    </Text>
                   </View>
-                  {/* <Group2></Group2> */}
+                  <View style={styles.mainBottomNavigationBorderBtnImgWrap}>
+                    <Cardocument />
+                  </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.push('NFTWallet')}>
-                  {/* <Image source={require('../../assets/Group3.png')} /> */}
-                  <View style={styles.menu}>
-                    <Text style={styles.text}>NFT</Text>
-                    <Text style={styles.text}>전자지갑</Text>
-                    <NftWalletimg style={styles.menuImage}></NftWalletimg>
+                <TouchableOpacity
+                  style={styles.mainBottomNavigationBorderBtnWrap}
+                  onPress={navigationPushHandler('NFTWallet')}>
+                  <View style={styles.mainBottomNavigationBorderBtn}>
+                    <Text style={styles.mainBottomNavigationBorderBtnText}>
+                      NFT{'\n'}전자지갑
+                    </Text>
+                  </View>
+                  <View style={styles.mainBottomNavigationBorderBtnImgWrap}>
+                    <NftWalletimg />
                   </View>
                 </TouchableOpacity>
               </View>
-              <View style={styles.menuRow2}>
+              {/**----------- */}
+              <Divider
+                width={1}
+                style={{
+                  width: '90%',
+                  alignSelf: 'center',
+                  marginTop: 5,
+                  marginBottom: 5,
+                }}
+              />
+              {/**----------- */}
+              <View style={styles.mainBottomNavigationBorder}>
                 <TouchableOpacity
-                  style={styles.menuImage}
-                  onPress={() => navigation.push('RaceInfo')}>
-                  {/* <Image source={require('../../assets/Group4.png')} /> */}
-                  <View style={styles.menu2}>
-                    <Text style={styles.text}>내차</Text>
-                    <Text style={styles.text}>운행정보</Text>
-                    <Raceinfoimg style={styles.menuImage}></Raceinfoimg>
+                  style={styles.mainBottomNavigationBorderBtnWrap}
+                  onPress={navigationPushHandler('RaceInfo')}>
+                  <View style={styles.mainBottomNavigationBorderBtn}>
+                    <Text style={styles.mainBottomNavigationBorderBtnText}>
+                      내차{'\n'}운행정보
+                    </Text>
+                  </View>
+                  <View style={styles.mainBottomNavigationBorderBtnImgWrap}>
+                    <Raceinfoimg />
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={styles.menuImage}
-                  onPress={() => navigation.push('CommunityBoardList')}>
-                  {/* <Image source={require('../../assets/Group5.png')} /> */}
-                  <View style={styles.menu2}>
-                    <Text style={styles.text}>커뮤니티</Text>
-                    <Community style={styles.menuImage}></Community>
+                  style={styles.mainBottomNavigationBorderBtnWrap}
+                  onPress={navigationPushHandler('CommunityBoardList')}>
+                  <View style={styles.mainBottomNavigationBorderBtn}>
+                    <Text style={styles.mainBottomNavigationBorderBtnText}>
+                      {'\n'}커뮤니티
+                    </Text>
+                  </View>
+                  <View style={styles.mainBottomNavigationBorderBtnImgWrap}>
+                    <Community />
                   </View>
                 </TouchableOpacity>
-
-                <View style={styles.menuImage} />
+                <TouchableOpacity
+                  style={styles.mainBottomNavigationBorderBtnWrap}>
+                  <View style={styles.mainBottomNavigationBorderBtn}>
+                    <Text
+                      style={styles.mainBottomNavigationBorderBtnText}></Text>
+                  </View>
+                  <View
+                    style={styles.mainBottomNavigationBorderBtnImgWrap}></View>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
-          {/**----------- */}
         </ImageBackground>
         {/**----------- */}
         <View style={styles.descriptionContainer}>
@@ -270,6 +295,19 @@ const Home = ({navigation}: any) => {
           </View>
         </View>
         {/**----------- */}
+        <View style={{display: 'flex', flexDirection: 'row'}}>
+          <TouchableOpacity>
+            <Text>이용약관</Text>
+          </TouchableOpacity>
+          <Text>|</Text>
+          <TouchableOpacity>
+            <Text>개인정보처리방침</Text>
+          </TouchableOpacity>
+          <Text>|</Text>
+          <TouchableOpacity>
+            <Text>전자금융거래 이용약관</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.descriptionContainer}>
           <Text style={styles.text}>
             이용약관 | 개인정보처리방침 | 전자금융거래 이용약관
@@ -296,17 +334,16 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height - 80,
   },
   background: {
-    height: 390,
+    height: 360,
     // alignItems: 'center',
     overflow: 'visible',
+    marginBottom: 15,
   },
   align: {
     alignItems: 'center',
   },
   topTitle: {
     height: 50,
-    borderBottomWidth: 1,
-    borderColor: 'white',
     margin: 12,
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -467,6 +504,102 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: '10%',
+  },
+  mainTopLoginWrap: {
+    display: 'flex',
+    width: '92%',
+    height: 60,
+    alignItems: 'center',
+    marginTop: 25,
+    marginBottom: 25,
+  },
+  mainTopLoginBtn: {
+    display: 'flex',
+    width: 100,
+    height: 31,
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: 50,
+    justifyContent: 'center',
+  },
+  mainTopLoginBtnText: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: 'white',
+    lineHeight: 24.5,
+    textAlign: 'center',
+  },
+  mainTopLoginContents: {
+    display: 'flex',
+    marginTop: 10,
+    justifyContent: 'center',
+  },
+  mainTopLoginContentsText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: 'white',
+    lineHeight: 22,
+    textAlign: 'center',
+  },
+  mainTopCarNumberWrap: {width: '92%', display: 'flex', alignSelf: 'center'},
+  mainTopCarNumberBorder: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '100%',
+    height: 60,
+    marginTop: 25,
+    marginBottom: 25,
+    backgroundColor: 'white',
+    borderRadius: 15,
+    ...Platform.select({android: {elevation: 10}}),
+  },
+  mainTopCarNumberBorderText: {
+    marginLeft: 20,
+    fontSize: 18,
+    color: '#123D70',
+    fontWeight: '700',
+  },
+  mainBottomNavigationWrap: {
+    width: '92%',
+    display: 'flex',
+    alignSelf: 'center',
+  },
+  mainBottomNavigationBorderWrap: {
+    width: '100%',
+    paddingTop: 15,
+    paddingBottom: 15,
+    height: 210,
+    backgroundColor: 'white',
+    borderRadius: 15,
+    ...Platform.select({android: {elevation: 10}}),
+  },
+  mainBottomNavigationBorder: {
+    height: '50%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  mainBottomNavigationBorderBtnWrap: {
+    width: '33%',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  mainBottomNavigationBorderBtn: {
+    height: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  mainBottomNavigationBorderBtnText: {
+    textAlign: 'center',
+    color: '#1E4467',
+    fontWeight: '700',
+    fontSize: 14,
+    lineHeight: 16,
+  },
+  mainBottomNavigationBorderBtnImgWrap: {
+    height: '50%',
   },
 });
 
