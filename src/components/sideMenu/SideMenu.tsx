@@ -33,7 +33,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
     if (act === null) {
       alert('로그인 해주세요.');
     } else {
-      navigation.push(key);
+      navigation.navigate(key);
     }
   };
   useEffect(() => {
@@ -68,7 +68,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                 <TouchableOpacity
                   style={styles.sideMenuSection}
                   onPress={() => {
-                    navigation.push('Question');
+                    navigation.navigate('Question');
                   }}>
                   <View style={styles.sideMenuSectionLeft}>
                     <Image source={require('../../assets/question.png')} />
@@ -104,22 +104,22 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
               <View style={{height: '30%'}}>
                 <Banner style={{marginTop: '90%', width: '0%'}}></Banner>
               </View>
-
+            </View>
+            <View style={{justifyContent: 'flex-end'}}>
               <TouchableOpacity
                 style={{
-                  backgroundColor: 'black',
                   height: '10%',
-                  marginTop: '150%',
+                  marginTop: '140%',
                   width: '30%',
                   marginLeft: '60%',
                 }}>
                 <View style={styles.sideMenuSectionLeft2}>
                   <Image source={require('../../assets/logout.png')} />
                   <Text
-                    style={styles.menuText}
+                    style={styles.logoutText}
                     onPress={async () => {
                       await AsyncStorage.clear();
-                      navigation.push('Home');
+                      navigation.reset({routes: [{name: 'Home'}]});
                     }}>
                     로그아웃
                   </Text>
@@ -214,6 +214,10 @@ const styles = StyleSheet.create({
     color: 'black',
 
     // marginLeft: '60%',
+  },
+  logoutText: {
+    fontSize: 15,
+    color: 'black',
   },
 });
 

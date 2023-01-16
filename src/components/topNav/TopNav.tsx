@@ -12,7 +12,11 @@ const TopNav = (props: TopNavProps) => {
   const toggleOpen = () => setOpen(!open);
   return (
     <View style={styles.topNavContainer}>
-      <SideMenu open={open} toggleOpen={toggleOpen} />
+      <SideMenu
+        navigation={props.navigation}
+        open={open}
+        toggleOpen={toggleOpen}
+      />
       <View style={styles.topNavSubContainer}>
         <TouchableOpacity
           style={styles.topNavSection}

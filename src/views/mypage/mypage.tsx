@@ -20,6 +20,7 @@ import Icon4 from '../../assets/icon4_big.svg';
 import Icon5 from '../../assets/icon5_big.svg';
 import Icon6 from '../../assets/icon6_big.svg';
 import ModalSelect from '../../assets/modal_select.svg';
+import BottomNav from '../../components/bottomNav/BottomNav';
 
 interface myDatatype {
   CarNumber?: string;
@@ -393,6 +394,7 @@ const Mypage = ({navigation}: any) => {
           <Text style={styles.modifyBtnText}>수정 완료</Text>
         </TouchableOpacity>
       </View>
+      <BottomNav></BottomNav>
     </View>
   );
 };

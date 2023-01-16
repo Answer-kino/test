@@ -1,7 +1,9 @@
 import {useEffect, useState} from 'react';
 import {
   BackHandler,
+  Dimensions,
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -54,59 +56,66 @@ const Question = ({navigation}: any) => {
   return (
     <View>
       <TopNav navigation={navigation} title="자주묻는 질문" />
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-        }}>
-        <View>
+      <ScrollView style={styles.scrollView}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}>
           <View>
-            {questionInfo.map((item: any, index: number) => {
-              const title = item.Title;
-              const content = item.Content;
+            <View>
+              {questionInfo.map((item: any, index: number) => {
+                const title = item.Title;
+                const content = item.Content;
 
-              return (
-                <View key={index}>
-                  <View>
-                    <TouchableOpacity
-                      style={{marginTop: '3%'}}
-                      onPress={() => {
-                        dropDownHandler(index, !dropDown2);
-                        setDropDown2(!dropDown2);
-                        console.log(dropDown);
-                      }}>
-                      <View
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          marginTop: '5%',
+                return (
+                  <View key={index}>
+                    <View>
+                      <TouchableOpacity
+                        style={{marginTop: '3%'}}
+                        onPress={() => {
+                          dropDownHandler(index, !dropDown2);
+                          setDropDown2(!dropDown2);
+                          console.log(dropDown);
                         }}>
-                        <Text style={styles.questionmark}>Q</Text>
-                        <Text style={styles.questiontitle}>{title}</Text>
+                        <View
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            marginTop: '5%',
+                          }}>
+                          <Text style={styles.questionmark}>Q</Text>
+                          <Text style={styles.questiontitle}>{title}</Text>
 
-                        <Image
-                          style={styles.dropdownimg}
-                          source={require('./../../../assets/dropdown.png')}></Image>
-                      </View>
-                    </TouchableOpacity>
+                          <Image
+                            style={styles.dropdownimg}
+                            source={require('./../../../assets/dropdown.png')}></Image>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                    <View>
+                      {dropDown[index] ? (
+                        <Text style={styles.contenttext}>{content}</Text>
+                      ) : null}
+                    </View>
                   </View>
-                  <View>
-                    {dropDown[index] ? (
-                      <Text style={styles.contenttext}>{content}</Text>
-                    ) : null}
-                  </View>
-                </View>
-              );
-            })}
+                );
+              })}
+            </View>
           </View>
         </View>
-      </View>
+        <View style={{marginTop: 110}}></View>
+      </ScrollView>
+
       <BottomNav navigation={navigation} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollView: {
+    height: Dimensions.get('window').height - 80,
+  },
   questiontitle: {
     color: 'black',
     marginLeft: '3%',

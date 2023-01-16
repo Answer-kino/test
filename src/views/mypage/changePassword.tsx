@@ -10,15 +10,27 @@ import {
 } from 'react-native';
 import API_Mypage from '../../@api/mypage/Mypage';
 import TopNav from '../../components/topNav/TopNav';
-
+import {regExp__pwd} from '../../@utility/reg';
 const ChangePassword = ({navigation}: any) => {
   const [curPwd, setCurPwd] = useState<string>('');
   const [newPwd, setNewPwd] = useState<string>('');
   const [newPwd2, setNewPwd2] = useState<string>('');
-  const [pwdValidation, setPwdValidation] = useState(false);
-  let regPwd =
-    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
+  // const [pwdValidation, setPwdValidation] = useState(false);
+  // const [pwdEqual, setPwdEqual] = useState(false);
+  const [pwdCheck, setPwdCheck] = useState({
+    pwdValidation: false,
+    pwdEqual: false,
+  });
   const Mypage = new API_Mypage();
+
+  const pwdValidationHandler = (key: any) => {
+    if (!regExp__pwd.test(newPwd)) {
+      setPwdCheck((cur: any) => ({...cur, [key]: true}));
+    }
+    if (newPwd !== newPwd2) {
+      setPwdCheck((cur: any) => ({...cur, [key]: true}));
+    }
+  };
 
   const errorHandler = () => {
     if (curPwd === newPwd) {
@@ -27,23 +39,15 @@ const ChangePassword = ({navigation}: any) => {
     if (newPwd !== newPwd2) {
       alert('새로운 비밀번호를 확인해주세요.');
     }
-    if (!regPwd.test(newPwd)) {
+    if (!regExp__pwd.test(newPwd)) {
       alert('패스워드를 영문+숫자+특수문자 : 8자리 이상을 사용해주세요.');
     }
-
-    console.log(curPwd, newPwd, newPwd2, regPwd.test(newPwd), pwdValidation);
   };
 
   const changePwd = async () => {
     errorHandler();
-    // console.log(
-    //   curPwd === newPwd,
-    //   newPwd !== newPwd2,
-    //   !regPwd.test(newPwd),
-    //   'pwdValidation',
-    //   pwdValidation
-    // );
-    if (curPwd !== newPwd && newPwd === newPwd2 && regPwd.test(newPwd)) {
+
+    if (curPwd !== newPwd && newPwd === newPwd2 && regExp__pwd.test(newPwd)) {
       try {
         const result = await Mypage.changePasswd({curPwd, newPwd});
         console.log('twresult', result);
@@ -57,9 +61,7 @@ const ChangePassword = ({navigation}: any) => {
       }
     }
   };
-  useEffect(() => {
-    console.log('test', regPwd.test('!answer4321!'));
-  }, []);
+
   return (
     <View style={styles.full}>
       <TopNav navigation={navigation} title="패스워드 변경" />
@@ -81,22 +83,28 @@ const ChangePassword = ({navigation}: any) => {
         onChangeText={text => {
           setNewPwd(text);
         }}
-        secureTextEntry={true}></TextInput>
-      {regPwd.test(newPwd) ? null : (
+        secureTextEntry={true}
+        onBlur={() => {
+          pwdValidationHandler('pwdValidation');
+        }}></TextInput>
+      {pwdCheck.pwdValidation ? (
         <Text style={styles.pwdValidationText}>
           숫자,영문,특수문자 포함하여 8자리 이상 입력해주세요.
         </Text>
-      )}
+      ) : null}
       <TextInput
         style={styles.inputbox2}
         placeholder="새 비밀번호 확인"
         placeholderTextColor="#898989"
         secureTextEntry={true}
         value={newPwd2}
+        onBlur={() => {
+          pwdValidationHandler('pwdEqual');
+        }}
         onChangeText={text => {
           setNewPwd2(text);
         }}></TextInput>
-      {newPwd2 !== newPwd ? (
+      {pwdCheck.pwdEqual ? (
         <Text style={styles.pwdValidationText}>
           새로운 비밀번호가 다릅니다.
         </Text>
