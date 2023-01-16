@@ -81,13 +81,13 @@ class API_SIGN_SERVICE extends AxiosInstance {
   }
 
   async signUp(signInfo: any): Promise<any> {
-    console.log('tw :', signInfo);
     try {
       const url = 'sign/up';
-      await this.API.post(url, signInfo);
+      const data = await this.API.post(url, signInfo);
+      return data;
     } catch (error: any) {
       console.error(error);
-      throw new Error('회원가입 실패');
+      throw new Error('signUpAPI 회원가입 실패');
     }
   }
 }

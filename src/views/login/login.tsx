@@ -124,7 +124,8 @@ const Login = ({navigation}: any) => {
     termsOfService: false,
     privacy: false,
   });
-
+  // 회원가입 완료 모달
+  const [signUpModal, setSignUpModal] = useState(false);
   // 로딩여부
   const [isLoding, setIsLoding] = useState(false);
 
@@ -135,7 +136,7 @@ const Login = ({navigation}: any) => {
   });
 
   // 네비게이션 함수
-  const navigationHandler = (key: string) => () => {
+  const navigationPushHandler = (key: string) => () => {
     navigation.push(key);
   };
 
@@ -325,9 +326,54 @@ const Login = ({navigation}: any) => {
   };
 
   // 회원가입 신청
-  const signUpHandler = () => {
-    console.log(isAllowSignInfo);
+  const signUpHandler = async () => {
+    let errorMsg;
+    for (let [key, value] of Object.entries(isAllowSignInfo)) {
+      if (!value) {
+        switch (key) {
+          case 'carNumber':
+            errorMsg = '차량번호를 확인해주세요.';
+            break;
+          case 'pwd':
+            errorMsg = '패스워드를 확인해주세요.';
+            break;
+          case 'phone':
+            errorMsg = '연락처를 확인해주세요.';
+            break;
+          case 'email':
+            errorMsg = '이메일를 확인해주세요.';
+            break;
+          case 'termsOfService':
+            errorMsg = '[필수] 이용약관를 동의해주세요.';
+            break;
+          case 'privacy':
+            errorMsg = '[필수] 개인정보수집 및 이용를 동의해주세요.';
+            break;
+        }
+        if (errorMsg) break;
+      }
+    }
+    if (errorMsg) return Alert.alert('필수조건 필요', errorMsg);
+
+    try {
+      setIsLoding(true);
+      const signUpParams = {...signInfo, ...activeInfo};
+      await SIGN_SERVICE.signUp(signUpParams);
+      setSignUpModal(true);
+    } catch (error) {
+      alert('signUpHandler 회원가입 실패');
+      setSignUpModal(false);
+    } finally {
+      setIsLoding(false);
+    }
   };
+
+  // 회원가입 완료 모달
+  const signUpSuccessHandler = () => {
+    setSignUpModal(false);
+    navigation.navigate('Login2');
+  };
+
   /**
    * useEffect Hook API
    */
@@ -415,6 +461,38 @@ const Login = ({navigation}: any) => {
           }}
         />
       </Modal>
+      <Modal animationType="fade" transparent={true} visible={signUpModal}>
+        <View style={styles.signUpModalWrap}>
+          <View style={styles.signUpModalView}>
+            <View style={styles.signUpModalTop}>
+              <View style={styles.signUpModalTopHead}>
+                <TouchableOpacity
+                  style={styles.signUpModalTopHeadBtn}
+                  onPress={signUpSuccessHandler}>
+                  <Text style={styles.signUpModalTopHeadText}>X</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.signUpModalTopBody}>
+                <Text style={styles.signUpModalTopBodyTitle}>환영합니다!</Text>
+                <Text style={styles.signUpModalTopBodyContent}>
+                  NFT차량 가입이 완료됐습니다.
+                </Text>
+                <Text style={styles.signUpModalTopBodyCarNumber}>
+                  차량번호 : {signInfo?.carNumber}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.signUpModalBottom}>
+              <TouchableOpacity
+                style={styles.signUpModalBottomBtn}
+                onPress={signUpSuccessHandler}>
+                <Text style={styles.signUpModalBottomText}>시작하기</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       <View>
         <Text style={styles.TopText}>회원가입</Text>
       </View>
@@ -649,7 +727,7 @@ const Login = ({navigation}: any) => {
                 <Text style={styles.requirementsMsg}>필수</Text>
                 <Text>이용약관</Text>
               </TouchableOpacity>
-              <Text onPress={navigationHandler('TermsOfService')}>
+              <Text onPress={navigationPushHandler('TermsOfService')}>
                 {' '}
                 [내용보기]
               </Text>
@@ -665,7 +743,10 @@ const Login = ({navigation}: any) => {
                 <Text style={styles.requirementsMsg}>필수</Text>
                 <Text>개인정보수집 및 이용</Text>
               </TouchableOpacity>
-              <Text onPress={navigationHandler('Privacy')}> [내용보기]</Text>
+              <Text onPress={navigationPushHandler('Privacy')}>
+                {' '}
+                [내용보기]
+              </Text>
             </View>
             <View style={styles.checkBoxView}>
               <CheckBox
@@ -678,7 +759,10 @@ const Login = ({navigation}: any) => {
                 <Text style={styles.selectionMsg}>선택</Text>
                 <Text>프로모션 정보수신약관</Text>
               </TouchableOpacity>
-              <Text onPress={navigationHandler('Promotion')}> [내용보기]</Text>
+              <Text onPress={navigationPushHandler('Promotion')}>
+                {' '}
+                [내용보기]
+              </Text>
             </View>
             <View style={styles.checkBoxView}>
               <CheckBox
@@ -691,7 +775,10 @@ const Login = ({navigation}: any) => {
                 <Text style={styles.selectionMsg}>선택</Text>
                 <Text>마케팅,SNS,이메일 수신동의</Text>
               </TouchableOpacity>
-              <Text onPress={navigationHandler('Marketing')}> [내용보기]</Text>
+              <Text onPress={navigationPushHandler('Marketing')}>
+                {' '}
+                [내용보기]
+              </Text>
             </View>
             <View style={styles.checkBoxView}>
               <Text style={{color: 'red', fontSize: 13}}>
@@ -714,6 +801,85 @@ const styles = StyleSheet.create({
   scrollView: {
     height: Dimensions.get('window').height,
   },
+  // signUpModal
+  signUpModalWrap: {
+    display: 'flex',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba( 0, 0, 0, 0.5 )',
+  },
+  signUpModalView: {
+    width: '80%',
+    height: 200,
+    backgroundColor: 'white',
+    display: 'flex',
+    flexDirection: 'column',
+    borderRadius: 15,
+  },
+  signUpModalTop: {height: '75%'},
+  signUpModalTopHead: {
+    display: 'flex',
+    alignItems: 'flex-end',
+  },
+  signUpModalTopHeadBtn: {
+    backgroundColor: 'black',
+    width: 33,
+    height: 33,
+    borderRadius: 100,
+    marginTop: 10,
+    marginRight: 10,
+  },
+  signUpModalTopHeadText: {
+    color: 'white',
+    fontSize: 20,
+    lineHeight: 33,
+    textAlign: 'center',
+  },
+  signUpModalTopBody: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  signUpModalTopBodyTitle: {
+    color: '#292929',
+    fontSize: 20,
+    fontWeight: '700',
+    lineHeight: 35,
+    marginBottom: 10,
+  },
+  signUpModalTopBodyContent: {
+    color: '#666666',
+    fontSize: 14,
+    fontWeight: '500',
+    lineHeight: 20,
+  },
+  signUpModalTopBodyCarNumber: {
+    color: '#226EC8',
+    fontSize: 14,
+    fontWeight: '500',
+    lineHeight: 20,
+  },
+  signUpModalBottom: {
+    display: 'flex',
+    height: '25%',
+    backgroundColor: '#73A2D9',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
+  signUpModalBottomBtn: {
+    display: 'flex',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  signUpModalBottomText: {
+    color: '#FFFFFF',
+    fontSize: 17,
+    fontWeight: '500',
+    lineHeight: 20,
+  },
+
+  // main
   full: {
     height: '100%',
     width: '100%',
