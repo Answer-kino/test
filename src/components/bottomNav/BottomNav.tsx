@@ -55,7 +55,6 @@ const BottomNav = ({navigation}: any) => {
           <TouchableOpacity
             onPress={() => {
               enterMypage();
-              // navigation.push('Mypage');
             }}
             style={styles.imageContainer}>
             <Image source={require('../../assets/mypage.png')} />

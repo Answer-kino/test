@@ -13,10 +13,8 @@ class API_Mypage extends AxiosInstance {
 
       return data.result;
     } catch (error: any) {
-      console.log(error.response.data.message);
-      if (error.response.data.message === 'jwt must be provided') {
-        alert('로그인 해주세요.');
-      }
+      throw new Error(error);
+
       // alert('a');
     }
   }
@@ -53,12 +51,12 @@ class API_Mypage extends AxiosInstance {
     try {
       await this.getActHeader();
       const url = 'user/pwd';
-      console.log(curPwd, newPwd, url);
+      // console.log(curPwd, newPwd, url);
       const {data} = await this.API.patch(url, {
         curPwd: curPwd,
         prevPwd: newPwd,
       });
-      console.log('tw123123', data);
+      // console.log('tw123123', data);
       return data;
     } catch (error: any) {
       if (error.response.data.code === 'WRONG_PASSWORD') {
@@ -72,8 +70,9 @@ class API_Mypage extends AxiosInstance {
     try {
       await this.getActHeader();
       const url = 'user/phone';
-      const {data} = await this.API.patch(url, phone);
-      console.log('핸드폰변경', data);
+
+      const data = await this.API.patch(url, {phone});
+      // console.log('핸드폰변경', data);
       return data;
     } catch (error: any) {
       throw new Error(error);

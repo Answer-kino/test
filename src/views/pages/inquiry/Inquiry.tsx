@@ -24,7 +24,7 @@ const Inquiry = ({navigation}: any) => {
       try {
         // console.log(data, content);
         const result = await API_Inquiry.POST_INQUIRY({title, content});
-        navigation.push('InquiryList');
+        navigation.replace('InquiryList');
         console.log(result);
       } catch (error) {
         console.log(error);
@@ -54,6 +54,7 @@ const Inquiry = ({navigation}: any) => {
           style={styles.text1}
           placeholder="문의 제목"
           placeholderTextColor="#898989"
+          multiline={true}
           onChangeText={text => {
             setTitle(text);
           }}></TextInput>
@@ -61,6 +62,7 @@ const Inquiry = ({navigation}: any) => {
           style={styles.text2}
           placeholder="문의 내용"
           placeholderTextColor="#898989"
+          multiline={true}
           onChangeText={text => {
             setContent(text);
           }}></TextInput>
@@ -91,6 +93,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '80%',
     paddingLeft: 10,
+    textAlignVertical: 'top',
   },
   text2: {
     color: 'black',
@@ -101,6 +104,7 @@ const styles = StyleSheet.create({
     width: '80%',
     paddingLeft: 10,
     height: '40%',
+    textAlignVertical: 'top',
   },
   button: {
     color: 'white',

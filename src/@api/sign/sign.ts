@@ -51,6 +51,7 @@ class API_SIGN_SERVICE extends AxiosInstance {
   }
 
   async checkEmailDigitCode({email, digitCode}: any): Promise<any> {
+    console.log('bbbbbbbbbbbbbbbbbb');
     try {
       const url = 'sign/auth';
       const {data} = await this.API.post(url, {
@@ -58,7 +59,7 @@ class API_SIGN_SERVICE extends AxiosInstance {
         redisKey: email,
         digitCode,
       });
-
+      console.log('ccccccccccccccc', data.digitCode);
       return data.digitCode;
     } catch (error: any) {
       throw new Error('메일 인증에 실패 했습니다.');

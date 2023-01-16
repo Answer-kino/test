@@ -1,14 +1,18 @@
 import {useEffect, useState} from 'react';
 import {
   BackHandler,
+  Dimensions,
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from 'react-native';
 import API_Inquiry_Service from '../../../@api/inquiry/inquiry';
 import BottomNav from '../../../components/bottomNav/BottomNav';
+
 import TopNav from '../../../components/topNav/TopNav';
 
 type dropDownType = {
@@ -29,7 +33,8 @@ const InquiryList = ({navigation}: any) => {
     try {
       const result = await Inquiry_SerVice.GET_INQUIRY();
       setInquiryListInfo(result);
-      console.log('tw', result);
+
+      console.log('tw', result.length);
     } catch (error) {
       console.log(error);
     }
@@ -54,57 +59,63 @@ const InquiryList = ({navigation}: any) => {
   return (
     <View>
       <TopNav navigation={navigation} title="문의 목록" />
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-        }}>
-        {inquiryListInfo.map((item: any, index: number) => {
-          const title = item.Title;
-          const answer = item.AdminAnswer;
-          const number = item.IDX_ENQ;
-          return (
-            <View key={index}>
-              <View>
-                <TouchableOpacity
-                  style={{marginTop: '3%'}}
-                  onPress={() => {
-                    dropDownHandler(index, !dropDown2);
-                    setDropDown2(!dropDown2);
-                    console.log(dropDown);
-                  }}>
-                  <View
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      marginTop: '5%',
+      <ScrollView style={styles.scrollView}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}>
+          {inquiryListInfo.map((item: any, index: number) => {
+            const title = item.Title;
+            const answer = item.AdminAnswer;
+            const number = item.IDX_ENQ;
+            return (
+              <View key={index}>
+                <View>
+                  <TouchableOpacity
+                    style={{marginTop: '3%'}}
+                    onPress={() => {
+                      dropDownHandler(index, !dropDown2);
+                      setDropDown2(!dropDown2);
+                      console.log(dropDown);
                     }}>
-                    <Text style={styles.questionmark}>Q</Text>
-                    <Text style={styles.questiontitle}>{title}</Text>
+                    <View
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        marginTop: '5%',
+                      }}>
+                      <Text style={styles.questionmark}>Q</Text>
+                      <Text style={styles.questiontitle}>{title}</Text>
 
-                    <Image
-                      style={styles.dropdownimg}
-                      source={require('./../../../assets/dropdown.png')}></Image>
-                  </View>
-                </TouchableOpacity>
+                      <Image
+                        style={styles.dropdownimg}
+                        source={require('./../../../assets/dropdown.png')}></Image>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  {dropDown[index] === true ? (
+                    <Text style={styles.contenttext}>
+                      {answer !== null ? answer : '확인 중입니다.'}
+                    </Text>
+                  ) : null}
+                </View>
               </View>
-              <View>
-                {dropDown[index] === true ? (
-                  <Text style={styles.contenttext}>
-                    {answer !== null ? answer : '확인 중입니다.'}
-                  </Text>
-                ) : null}
-              </View>
-            </View>
-          );
-        })}
-      </View>
+            );
+          })}
+        </View>
+        <View style={{marginTop: 110}}></View>
+      </ScrollView>
       <BottomNav navigation={navigation} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollView: {
+    height: Dimensions.get('window').height - 80,
+  },
   questiontitle: {
     color: 'black',
     marginLeft: '3%',

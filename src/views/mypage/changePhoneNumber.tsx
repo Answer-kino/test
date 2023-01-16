@@ -11,19 +11,18 @@ import {
 import API_Mypage from '../../@api/mypage/Mypage';
 import TopNav from '../../components/topNav/TopNav';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
+import {regExp_phone} from '../../@utility/reg';
 const ChangePhoneNumber = ({navigation, route}: any) => {
   const [newPhoneNumber, setNewPhoneNumber] = useState<string>('');
   const [validationText, setValidationText] = useState(false);
   const [validation, setValidation] = useState(false);
   const [digitCode, setDigitCode] = useState('');
   const initTime = useRef<any>({phone: 0});
-  const interval = useRef<any>({phone: null});
+  const interval = useRef<any>(null);
   const [validTimeCheck, setValidTimeCheck] = useState(false);
   const [time, setTime] = useState<any>({
-    phone: {
-      min: '0',
-      sec: '0',
-    },
+    min: '0',
+    sec: '0',
   });
 
   const Mypage = new API_Mypage();
@@ -31,46 +30,45 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
   const [validationTime, setValidationTime] = useState<any>({
     phone: false,
   });
-  const timerStart = (key: string) => {
+  const timerStart = () => {
     try {
-      if (validationTime[key]) return;
-      initTime.current[key] = 4 * 60;
-      console.log(`${key} 타이머가 작동을 시작합니다.`);
-      interval.current[key] = setInterval(() => {
-        if (initTime.current[key] < 1) {
-          clearInterval(interval.current[key]);
-          setValidationTime((cur: any) => ({...cur, [key]: true}));
-        }
+      // if (validationTime[]) return;
+      if (interval.current) {
+        clearInterval(interval.current);
+      }
 
-        const min = initTime.current[key] / 60;
-        const sec = initTime.current[key] % 60;
-        initTime.current[key] -= 1;
+      // initTime.current[] = 4 * 60;
+      initTime.current = 240;
+      // console.log(`${} 타이머가 작동을 시작합니다.`);
+      interval.current = setInterval(() => {
+        if (initTime.current < 1) {
+          clearInterval(interval.current);
+          // setValidationTime((cur: any) => ({...cur, []: true}));
+        }
+        const min = initTime.current / 60;
+        const sec = initTime.current % 60;
+        initTime.current -= 1;
+
         const tmpObj = {
           min: String(Math.floor(min)).padStart(2, '0'),
           sec: String(sec).padStart(2, '0'),
         };
-        setTime((cur: any) => ({...cur, [key]: tmpObj}));
+        setTime(tmpObj);
       }, 1000);
 
-      return () => clearInterval(interval.current[key]);
+      return () => clearInterval(interval.current);
     } catch (error) {
       console.error(error);
-    }
-  };
-  const validTime = () => {
-    if (time.phone.min == '00' && time.phone.sec == '00') {
-      setValidTimeCheck(true);
-    } else {
-      setValidTimeCheck(false);
     }
   };
 
   const changePhoneNumber = async () => {
     if (validation === true) {
       const phone = newPhoneNumber;
+      console.log(newPhoneNumber);
       try {
-        const result = Mypage.changePhoneNumber(phone);
-        console.log('수정완료', result);
+        const result = await Mypage.changePhoneNumber(phone);
+        // console.log('수정완료abc', result);
         navigation.push('Mypage');
       } catch (error) {
         console.log(error);
@@ -80,29 +78,67 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
     }
   };
   const validPhoneNumber = async () => {
-    console.log('a');
     const type = 'phone';
     const redisKey = newPhoneNumber;
-    try {
-      const result = Mypage.validPhoneNumber({type, redisKey});
-    } catch (error) {
-      console.log(error);
+    if (newPhoneNumber.length !== 11 || !regExp_phone.test(newPhoneNumber)) {
+      alert('휴대폰 번호를 다시 확인해주세요.');
+    } else {
+      try {
+        setValidationText(true);
+        const result = await Mypage.validPhoneNumber({type, redisKey});
+        if (result.success) {
+          timerStartHandler();
+          console.log(result);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const timerStartHandler = () => {
+    console.log(interval.current);
+    if (interval.current) {
+      showConfirmTimerHandler();
+    } else {
+      timerStart();
     }
   };
 
   const validPhoneNumberCheck = async () => {
     const phone = newPhoneNumber;
     try {
+      console.log('digitcode', digitCode);
       const result = await Valid.checkPhoneDigitCode({phone, digitCode});
       console.log('수정완료', result);
-      if (result.data.digitCode === false) {
+      if (result.digitCode === false) {
         alert('인증번호가 틀립니다.');
       } else {
         setValidation(true);
+        clearInterval(interval.current);
       }
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const showConfirmTimerHandler = () => {
+    return Alert.alert(
+      '인증번호가 도착하지 않았습니까?',
+      '새로운 인증번호를 발급 받으시겠습니까?',
+      [
+        {
+          text: '네',
+          onPress: () => {
+            setValidation(false);
+            timerStart();
+          },
+        },
+        {
+          text: '아니오',
+        },
+      ]
+    );
   };
 
   return (
@@ -131,8 +167,6 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
         <TouchableOpacity
           style={styles.checkButton}
           onPress={() => {
-            timerStart('phone');
-            setValidationText(true);
             validPhoneNumber();
           }}>
           <Text style={styles.buttonText}>인증요청</Text>
@@ -163,21 +197,21 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
                 setDigitCode(text);
               }}></TextInput>
             <Text style={{color: 'black', marginTop: '7%', marginLeft: '-33%'}}>
-              {time.phone.min} : {time.phone.sec}
+              {time.min} : {time.sec}
             </Text>
             <TouchableOpacity
               style={styles.checkButton2}
               onPress={() => {
                 validPhoneNumberCheck();
-                validTime();
-              }}>
+              }}
+              disabled={(time.min === '00' && time.sec === '00') || validation}>
               <Text style={styles.buttonText}>인증하기</Text>
             </TouchableOpacity>
           </View>
           {validation ? (
             <Text style={styles.validationTimeText}>인증 되었습니다.</Text>
           ) : null}
-          {time.phone.min === '00' && time.phone.sec === '00' ? (
+          {time.min === '00' && time.sec === '00' ? (
             <Text style={styles.validationTimeText}>
               인증시간이 만료되었습니다. 다시 인증해주세요.
             </Text>
@@ -220,8 +254,8 @@ const styles = StyleSheet.create({
   },
   inputbox: {
     backgroundColor: 'white',
-    color: '#898989',
-    //   color: 'black',
+    // color: '#898989',
+    color: 'black',
     fontFamily: 'Noto Sans',
     fontWeight: '400',
     fontSize: 15,
