@@ -1,12 +1,13 @@
 import {useEffect, useRef, useState} from 'react';
 import {
   Alert,
-  Image,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
+  Modal,
+  ActivityIndicator,
 } from 'react-native';
 import API_Mypage from '../../@api/mypage/Mypage';
 import TopNav from '../../components/topNav/TopNav';
@@ -30,6 +31,8 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
   const [validationTime, setValidationTime] = useState<any>({
     phone: false,
   });
+  // 로딩여부
+  const [isLoding, setIsLoding] = useState(false);
   const timerStart = () => {
     try {
       // if (validationTime[]) return;
@@ -67,11 +70,14 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
       const phone = newPhoneNumber;
       console.log(newPhoneNumber);
       try {
+        setIsLoding(true);
         const result = await Mypage.changePhoneNumber(phone);
         // console.log('수정완료abc', result);
         navigation.push('Mypage');
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoding(false);
       }
     } else {
       alert('핸드폰을 인증해주세요.');
@@ -85,6 +91,7 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
     } else {
       try {
         setValidationText(true);
+        setIsLoding(true);
         const result = await Mypage.validPhoneNumber({type, redisKey});
         if (result.success) {
           timerStartHandler();
@@ -92,6 +99,8 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoding(false);
       }
     }
   };
@@ -109,6 +118,7 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
     const phone = newPhoneNumber;
     try {
       console.log('digitcode', digitCode);
+      setIsLoding(true);
       const result = await Valid.checkPhoneDigitCode({phone, digitCode});
       console.log('수정완료', result);
       if (result.digitCode === false) {
@@ -119,6 +129,8 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoding(false);
     }
   };
 
@@ -143,6 +155,15 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
 
   return (
     <View style={styles.full}>
+      <Modal transparent={true} visible={isLoding}>
+        <ActivityIndicator
+          size={'large'}
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+          }}
+        />
+      </Modal>
       <TopNav navigation={navigation} title="휴대폰 번호 변경" />
       <View
         style={{
