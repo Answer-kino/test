@@ -33,6 +33,10 @@ interface Capitalinfo {
   Contact: any;
 }
 
+interface tmpType {
+  [key: string]: any;
+}
+
 const Home = ({navigation}: any) => {
   const HOME_SERVICE = new API_HOME_SERVICE();
   const Mypage = new API_Mypage();
@@ -41,7 +45,7 @@ const Home = ({navigation}: any) => {
   const toggleOpen = () => setOpen(!open);
   const [count, setCount] = useState(0);
   const [isAccess, setIsAccess] = useState(false);
-  const [userInfo, setUserInfo] = useState<EUserInfo>();
+  const [carNumber, setCarNumber] = useState<tmpType>();
   const [capitalInfo, setCapitalInfo] = useState<Capitalinfo>();
   const [noticeInfo, setNoticeInfo] = useState([]);
 
@@ -53,7 +57,7 @@ const Home = ({navigation}: any) => {
   const getMyInfo = async () => {
     try {
       const userInfo = await HOME_SERVICE.INFO();
-      setUserInfo(userInfo);
+      setCarNumber(userInfo);
       setIsAccess(true);
     } catch (error) {
       setIsAccess(false);
@@ -104,6 +108,7 @@ const Home = ({navigation}: any) => {
     getNotice();
     getCapitalinfo();
   }, []);
+
   useEffect(() => {
     const back = BackHandler.addEventListener('hardwareBackPress', backAction);
     return () => back.remove();
@@ -137,22 +142,24 @@ const Home = ({navigation}: any) => {
           </View>
           <Divider width={1} color={'white'} />
           {/**----------- */}
-          {false ? (
-            <View style={styles.mainTopLoginWrap}>
-              <View style={styles.mainTopLoginBtn}>
-                <Text style={styles.mainTopLoginBtnText}>로그인</Text>
-              </View>
-              <View style={styles.mainTopLoginContents}>
-                <Text style={styles.mainTopLoginContentsText}>
-                  계정확인 및 FNT차량 보증서 확인하기
+          {isAccess ? (
+            <View style={styles.mainTopCarNumberWrap}>
+              <View style={styles.mainTopCarNumberBorder}>
+                <Text style={styles.mainTopCarNumberBorderText}>
+                  차량번호 : {carNumber}
                 </Text>
               </View>
             </View>
           ) : (
-            <View style={styles.mainTopCarNumberWrap}>
-              <View style={styles.mainTopCarNumberBorder}>
-                <Text style={styles.mainTopCarNumberBorderText}>
-                  차량번호 : {userInfo?.CarNumber}
+            <View style={styles.mainTopLoginWrap}>
+              <TouchableOpacity
+                style={styles.mainTopLoginBtn}
+                onPress={navigationPushHandler('Login2')}>
+                <Text style={styles.mainTopLoginBtnText}>로그인</Text>
+              </TouchableOpacity>
+              <View style={styles.mainTopLoginContents}>
+                <Text style={styles.mainTopLoginContentsText}>
+                  계정확인 및 FNT차량 보증서 확인하기
                 </Text>
               </View>
             </View>
