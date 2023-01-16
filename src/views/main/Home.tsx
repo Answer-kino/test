@@ -253,19 +253,21 @@ const Home = ({navigation}: any) => {
         </ImageBackground>
         {/**----------- */}
         <View style={styles.descriptionContainer}>
-          <TouchableOpacity onPress={() => navigation.push('NoticeCategory')}>
+          <TouchableOpacity onPress={navigationPushHandler('NoticeCategory')}>
             <Text style={styles.descriptionTitle}>공지사항</Text>
           </TouchableOpacity>
           {noticeInfo.map((item: any, index: number) => {
-            // console.log(noticeInfo);
             const Title = item.Title;
             const temp = item.CreatedDay;
             const CreateDay = temp.split('T')[0];
             return (
-              <View style={styles.descriptionRow} key={index}>
+              <TouchableOpacity
+                style={styles.descriptionRow}
+                key={index}
+                onPress={navigationPushHandler('NoticeCategory')}>
                 <Text style={styles.text}> {Title}</Text>
                 <Text style={styles.text}>{CreateDay}</Text>
-              </View>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -495,7 +497,7 @@ const styles = StyleSheet.create({
   },
   descriptionContainer: {
     paddingHorizontal: 30,
-    marginTop: 30,
+    marginTop: 40,
   },
   descriptionContainer2: {
     marginHorizontal: 30,
