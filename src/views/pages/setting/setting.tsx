@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import API_HOME_SERVICE from '../../../@api/home/home';
 import TopNav from '../../../components/topNav/TopNav';
-//  import Navigation from '../assets/Vector.svg';
+import Navigation from '../../../assets/Vector.svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Setting = ({navigation}: any) => {
@@ -68,20 +68,20 @@ const Setting = ({navigation}: any) => {
             borderWidth: 0.5,
             marginTop: 10,
           }}></View>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <Text style={styles.text2}>로그 아웃</Text>
+        <View>
           <TouchableOpacity
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
             onPress={async () => {
               await AsyncStorage.clear();
               navigation.push('Home');
             }}>
+            <Text style={styles.text2}>로그 아웃</Text>
             <Navigation
-              style={{marginRight: '10%', marginTop: '25%'}}></Navigation>
+              style={{marginRight: '10%', marginTop: 10}}></Navigation>
           </TouchableOpacity>
         </View>
       </View>
@@ -120,19 +120,19 @@ const Setting = ({navigation}: any) => {
           <Text style={styles.text}>고객센터</Text>
         </View>
         <View style={styles.line}></View>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <Text style={styles.text2}>문의하기</Text>
+        <View>
           <TouchableOpacity
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
             onPress={async () => {
               navigation.push('Inquiry');
             }}>
+            <Text style={styles.text2}>문의하기</Text>
             <Navigation
-              style={{marginRight: '10%', marginTop: '30%'}}></Navigation>
+              style={{marginRight: '10%', marginTop: 10}}></Navigation>
           </TouchableOpacity>
         </View>
         <View

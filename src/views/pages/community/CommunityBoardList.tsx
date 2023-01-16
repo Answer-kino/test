@@ -16,7 +16,7 @@ import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const CommunityBoardList = ({navigation}: any) => {
+const CommunityBoardList = ({navigation, route}: any) => {
   const BBS_SERVICE = new API_BBS_SERVICE();
   const [communityInfo, setCommunityInfo] = useState([]);
   const [scrollInfo, setScrollInfo] = useState([]);
@@ -24,6 +24,7 @@ const CommunityBoardList = ({navigation}: any) => {
   const [infoCnt, setInfoCnt] = useState(0);
   const [totalCnt, setTotalCnt] = useState(0);
   const isFocused = useIsFocused();
+  const [loginId, setLoginId] = useState('');
   const getCommunity = async () => {
     try {
       const obj: any = {
@@ -33,7 +34,7 @@ const CommunityBoardList = ({navigation}: any) => {
       };
       const result: any = await BBS_SERVICE.BBS_Community_LIst(obj);
       setCommunityInfo(result);
-      console.log('0106123', result);
+
       setTotalCnt(result.totalCnt.TotalCnt);
     } catch (error) {
       // console.log('getNotice :', error);
@@ -79,7 +80,10 @@ const CommunityBoardList = ({navigation}: any) => {
     return (
       <TouchableOpacity
         onPress={() =>
-          navigation.push('CommunityBoard', {boardIdx: item.IDX_BOARD})
+          navigation.push('CommunityBoard', {
+            boardIdx: item.IDX_BOARD,
+            loginId: route.params.userId,
+          })
         }
         style={styles.documentMenu}>
         <View style={styles.titleContainer}>
