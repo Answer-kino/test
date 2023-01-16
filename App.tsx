@@ -154,11 +154,11 @@ const App = () => {
               component={Notice}
               options={{headerShown: false}}
             />
-            {/* <Stack.Screen
+            <Stack.Screen
               name="Mypage"
               component={Mypage}
               options={{headerShown: false}}
-            /> */}
+            />
             <Stack.Screen
               name="NFTDocument"
               component={NFTDocument}
