@@ -4,7 +4,8 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import MenuDrawer from 'react-native-side-drawer';
 import API_HOME_SERVICE from '../../@api/home/home';
 import Banner from '../../assets/sidemenubanner.svg';
-
+import LoginImg from '../../assets/Login.svg';
+import LogoutImg from '../../assets/Logout.svg';
 interface SideMenuProps {
   open: boolean;
   toggleOpen: Function;
@@ -14,6 +15,7 @@ interface SideMenuProps {
 const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
   const HOME_SERVICE = new API_HOME_SERVICE();
   const [userInfo, setUserInfo] = useState();
+  const [login, setLogin] = useState<any>('');
   const getMyInfo = async () => {
     const act = await AsyncStorage.getItem('act');
     if (act) {
@@ -27,16 +29,27 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
     }
   };
 
-  const enterPage = async (key: any) => {
+  const checkToken = async () => {
     const act = await AsyncStorage.getItem('act');
     console.log(act);
+    if (act !== null) {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
+  };
+
+  const enterPage = async (key: any) => {
+    const act = await AsyncStorage.getItem('act');
     if (act === null) {
       alert('로그인 해주세요.');
     } else {
       navigation.navigate(key);
     }
   };
+
   useEffect(() => {
+    checkToken();
     getMyInfo();
   }, []);
   return (
@@ -105,27 +118,50 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                 <Banner style={{marginTop: '90%', width: '0%'}}></Banner>
               </View>
             </View>
-            <View style={{justifyContent: 'flex-end'}}>
-              <TouchableOpacity
-                style={{
-                  height: '10%',
-                  marginTop: '140%',
-                  width: '30%',
-                  marginLeft: '60%',
-                }}>
-                <View style={styles.sideMenuSectionLeft2}>
-                  <Image source={require('../../assets/logout.png')} />
-                  <Text
-                    style={styles.logoutText}
-                    onPress={async () => {
-                      await AsyncStorage.clear();
-                      navigation.reset({routes: [{name: 'Home'}]});
-                    }}>
-                    로그아웃
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+            {login ? (
+              <View style={{justifyContent: 'flex-end'}}>
+                <TouchableOpacity
+                  style={{
+                    height: '10%',
+                    marginTop: '140%',
+                    width: '30%',
+                    marginLeft: '60%',
+                  }}>
+                  <View style={styles.sideMenuSectionLeft2}>
+                    <LogoutImg></LogoutImg>
+                    <Text
+                      style={styles.logoutText}
+                      onPress={async () => {
+                        await AsyncStorage.clear();
+                        navigation.reset({routes: [{name: 'Home'}]});
+                      }}>
+                      로그아웃
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={{justifyContent: 'flex-end'}}>
+                <TouchableOpacity
+                  style={{
+                    height: '10%',
+                    marginTop: '140%',
+                    width: '30%',
+                    marginLeft: '60%',
+                  }}>
+                  <View style={styles.sideMenuSectionLeft2}>
+                    <LoginImg></LoginImg>
+                    <Text
+                      style={styles.logoutText}
+                      onPress={async () => {
+                        navigation.navigate('Login2');
+                      }}>
+                      로그인
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         </View>
       }
@@ -216,6 +252,7 @@ const styles = StyleSheet.create({
     // marginLeft: '60%',
   },
   logoutText: {
+    marginLeft: '7%',
     fontSize: 15,
     color: 'black',
   },

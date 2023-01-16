@@ -44,10 +44,28 @@ const Home = ({navigation}: any) => {
   const [carNumber, setCarNumber] = useState<string>();
   const [capitalInfo, setCapitalInfo] = useState<Capitalinfo>();
   const [noticeInfo, setNoticeInfo] = useState([]);
+  const [login, setLogin] = useState<any>('');
 
   // 네비게이션 함수
   const navigationPushHandler = (key: string) => () => {
+    if (login) {
+      navigation.push(key);
+    } else {
+      null;
+    }
+  };
+  const navigationPushHandler2 = (key: string) => () => {
     navigation.push(key);
+  };
+
+  const checkToken = async () => {
+    const act = await AsyncStorage.getItem('act');
+    console.log(act);
+    if (act !== null) {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
   };
 
   const getMyInfo = async () => {
@@ -100,6 +118,7 @@ const Home = ({navigation}: any) => {
   };
 
   useEffect(() => {
+    checkToken();
     getMyInfo();
     getNotice();
     getCapitalinfo();
@@ -150,7 +169,7 @@ const Home = ({navigation}: any) => {
             <View style={styles.mainTopLoginWrap}>
               <TouchableOpacity
                 style={styles.mainTopLoginBtn}
-                onPress={navigationPushHandler('Login2')}>
+                onPress={navigationPushHandler2('Login2')}>
                 <Text style={styles.mainTopLoginBtnText}>로그인</Text>
               </TouchableOpacity>
               <View style={styles.mainTopLoginContents}>
@@ -354,13 +373,18 @@ const Home = ({navigation}: any) => {
               alignItems: 'center',
             }}>
             <View style={{paddingBottom: 10, paddingTop: 10}}>
-              <Text style={{fontSize: 25, fontWeight: '700'}}>
+              <Text style={{fontSize: 25, fontWeight: '700', color: 'black'}}>
                 {capitalInfo?.Contact ? capitalInfo?.Contact : '1588-2114'}
               </Text>
             </View>
             <View>
               <Text
-                style={{textAlign: 'center', fontSize: 13, fontWeight: '400'}}>
+                style={{
+                  textAlign: 'center',
+                  fontSize: 13,
+                  fontWeight: '400',
+                  color: 'black',
+                }}>
                 경기도 용인시 기흥구 기흥로 58, 기흥 ITC벨리 B동 2101호{'\n'}
                 사업자등록번호 418-88-02279 전화번호 1533-3753
               </Text>

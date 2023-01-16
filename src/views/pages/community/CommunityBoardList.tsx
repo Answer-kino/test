@@ -32,18 +32,20 @@ const CommunityBoardList = ({navigation, route}: any) => {
         limit: 10,
         offset: 0,
       };
-      const result: any = await BBS_SERVICE.BBS_Community_LIst(obj);
-      setCommunityInfo(result);
 
+      const result: any = await BBS_SERVICE.BBS_Community_LIst(obj);
+
+      setCommunityInfo(result);
+      console.log('총', result.totalCnt);
       setTotalCnt(result.totalCnt.TotalCnt);
     } catch (error) {
       // console.log('getNotice :', error);
     }
   };
-
   const ScrollGetData = async () => {
     // console.log(totalCnt);
     // console.log(totalCnt.TotalCnt, infoCnt);
+
     if (totalCnt > infoCnt) {
       try {
         setLoading(true);
