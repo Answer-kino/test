@@ -78,8 +78,6 @@ const Mypage = ({navigation}: any) => {
       const result = await MypageApi.getMyData();
       getSwitchToggleHandler(result);
       setMyData(result);
-
-      console.log('내정보', result);
     } catch (error) {
       // alert(error);
     }
@@ -88,11 +86,12 @@ const Mypage = ({navigation}: any) => {
   const getSwitchToggleHandler = (result: any) => {
     try {
       const {Email, Marketing, SNS} = result;
-      const tmpObj: any = {};
-      tmpObj.Email = Email === 'Y';
-      tmpObj.Marketing = Marketing === 'Y';
-      tmpObj.SNS = SNS === 'Y';
-      console.log('tmpObj', tmpObj);
+      const tmpObj: any = {
+        Email: Email === 'Y',
+        Marketing: Marketing === 'Y',
+        SNS: SNS === 'Y',
+      };
+
       setSwitchToggle(tmpObj);
     } catch (error) {
       alert(error);
