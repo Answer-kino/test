@@ -6,6 +6,7 @@ import {
   StyleSheet,
   BackHandler,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import API_HOME_SERVICE from '../../../@api/home/home';
 import TopNav from '../../../components/topNav/TopNav';
@@ -13,8 +14,19 @@ import Navigation from '../../../assets/Vector.svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Setting = ({navigation}: any) => {
+  const enterMypage = async () => {
+    const act = await AsyncStorage.getItem('act');
+    console.log(act);
+    if (act !== null) {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
+  };
+
   const HOME_SERVICE = new API_HOME_SERVICE();
   const [userInfo, setUserInfo] = useState();
+  const [login, setLogin] = useState(false);
   const getMyInfo = async () => {
     try {
       const userInfo = await HOME_SERVICE.INFO();
@@ -24,6 +36,7 @@ const Setting = ({navigation}: any) => {
   };
 
   useEffect(() => {
+    enterMypage();
     getMyInfo();
   }, []);
 
@@ -69,20 +82,36 @@ const Setting = ({navigation}: any) => {
             marginTop: 10,
           }}></View>
         <View>
-          <TouchableOpacity
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-            onPress={async () => {
-              await AsyncStorage.clear();
-              navigation.push('Home');
-            }}>
-            <Text style={styles.text2}>로그 아웃</Text>
-            <Navigation
-              style={{marginRight: '10%', marginTop: 10}}></Navigation>
-          </TouchableOpacity>
+          {login ? (
+            <TouchableOpacity
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+              onPress={async () => {
+                await AsyncStorage.clear();
+                navigation.push('Home');
+              }}>
+              <Text style={styles.text2}>로그 아웃</Text>
+              <Navigation
+                style={{marginRight: '10%', marginTop: 10}}></Navigation>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+              onPress={async () => {
+                navigation.push('Login2');
+              }}>
+              <Text style={styles.text2}>로그인</Text>
+              <Navigation
+                style={{marginRight: '10%', marginTop: 10}}></Navigation>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
       <View>
@@ -128,7 +157,11 @@ const Setting = ({navigation}: any) => {
               justifyContent: 'space-between',
             }}
             onPress={async () => {
-              navigation.push('Inquiry');
+              {
+                login
+                  ? navigation.push('Inquiry')
+                  : Alert.alert('로그인 해주세요.');
+              }
             }}>
             <Text style={styles.text2}>문의하기</Text>
             <Navigation

@@ -10,23 +10,29 @@ import {
 } from 'react-native';
 import API_Mypage from '../../@api/mypage/Mypage';
 import TopNav from '../../components/topNav/TopNav';
+import {regExp__email} from '../../@utility/reg';
 
 const ChangeEmail = ({navigation, route}: any) => {
   const [newEmail, setNewEmail] = useState<string>('');
   const Mypage = new API_Mypage();
   const changeEmail = async () => {
-    if (newEmail !== '') {
-      const email = newEmail;
-      try {
-        const result = Mypage.changeEmail(email);
-        navigation.push('Mypage');
-      } catch (error) {
-        console.log(error);
-      }
+    if (!regExp__email.test(newEmail)) {
+      Alert.alert('올바른 이메일이 아닙니다.');
     } else {
-      alert('이메일을 확인해주세요.');
+      if (newEmail !== '') {
+        const email = newEmail;
+        try {
+          const result = Mypage.changeEmail(email);
+          navigation.push('Mypage');
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        alert('이메일을 확인해주세요.');
+      }
     }
   };
+
   return (
     <View style={styles.full}>
       <TopNav navigation={navigation} title="이메일 변경" />

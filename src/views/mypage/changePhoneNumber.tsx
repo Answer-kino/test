@@ -11,13 +11,14 @@ import {
 import API_Mypage from '../../@api/mypage/Mypage';
 import TopNav from '../../components/topNav/TopNav';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
+import {regExp_phone} from '../../@utility/reg';
 const ChangePhoneNumber = ({navigation, route}: any) => {
   const [newPhoneNumber, setNewPhoneNumber] = useState<string>('');
   const [validationText, setValidationText] = useState(false);
   const [validation, setValidation] = useState(false);
   const [digitCode, setDigitCode] = useState('');
   const initTime = useRef<any>({phone: 0});
-  const interval = useRef<any>({phone: null});
+  const interval = useRef<any>(null);
   const [validTimeCheck, setValidTimeCheck] = useState(false);
   const [time, setTime] = useState<any>({
     min: '0',
@@ -64,9 +65,10 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
   const changePhoneNumber = async () => {
     if (validation === true) {
       const phone = newPhoneNumber;
+      console.log(newPhoneNumber);
       try {
-        const result = Mypage.changePhoneNumber(phone);
-        console.log('수정완료', result);
+        const result = await Mypage.changePhoneNumber(phone);
+        // console.log('수정완료abc', result);
         navigation.push('Mypage');
       } catch (error) {
         console.log(error);
@@ -76,23 +78,26 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
     }
   };
   const validPhoneNumber = async () => {
-    if (newPhoneNumber.length !== 11) {
-      return alert('휴대폰 번호를 다시 확인해주세요.');
-    }
-    console.log('timer');
     const type = 'phone';
     const redisKey = newPhoneNumber;
-    try {
-      const result = await Mypage.validPhoneNumber({type, redisKey});
-      if (result.success) {
-        timerStartHandler();
+    if (newPhoneNumber.length !== 11 || !regExp_phone.test(newPhoneNumber)) {
+      alert('휴대폰 번호를 다시 확인해주세요.');
+    } else {
+      try {
+        setValidationText(true);
+        const result = await Mypage.validPhoneNumber({type, redisKey});
+        if (result.success) {
+          timerStartHandler();
+          console.log(result);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
   const timerStartHandler = () => {
+    console.log(interval.current);
     if (interval.current) {
       showConfirmTimerHandler();
     } else {
@@ -102,15 +107,15 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
 
   const validPhoneNumberCheck = async () => {
     const phone = newPhoneNumber;
-
     try {
+      console.log('digitcode', digitCode);
       const result = await Valid.checkPhoneDigitCode({phone, digitCode});
       console.log('수정완료', result);
-      if (result.data.digitCode === false) {
+      if (result.digitCode === false) {
         alert('인증번호가 틀립니다.');
       } else {
         setValidation(true);
-        clearInterval(interval.current.phone);
+        clearInterval(interval.current);
       }
     } catch (error) {
       console.log(error);
@@ -162,7 +167,6 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
         <TouchableOpacity
           style={styles.checkButton}
           onPress={() => {
-            setValidationText(true);
             validPhoneNumber();
           }}>
           <Text style={styles.buttonText}>인증요청</Text>
@@ -250,8 +254,8 @@ const styles = StyleSheet.create({
   },
   inputbox: {
     backgroundColor: 'white',
-    color: '#898989',
-    //   color: 'black',
+    // color: '#898989',
+    color: 'black',
     fontFamily: 'Noto Sans',
     fontWeight: '400',
     fontSize: 15,

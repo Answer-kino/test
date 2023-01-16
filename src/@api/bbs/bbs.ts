@@ -85,9 +85,7 @@ class API_BBS_SERVICE extends AxiosInstance {
     try {
       await this.getActHeader();
       const url = `bbs/modifyContent`;
-
       const {data} = await this.API.patch(url, {boardIdx, title, content});
-
       return data;
     } catch (error: any) {
       throw new Error(error);
