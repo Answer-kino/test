@@ -137,22 +137,24 @@ const Home = ({navigation}: any) => {
           </View>
           <Divider width={1} color={'white'} />
           {/**----------- */}
-          {false ? (
-            <View style={styles.mainTopLoginWrap}>
-              <View style={styles.mainTopLoginBtn}>
-                <Text style={styles.mainTopLoginBtnText}>로그인</Text>
-              </View>
-              <View style={styles.mainTopLoginContents}>
-                <Text style={styles.mainTopLoginContentsText}>
-                  계정확인 및 FNT차량 보증서 확인하기
-                </Text>
-              </View>
-            </View>
-          ) : (
+          {userInfo && userInfo.CarNumber ? (
             <View style={styles.mainTopCarNumberWrap}>
               <View style={styles.mainTopCarNumberBorder}>
                 <Text style={styles.mainTopCarNumberBorderText}>
                   차량번호 : {userInfo?.CarNumber}
+                </Text>
+              </View>
+            </View>
+          ) : (
+            <View style={styles.mainTopLoginWrap}>
+              <TouchableOpacity
+                style={styles.mainTopLoginBtn}
+                onPress={navigationPushHandler('Login2')}>
+                <Text style={styles.mainTopLoginBtnText}>로그인</Text>
+              </TouchableOpacity>
+              <View style={styles.mainTopLoginContents}>
+                <Text style={styles.mainTopLoginContentsText}>
+                  계정확인 및 FNT차량 보증서 확인하기
                 </Text>
               </View>
             </View>
