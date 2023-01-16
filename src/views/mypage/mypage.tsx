@@ -393,7 +393,7 @@ const Mypage = ({navigation}: any) => {
           <Text style={styles.modifyBtnText}>수정 완료</Text>
         </TouchableOpacity>
       </View>
-      <BottomNav></BottomNav>
+      <BottomNav navigation={navigation}></BottomNav>
     </View>
   );
 };
