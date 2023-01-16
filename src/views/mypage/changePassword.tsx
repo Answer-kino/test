@@ -1,115 +1,165 @@
 import {useEffect, useState} from 'react';
 import {
   Alert,
-  Image,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
+  Modal,
+  ActivityIndicator,
 } from 'react-native';
 import API_Mypage from '../../@api/mypage/Mypage';
 import TopNav from '../../components/topNav/TopNav';
 import {regExp__pwd} from '../../@utility/reg';
+import _ from 'lodash';
+import API_SIGN_SERVICE from '../../@api/sign/sign';
 const ChangePassword = ({navigation}: any) => {
-  const [curPwd, setCurPwd] = useState<string>('');
-  const [newPwd, setNewPwd] = useState<string>('');
-  const [newPwd2, setNewPwd2] = useState<string>('');
-  // const [pwdValidation, setPwdValidation] = useState(false);
-  // const [pwdEqual, setPwdEqual] = useState(false);
-  const [pwdCheck, setPwdCheck] = useState({
-    pwdValidation: false,
-    pwdEqual: false,
+  const MYPAGE_SERVICE = new API_Mypage();
+
+  // 패스워드 정보
+  const [pwdInfo, setPwdInfo] = useState<any>({
+    curPwd: '',
+    newPwd1: '',
+    newPwd2: '',
   });
-  const Mypage = new API_Mypage();
+  // 패스워드 정규표현식, 패스워드1,2 동일 여부
+  const [pwdChecked, setPwdChecked] = useState<any>({
+    reg: null,
+    same: null,
+  });
+  // 패스워드 올바르지 않은 값 확인용
+  const [isAllowPwdInfo, setIsAllowPwdInfo] = useState({
+    newPwd: false,
+  });
+  // 로딩여부
+  const [isLoding, setIsLoding] = useState(false);
 
-  const pwdValidationHandler = (key: any) => {
-    if (!regExp__pwd.test(newPwd)) {
-      setPwdCheck((cur: any) => ({...cur, [key]: true}));
-    }
-    if (newPwd !== newPwd2) {
-      setPwdCheck((cur: any) => ({...cur, [key]: true}));
-    }
+  // 네비게이션 함수
+  const navigationPushHandler = (key: string) => {
+    navigation.push(key);
   };
 
-  const errorHandler = () => {
-    if (curPwd === newPwd) {
-      alert('현재 비밀번호와 새로운 비밀번호가 동일합니다.');
-    }
-    if (newPwd !== newPwd2) {
-      alert('새로운 비밀번호를 확인해주세요.');
-    }
-    if (!regExp__pwd.test(newPwd)) {
-      alert('패스워드를 영문+숫자+특수문자 : 8자리 이상을 사용해주세요.');
-    }
+  // 변경할 패스워드 입력
+  const setPwdInfoHandler = (key: string) => (text: string) => {
+    const value = text;
+    setPwdInfo((cur: any) => ({...cur, [key]: value}));
   };
 
-  const changePwd = async () => {
-    errorHandler();
+  // 패스워드 정규표현식 확인 && 패스워드 일치 확인
+  const setPwdCheckedHandler = (key: any) => () => {
+    let value: boolean | null;
+    if (key === 'reg') {
+      value = regExp__pwd.test(pwdInfo.newPwd1);
+    }
+    if (key === 'same') {
+      value = pwdInfo.newPwd1 === pwdInfo.newPwd2;
+    }
 
-    if (curPwd !== newPwd && newPwd === newPwd2 && regExp__pwd.test(newPwd)) {
+    setPwdChecked((cur: any) => ({...cur, [key]: value}));
+  };
+
+  // 패스워드 수정
+  const modifyPwd = async () => {
+    if (!isAllowPwdInfo.newPwd) {
+      return Alert.alert(
+        '비밀번호 잘못에러',
+        '변경할 비밀번호를 확인해주세요.'
+      );
+    }
+    try {
+      const changePasswdParams = {
+        curPwd: pwdInfo.curPwd,
+        newPwd: pwdInfo.newPwd1,
+      };
+      setIsLoding(true);
+      await MYPAGE_SERVICE.changePasswd(changePasswdParams);
+      navigationPushHandler('Mypage');
+    } catch (error: any) {
       try {
-        const result = await Mypage.changePasswd({curPwd, newPwd});
-        console.log('twresult', result);
-        navigation.push('Mypage');
-        setCurPwd('');
-        setNewPwd('');
-        setNewPwd2('');
-      } catch (error: any) {
-        // console.log(error);
-        console.log(error.response);
+        return Alert.alert('비밀번호 변경실패', error);
+      } catch (error) {
+        return Alert.alert('비밀번호 변경실패', '잠시 후 다시 시도해주세요.');
       }
+    } finally {
+      setIsLoding(false);
     }
   };
+
+  // 콘솔
+  useEffect(() => {
+    console.log(pwdInfo);
+  }, [pwdInfo]);
+
+  // 패스워드 일치 && 정규표현식 일치 확인
+  useEffect(() => {
+    if (pwdChecked.reg && pwdChecked.same) {
+      setIsAllowPwdInfo(cur => ({...cur, newPwd: true}));
+    }
+  }, [pwdChecked]);
 
   return (
     <View style={styles.full}>
+      <Modal transparent={true} visible={isLoding}>
+        <ActivityIndicator
+          size={'large'}
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+          }}
+        />
+      </Modal>
       <TopNav navigation={navigation} title="패스워드 변경" />
 
       <TextInput
         style={styles.inputbox}
         placeholder="비밀번호"
         placeholderTextColor="#898989"
-        value={curPwd}
-        onChangeText={text => {
-          setCurPwd(text);
-        }}
-        secureTextEntry={true}></TextInput>
+        value={pwdInfo.curPwd}
+        onChangeText={setPwdInfoHandler('curPwd')}
+        secureTextEntry={true}
+      />
       <TextInput
         style={styles.inputbox2}
         placeholder="새 비밀번호"
         placeholderTextColor="#898989"
-        value={newPwd}
-        onChangeText={text => {
-          setNewPwd(text);
-        }}
+        value={pwdInfo.newPwd1}
+        onChangeText={setPwdInfoHandler('newPwd1')}
+        onBlur={setPwdCheckedHandler('reg')}
         secureTextEntry={true}
-        onBlur={() => {
-          pwdValidationHandler('pwdValidation');
-        }}></TextInput>
-      {pwdCheck.pwdValidation ? (
+      />
+
+      {_.isNull(pwdChecked.reg) ? (
+        ''
+      ) : pwdChecked.reg ? (
+        ''
+      ) : (
         <Text style={styles.pwdValidationText}>
           숫자,영문,특수문자 포함하여 8자리 이상 입력해주세요.
         </Text>
-      ) : null}
+      )}
+
       <TextInput
         style={styles.inputbox2}
         placeholder="새 비밀번호 확인"
         placeholderTextColor="#898989"
         secureTextEntry={true}
-        value={newPwd2}
-        onBlur={() => {
-          pwdValidationHandler('pwdEqual');
-        }}
-        onChangeText={text => {
-          setNewPwd2(text);
-        }}></TextInput>
-      {pwdCheck.pwdEqual ? (
+        value={pwdInfo.newPwd2}
+        onChangeText={setPwdInfoHandler('newPwd2')}
+        onBlur={setPwdCheckedHandler('same')}
+      />
+
+      {_.isNull(pwdChecked.same) ? (
+        ''
+      ) : pwdChecked.same ? (
+        ''
+      ) : (
         <Text style={styles.pwdValidationText}>
           새로운 비밀번호가 다릅니다.
         </Text>
-      ) : null}
-      <TouchableOpacity style={styles.modifyBtn} onPress={changePwd}>
+      )}
+
+      <TouchableOpacity style={styles.modifyBtn} onPress={modifyPwd}>
         <Text style={styles.modifyBtnText}>수정 완료</Text>
       </TouchableOpacity>
     </View>
