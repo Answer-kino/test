@@ -24,7 +24,7 @@ const Inquiry = ({navigation}: any) => {
       try {
         // console.log(data, content);
         const result = await API_Inquiry.POST_INQUIRY({title, content});
-        navigation.push('InquiryList');
+        navigation.replace('InquiryList');
         console.log(result);
       } catch (error) {
         console.log(error);

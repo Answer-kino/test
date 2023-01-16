@@ -156,10 +156,6 @@ const Home = ({navigation}: any) => {
             </View>
           )}
 
-          {/**----------- */}
-
-          {/**----------- */}
-          {/**----------- */}
           <View style={styles.align}>
             <View style={styles.menuContainer}>
               <View style={styles.menuRow1}>
@@ -234,10 +230,15 @@ const Home = ({navigation}: any) => {
             const temp = item.CreatedDay;
             const CreateDay = temp.split('T')[0];
             return (
-              <View style={styles.descriptionRow} key={index}>
-                <Text style={styles.text}> {Title}</Text>
-                <Text style={styles.text}>{CreateDay}</Text>
-              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.push('NoticeCategory');
+                }}>
+                <View style={styles.descriptionRow} key={index}>
+                  <Text style={styles.text}> {Title}</Text>
+                  <Text style={styles.text}>{CreateDay}</Text>
+                </View>
+              </TouchableOpacity>
             );
           })}
         </View>

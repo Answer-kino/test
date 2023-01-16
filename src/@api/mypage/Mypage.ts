@@ -13,10 +13,8 @@ class API_Mypage extends AxiosInstance {
 
       return data.result;
     } catch (error: any) {
-      console.log(error.response.data.message);
-      if (error.response.data.message === 'jwt must be provided') {
-        alert('로그인 해주세요.');
-      }
+      throw new Error(error);
+
       // alert('a');
     }
   }

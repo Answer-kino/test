@@ -8,9 +8,11 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from 'react-native';
 import API_Inquiry_Service from '../../../@api/inquiry/inquiry';
 import BottomNav from '../../../components/bottomNav/BottomNav';
+
 import TopNav from '../../../components/topNav/TopNav';
 
 type dropDownType = {

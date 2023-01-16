@@ -26,6 +26,7 @@ import {ICommentInfo, IDetailInfo} from '../../../@interface/community';
 
 const CommunityBoard = ({navigation, route}: any) => {
   const boardIdx = route.params.boardIdx;
+
   const BBS_SERVICE = new API_BBS_SERVICE();
 
   const [detailInfo, setDetailInfo] = useState<IDetailInfo>();
@@ -56,6 +57,7 @@ const CommunityBoard = ({navigation, route}: any) => {
       const detailInfo: any = await BBS_SERVICE.BBS_Community_Detail(boardIdx);
 
       setDetailInfo(detailInfo);
+      console.log('detail', detailInfo);
     } catch (error) {
       console.error(error);
     }
@@ -134,7 +136,15 @@ const CommunityBoard = ({navigation, route}: any) => {
             <Text style={styles.text}>{detailInfo?.Content}</Text>
           </View>
           <View style={styles.endLine}>
-            <TouchableOpacity style={styles.modifyButton}>
+            <TouchableOpacity
+              style={styles.modifyButton}
+              onPress={() => {
+                navigation.navigate('CommunityEdit', {
+                  content: detailInfo?.Content,
+                  title: detailInfo?.Title,
+                  boardIdx: route.params.boardIdx,
+                });
+              }}>
               <Text style={styles.modifyButtonText}>수정</Text>
             </TouchableOpacity>
           </View>

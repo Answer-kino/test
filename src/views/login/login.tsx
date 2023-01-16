@@ -18,6 +18,7 @@ import CheckBox from '@react-native-community/checkbox';
 import _ from 'lodash';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
 import ModalCloseBtn from '../../assets/modalclosetbtn.svg';
+import {regExp__email} from '../../@utility/reg';
 enum ESignInfoKey {
   carNumber = 'carNumber',
   email = 'email',
@@ -71,10 +72,6 @@ enum EDigitCodeKey {
 type TSendDigitCode = {
   [key in EDigitCodeKey]: undefined | boolean;
 };
-
-type checkValid = {
-  [key: string]: boolean;
-};
 const Login = ({navigation}: any) => {
   const SIGN_SERVICE = new API_SIGN_SERVICE();
   const [signInfo, setSignInfo] = useState<TSignInfo>({
@@ -83,10 +80,9 @@ const Login = ({navigation}: any) => {
     pwd: '',
     phone: '',
   });
-
-  const [curPwd, setCurPwd] = useState<string>('');
-  const [modalVisible, setModalVisible] = useState(false);
   const [loadingModal, setLoadingModal] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [curPwd, setCurPwd] = useState<string>('');
   const [digitCode, setDigitCode] = useState({email: '', phone: ''});
   const [activeInfo, setActiveInfo] = useState<TActiveInfo>({
     privacy: 'N',
@@ -113,14 +109,22 @@ const Login = ({navigation}: any) => {
     phone: false,
     email: false,
   });
-  const [validationCheck, setValidationCheck] = useState<checkValid>({
+  const [validationCheck, setValidationCheck] = useState({
     phone: true,
     email: true,
   });
-  const [count, setCount] = useState({
-    phone: 0,
-    email: 0,
-  });
+
+  const [pwdValidationCheck, setPwdValidationCheck] = useState(true);
+  const [pwdEqualCheck, setPwdEqualCheck] = useState(true);
+  const [phoneValidationCheckText, setPhoneValidationCheckText] =
+    useState(false);
+
+  let regPwd =
+    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
+
+  const initTime = useRef<any>({phone: 0, email: 0});
+  const interval = useRef<any>({phone: null, email: null});
+
   const [time, setTime] = useState<any>({
     phone: {
       min: '0',
@@ -131,24 +135,6 @@ const Login = ({navigation}: any) => {
       sec: '0',
     },
   });
-  const [stopTimer, setStopTimer] = useState(false);
-  const [stopTimerEmail, setStopTimerEmail] = useState(false);
-  const [pwdValidationCheck, setPwdValidationCheck] = useState(true);
-  const [pwdEqualCheck, setPwdEqualCheck] = useState(true);
-  const [phoneValidationCheckText, setPhoneValidationCheckText] =
-    useState(false);
-  const [validTimeCheck, setValidTimeCheck] = useState({
-    phone: false,
-    email: false,
-  });
-  const [loading, setLoading] = useState({
-    carNumber: false,
-    phone: false,
-    email: false,
-  });
-
-  let regPwd =
-    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
 
   const pwdValidationHandler = () => {
     if (regPwd.test(signInfo.pwd)) {
@@ -171,6 +157,7 @@ const Login = ({navigation}: any) => {
 
   const sendDigitCodeApiMap = {
     phone: async () => {
+      setPhoneValidationCheckText(true);
       return await SIGN_SERVICE.sendPhoneDigitCode(signInfo.phone);
     },
     email: async () => {
@@ -179,54 +166,82 @@ const Login = ({navigation}: any) => {
   };
 
   const sendDigitCodeHandler = async (key: EDigitCodeKey) => {
-    timerStart(key);
-    setPhoneValidationCheckText(true);
-    console.log('인증번호횟수');
+    if (key === EDigitCodeKey.phone && signInfo[key].length !== 11) {
+      return alert('휴대폰 번호를 다시 확인해주세요.');
+    }
+    if (key === EDigitCodeKey.email && !regExp__email.test(signInfo[key])) {
+      return alert('이메일를 다시 확인해주세요.');
+    }
+
     try {
-      await sendDigitCodeApiMap[key]();
-      setAuthRequest(cur => ({...cur, [key]: true}));
-      setCount(cur => ({...cur, [key]: 1}));
+      setLoadingModal(true);
+      const {digitCode, success} = await sendDigitCodeApiMap[key]();
+      console.log(
+        `sendDigitCodeHandler [ ${key} ] : ${digitCode} , ${success}`
+      );
+      if (success) {
+        console.log('success');
+        setAuthRequest(cur => ({...cur, [key]: true}));
+        timerStartHandler(EDigitCodeKey[key]);
+      } else {
+      }
+      setLoadingModal(false);
     } catch (error) {
       setAuthRequest(cur => ({...cur, [key]: false}));
       alert(error);
     }
   };
 
-  const reValid = (key: EDigitCodeKey) => {
-    if (count[key] > 0) {
-      Alert.alert('인증', '재인증 하시겠습니까?', [
-        {
-          text: '예',
-          onPress: () => {
-            sendDigitCodeHandler(key);
-          },
-        },
-        {text: '아니요', onPress: () => {}},
-      ]);
-    } else {
-      sendDigitCodeHandler(key);
-    }
-    console.log('카운트', count);
-  };
-
   const setDigitCodeHandler = (key: EDigitCodeKey) => (text: string) => {
     setDigitCode(cur => ({...cur, [key]: text}));
   };
 
+  const showConfirmTimerHandler = (key: string) => {
+    return Alert.alert(
+      '인증번호가 도착하지 않았습니까?',
+      '새로운 인증번호를 발급 받으시겠습니까?',
+      [
+        {
+          text: '네',
+          onPress: () => {
+            setValidationCheck(cur => ({...cur, [key]: true}));
+            timerStart(key);
+          },
+        },
+        {
+          text: '아니오',
+        },
+      ]
+    );
+  };
+
+  const timerStartHandler = (key: string) => {
+    if (interval.current[key]) {
+      showConfirmTimerHandler(key);
+    } else {
+      timerStart(key);
+    }
+  };
+
   const timerStart = (key: string) => {
     try {
-      if (validationTime[key]) return;
-      initTime.current[key] = 4 * 60;
-      console.log(`${key} 타이머가 작동을 시작합니다.`);
+      // if (validationTime[key]) return;
+      if (interval.current[key]) {
+        clearInterval(interval.current[key]);
+      }
+
+      // initTime.current[key] = 4 * 60;
+      initTime.current[key] = 240;
+      // console.log(`${key} 타이머가 작동을 시작합니다.`);
       interval.current[key] = setInterval(() => {
         if (initTime.current[key] < 1) {
           clearInterval(interval.current[key]);
-          setValidationTime((cur: any) => ({...cur, [key]: true}));
+          // setValidationTime((cur: any) => ({...cur, [key]: true}));
         }
-        // console.log(validationCheck);
         const min = initTime.current[key] / 60;
         const sec = initTime.current[key] % 60;
         initTime.current[key] -= 1;
+
         const tmpObj = {
           min: String(Math.floor(min)).padStart(2, '0'),
           sec: String(sec).padStart(2, '0'),
@@ -240,22 +255,6 @@ const Login = ({navigation}: any) => {
     }
   };
 
-  const validTime = (key: any) => {
-    if (time.phone.min == '00' && time.phone.sec == '00') {
-      setValidTimeCheck(cur => ({...cur, [key]: false}));
-    } else {
-      setValidTimeCheck(cur => ({...cur, [key]: true}));
-    }
-  };
-
-  const stopTimerHandler = () => {
-    initTime.current.phone = 1;
-    setStopTimer(true);
-  };
-  const stopTimerHandler2 = () => {
-    initTime.current.email = 1;
-    setStopTimerEmail(true);
-  };
   const setValidApiMap = {
     carNumber: async () => {
       return await SIGN_SERVICE.OverLapCar(signInfo.carNumber);
@@ -267,42 +266,38 @@ const Login = ({navigation}: any) => {
       };
       const t = await SIGN_SERVICE.checkPhoneDigitCode(PhoneDigitCode);
       console.log('t', t);
-      if (t.data.digitCode === true) {
-        setValidationCheck(cur => ({...cur, phone: false}));
-        stopTimerHandler();
-      } else {
-        setValidationCheck(cur => ({...cur, phone: true}));
-      }
-      console.log(digitCode);
 
+      if (t.digitCode === false) {
+        setValidationCheck(cur => ({...cur, phone: true}));
+      } else {
+        setValidationCheck(cur => ({...cur, phone: false}));
+        clearInterval(interval.current.phone);
+      }
+
+      console.log('validationCheck', validationCheck);
       return true;
     },
     email: async () => {
-      console.log('aaaaaaaaaa');
       const checkEMailDigitcodeInfo = {
         email: signInfo.email,
         digitCode: digitCode.email,
       };
       const t = await SIGN_SERVICE.checkEmailDigitCode(checkEMailDigitcodeInfo);
-      console.log(t.data);
       if (t === false) {
         setValidationCheck(cur => ({...cur, email: true}));
       } else {
         setValidationCheck(cur => ({...cur, email: false}));
-        stopTimerHandler2();
+        clearInterval(interval.current.email);
       }
       return true;
     },
   };
   const setValidHandler = async (key: EValidKey) => {
+    console.log('validationCheck', validationCheck);
     try {
-      setLoadingModal(true);
-
       const value = await setValidApiMap[key]();
-
+      // console.log('value', value);
       setValid(cur => ({...cur, [key]: value}));
-
-      setLoadingModal(false);
 
       if (value) {
       }
@@ -314,6 +309,63 @@ const Login = ({navigation}: any) => {
     }
   };
 
+  const signUpHandler = async () => {
+    if (!valid.carNumber) {
+      return alert('차량번호 중복확인 해주세요.');
+    }
+    if (!regPwd.test(signInfo.pwd)) {
+      return alert('비밀번호 형식을 확인해주세요.');
+    }
+    if (signInfo.pwd !== curPwd) {
+      return alert('패스워드가 일치하지 않습니다.');
+    }
+    if (!valid.phone) {
+      return alert('휴대폰 인증 해주세요.');
+    }
+    if (!valid.email) {
+      return alert('이메일 인증 해주세요.');
+    }
+    if (!checkBox.termOfService || !checkBox.privacy) {
+      return alert('이용약관 확인해주세요.');
+    }
+
+    try {
+      const signUpInfo = {...signInfo, ...activeInfo};
+
+      await SIGN_SERVICE.signUp(signUpInfo);
+
+      setModalVisible(true);
+      // initState();
+    } catch (error) {
+      alert('회원가입에 실패했습니다.');
+    }
+  };
+
+  const setCheckBoxHandler = (key: ESignCheckBoxKey) => (e: any) => {
+    const checkBoxBoolean = !checkBox[key];
+    const activeInfoValue = checkBoxBoolean ? 'Y' : 'N';
+
+    setCheckBox(cur => ({...cur, [key]: checkBoxBoolean}));
+    if (key !== ESignCheckBoxKey.termOfService)
+      setActiveInfo(cur => ({...cur, [key]: activeInfoValue}));
+  };
+
+  const setAllCheckBoxHandler = () => () => {
+    const checkBoxBoolean = !checkBox.all;
+    const activeInfoValue = checkBoxBoolean ? 'Y' : 'N';
+
+    const tmpCheckBox: any = {};
+    Object.keys(checkBox).map(key => {
+      tmpCheckBox[key] = checkBoxBoolean;
+    });
+    setCheckBox(tmpCheckBox);
+
+    const tmpActiveInfo: any = {};
+    Object.keys(activeInfo).map(key => {
+      tmpActiveInfo[key] = activeInfoValue;
+    });
+    setActiveInfo(tmpActiveInfo);
+  };
   const initState = () => {
     setSignInfo({
       carNumber: '',
@@ -349,72 +401,6 @@ const Login = ({navigation}: any) => {
       email: false,
     });
   };
-  const signUpHandler = async () => {
-    if (!valid.carNumber) {
-      return alert('차량번호 중복확인 해주세요.');
-    }
-    if (!regPwd.test(signInfo.pwd)) {
-      return alert('비밀번호 형식을 확인해주세요.');
-    }
-    if (signInfo.pwd !== curPwd) {
-      return alert('패스워드가 일치하지 않습니다.');
-    }
-    if (!valid.phone) {
-      return alert('휴대폰 인증 해주세요.');
-    }
-    if (!valid.email) {
-      return alert('이메일 인증 해주세요.');
-    }
-    if (!checkBox.termOfService || !checkBox.privacy) {
-      return alert('이용약관 확인해주세요.');
-    }
-
-    try {
-      const signUpInfo = {...signInfo, ...activeInfo};
-
-      await SIGN_SERVICE.signUp(signUpInfo);
-
-      setModalVisible(true);
-      // initState();
-    } catch (error) {
-      alert('회원가입에 실패했습니다.');
-    }
-  };
-
-  const initTime = useRef<any>({phone: 0, email: 0});
-  const interval = useRef<any>({phone: null, email: null});
-
-  const [validationTime, setValidationTime] = useState<any>({
-    email: false,
-    phone: false,
-  });
-
-  const setCheckBoxHandler = (key: ESignCheckBoxKey) => (e: any) => {
-    const checkBoxBoolean = !checkBox[key];
-    const activeInfoValue = checkBoxBoolean ? 'Y' : 'N';
-
-    setCheckBox(cur => ({...cur, [key]: checkBoxBoolean}));
-    if (key !== ESignCheckBoxKey.termOfService)
-      setActiveInfo(cur => ({...cur, [key]: activeInfoValue}));
-  };
-
-  const setAllCheckBoxHandler = () => () => {
-    const checkBoxBoolean = !checkBox.all;
-    const activeInfoValue = checkBoxBoolean ? 'Y' : 'N';
-
-    const tmpCheckBox: any = {};
-    Object.keys(checkBox).map(key => {
-      tmpCheckBox[key] = checkBoxBoolean;
-    });
-    setCheckBox(tmpCheckBox);
-
-    const tmpActiveInfo: any = {};
-    Object.keys(activeInfo).map(key => {
-      tmpActiveInfo[key] = activeInfoValue;
-    });
-    setActiveInfo(tmpActiveInfo);
-  };
-
   useEffect(() => {
     const backAction = () => {
       Alert.alert('뒤로가기', '뒤로가기 누를 시 입력된 데이터가 사라집니다.', [
@@ -438,21 +424,22 @@ const Login = ({navigation}: any) => {
       <View>
         <Text style={styles.TopText}>회원가입</Text>
       </View>
+
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
+        <Modal transparent={true} visible={loadingModal}>
+          <ActivityIndicator
+            size="large"
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'rgba( 0, 0, 0, 0.5 )',
+            }}
+          />
+        </Modal>
         <View>
-          <Modal transparent={true} visible={loadingModal}>
-            <ActivityIndicator
-              size="large"
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'rgba( 0, 0, 0, 0.5 )',
-              }}
-            />
-          </Modal>
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <TextInput
               style={styles.inputbox1}
@@ -536,16 +523,16 @@ const Login = ({navigation}: any) => {
             <TouchableOpacity
               style={styles.checkButton}
               onPress={() => {
-                // sendDigitCodeHandler(EDigitCodeKey.phone);
-                reValid(EDigitCodeKey.phone);
-              }}
-              disabled={signInfo.phone === ''}>
+                sendDigitCodeHandler(EDigitCodeKey.phone);
+              }}>
               {/* onPress={() => setValidHandler(EValidKey.phone)}> */}
               <Text style={styles.buttonText}>인증요청</Text>
             </TouchableOpacity>
           </View>
+
           {phoneValidationCheckText ? (
             <View style={{width: '80%', marginLeft: '12%'}}>
+              <Text style={styles.phoneValidText}></Text>
               <Text style={styles.phoneValidText}>
                 인증번호를 발송했습니다. (유효시간 4분)
               </Text>
@@ -573,6 +560,7 @@ const Login = ({navigation}: any) => {
                   onChangeText={setDigitCodeHandler(
                     EDigitCodeKey.phone
                   )}></TextInput>
+
                 <Text
                   style={{
                     color: 'black',
@@ -581,13 +569,16 @@ const Login = ({navigation}: any) => {
                   }}>
                   {time.phone.min} : {time.phone.sec}
                 </Text>
+
                 <TouchableOpacity
                   style={styles.checkButton2}
                   onPress={() => {
                     setValidHandler(EValidKey.phone);
-                    validTime('phone');
                   }}
-                  disabled={digitCode.phone === ''}>
+                  disabled={
+                    (time.phone.min === '00' && time.phone.sec === '00') ||
+                    validationCheck.phone === false
+                  }>
                   <Text style={styles.buttonText}>인증하기</Text>
                 </TouchableOpacity>
               </View>
@@ -599,12 +590,11 @@ const Login = ({navigation}: any) => {
                 ) : (
                   <Text style={styles.pwdValidationText}>인증 완료</Text>
                 )}
+
                 {time.phone.min === '00' && time.phone.sec === '00' ? (
-                  stopTimer === true ? null : (
-                    <Text style={styles.pwdValidationText2}>
-                      인증시간이 만료되었습니다.
-                    </Text>
-                  )
+                  <Text style={styles.pwdValidationText2}>
+                    인증시간이 만료되었습니다.
+                  </Text>
                 ) : null}
               </View>
             </>
@@ -621,10 +611,8 @@ const Login = ({navigation}: any) => {
             <TouchableOpacity
               style={styles.checkButton}
               onPress={() => {
-                timerStart('email');
-                reValid(EDigitCodeKey.email);
-              }}
-              disabled={signInfo.email === ''}>
+                sendDigitCodeHandler(EDigitCodeKey.email);
+              }}>
               <Text style={styles.buttonText}>인증요청</Text>
             </TouchableOpacity>
           </View>
@@ -640,6 +628,7 @@ const Login = ({navigation}: any) => {
                   onChangeText={setDigitCodeHandler(
                     EDigitCodeKey.email
                   )}></TextInput>
+
                 <Text
                   style={{
                     color: 'black',
@@ -648,24 +637,34 @@ const Login = ({navigation}: any) => {
                   }}>
                   {time.email.min} : {time.email.sec}
                 </Text>
+
                 <TouchableOpacity
                   style={styles.checkButton2}
                   onPress={() => {
                     setValidHandler(EValidKey.email);
-                    validTime('email');
                   }}
-                  disabled={digitCode.email === ''}>
+                  disabled={
+                    (time.email.min === '00' && time.email.sec === '00') ||
+                    validationCheck.email === false
+                  }>
                   <Text style={styles.buttonText}>인증하기</Text>
                 </TouchableOpacity>
               </View>
+              <View style={{display: 'flex', flexDirection: 'row'}}>
+                {validationCheck.email === true ? (
+                  <Text style={styles.pwdValidationText}>
+                    인증번호를 확인해주세요.
+                  </Text>
+                ) : (
+                  <Text style={styles.pwdValidationText}>인증 완료</Text>
+                )}
 
-              {validationCheck.email === true ? (
-                <Text style={styles.pwdValidationText}>
-                  인증번호를 확인해주세요.
-                </Text>
-              ) : (
-                <Text style={styles.pwdValidationText}>인증 완료</Text>
-              )}
+                {time.email.min === '00' && time.email.sec === '00' ? (
+                  <Text style={styles.pwdValidationText2}>
+                    인증시간이 만료되었습니다.
+                  </Text>
+                ) : null}
+              </View>
             </>
           ) : (
             ''
@@ -769,8 +768,7 @@ const Login = ({navigation}: any) => {
         <View>
           <TouchableOpacity
             style={styles.lastBtn}
-            onPress={() => signUpHandler()}
-            disabled={!validTimeCheck.email && !validTimeCheck.phone}>
+            onPress={() => signUpHandler()}>
             <Text style={{color: 'white'}}>가입하기</Text>
           </TouchableOpacity>
         </View>
@@ -796,6 +794,7 @@ const Login = ({navigation}: any) => {
                 <TouchableOpacity
                   // style={{backgroundColor: 'black'}}
                   onPress={() => {
+                    setModalVisible(false);
                     initState();
                     navigation.push('Login2');
                   }}>
@@ -869,6 +868,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: '1%',
   },
+  checkButton2_2: {
+    width: 58,
+    height: 28,
+    marginTop: '7%',
+    borderRadius: 6,
+    marginLeft: '-20%',
+    backgroundColor: '#879BB9',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // marginLeft: '1%',
+  },
   buttonText: {
     color: 'white',
     fontSize: 13,
@@ -876,6 +886,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontFamily: 'Noto Sans',
   },
+
   phoneValidText: {
     color: '#2D9DB6',
     fontSize: 12,
