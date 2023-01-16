@@ -51,18 +51,24 @@ class API_Mypage extends AxiosInstance {
     try {
       await this.getActHeader();
       const url = 'user/pwd';
-      // console.log(curPwd, newPwd, url);
+
       const {data} = await this.API.patch(url, {
         curPwd: curPwd,
         prevPwd: newPwd,
       });
-      // console.log('tw123123', data);
+
       return data;
     } catch (error: any) {
       if (error.response.data.code === 'WRONG_PASSWORD') {
-        alert('기존 패스워드를 확인해주세요.');
+        throw '잘못된 패스워드를 입력했습니다.';
+      } else if (error.response.data.code === 'TO_EMAIL_IS_WRONG') {
+        // TODO: 잘못된 이메일 기재되어 있을 경우 다음 에러 발생.
+        // 현재 로직 구현 X
+        // 추후 추가 작업 필요
+        return true;
+      } else {
+        throw new Error(error);
       }
-      throw new Error(error);
       // console.log(error.response.data.code);
     }
   }
