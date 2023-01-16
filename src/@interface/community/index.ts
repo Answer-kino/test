@@ -2,6 +2,7 @@ interface IDetailInfo {
   Title: string;
   CommentCnt: string;
   Content: string;
+  userId: string;
 }
 
 interface ICommentInfo {

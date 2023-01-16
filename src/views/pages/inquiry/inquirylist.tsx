@@ -33,7 +33,8 @@ const InquiryList = ({navigation}: any) => {
     try {
       const result = await Inquiry_SerVice.GET_INQUIRY();
       setInquiryListInfo(result);
-      console.log('tw', result);
+
+      console.log('tw', result.length);
     } catch (error) {
       console.log(error);
     }
@@ -104,6 +105,7 @@ const InquiryList = ({navigation}: any) => {
             );
           })}
         </View>
+        <View style={{marginTop: 110}}></View>
       </ScrollView>
       <BottomNav navigation={navigation} />
     </View>

@@ -58,7 +58,7 @@ const CommunityBoardList = ({navigation, route}: any) => {
 
         setLoading(false);
         setInfoCnt(infoCnt + 10);
-        // console.log('abc', scrollInfo);
+        console.log('abc', scrollInfo);
       } catch (error) {
         console.log(error);
       }
@@ -135,10 +135,11 @@ const CommunityBoardList = ({navigation, route}: any) => {
             renderItem={renderItem}
             data={scrollInfo}
             onEndReached={onEndReached}
-            onEndReachedThreshold={1}
+            onEndReachedThreshold={0.4}
             // ListFooterComponent={loading && <ActivityIndicator />}
           />
         </View>
+        <View style={{marginTop: -270}}></View>
       </View>
 
       <BottomNav navigation={navigation} />

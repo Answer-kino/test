@@ -104,7 +104,9 @@ const Question = ({navigation}: any) => {
             </View>
           </View>
         </View>
+        <View style={{marginTop: 110}}></View>
       </ScrollView>
+
       <BottomNav navigation={navigation} />
     </View>
   );
