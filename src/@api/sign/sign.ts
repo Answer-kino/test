@@ -18,8 +18,8 @@ class API_SIGN_SERVICE extends AxiosInstance {
     try {
       const url = 'sign/auth/overlapCar';
       const {data} = await this.API.post(url, {carNumber});
-      console.log(data);
-      return !data.duplicate;
+
+      return data.duplicate;
     } catch (error: any) {
       throw new Error(error);
     }
@@ -68,7 +68,6 @@ class API_SIGN_SERVICE extends AxiosInstance {
 
   async checkPhoneDigitCode({phone, digitCode}: any): Promise<any> {
     try {
-      console.log('a');
       const url = 'sign/auth';
       const {data} = await this.API.post(url, {
         type: 'phone',
@@ -76,20 +75,20 @@ class API_SIGN_SERVICE extends AxiosInstance {
         digitCode: digitCode,
       });
 
-      return data;
+      return data.digitCode;
     } catch (error: any) {
       throw new Error('핸드폰 인증에 실패 했습니다.');
     }
   }
 
   async signUp(signInfo: any): Promise<any> {
-    console.log('tw :', signInfo);
     try {
       const url = 'sign/up';
-      await this.API.post(url, signInfo);
+      const data = await this.API.post(url, signInfo);
+      return data;
     } catch (error: any) {
       console.error(error);
-      throw new Error('회원가입 실패');
+      throw new Error('signUpAPI 회원가입 실패');
     }
   }
 }
