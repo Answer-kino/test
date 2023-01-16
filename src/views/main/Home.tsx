@@ -41,7 +41,7 @@ const Home = ({navigation}: any) => {
   const toggleOpen = () => setOpen(!open);
   const [count, setCount] = useState(0);
   const [isAccess, setIsAccess] = useState(false);
-  const [userInfo, setUserInfo] = useState<EUserInfo>();
+  const [carNumber, setCarNumber] = useState<string>();
   const [capitalInfo, setCapitalInfo] = useState<Capitalinfo>();
   const [noticeInfo, setNoticeInfo] = useState([]);
 
@@ -53,7 +53,7 @@ const Home = ({navigation}: any) => {
   const getMyInfo = async () => {
     try {
       const userInfo = await HOME_SERVICE.INFO();
-      setUserInfo(userInfo);
+      setCarNumber(userInfo);
       setIsAccess(true);
     } catch (error) {
       setIsAccess(false);
@@ -104,6 +104,7 @@ const Home = ({navigation}: any) => {
     getNotice();
     getCapitalinfo();
   }, []);
+
   useEffect(() => {
     const back = BackHandler.addEventListener('hardwareBackPress', backAction);
     return () => back.remove();
@@ -137,11 +138,11 @@ const Home = ({navigation}: any) => {
           </View>
           <Divider width={1} color={'white'} />
           {/**----------- */}
-          {userInfo && userInfo.CarNumber ? (
+          {isAccess && isAccess ? (
             <View style={styles.mainTopCarNumberWrap}>
               <View style={styles.mainTopCarNumberBorder}>
                 <Text style={styles.mainTopCarNumberBorderText}>
-                  차량번호 : {userInfo?.CarNumber}
+                  차량번호 : {carNumber}
                 </Text>
               </View>
             </View>
@@ -277,54 +278,93 @@ const Home = ({navigation}: any) => {
           <Carousel />
         </View>
         {/**----------- */}
-        <View style={styles.descriptionContainer2}>
-          <Text style={styles.descriptionTitle}>콜센터</Text>
-          <View style={styles.descriptionRow}>
-            <Text style={styles.text}>
-              {capitalInfo?.Capital ? capitalInfo?.Capital : '캐피탈 콜센터'}
-            </Text>
-            <Text style={styles.text}>
-              {capitalInfo?.Contact ? capitalInfo?.Contact : '1588-2114'}
-            </Text>
+        <View
+          style={{
+            width: '85%',
+            display: 'flex',
+            alignSelf: 'center',
+          }}>
+          <View>
+            <View style={{paddingBottom: 5}}>
+              <Text style={styles.descriptionTitle}>콜센터</Text>
+            </View>
+            <View style={styles.descriptionRow}>
+              <Text style={styles.text}>
+                {capitalInfo?.Capital ? capitalInfo?.Capital : '캐피탈 콜센터'}
+              </Text>
+              <Text style={styles.text}>
+                {capitalInfo?.Contact ? capitalInfo?.Contact : '1588-2114'}
+              </Text>
+            </View>
+            <View style={styles.descriptionRow}>
+              <Text style={styles.text}>[ARS이용시간]</Text>
+              <Text style={styles.text}>
+                {capitalInfo?.ContactTime
+                  ? capitalInfo?.ContactTime
+                  : '365일(10:00 ~ 18:00)'}
+              </Text>
+            </View>
           </View>
-          <View style={styles.descriptionRow}>
-            <Text style={styles.text}>[ARS이용시간]</Text>
-            <Text style={styles.text}>
-              {capitalInfo?.ContactTime
-                ? capitalInfo?.ContactTime
-                : '365일(10:00 ~ 18:00)'}
-            </Text>
+          <Divider width={2} style={{marginBottom: 15, marginTop: 15}} />
+        </View>
+        {/* bottom */}
+        <View
+          style={{
+            width: '85%',
+            display: 'flex',
+            alignSelf: 'center',
+            paddingBottom: 45,
+          }}>
+          {/**----------- */}
+          <View>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingLeft: 10,
+                paddingRight: 10,
+              }}>
+              <TouchableOpacity
+                onPress={navigationPushHandler('TermsOfService')}>
+                <Text style={{fontSize: 14, fontWeight: '400', color: '#000'}}>
+                  이용약관
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={navigationPushHandler('Privacy')}>
+                <Text style={{fontSize: 14, fontWeight: '400', color: '#000'}}>
+                  개인정보처리방침
+                </Text>
+              </TouchableOpacity>
+              {/* TODO: 전자금융거래 이용약관 데이터 필요 */}
+              <TouchableOpacity onPress={navigationPushHandler('')}>
+                <Text style={{fontSize: 14, fontWeight: '400', color: '#000'}}>
+                  전자금융거래 이용약관
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          {/**----------- */}
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}>
+            <View style={{paddingBottom: 10, paddingTop: 10}}>
+              <Text style={{fontSize: 25, fontWeight: '700'}}>
+                {capitalInfo?.Contact ? capitalInfo?.Contact : '1588-2114'}
+              </Text>
+            </View>
+            <View>
+              <Text
+                style={{textAlign: 'center', fontSize: 13, fontWeight: '400'}}>
+                경기도 용인시 기흥구 기흥로 58, 기흥 ITC벨리 B동 2101호{'\n'}
+                사업자등록번호 418-88-02279 전화번호 1533-3753
+              </Text>
+            </View>
           </View>
         </View>
-        {/**----------- */}
-        <View style={{display: 'flex', flexDirection: 'row'}}>
-          <TouchableOpacity>
-            <Text>이용약관</Text>
-          </TouchableOpacity>
-          <Text>|</Text>
-          <TouchableOpacity>
-            <Text>개인정보처리방침</Text>
-          </TouchableOpacity>
-          <Text>|</Text>
-          <TouchableOpacity>
-            <Text>전자금융거래 이용약관</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.text}>
-            이용약관 | 개인정보처리방침 | 전자금융거래 이용약관
-          </Text>
-        </View>
-        {/**----------- */}
-        <View style={styles.descriptionContainer3}>
-          <Text style={styles.text2}>
-            경기도 용인시 기흥구 기흥로 58, 기흥 ITC벨리 B동 2101호
-          </Text>
-          <Text style={styles.text2}>
-            사업자등록번호 418-88-02279 전화번호 1533-3753
-          </Text>
-        </View>
-        {/**----------- */}
       </ScrollView>
       <BottomNav navigation={navigation} />
     </View>
@@ -451,6 +491,7 @@ const styles = StyleSheet.create({
   },
   banner: {
     marginTop: 20,
+    marginBottom: 20,
   },
   descriptionContainer: {
     paddingHorizontal: 30,
