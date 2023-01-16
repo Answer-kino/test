@@ -524,9 +524,9 @@ const Login = ({navigation}: any) => {
           </View>
 
           {/* 비밀번호 */}
-          <View style={styles.flexRow}>
+          <View style={styles.flexRowinputBox}>
             <TextInput
-              style={styles.inputBox}
+              style={styles.flexRowinput}
               textContentType={'password'}
               placeholder="비밀번호"
               secureTextEntry={true}
@@ -548,9 +548,9 @@ const Login = ({navigation}: any) => {
           </View>
 
           {/* 비밀번호 확인 */}
-          <View style={styles.flexRow}>
+          <View style={styles.flexRowinputBox}>
             <TextInput
-              style={styles.inputBox}
+              style={styles.flexRowinput}
               textContentType={'password'}
               secureTextEntry={true}
               maxLength={20}
@@ -919,14 +919,22 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
   },
-  inputBox: {
+  flexRowinputBox: {
     display: 'flex',
-    backgroundColor: 'white',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
+    width: '85%',
+    backgroundColor: 'white',
+    height: 48,
     borderRadius: 10,
+    marginBottom: 10,
+  },
+  flexRowinput: {
+    display: 'flex',
+    flex: 1,
     color: 'black',
+    marginLeft: 5,
   },
   flexRowWithBtn: {
     display: 'flex',
@@ -943,10 +951,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     color: 'black',
+    marginLeft: 5,
   },
   inputBtn: {
     width: 58,
-    height: 28,
+    height: 33,
     borderRadius: 6,
     backgroundColor: '#879BB9',
     textAlign: 'center',
