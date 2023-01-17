@@ -68,11 +68,24 @@ const Login2 = ({navigation}: any) => {
           <Text style={{color: 'white'}}>로그인</Text>
         </TouchableOpacity>
       </View>
-      <View style={{marginTop: 30}}>
-        <TouchableOpacity style={styles.login2Btn}>
-          <Text style={styles.lastBtnText}>
-            E-mail 또는 비밀번호를 잊으셨나요?
-          </Text>
+      <View
+        style={{
+          marginTop: 30,
+          display: 'flex',
+          flexDirection: 'row',
+          width: '80%',
+          marginLeft: '9%',
+          justifyContent: 'space-between',
+        }}>
+        <TouchableOpacity
+          style={styles.login3Btn}
+          onPress={() => navigation.navigate('FindCarNum')}>
+          <Text style={styles.lastBtnText}>차량번호 찾기</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.login3Btn}
+          onPress={() => navigation.navigate('FindPwd')}>
+          <Text style={styles.lastBtnText}>비밀번호 찾기</Text>
         </TouchableOpacity>
       </View>
       <View style={{marginTop: 15}}>
@@ -146,6 +159,16 @@ const styles = StyleSheet.create({
   login2Btn: {
     marginLeft: '9%',
     width: '80%',
+    height: 53,
+    borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //   backgroundColor: 'white',
+  },
+  login3Btn: {
+    width: '48%',
     height: 53,
     borderRadius: 10,
     borderColor: 'white',
