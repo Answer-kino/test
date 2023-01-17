@@ -24,7 +24,6 @@ const CommunityBoardList = ({navigation, route}: any) => {
   const [infoCnt, setInfoCnt] = useState(0);
   const [totalCnt, setTotalCnt] = useState(0);
   const isFocused = useIsFocused();
-  const [loginId, setLoginId] = useState('');
   const getCommunity = async () => {
     try {
       const obj: any = {
@@ -36,7 +35,7 @@ const CommunityBoardList = ({navigation, route}: any) => {
       const result: any = await BBS_SERVICE.BBS_Community_LIst(obj);
 
       setCommunityInfo(result);
-      console.log('총', result.totalCnt);
+      console.log(result.totalCnt);
       setTotalCnt(result.totalCnt.TotalCnt);
     } catch (error) {
       // console.log('getNotice :', error);

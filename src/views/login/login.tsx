@@ -18,6 +18,7 @@ import _ from 'lodash';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
 import ModalCloseBtn from '../../assets/modalclosetbtn.svg';
 import {regExp__pwd, regExp__email} from '../../@utility/reg';
+import AlertCustom from '../../components/alert/alert';
 enum ESignInfoKey {
   carNumber = 'carNumber',
   email = 'email',
@@ -141,10 +142,12 @@ const Login = ({navigation}: any) => {
   };
 
   // 차번호 중복 확인
+  const [modalVisible, setModalVisible] = useState(false);
   const carNumberOverLapCheckedHandler = async () => {
     const {carNumber} = signInfo;
     if (carNumber.length < 4) {
-      return alert('차량 번호를 확인해주세요.');
+      setModalVisible(true);
+    } else {
     }
 
     try {
@@ -452,6 +455,9 @@ const Login = ({navigation}: any) => {
 
   return (
     <View style={styles.full}>
+      <AlertCustom
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}></AlertCustom>
       <Modal transparent={true} visible={isLoding}>
         <ActivityIndicator
           size={'large'}

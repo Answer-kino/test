@@ -24,7 +24,7 @@ import CommunityBoardWrite from './src/views/pages/community/CommunityBoardWrite
 import NoticeList from './src/views/pages/notice/NoticeList';
 import NoticeCategory from './src/views/pages/notice/NoticeCategory';
 import Notice from './src/views/pages/notice/Notice';
-import Mypage from './src/views/mypage/Mypage';
+
 import NFTDocument from './src/views/pages/nftDocument/NFTDocument';
 import ChangePassword from './src/views/mypage/changePassword';
 import SideMenu from './src/components/sideMenu/SideMenu';
@@ -41,6 +41,8 @@ import ChangePhoneNumber from './src/views/mypage/changePhoneNumber';
 import ChangeEmail from './src/views/mypage/changeEmail';
 import {accesstokenReissue} from './src/@api/setInterval/reissueToken';
 import CommunityEdit from './src/views/pages/community/CommunityEdit';
+import Mypage from './src/views/mypage/mypage';
+// import Mypage from '../H-AUTO_RN_ANDROID/src/views/mypage/mypage';
 
 const App = () => {
   const Stack = createNativeStackNavigator();

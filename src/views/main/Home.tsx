@@ -47,6 +47,18 @@ const Home = ({navigation}: any) => {
   const [login, setLogin] = useState<any>('');
 
   // 네비게이션 함수
+  const navigationPushHandlerProps = (
+    key: any,
+    propsName: any,
+    propsVlaue: any
+  ) => {
+    if (login) {
+      navigation.push(key, {propsName: propsVlaue});
+    } else {
+      null;
+    }
+  };
+
   const navigationPushHandler = (key: string) => () => {
     if (login) {
       navigation.push(key);
@@ -247,7 +259,16 @@ const Home = ({navigation}: any) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.mainBottomNavigationBorderBtnWrap}
-                  onPress={navigationPushHandler('CommunityBoardList')}>
+                  onPress={() => {
+                    // navigationPushHandlerProps(
+                    //   'CommunityBoardList',
+                    //   'userId',
+                    //   carNumber
+                    // );
+                    navigation.navigate('CommunityBoardList', {
+                      userId: carNumber,
+                    });
+                  }}>
                   <View style={styles.mainBottomNavigationBorderBtn}>
                     <Text style={styles.mainBottomNavigationBorderBtnText}>
                       {'\n'}커뮤니티
