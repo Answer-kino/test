@@ -80,6 +80,18 @@ const Mypage = ({navigation}: any) => {
   const navigationPushHandler = (key: string) => () => {
     navigation.push(key);
   };
+  const navigationNavigateHandler = (key: string, params: any) => () => {
+    navigation.navigate(key, params);
+  };
+
+  const navigationNaivigateHandlerMap = (key: string) => () => {
+    let params;
+    if (key === 'ChangePhoneNumber') params = {phoneNumber: myData?.Phone};
+    else if (key === 'ChangeEmail') params = {email: myData?.UserEmail};
+    else return;
+
+    navigationNavigateHandler(key, params)();
+  };
 
   const getDataHandler = async () => {
     try {
@@ -132,22 +144,48 @@ const Mypage = ({navigation}: any) => {
   };
 
   const patchMyData = async () => {
-    try {
-      const {ProfileImg, Email, Marketing, SNS}: any = myData;
-      const patchMyDataInfo: patchMyDataInfo = {
-        ProfileImg,
-        Email,
-        Marketing,
-        SNS,
-      };
-      setIsLoding(true);
-      await MypageApi.patchMyData(patchMyDataInfo);
-      navigation.push('Home');
-    } catch (error) {
-      alert(error);
-    } finally {
-      setIsLoding(false);
-    }
+    Alert.alert(
+      '정말로 수정하시겠습니까?',
+      '수신동의 정보에 대해 수정하시겠습니까?',
+      [
+        {
+          text: '네',
+          onPress: async () => {
+            try {
+              const {ProfileImg, Email, Marketing, SNS}: any = myData;
+              const patchMyDataInfo: patchMyDataInfo = {
+                ProfileImg,
+                Email,
+                Marketing,
+                SNS,
+              };
+              setIsLoding(true);
+              await MypageApi.patchMyData(patchMyDataInfo);
+              Alert.alert(
+                '수정완료',
+                '수정이 완료되었습니다. 메인화면으로 이동하시겠습니까?',
+                [
+                  {
+                    text: '네',
+                    onPress: () => {
+                      navigation.push('Home');
+                    },
+                  },
+                  {
+                    text: '아니오',
+                  },
+                ]
+              );
+            } catch (error) {
+              alert(error);
+            } finally {
+              setIsLoding(false);
+            }
+          },
+        },
+        {text: '아니오'},
+      ]
+    );
   };
   useEffect(() => {
     getDataHandler();
@@ -327,12 +365,10 @@ const Mypage = ({navigation}: any) => {
               <Text style={styles.mainContainerRowText}>휴대폰번호</Text>
             </View>
             <View style={styles.mainContainerRowBtnWrap}>
-              <TouchableOpacity style={styles.mainContainerRowBtn}>
-                <Text
-                  style={styles.mainContainerRowBtnText}
-                  onPress={navigationPushHandler('ChangePhoneNumber')}>
-                  변경하기
-                </Text>
+              <TouchableOpacity
+                style={styles.mainContainerRowBtn}
+                onPress={navigationNaivigateHandlerMap('ChangePhoneNumber')}>
+                <Text style={styles.mainContainerRowBtnText}>변경하기</Text>
               </TouchableOpacity>
               <View style={styles.mainContainerRowRightTextWrap}>
                 <Text style={styles.mainContainerRowRightText}>
@@ -348,7 +384,7 @@ const Mypage = ({navigation}: any) => {
             <View style={styles.mainContainerRowBtnWrap}>
               <TouchableOpacity
                 style={styles.mainContainerRowBtn}
-                onPress={navigationPushHandler('ChangeEmail')}>
+                onPress={navigationNaivigateHandlerMap('ChangeEmail')}>
                 <Text style={styles.mainContainerRowBtnText}>변경하기</Text>
               </TouchableOpacity>
               <View style={styles.mainContainerRowRightTextWrap}>
@@ -525,8 +561,8 @@ const styles = StyleSheet.create({
   mainContainerRowBtnWrap: {display: 'flex', flexDirection: 'row'},
   mainContainerRowBtn: {
     display: 'flex',
-    width: 72,
-    height: 30,
+    width: 64,
+    height: 28,
     borderRadius: 6,
     backgroundColor: '#879BB9',
     justifyContent: 'center',
@@ -543,9 +579,9 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   mainContainerRowRightText: {
-    fontSize: 15,
-    fontWeight: '500',
-    color: '#292929',
+    fontSize: 14,
+    fontWeight: '400',
+    color: '#393939',
   },
   footerContainerWrap: {
     paddingTop: 12,
