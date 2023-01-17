@@ -10,6 +10,7 @@ import {
   Modal,
   Alert,
   Switch,
+  ActivityIndicator,
 } from 'react-native';
 import API_Mypage from '../../@api/mypage/Mypage';
 import Icon0 from '../../assets/icon0_big.svg';
@@ -24,7 +25,7 @@ import BottomNav from '../../components/bottomNav/BottomNav';
 
 interface myDatatype {
   CarNumber?: string;
-  Phone?: number;
+  Phone?: string;
   ProfileImg?: number;
   Email?: string;
   SNS?: string;
@@ -72,15 +73,28 @@ const Mypage = ({navigation}: any) => {
     Marketing: false,
     SNS: false,
   });
-
+  // 로딩여부
+  const [isLoding, setIsLoding] = useState(false);
   const getDataHandler = async () => {
     try {
+      setIsLoding(true);
       const result = await MypageApi.getMyData();
       getSwitchToggleHandler(result);
       setMyData(result);
     } catch (error) {
       // alert(error);
+    } finally {
+      setIsLoding(false);
     }
+  };
+
+  const convertPhone = (phoneNumber: string) => {
+    const tmpObj = [];
+    tmpObj.push(phoneNumber?.slice(0, 3));
+    tmpObj.push(phoneNumber?.slice(3, 7));
+    tmpObj.push(phoneNumber?.slice(7, 11));
+
+    return tmpObj.join('-');
   };
 
   const getSwitchToggleHandler = (result: any) => {
@@ -120,10 +134,13 @@ const Mypage = ({navigation}: any) => {
         Marketing,
         SNS,
       };
+      setIsLoding(true);
       await MypageApi.patchMyData(patchMyDataInfo);
       navigation.push('Home');
     } catch (error) {
       alert(error);
+    } finally {
+      setIsLoding(false);
     }
   };
   useEffect(() => {
@@ -146,6 +163,15 @@ const Mypage = ({navigation}: any) => {
 
   return (
     <View style={styles.full}>
+      <Modal transparent={true} visible={isLoding}>
+        <ActivityIndicator
+          size={'large'}
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+          }}
+        />
+      </Modal>
       <Modal
         animationType="fade"
         transparent={true}
@@ -266,132 +292,109 @@ const Mypage = ({navigation}: any) => {
       </View>
 
       <View>
-        <View
-          style={{
-            marginLeft: '9%',
-            backgroundColor: 'white',
-            borderRadius: 14,
-            width: '83%',
-            marginTop: '20%',
-          }}>
-          <View></View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
-            <Text style={styles.text1}>차량번호</Text>
-            <Text style={styles.text2}>{myData?.CarNumber}</Text>
+        <View style={styles.mainContainerWrap}>
+          {/* tmp */}
+          <View style={styles.mainContainerRowTop}>
+            <View>
+              <Text style={styles.mainContainerRowText}>차량번호</Text>
+            </View>
+            <View>
+              <Text style={styles.mainContainerRowText}>
+                {myData?.CarNumber}
+              </Text>
+            </View>
           </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: '100%',
-            }}>
-            <Text style={styles.text1}>비밀번호</Text>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => {
-                navigation.navigate('ChangePassword');
-              }}>
-              <Text style={styles.text3}>수정하기</Text>
-            </TouchableOpacity>
+          <View style={styles.mainContainerRow}>
+            <View>
+              <Text style={styles.mainContainerRowText}>비밀번호</Text>
+            </View>
+            <View style={styles.mainContainerRowBtnWrap}>
+              <TouchableOpacity style={styles.mainContainerRowBtn}>
+                <Text style={styles.mainContainerRowBtnText}>수정하기</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: '-13%',
-              width: '100%',
-            }}>
-            <Text style={styles.text1}>휴대폰번호</Text>
-
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => {
-                navigation.push('ChangePhoneNumber', {
-                  phoneNumber: myData.Phone,
-                });
-              }}>
-              <Text style={styles.text3}>변경하기</Text>
-            </TouchableOpacity>
+          <View style={styles.mainContainerRow}>
+            <View>
+              <Text style={styles.mainContainerRowText}>휴대폰번호</Text>
+            </View>
+            <View style={styles.mainContainerRowBtnWrap}>
+              <TouchableOpacity style={styles.mainContainerRowBtn}>
+                <Text style={styles.mainContainerRowBtnText}>변경하기</Text>
+              </TouchableOpacity>
+              <View style={styles.mainContainerRowRightTextWrap}>
+                <Text style={styles.mainContainerRowRightText}>
+                  {myData.Phone && convertPhone(myData?.Phone)}
+                </Text>
+              </View>
+            </View>
           </View>
-
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: '-14%',
-              width: '100%',
-            }}>
-            <Text style={styles.text1}>이메일</Text>
-
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => {
-                navigation.push('ChangeEmail', {
-                  email: myData.UserEmail,
-                });
-              }}>
-              <Text style={styles.text3}>변경하기</Text>
-            </TouchableOpacity>
+          <View style={styles.mainContainerRow}>
+            <View>
+              <Text style={styles.mainContainerRowText}>이메일</Text>
+            </View>
+            <View style={styles.mainContainerRowBtnWrap}>
+              <TouchableOpacity style={styles.mainContainerRowBtn}>
+                <Text style={styles.mainContainerRowBtnText}>변경하기</Text>
+              </TouchableOpacity>
+              <View style={styles.mainContainerRowRightTextWrap}>
+                <Text style={styles.mainContainerRowRightText}>
+                  {myData?.UserEmail}
+                </Text>
+              </View>
+            </View>
           </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: '-13%',
-            }}>
-            <Text style={styles.text1}>마케팅 정보 수신동의</Text>
-            <Switch
-              trackColor={{false: '#767577', true: '#81b0ff'}}
-              // ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleHandler(toggleKey.marketing)}
-              value={switchToggle.Marketing}
-              // value={marketing}
-            />
+          {/* tmp end */}
+          <View style={styles.mainContainerRow}>
+            <View>
+              <Text style={styles.mainContainerRowText}>
+                마케팅 정보 수신동의
+              </Text>
+            </View>
+            <View style={styles.mainContainerRowBtnWrap}>
+              <Switch
+                trackColor={{false: 'D9D9D9', true: '#6DADDB'}}
+                thumbColor={'#FFFFFF'}
+                value={switchToggle?.Marketing}
+                onValueChange={toggleHandler(toggleKey.marketing)}
+              />
+            </View>
           </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: '1%',
-            }}>
-            <Text style={styles.text1}>메일수신동의</Text>
-            <Switch
-              trackColor={{false: '#767577', true: '#81b0ff'}}
-              // ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleHandler(toggleKey.mail)}
-              value={switchToggle.Email}
-            />
+          <View style={styles.mainContainerRow}>
+            <View>
+              <Text style={styles.mainContainerRowText}>메일수신동의</Text>
+            </View>
+            <View style={styles.mainContainerRowBtnWrap}>
+              <Switch
+                trackColor={{false: 'D9D9D9', true: '#6DADDB'}}
+                thumbColor={'#FFFFFF'}
+                value={switchToggle?.Email}
+                onValueChange={toggleHandler(toggleKey.mail)}
+              />
+            </View>
           </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: '1%',
-            }}>
-            <Text style={styles.text1}>SNS수신동의</Text>
-            <Switch
-              trackColor={{false: '#767577', true: '#81b0ff'}}
-              // ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleHandler(toggleKey.sns)}
-              value={switchToggle.SNS}
-            />
+          <View style={styles.mainContainerRowBot}>
+            <View>
+              <Text style={styles.mainContainerRowText}>SNS수신동의</Text>
+            </View>
+            <View style={styles.mainContainerRowBtnWrap}>
+              <Switch
+                trackColor={{false: 'D9D9D9', true: '#6DADDB'}}
+                thumbColor={'#FFFFFF'}
+                value={switchToggle?.SNS}
+                onValueChange={toggleHandler(toggleKey.sns)}
+              />
+            </View>
           </View>
+          {/*  */}
         </View>
-        <TouchableOpacity style={styles.modifyBtn} onPress={patchMyData}>
-          <Text style={styles.modifyBtnText}>수정 완료</Text>
-        </TouchableOpacity>
+        <View style={styles.footerContainerWrap}>
+          <TouchableOpacity
+            style={styles.footerContainerBtn}
+            onPress={patchMyData}>
+            <Text style={styles.footerContainerBtnText}>수정하기</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <BottomNav navigation={navigation}></BottomNav>
     </View>
@@ -467,6 +470,85 @@ const styles = StyleSheet.create({
     fontFamily: 'Noto Sans',
     fontWeight: '700',
     fontSize: 17,
+  },
+  mainContainerWrap: {
+    display: 'flex',
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    borderRadius: 14,
+    width: '85%',
+    marginTop: '10%',
+  },
+  mainContainerRowTop: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  mainContainerRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  mainContainerRowBot: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 20,
+  },
+  mainContainerRowText: {fontSize: 15, fontWeight: '500', color: '#292929'},
+  mainContainerRowBtnWrap: {display: 'flex', flexDirection: 'row'},
+  mainContainerRowBtn: {
+    display: 'flex',
+    width: 72,
+    height: 30,
+    borderRadius: 6,
+    backgroundColor: '#879BB9',
+    justifyContent: 'center',
+  },
+  mainContainerRowBtnText: {
+    fontSize: 14,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: 'white',
+  },
+  mainContainerRowRightTextWrap: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginLeft: 5,
+  },
+  mainContainerRowRightText: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#292929',
+  },
+  footerContainerWrap: {
+    paddingTop: 12,
+  },
+  footerContainerBtn: {
+    display: 'flex',
+    alignSelf: 'center',
+    backgroundColor: '#6DADDB',
+    borderRadius: 14,
+    width: '85%',
+  },
+  footerContainerBtnText: {
+    textAlign: 'center',
+    fontSize: 20,
+    lineHeight: 40,
+    fontWeight: '600',
+    color: '#ffffff',
   },
 });
 export default Mypage;
