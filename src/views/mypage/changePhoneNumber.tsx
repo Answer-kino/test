@@ -71,9 +71,8 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
       console.log(newPhoneNumber);
       try {
         setIsLoding(true);
-        const result = await Mypage.changePhoneNumber(phone);
-        // console.log('수정완료abc', result);
-        navigation.push('Mypage');
+        await Mypage.changePhoneNumber(phone);
+        navigation.replace('Mypage');
       } catch (error) {
         console.log(error);
       } finally {
@@ -182,6 +181,7 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
           style={styles.inputbox}
           placeholder="새 휴대폰 번호"
           placeholderTextColor="#898989"
+          maxLength={11}
           onChangeText={text => {
             setNewPhoneNumber(text);
           }}></TextInput>
