@@ -144,22 +144,48 @@ const Mypage = ({navigation}: any) => {
   };
 
   const patchMyData = async () => {
-    try {
-      const {ProfileImg, Email, Marketing, SNS}: any = myData;
-      const patchMyDataInfo: patchMyDataInfo = {
-        ProfileImg,
-        Email,
-        Marketing,
-        SNS,
-      };
-      setIsLoding(true);
-      await MypageApi.patchMyData(patchMyDataInfo);
-      navigation.push('Home');
-    } catch (error) {
-      alert(error);
-    } finally {
-      setIsLoding(false);
-    }
+    Alert.alert(
+      '정말로 수정하시겠습니까?',
+      '수신동의 정보에 대해 수정하시겠습니까?',
+      [
+        {
+          text: '네',
+          onPress: async () => {
+            try {
+              const {ProfileImg, Email, Marketing, SNS}: any = myData;
+              const patchMyDataInfo: patchMyDataInfo = {
+                ProfileImg,
+                Email,
+                Marketing,
+                SNS,
+              };
+              setIsLoding(true);
+              await MypageApi.patchMyData(patchMyDataInfo);
+              Alert.alert(
+                '수정완료',
+                '수정이 완료되었습니다. 메인화면으로 이동하시겠습니까?',
+                [
+                  {
+                    text: '네',
+                    onPress: () => {
+                      navigation.push('Home');
+                    },
+                  },
+                  {
+                    text: '아니오',
+                  },
+                ]
+              );
+            } catch (error) {
+              alert(error);
+            } finally {
+              setIsLoding(false);
+            }
+          },
+        },
+        {text: '아니오'},
+      ]
+    );
   };
   useEffect(() => {
     getDataHandler();
