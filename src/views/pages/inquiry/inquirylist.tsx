@@ -30,12 +30,9 @@ const InquiryList = ({navigation}: any) => {
   };
 
   const getInquiryList = async () => {
-    console.log('a');
     try {
       const result = await Inquiry_SerVice.GET_INQUIRY();
       setInquiryListInfo(result);
-
-      console.log('tw', result.length);
     } catch (error) {
       console.log(error);
     }
@@ -68,6 +65,7 @@ const InquiryList = ({navigation}: any) => {
           }}>
           {inquiryListInfo.map((item: any, index: number) => {
             const title = item.Title;
+            const content = item.Content;
             const answer = item.AdminAnswer;
             const number = item.IDX_ENQ;
             return (
@@ -96,11 +94,65 @@ const InquiryList = ({navigation}: any) => {
                   </TouchableOpacity>
                 </View>
                 <View>
-                  {dropDown[index] === true ? (
-                    <Text style={styles.contenttext}>
-                      {answer !== null ? answer : '확인 중입니다.'}
-                    </Text>
-                  ) : null}
+                  <View>
+                    {dropDown[index] === true ? (
+                      <>
+                        <View
+                          style={{
+                            backgroundColor: '#E9E9E9',
+                            width: '80%',
+                            marginLeft: '7%',
+                            marginTop: 10,
+                          }}>
+                          <Text style={styles.contenttext}>{content}</Text>
+                          <View
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                              justifyContent: 'flex-end',
+                              marginRight: 10,
+                              marginBottom: 5,
+                            }}>
+                            <TouchableOpacity
+                              onPress={() => {
+                                navigation.navigate('InquiryEdit');
+                              }}>
+                              <View style={styles.modifyBtn}>
+                                <Text>수정</Text>
+                              </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                              <View style={styles.deleteBtn}>
+                                <Text>삭제</Text>
+                              </View>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                        <View>
+                          <View
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                              marginTop: 10,
+                            }}>
+                            <Text style={styles.questionmark}>A</Text>
+                            <Text style={styles.questiontitle}>답변</Text>
+                          </View>
+                          <View
+                            style={{
+                              backgroundColor: '#E9E9E9',
+                              width: '80%',
+                              marginLeft: '7%',
+                              marginTop: 10,
+                            }}>
+                            <Text style={styles.contenttext}>
+                              {answer === null ? '확인 중입니다.' : answer}
+                            </Text>
+                          </View>
+                        </View>
+                      </>
+                    ) : null}
+                  </View>
                 </View>
               </View>
             );
@@ -139,13 +191,25 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '500',
     color: 'black',
-    marginLeft: '10%',
-    backgroundColor: '#E9E9E9',
-    width: '80%',
+
     height: 'auto',
     flexShrink: 1,
     padding: 10,
-    marginTop: 10,
+  },
+  modifyBtn: {
+    backgroundColor: '#4C79BC',
+    borderRadius: 5,
+    width: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  deleteBtn: {
+    backgroundColor: '#898989',
+    borderRadius: 5,
+    width: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 5,
   },
 });
 

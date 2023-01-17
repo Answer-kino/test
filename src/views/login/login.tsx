@@ -18,7 +18,9 @@ import _ from 'lodash';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
 import ModalCloseBtn from '../../assets/modalclosetbtn.svg';
 import {regExp__pwd, regExp__email} from '../../@utility/reg';
-import AlertCustom from '../../components/alert/alert';
+
+import AlertCustom_2Btn from '../../components/alert/alert2btn';
+import AlertCustom_1btn from '../../components/alert/alert1btn';
 enum ESignInfoKey {
   carNumber = 'carNumber',
   email = 'email',
@@ -58,6 +60,9 @@ type tmpType = {
   [key: string]: any;
 };
 const Login = ({navigation}: any) => {
+  // alert
+  const [modalVisible, setModalVisible] = useState(false);
+
   const SIGN_SERVICE = new API_SIGN_SERVICE();
   // 회원가입 정보
   const [signInfo, setSignInfo] = useState<TSignInfo>({
@@ -142,7 +147,7 @@ const Login = ({navigation}: any) => {
   };
 
   // 차번호 중복 확인
-  const [modalVisible, setModalVisible] = useState(false);
+
   const carNumberOverLapCheckedHandler = async () => {
     const {carNumber} = signInfo;
     if (carNumber.length < 4) {
@@ -455,9 +460,9 @@ const Login = ({navigation}: any) => {
 
   return (
     <View style={styles.full}>
-      <AlertCustom
+      <AlertCustom_1btn
         setModalVisible={setModalVisible}
-        modalVisible={modalVisible}></AlertCustom>
+        modalVisible={modalVisible}></AlertCustom_1btn>
       <Modal transparent={true} visible={isLoding}>
         <ActivityIndicator
           size={'large'}

@@ -22,7 +22,6 @@ const Inquiry = ({navigation}: any) => {
   const writeInquiry = async () => {
     if (title !== '' && content !== '') {
       try {
-        // console.log(data, content);
         const result = await API_Inquiry.POST_INQUIRY({title, content});
         navigation.replace('InquiryList');
         console.log(result);

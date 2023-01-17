@@ -28,7 +28,7 @@ const Login2 = ({navigation}: any) => {
 
       await AsyncStorage.setItem('act', act);
       await AsyncStorage.setItem('rct', rct);
-      console.log('h2');
+      await AsyncStorage.setItem('userName', carNumber);
       navigation.push('Home');
     } catch (error) {
       console.error(error);

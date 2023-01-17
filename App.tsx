@@ -41,7 +41,8 @@ import ChangePhoneNumber from './src/views/mypage/changePhoneNumber';
 import ChangeEmail from './src/views/mypage/changeEmail';
 import {accesstokenReissue} from './src/@api/setInterval/reissueToken';
 import CommunityEdit from './src/views/pages/community/CommunityEdit';
-import Mypage from './src/views/mypage/mypage';
+import Mypage from './src/views/mypage/Mypage';
+import inquiryEdit from './src/views/pages/inquiry/inquiryEdit';
 // import Mypage from '../H-AUTO_RN_ANDROID/src/views/mypage/mypage';
 
 const App = () => {
@@ -189,6 +190,11 @@ const App = () => {
             <Stack.Screen
               name="InquiryList"
               component={InquiryList}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="InquiryEdit"
+              component={inquiryEdit}
               options={{headerShown: false}}
             />
 

@@ -14,8 +14,6 @@ class API_Mypage extends AxiosInstance {
       return data.result;
     } catch (error: any) {
       throw new Error(error);
-
-      // alert('a');
     }
   }
 

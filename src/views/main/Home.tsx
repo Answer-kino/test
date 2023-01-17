@@ -72,7 +72,7 @@ const Home = ({navigation}: any) => {
 
   const checkToken = async () => {
     const act = await AsyncStorage.getItem('act');
-    console.log(act);
+    // console.log(act);
     if (act !== null) {
       setLogin(true);
     } else {
@@ -107,6 +107,10 @@ const Home = ({navigation}: any) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    console.log('home');
+  }, []);
 
   const toastWithDurationHandler = () => {
     ToastAndroid.show(
