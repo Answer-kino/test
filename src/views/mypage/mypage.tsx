@@ -77,11 +77,11 @@ const Mypage = ({navigation}: any) => {
   const [isLoding, setIsLoding] = useState(false);
 
   // 네비게이션 함수
-  const navigationPushHandler = (key: string) => () => {
-    navigation.push(key);
+  const navigationReplaceHandler = (key: string) => () => {
+    navigation.replace(key);
   };
   const navigationNavigateHandler = (key: string, params: any) => () => {
-    navigation.navigate(key, params);
+    navigation.replace(key, params);
   };
 
   const navigationNaivigateHandlerMap = (key: string) => () => {
@@ -355,7 +355,7 @@ const Mypage = ({navigation}: any) => {
             <View style={styles.mainContainerRowBtnWrap}>
               <TouchableOpacity
                 style={styles.mainContainerRowBtn}
-                onPress={navigationPushHandler('ChangePassword')}>
+                onPress={navigationReplaceHandler('ChangePassword')}>
                 <Text style={styles.mainContainerRowBtnText}>
                   비밀번호 변경
                 </Text>

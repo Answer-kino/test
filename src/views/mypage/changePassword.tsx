@@ -36,8 +36,8 @@ const ChangePassword = ({navigation}: any) => {
   const [isLoding, setIsLoding] = useState(false);
 
   // 네비게이션 함수
-  const navigationPushHandler = (key: string) => {
-    navigation.push(key);
+  const navigationReplaceHandler = (key: string) => {
+    navigation.replace(key);
   };
 
   // 변경할 패스워드 입력
@@ -74,7 +74,7 @@ const ChangePassword = ({navigation}: any) => {
       };
       setIsLoding(true);
       await MYPAGE_SERVICE.changePasswd(changePasswdParams);
-      navigationPushHandler('Mypage');
+      navigationReplaceHandler('Mypage');
     } catch (error: any) {
       try {
         return Alert.alert('비밀번호 변경실패', error);

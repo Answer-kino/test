@@ -23,7 +23,7 @@ const ChangeEmail = ({navigation, route}: any) => {
         const email = newEmail;
         try {
           const result = Mypage.changeEmail(email);
-          navigation.push('Mypage');
+          navigation.replace('Mypage');
         } catch (error) {
           console.log(error);
         }
