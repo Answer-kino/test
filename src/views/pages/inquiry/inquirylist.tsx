@@ -37,6 +37,14 @@ const InquiryList = ({navigation}: any) => {
       console.log(error);
     }
   };
+  // const deleteInquiryList = async () => {
+  //   const IDX_ENQ = inquiryListInfo.
+  //   try {
+  //     const result = await Inquiry_SerVice.DELETE_INQUIRY(IDX_ENQ);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
     getInquiryList();
@@ -124,7 +132,7 @@ const InquiryList = ({navigation}: any) => {
                                   <Text>수정</Text>
                                 </View>
                               </TouchableOpacity>
-                              <TouchableOpacity>
+                              <TouchableOpacity onPress={() => {}}>
                                 <View style={styles.deleteBtn}>
                                   <Text>삭제</Text>
                                 </View>
