@@ -75,6 +75,12 @@ const Mypage = ({navigation}: any) => {
   });
   // 로딩여부
   const [isLoding, setIsLoding] = useState(false);
+
+  // 네비게이션 함수
+  const navigationPushHandler = (key: string) => () => {
+    navigation.push(key);
+  };
+
   const getDataHandler = async () => {
     try {
       setIsLoding(true);
@@ -309,7 +315,9 @@ const Mypage = ({navigation}: any) => {
               <Text style={styles.mainContainerRowText}>비밀번호</Text>
             </View>
             <View style={styles.mainContainerRowBtnWrap}>
-              <TouchableOpacity style={styles.mainContainerRowBtn}>
+              <TouchableOpacity
+                style={styles.mainContainerRowBtn}
+                onPress={navigationPushHandler('ChangePassword')}>
                 <Text style={styles.mainContainerRowBtnText}>수정하기</Text>
               </TouchableOpacity>
             </View>
@@ -320,7 +328,11 @@ const Mypage = ({navigation}: any) => {
             </View>
             <View style={styles.mainContainerRowBtnWrap}>
               <TouchableOpacity style={styles.mainContainerRowBtn}>
-                <Text style={styles.mainContainerRowBtnText}>변경하기</Text>
+                <Text
+                  style={styles.mainContainerRowBtnText}
+                  onPress={navigationPushHandler('ChangePhoneNumber')}>
+                  변경하기
+                </Text>
               </TouchableOpacity>
               <View style={styles.mainContainerRowRightTextWrap}>
                 <Text style={styles.mainContainerRowRightText}>
@@ -334,7 +346,9 @@ const Mypage = ({navigation}: any) => {
               <Text style={styles.mainContainerRowText}>이메일</Text>
             </View>
             <View style={styles.mainContainerRowBtnWrap}>
-              <TouchableOpacity style={styles.mainContainerRowBtn}>
+              <TouchableOpacity
+                style={styles.mainContainerRowBtn}
+                onPress={navigationPushHandler('ChangeEmail')}>
                 <Text style={styles.mainContainerRowBtnText}>변경하기</Text>
               </TouchableOpacity>
               <View style={styles.mainContainerRowRightTextWrap}>
