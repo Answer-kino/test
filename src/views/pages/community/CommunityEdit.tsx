@@ -17,8 +17,8 @@ import TopNav from '../../../components/topNav/TopNav';
 
 const CommunityEdit = ({navigation, route}: any) => {
   const BBS_SERVICE = new API_BBS_SERVICE();
-  const [newTitle, setNewTitle] = useState(route.params.title);
-  const [newContent, setNewContent] = useState(route.params.content);
+  const [newTitle, setNewTitle] = useState('');
+  const [newContent, setNewContent] = useState('');
   useEffect(() => {
     console.log(route.params);
   }, [route]);
@@ -40,13 +40,22 @@ const CommunityEdit = ({navigation, route}: any) => {
   useEffect(() => {
     console.log('IDX', route.params.boardIdx);
   }, []);
+
+  useEffect(() => {
+    if (route.params.title) {
+      setNewTitle(route.params.title);
+    }
+    if (route.params.content) {
+      setNewContent(route.params.content);
+    }
+  }, [route.params]);
   return (
     <View>
       <TopNav navigation={navigation} title="게시글 수정" />
       <View style={styles.container}>
         <Text style={styles.descriptionTitle}>게시글 수정</Text>
         <TextInput
-          placeholder={route.params.title}
+          value={newTitle}
           style={styles.titleInput}
           placeholderTextColor="black"
           multiline={true}
@@ -56,7 +65,7 @@ const CommunityEdit = ({navigation, route}: any) => {
           }}
         />
         <TextInput
-          placeholder={route.params.content}
+          value={newContent}
           style={styles.contentInput}
           multiline={true}
           numberOfLines={17}

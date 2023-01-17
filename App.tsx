@@ -35,15 +35,17 @@ import Insurance from './src/views/pages/insurance/Insurance';
 import Privacy from './src/views/pages/terms/privacy';
 import Promotion from './src/views/pages/terms/promotion';
 import Marketing from './src/views/pages/terms/marketing';
-import InquiryList from './src/views/pages/inquiry/inquirylist';
+
 import Setting from './src/views/pages/setting/setting';
 import ChangePhoneNumber from './src/views/mypage/changePhoneNumber';
 import ChangeEmail from './src/views/mypage/changeEmail';
 import {accesstokenReissue} from './src/@api/setInterval/reissueToken';
 import CommunityEdit from './src/views/pages/community/CommunityEdit';
-import Mypage from './src/views/mypage/mypage';
-import FindPwd from './src/views/login/findPwd';
+import Mypage from './src/views/mypage/Mypage';
 import FindCarNum from './src/views/login/findCarNum';
+import FindPwd from './src/views/login/findPwd';
+import InquiryEdit from './src/views/pages/inquiry/InquiryEdit';
+import InquiryList from './src/views/pages/inquiry/Inquirylist';
 // import Mypage from '../H-AUTO_RN_ANDROID/src/views/mypage/mypage';
 
 const App = () => {
@@ -201,6 +203,11 @@ const App = () => {
             <Stack.Screen
               name="InquiryList"
               component={InquiryList}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="InquiryEdit"
+              component={InquiryEdit}
               options={{headerShown: false}}
             />
 

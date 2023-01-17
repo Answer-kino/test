@@ -356,7 +356,9 @@ const Mypage = ({navigation}: any) => {
               <TouchableOpacity
                 style={styles.mainContainerRowBtn}
                 onPress={navigationReplaceHandler('ChangePassword')}>
-                <Text style={styles.mainContainerRowBtnText}>수정하기</Text>
+                <Text style={styles.mainContainerRowBtnText}>
+                  비밀번호 변경
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -365,15 +367,17 @@ const Mypage = ({navigation}: any) => {
               <Text style={styles.mainContainerRowText}>휴대폰번호</Text>
             </View>
             <View style={styles.mainContainerRowBtnWrap}>
-              <TouchableOpacity
-                style={styles.mainContainerRowBtn}
-                onPress={navigationNaivigateHandlerMap('ChangePhoneNumber')}>
-                <Text style={styles.mainContainerRowBtnText}>변경하기</Text>
-              </TouchableOpacity>
               <View style={styles.mainContainerRowRightTextWrap}>
                 <Text style={styles.mainContainerRowRightText}>
                   {myData.Phone && convertPhone(myData?.Phone)}
                 </Text>
+                <TouchableOpacity
+                  style={styles.mainContainerRowBtn}
+                  onPress={navigationNaivigateHandlerMap('ChangePhoneNumber')}>
+                  <Text style={styles.mainContainerRowBtnText}>
+                    휴대폰번호 변경
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -382,15 +386,17 @@ const Mypage = ({navigation}: any) => {
               <Text style={styles.mainContainerRowText}>이메일</Text>
             </View>
             <View style={styles.mainContainerRowBtnWrap}>
-              <TouchableOpacity
-                style={styles.mainContainerRowBtn}
-                onPress={navigationNaivigateHandlerMap('ChangeEmail')}>
-                <Text style={styles.mainContainerRowBtnText}>변경하기</Text>
-              </TouchableOpacity>
               <View style={styles.mainContainerRowRightTextWrap}>
                 <Text style={styles.mainContainerRowRightText}>
                   {myData?.UserEmail}
                 </Text>
+                <TouchableOpacity
+                  style={styles.mainContainerRowBtn}
+                  onPress={navigationNaivigateHandlerMap('ChangeEmail')}>
+                  <Text style={styles.mainContainerRowBtnText}>
+                    이메일 변경하기
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -542,7 +548,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
     paddingTop: 10,
     paddingLeft: 20,
     paddingRight: 20,
@@ -558,14 +563,18 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   mainContainerRowText: {fontSize: 15, fontWeight: '500', color: '#292929'},
-  mainContainerRowBtnWrap: {display: 'flex', flexDirection: 'row'},
+  mainContainerRowBtnWrap: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
   mainContainerRowBtn: {
     display: 'flex',
-    width: 64,
-    height: 28,
+    width: 105,
+    height: 24,
     borderRadius: 6,
     backgroundColor: '#879BB9',
     justifyContent: 'center',
+    alignSelf: 'flex-end',
   },
   mainContainerRowBtnText: {
     fontSize: 14,
@@ -576,12 +585,13 @@ const styles = StyleSheet.create({
   mainContainerRowRightTextWrap: {
     display: 'flex',
     justifyContent: 'center',
-    marginLeft: 5,
   },
   mainContainerRowRightText: {
     fontSize: 14,
     fontWeight: '400',
     color: '#393939',
+    marginBottom: 5,
+    textAlign: 'right',
   },
   footerContainerWrap: {
     paddingTop: 12,

@@ -167,6 +167,7 @@ const FindPwd = ({navigation}: any) => {
         <TextInput
           style={styles.inputbox1}
           placeholder="차량번호"
+          placeholderTextColor="black"
           onChangeText={text => setCarNumber(text)}></TextInput>
 
         <View style={styles.flexRowWithBtn}>
@@ -178,6 +179,7 @@ const FindPwd = ({navigation}: any) => {
             value={phone}
             placeholder="휴대폰 번호"
             onChangeText={setSignInfoHandler}
+            placeholderTextColor="black"
           />
           {isAllowPhone ? (
             <></>

@@ -91,6 +91,10 @@ const Home = ({navigation}: any) => {
     }
   };
 
+  useEffect(() => {
+    console.log('home');
+  }, []);
+
   const toastWithDurationHandler = () => {
     ToastAndroid.show(
       "2초 이내로 '뒤로' 버튼을 한번 더 누르시면 종료됩니다.",
