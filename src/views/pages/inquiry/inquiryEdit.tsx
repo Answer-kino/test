@@ -13,30 +13,40 @@ import {
   View,
 } from 'react-native';
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
+import API_Inquiry_Service from '../../../@api/inquiry/inquiry';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
-const inquiryEdit = ({navigation, route}: any) => {
-  const [newTitle, setNewTitle] = useState('');
-  const [newContent, setNewContent] = useState('');
-
-  //   const
-
-  //   useEffect(()=>{
-
-  //   })
+const InquiryEdit = ({navigation, route}: any) => {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const Inquiry_Service = new API_Inquiry_Service();
+  const editInquiry = async () => {
+    const Content = content;
+    const Title = title;
+    const IDX_ENQ = route.params.IDX_ENQ;
+    try {
+      const result = await Inquiry_Service.MODIFY_INQUIRY({
+        IDX_ENQ,
+        Title,
+        Content,
+      });
+      navigation.replace('InquiryList');
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View>
       <TopNav navigation={navigation} title="문의하기" />
       <View style={styles.container}>
-        <Text style={styles.descriptionTitle}>{}</Text>
+        <Text style={styles.descriptionTitle}>1:1문의하기</Text>
         <TextInput
           style={styles.titleInput}
           placeholderTextColor="black"
           multiline={true}
           onChangeText={text => {
-            setNewTitle(text);
-            console.log('텍스트', text);
+            setTitle(text);
           }}
         />
         <TextInput
@@ -45,12 +55,16 @@ const inquiryEdit = ({navigation, route}: any) => {
           numberOfLines={17}
           placeholderTextColor="black"
           onChangeText={text => {
-            setNewContent(text);
+            setContent(text);
           }}
         />
         <View style={{flex: 1}}>
-          <TouchableOpacity style={styles.modifyBtn}>
-            <Text style={styles.modifyButtonText}>수정</Text>
+          <TouchableOpacity
+            style={styles.modifyBtn}
+            onPress={() => {
+              editInquiry();
+            }}>
+            <Text style={styles.modifyButtonText}>확인</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -93,7 +107,7 @@ const styles = StyleSheet.create({
   },
   modifyBtn: {
     marginTop: 10,
-    backgroundColor: 'black',
+    backgroundColor: '#6DADDB',
     height: 57,
     borderRadius: 10,
     paddingHorizontal: 20,
@@ -107,4 +121,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inquiryEdit;
+export default InquiryEdit;

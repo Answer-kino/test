@@ -10,6 +10,8 @@ import {
   BackHandler,
   KeyboardAvoidingView,
   Platform,
+  Modal,
+  ActivityIndicator,
 } from 'react-native';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
@@ -23,15 +25,25 @@ import Icon4 from '../../../assets/icon4.svg';
 import Icon5 from '../../../assets/icon5.svg';
 import Icon6 from '../../../assets/icon6.svg';
 import {ICommentInfo, IDetailInfo} from '../../../@interface/community';
+import API_HOME_SERVICE from '../../../@api/home/home';
 
 const CommunityBoard = ({navigation, route}: any) => {
-  const boardIdx = route.params.boardIdx;
-  const loginId = route.params.loginId;
   const BBS_SERVICE = new API_BBS_SERVICE();
+  const HOME_SERVICE = new API_HOME_SERVICE();
 
+  const [boardIdx, setBoardIdx] = useState();
+  const [loginId, setLoginId] = useState();
   const [detailInfo, setDetailInfo] = useState<IDetailInfo>();
   const [commentInfo, setCommentInfo] = useState<ICommentInfo[]>();
   const [registComment, setRegistComment] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getMyInfo = async () => {
+    try {
+      const userInfo = await HOME_SERVICE.INFO();
+      setLoginId(userInfo);
+    } catch (error) {}
+  };
 
   const myPageProfileMap = (num: any) => {
     switch (num) {
@@ -57,7 +69,6 @@ const CommunityBoard = ({navigation, route}: any) => {
       const detailInfo: any = await BBS_SERVICE.BBS_Community_Detail(boardIdx);
 
       setDetailInfo(detailInfo);
-      console.log('detail', detailInfo);
     } catch (error) {
       console.error(error);
     }
@@ -97,13 +108,24 @@ const CommunityBoard = ({navigation, route}: any) => {
   };
 
   const initBoardPage = () => {
-    getComment();
-    getCommunityBoardDetail();
+    if (boardIdx) {
+      setIsLoading(true);
+      getComment();
+      getCommunityBoardDetail();
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
-    initBoardPage();
+    getMyInfo();
   }, []);
+  useEffect(() => {
+    setBoardIdx(route.params?.IDX_BOARD);
+  }, [route.params]);
+
+  useEffect(() => {
+    initBoardPage();
+  }, [boardIdx]);
 
   useEffect(() => {
     const backAction = () => {
@@ -123,6 +145,15 @@ const CommunityBoard = ({navigation, route}: any) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'android' ? 'position' : 'padding'}
       style={styles.container2}>
+      <Modal transparent={true} visible={isLoading}>
+        <ActivityIndicator
+          size={'large'}
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+          }}
+        />
+      </Modal>
       <TopNav navigation={navigation} title="커뮤니티" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -143,7 +174,7 @@ const CommunityBoard = ({navigation, route}: any) => {
                   navigation.navigate('CommunityEdit', {
                     content: detailInfo?.Content,
                     title: detailInfo?.Title,
-                    boardIdx: route.params.boardIdx,
+                    boardIdx: boardIdx,
                   });
                 }}>
                 <Text style={styles.modifyButtonText}>수정</Text>

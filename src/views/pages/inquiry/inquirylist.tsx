@@ -105,28 +105,32 @@ const InquiryList = ({navigation}: any) => {
                             marginTop: 10,
                           }}>
                           <Text style={styles.contenttext}>{content}</Text>
-                          <View
-                            style={{
-                              display: 'flex',
-                              flexDirection: 'row',
-                              justifyContent: 'flex-end',
-                              marginRight: 10,
-                              marginBottom: 5,
-                            }}>
-                            <TouchableOpacity
-                              onPress={() => {
-                                navigation.navigate('InquiryEdit');
+                          {answer === null ? (
+                            <View
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'flex-end',
+                                marginRight: 10,
+                                marginBottom: 5,
                               }}>
-                              <View style={styles.modifyBtn}>
-                                <Text>수정</Text>
-                              </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                              <View style={styles.deleteBtn}>
-                                <Text>삭제</Text>
-                              </View>
-                            </TouchableOpacity>
-                          </View>
+                              <TouchableOpacity
+                                onPress={() => {
+                                  navigation.navigate('InquiryEdit', {
+                                    IDX_ENQ: number,
+                                  });
+                                }}>
+                                <View style={styles.modifyBtn}>
+                                  <Text>수정</Text>
+                                </View>
+                              </TouchableOpacity>
+                              <TouchableOpacity>
+                                <View style={styles.deleteBtn}>
+                                  <Text>삭제</Text>
+                                </View>
+                              </TouchableOpacity>
+                            </View>
+                          ) : null}
                         </View>
                         <View>
                           <View

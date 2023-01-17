@@ -31,7 +31,6 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
 
   const checkToken = async () => {
     const act = await AsyncStorage.getItem('act');
-    console.log(act);
     if (act !== null) {
       setLogin(true);
     } else {

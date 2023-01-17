@@ -26,16 +26,15 @@ class API_Inquiry_Service extends AxiosInstance {
       throw new Error(error);
     }
   }
-  async MODIFY_INQUIRY({IDX_ENQ, title, content}: any) {
-    const Content = content;
-    const Title = title;
+  async MODIFY_INQUIRY({IDX_ENQ, Title, Content}: any) {
     try {
+      console.log(IDX_ENQ, Title, Content);
       await this.getActHeader();
-      // console.log('tw', Content, Title);
+
       const url = 'enq/modify';
-      const {data} = await this.API.post(url, {IDX_ENQ, Content, Title});
-      // console.log(data);
-      return data?.result;
+      const {data} = await this.API.patch(url, {IDX_ENQ, Title, Content});
+
+      return data;
     } catch (error: any) {
       throw new Error(error);
     }
