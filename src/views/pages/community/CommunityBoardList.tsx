@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   BackHandler,
   FlatList,
+  Modal,
+  ActivityIndicator,
 } from 'react-native';
 
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
@@ -20,10 +22,10 @@ const CommunityBoardList = ({navigation, route}: any) => {
   const BBS_SERVICE = new API_BBS_SERVICE();
   const [communityInfo, setCommunityInfo] = useState([]);
   const [scrollInfo, setScrollInfo] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [infoCnt, setInfoCnt] = useState(0);
   const [totalCnt, setTotalCnt] = useState(0);
   const isFocused = useIsFocused();
+  const [isLoading, setLoading] = useState(false);
   const getCommunity = async () => {
     try {
       const obj: any = {
@@ -35,16 +37,12 @@ const CommunityBoardList = ({navigation, route}: any) => {
       const result: any = await BBS_SERVICE.BBS_Community_LIst(obj);
 
       setCommunityInfo(result);
-      console.log(result.totalCnt);
       setTotalCnt(result.totalCnt.TotalCnt);
     } catch (error) {
-      // console.log('getNotice :', error);
+      console.error('getNotice :', error);
     }
   };
   const ScrollGetData = async () => {
-    // console.log(totalCnt);
-    // console.log(totalCnt.TotalCnt, infoCnt);
-
     if (totalCnt > infoCnt) {
       try {
         setLoading(true);
@@ -59,15 +57,14 @@ const CommunityBoardList = ({navigation, route}: any) => {
 
         setLoading(false);
         setInfoCnt(infoCnt + 10);
-        console.log('abc', scrollInfo);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   };
 
   const onEndReached = () => {
-    if (!loading) {
+    if (!isLoading) {
       ScrollGetData();
     }
   };
@@ -75,17 +72,14 @@ const CommunityBoardList = ({navigation, route}: any) => {
     const temp = item.CreatedDay;
     const CreateDay =
       temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
-    // item.CreatedDay.split('T')[0];
-    // console.log('item', item.IDX_BOARD);
 
     return (
       <TouchableOpacity
-        onPress={() =>
+        onPress={() => {
           navigation.push('CommunityBoard', {
-            boardIdx: item.IDX_BOARD,
-            loginId: route.params.userId,
-          })
-        }
+            IDX_BOARD: item.IDX_BOARD,
+          });
+        }}
         style={styles.documentMenu}>
         <View style={styles.titleContainer}>
           <Text style={styles.descriptionTitle}>{item.Title}</Text>
@@ -118,6 +112,15 @@ const CommunityBoardList = ({navigation, route}: any) => {
 
   return (
     <View style={{flex: 1}}>
+      <Modal transparent={true} visible={isLoading}>
+        <ActivityIndicator
+          size={'large'}
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+          }}
+        />
+      </Modal>
       <TopNav navigation={navigation} title="커뮤니티" />
       <TouchableOpacity
         style={styles.writeButtonFloat}

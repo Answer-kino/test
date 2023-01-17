@@ -16,7 +16,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Setting = ({navigation}: any) => {
   const checkToken = async () => {
     const act = await AsyncStorage.getItem('act');
-    console.log(act);
     if (act !== null) {
       setLogin(true);
     } else {

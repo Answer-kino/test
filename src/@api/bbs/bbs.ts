@@ -36,7 +36,7 @@ class API_BBS_SERVICE extends AxiosInstance {
       // if (limit && offset) url += `&limit=${limit}&offset=${offset}`;
 
       const {data} = await this.API.get(url);
-      console.log('확인', data);
+
       return data;
     } catch (error: any) {
       throw new Error(error);
@@ -81,7 +81,7 @@ class API_BBS_SERVICE extends AxiosInstance {
   async BBS_Board_Modify({boardIdx, newTitle, newContent}: any) {
     const title = newTitle;
     const content = newContent;
-    console.log('이태원', boardIdx, 'Title', newTitle, 'Content', newContent);
+
     try {
       await this.getActHeader();
       const url = `bbs/modifyContent`;
