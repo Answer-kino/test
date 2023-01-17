@@ -23,6 +23,7 @@ const InquiryList = ({navigation}: any) => {
   const [dropDown, setDropDown] = useState<dropDownType>({});
   const [dropDown2, setDropDown2] = useState(false);
   const [inquiryListInfo, setInquiryListInfo] = useState([]);
+  const [idx, setIdx] = useState('');
   const Inquiry_SerVice = new API_Inquiry_Service();
 
   const dropDownHandler = (idx: number, bool: boolean) => {
@@ -37,14 +38,16 @@ const InquiryList = ({navigation}: any) => {
       console.log(error);
     }
   };
-  // const deleteInquiryList = async () => {
-  //   const IDX_ENQ = inquiryListInfo.
-  //   try {
-  //     const result = await Inquiry_SerVice.DELETE_INQUIRY(IDX_ENQ);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const deleteInquiryList = (number: number) => async () => {
+    console.log('number', number);
+    try {
+      const result = await Inquiry_SerVice.DELETE_INQUIRY(number);
+      console.log(result);
+      getInquiryList();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getInquiryList();
@@ -126,13 +129,16 @@ const InquiryList = ({navigation}: any) => {
                                 onPress={() => {
                                   navigation.navigate('InquiryEdit', {
                                     IDX_ENQ: number,
+                                    title: title,
+                                    content: content,
                                   });
                                 }}>
                                 <View style={styles.modifyBtn}>
                                   <Text>수정</Text>
                                 </View>
                               </TouchableOpacity>
-                              <TouchableOpacity onPress={() => {}}>
+                              <TouchableOpacity
+                                onPress={deleteInquiryList(number)}>
                                 <View style={styles.deleteBtn}>
                                   <Text>삭제</Text>
                                 </View>

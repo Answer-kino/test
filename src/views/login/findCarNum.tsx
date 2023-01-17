@@ -130,7 +130,7 @@ const FindCarNum = ({navigation}: any) => {
     const value = text;
     setCheckedInfo(cur => ({...cur, digitCode: value}));
   };
-  const checkedDigitCodeHandler = () => async () => {
+  const checkedDigitCodeHandler = async () => {
     const digitCode = checkedInfo.digitCode;
     if (digitCode.length === 6) {
       try {
@@ -216,7 +216,6 @@ const FindCarNum = ({navigation}: any) => {
                 returnKeyType="done"
                 placeholder="인증번호 입력하세요"
                 onChangeText={setCheckedInfoDistCodeHandler}
-                onBlur={checkedDigitCodeHandler()}
               />
               <View>
                 <Text style={styles.inputTimer}>
@@ -249,8 +248,16 @@ const FindCarNum = ({navigation}: any) => {
         )}
         <TouchableOpacity
           style={styles.lastBtn}
-          onPress={() => navigation.pop()}>
-          <Text style={{color: 'white'}}>확인</Text>
+          onPress={() => {
+            if (showTextInput.phone && !carNumber) {
+              checkedDigitCodeHandler();
+            } else {
+              navigation.pop();
+            }
+          }}>
+          <Text style={{color: 'white'}}>
+            {showTextInput.phone && !carNumber ? '인증하기' : '확인'}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

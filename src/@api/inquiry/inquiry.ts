@@ -39,14 +39,18 @@ class API_Inquiry_Service extends AxiosInstance {
       throw new Error(error);
     }
   }
-  async DELETE_INQUIRY(IDX_ENQ: any) {
+  async DELETE_INQUIRY(number: number) {
+    console.log('asd', number);
+    const IDX_ENQ = number;
     try {
       await this.getActHeader();
-      // console.log('tw', Content, Title);
+
       const url = 'enq/delete';
-      const {data} = await this.API.post(url, IDX_ENQ);
-      // console.log(data);
-      return data?.result;
+      console.log('url', url, 'IDX_ENQ', IDX_ENQ);
+      const {data} = await this.API.patch(url, {IDX_ENQ});
+
+      console.log('data', data);
+      return data;
     } catch (error: any) {
       throw new Error(error);
     }

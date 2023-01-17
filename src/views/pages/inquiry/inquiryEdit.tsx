@@ -21,10 +21,11 @@ const InquiryEdit = ({navigation, route}: any) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const Inquiry_Service = new API_Inquiry_Service();
+
   const editInquiry = async () => {
     const Content = content;
     const Title = title;
-    const IDX_ENQ = route.params.IDX_ENQ;
+    const IDX_ENQ = route.params?.IDX_ENQ;
     try {
       const result = await Inquiry_Service.MODIFY_INQUIRY({
         IDX_ENQ,
@@ -36,12 +37,21 @@ const InquiryEdit = ({navigation, route}: any) => {
       console.log(error);
     }
   };
+  useEffect(() => {
+    if (route.params.title) {
+      setTitle(route.params.title);
+    }
+    if (route.params.content) {
+      setContent(route.params.content);
+    }
+  }, [route.params]);
   return (
     <View>
       <TopNav navigation={navigation} title="문의하기" />
       <View style={styles.container}>
         <Text style={styles.descriptionTitle}>1:1문의하기</Text>
         <TextInput
+          value={title}
           style={styles.titleInput}
           placeholderTextColor="black"
           multiline={true}
@@ -50,6 +60,7 @@ const InquiryEdit = ({navigation, route}: any) => {
           }}
         />
         <TextInput
+          value={content}
           style={styles.contentInput}
           multiline={true}
           numberOfLines={17}
