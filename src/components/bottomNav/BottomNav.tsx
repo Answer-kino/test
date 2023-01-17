@@ -13,7 +13,6 @@ import Mypage from '../../views/mypage/Mypage';
 const BottomNav = ({navigation}: any) => {
   const enterMypage = async () => {
     const act = await AsyncStorage.getItem('act');
-    console.log(act);
     if (act === null) {
       alert('로그인 해주세요.');
     } else {
