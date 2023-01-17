@@ -30,6 +30,7 @@ const InquiryList = ({navigation}: any) => {
   };
 
   const getInquiryList = async () => {
+    console.log('a');
     try {
       const result = await Inquiry_SerVice.GET_INQUIRY();
       setInquiryListInfo(result);

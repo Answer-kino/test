@@ -120,6 +120,10 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
             {login ? (
               <View style={{justifyContent: 'flex-end'}}>
                 <TouchableOpacity
+                  onPress={async () => {
+                    await AsyncStorage.clear();
+                    navigation.reset({routes: [{name: 'Login2'}]});
+                  }}
                   style={{
                     height: '10%',
                     marginTop: '140%',
@@ -128,20 +132,16 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                   }}>
                   <View style={styles.sideMenuSectionLeft2}>
                     <LogoutImg></LogoutImg>
-                    <Text
-                      style={styles.logoutText}
-                      onPress={async () => {
-                        await AsyncStorage.clear();
-                        navigation.reset({routes: [{name: 'Home'}]});
-                      }}>
-                      로그아웃
-                    </Text>
+                    <Text style={styles.logoutText}>로그아웃</Text>
                   </View>
                 </TouchableOpacity>
               </View>
             ) : (
               <View style={{justifyContent: 'flex-end'}}>
                 <TouchableOpacity
+                  onPress={async () => {
+                    navigation.navigate('Login2');
+                  }}
                   style={{
                     height: '10%',
                     marginTop: '140%',
@@ -150,13 +150,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                   }}>
                   <View style={styles.sideMenuSectionLeft2}>
                     <LoginImg></LoginImg>
-                    <Text
-                      style={styles.logoutText}
-                      onPress={async () => {
-                        navigation.navigate('Login2');
-                      }}>
-                      로그인
-                    </Text>
+                    <Text style={styles.logoutText}>로그인</Text>
                   </View>
                 </TouchableOpacity>
               </View>

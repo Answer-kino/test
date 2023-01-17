@@ -14,7 +14,7 @@ import Navigation from '../../../assets/Vector.svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Setting = ({navigation}: any) => {
-  const enterMypage = async () => {
+  const checkToken = async () => {
     const act = await AsyncStorage.getItem('act');
     if (act !== null) {
       setLogin(true);
@@ -35,7 +35,7 @@ const Setting = ({navigation}: any) => {
   };
 
   useEffect(() => {
-    enterMypage();
+    checkToken();
     getMyInfo();
   }, []);
 
@@ -90,7 +90,7 @@ const Setting = ({navigation}: any) => {
               }}
               onPress={async () => {
                 await AsyncStorage.clear();
-                navigation.push('Home');
+                navigation.reset({routes: [{name: 'Login2'}]});
               }}>
               <Text style={styles.text2}>로그 아웃</Text>
               <Navigation
