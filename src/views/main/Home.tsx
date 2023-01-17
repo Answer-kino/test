@@ -54,6 +54,7 @@ const Home = ({navigation}: any) => {
       switch (key) {
         case 'CommunityBoardList':
           navigation.navigate(key, {CarNumber: carNumber});
+          break;
         default:
           navigation.push(key);
       }
