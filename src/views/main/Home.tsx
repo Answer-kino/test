@@ -336,7 +336,7 @@ const Home = ({navigation}: any) => {
               style={{
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'space-between',
+                justifyContent: 'space-around',
                 paddingLeft: 10,
                 paddingRight: 10,
               }}>
@@ -349,12 +349,6 @@ const Home = ({navigation}: any) => {
               <TouchableOpacity onPress={navigationPushHandler('Privacy')}>
                 <Text style={{fontSize: 14, fontWeight: '400', color: '#000'}}>
                   개인정보처리방침
-                </Text>
-              </TouchableOpacity>
-              {/* TODO: 전자금융거래 이용약관 데이터 필요 */}
-              <TouchableOpacity onPress={navigationPushHandler('')}>
-                <Text style={{fontSize: 14, fontWeight: '400', color: '#000'}}>
-                  전자금융거래 이용약관
                 </Text>
               </TouchableOpacity>
             </View>
