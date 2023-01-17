@@ -36,7 +36,7 @@ class API_BBS_SERVICE extends AxiosInstance {
       // if (limit && offset) url += `&limit=${limit}&offset=${offset}`;
 
       const {data} = await this.API.get(url);
-      console.log('확인', data);
+
       return data;
     } catch (error: any) {
       throw new Error(error);
