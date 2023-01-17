@@ -44,27 +44,21 @@ const Home = ({navigation}: any) => {
   const [carNumber, setCarNumber] = useState<string>();
   const [capitalInfo, setCapitalInfo] = useState<Capitalinfo>();
   const [noticeInfo, setNoticeInfo] = useState([]);
-  const [login, setLogin] = useState<any>('');
 
   // 네비게이션 함수
   const navigationPushHandler = (key: string) => () => {
-    if (login) {
-      navigation.push(key);
-    } else {
-      null;
-    }
-  };
-  const navigationPushHandler2 = (key: string) => () => {
     navigation.push(key);
   };
-
-  const checkToken = async () => {
-    const act = await AsyncStorage.getItem('act');
-    console.log(act);
-    if (act !== null) {
-      setLogin(true);
+  const navigationAccessHandler = (key: string) => () => {
+    if (isAccess) {
+      switch (key) {
+        case 'CommunityBoardList':
+          navigation.navigate(key, {CarNumber: carNumber});
+        default:
+          navigation.push(key);
+      }
     } else {
-      setLogin(false);
+      alert('비정상 적인 접근');
     }
   };
 
@@ -118,7 +112,6 @@ const Home = ({navigation}: any) => {
   };
 
   useEffect(() => {
-    checkToken();
     getMyInfo();
     getNotice();
     getCapitalinfo();
@@ -169,7 +162,7 @@ const Home = ({navigation}: any) => {
             <View style={styles.mainTopLoginWrap}>
               <TouchableOpacity
                 style={styles.mainTopLoginBtn}
-                onPress={navigationPushHandler2('Login2')}>
+                onPress={navigationPushHandler('Login2')}>
                 <Text style={styles.mainTopLoginBtnText}>로그인</Text>
               </TouchableOpacity>
               <View style={styles.mainTopLoginContents}>
@@ -186,7 +179,7 @@ const Home = ({navigation}: any) => {
               <View style={styles.mainBottomNavigationBorder}>
                 <TouchableOpacity
                   style={styles.mainBottomNavigationBorderBtnWrap}
-                  onPress={navigationPushHandler('ContractCheck')}>
+                  onPress={navigationAccessHandler('ContractCheck')}>
                   <View style={styles.mainBottomNavigationBorderBtn}>
                     <Text style={styles.mainBottomNavigationBorderBtnText}>
                       {'\n'}계약확인
@@ -198,7 +191,7 @@ const Home = ({navigation}: any) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.mainBottomNavigationBorderBtnWrap}
-                  onPress={navigationPushHandler('CarDocument')}>
+                  onPress={navigationAccessHandler('CarDocument')}>
                   <View style={styles.mainBottomNavigationBorderBtn}>
                     <Text style={styles.mainBottomNavigationBorderBtnText}>
                       내차{'\n'}NFT 증빙서류
@@ -210,7 +203,7 @@ const Home = ({navigation}: any) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.mainBottomNavigationBorderBtnWrap}
-                  onPress={navigationPushHandler('NFTWallet')}>
+                  onPress={navigationAccessHandler('NFTWallet')}>
                   <View style={styles.mainBottomNavigationBorderBtn}>
                     <Text style={styles.mainBottomNavigationBorderBtnText}>
                       NFT{'\n'}전자지갑
@@ -235,7 +228,7 @@ const Home = ({navigation}: any) => {
               <View style={styles.mainBottomNavigationBorder}>
                 <TouchableOpacity
                   style={styles.mainBottomNavigationBorderBtnWrap}
-                  onPress={navigationPushHandler('RaceInfo')}>
+                  onPress={navigationAccessHandler('RaceInfo')}>
                   <View style={styles.mainBottomNavigationBorderBtn}>
                     <Text style={styles.mainBottomNavigationBorderBtnText}>
                       내차{'\n'}운행정보
@@ -247,7 +240,7 @@ const Home = ({navigation}: any) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.mainBottomNavigationBorderBtnWrap}
-                  onPress={navigationPushHandler('CommunityBoardList')}>
+                  onPress={navigationAccessHandler('CommunityBoardList')}>
                   <View style={styles.mainBottomNavigationBorderBtn}>
                     <Text style={styles.mainBottomNavigationBorderBtnText}>
                       {'\n'}커뮤니티

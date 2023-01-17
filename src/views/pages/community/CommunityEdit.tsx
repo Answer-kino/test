@@ -19,6 +19,9 @@ const CommunityEdit = ({navigation, route}: any) => {
   const BBS_SERVICE = new API_BBS_SERVICE();
   const [newTitle, setNewTitle] = useState(route.params.title);
   const [newContent, setNewContent] = useState(route.params.content);
+  useEffect(() => {
+    console.log(route.params);
+  }, [route]);
   const modifyBoard = async () => {
     const boardIdx = route.params.boardIdx;
     try {
