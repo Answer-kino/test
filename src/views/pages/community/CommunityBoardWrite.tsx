@@ -132,16 +132,17 @@ const styles = StyleSheet.create({
   writeButton: {
     marginTop: 10,
     backgroundColor: 'black',
-    height: 57,
+    height: 51,
     borderRadius: 10,
     paddingHorizontal: 20,
     justifyContent: 'center',
   },
   writeButtonText: {
-    fontSize: 17,
+    fontSize: 16,
     color: 'white',
     alignItems: 'center',
     textAlign: 'center',
+    fontWeight: '500',
   },
   container2: {
     flex: 1,

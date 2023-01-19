@@ -1,3 +1,4 @@
+import {Divider} from '@rneui/base';
 import React, {useEffect} from 'react';
 import {
   ScrollView,
@@ -26,7 +27,7 @@ const CarDocument = ({navigation}: any) => {
 
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-      backAction,
+      backAction
     );
 
     return () => backHandler.remove();
@@ -52,6 +53,9 @@ const CarDocument = ({navigation}: any) => {
               </Text>
             </View>
           </TouchableOpacity>
+        </View>
+        <Divider style={{marginTop: 10, opacity: 0.4}}></Divider>
+        <View style={styles.container}>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('CarRegister');
@@ -63,7 +67,10 @@ const CarDocument = ({navigation}: any) => {
                 <Text style={styles.text}>내 차량등록증 확인하기</Text>
               </View>
             </View>
+            <Divider style={{marginTop: 10, opacity: 0.4}}></Divider>
           </TouchableOpacity>
+        </View>
+        <View style={styles.container}>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('Insurance');
@@ -76,6 +83,7 @@ const CarDocument = ({navigation}: any) => {
               </View>
             </View>
           </TouchableOpacity>
+          <Divider style={{marginTop: 10, opacity: 0.4}}></Divider>
         </View>
       </ScrollView>
       <BottomNav navigation={navigation} />
@@ -96,8 +104,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 15,
     paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderColor: '#D8D8D8',
+    // borderBottomWidth: 1,
+    // borderColor: '#D8D8D8',
   },
   descriptionContainer: {
     marginLeft: 10,

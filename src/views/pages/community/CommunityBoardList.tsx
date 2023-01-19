@@ -1,4 +1,5 @@
 import {useIsFocused} from '@react-navigation/native';
+import {Divider} from '@rneui/base';
 import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
@@ -74,19 +75,24 @@ const CommunityBoardList = ({navigation, route}: any) => {
       temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
 
     return (
-      <TouchableOpacity
-        onPress={() => {
-          navigation.push('CommunityBoard', {
-            IDX_BOARD: item.IDX_BOARD,
-          });
-        }}
-        style={styles.documentMenu}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.descriptionTitle}>{item.Title}</Text>
-          <Text style={styles.comment}>{item.CommentCnt}</Text>
+      <View>
+        <View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.push('CommunityBoard', {
+                IDX_BOARD: item.IDX_BOARD,
+              });
+            }}
+            style={styles.documentMenu}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.descriptionTitle}>{item.Title}</Text>
+              <Text style={styles.comment}>{item.CommentCnt}</Text>
+            </View>
+            <Text style={styles.commentAt}>{CreateDay}</Text>
+          </TouchableOpacity>
         </View>
-        <Text style={styles.commentAt}>{CreateDay}</Text>
-      </TouchableOpacity>
+        <Divider style={{opacity: 0.4}}></Divider>
+      </View>
     );
   };
   useEffect(() => {
@@ -153,7 +159,7 @@ const CommunityBoardList = ({navigation, route}: any) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 30,
+    // marginHorizontal: 30,
     marginTop: 15,
   },
   titleContainer: {
@@ -162,8 +168,7 @@ const styles = StyleSheet.create({
   documentMenu: {
     marginTop: 15,
     paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderColor: '#D8D8D8',
+
     flexGrow: 1,
   },
   descriptionTitle: {
@@ -171,6 +176,7 @@ const styles = StyleSheet.create({
     color: '#292929',
     lineHeight: 35,
     letterSpacing: -0.05,
+    marginLeft: 15,
   },
   comment: {
     fontSize: 17,
@@ -200,6 +206,7 @@ const styles = StyleSheet.create({
   },
   commentAt: {
     color: '#666666',
+    marginLeft: 15,
   },
 });
 

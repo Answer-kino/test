@@ -834,7 +834,9 @@ const Login = ({navigation}: any) => {
           </View>
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.lastBtn} onPress={signUpHandler}>
-              <Text style={{color: 'white'}}>회원가입</Text>
+              <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
+                가입하기
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -1072,6 +1074,7 @@ const styles = StyleSheet.create({
   },
   lastBtn: {
     flex: 1,
+    width: '80%',
     height: 51,
     marginTop: 10,
     borderRadius: 10,

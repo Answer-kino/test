@@ -136,6 +136,7 @@ const Insurance = ({navigation}: any) => {
               );
             })}
         </View>
+        <View style={{marginBottom: 100}} />
       </ScrollView>
       <BottomNav navigation={navigation} />
     </View>

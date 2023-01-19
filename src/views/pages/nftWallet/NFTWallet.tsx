@@ -77,6 +77,7 @@ const NFTWallet = ({navigation}: any) => {
           <Text style={styles.titleCode}>{nftInfo?.VehicleId}</Text>
           <Image style={styles.documentImage} source={{uri: nftImgUri}} />
         </View>
+        <View style={{marginBottom: 100}}></View>
       </ScrollView>
       <BottomNav navigation={navigation} />
     </View>

@@ -68,6 +68,7 @@ const CarRegister = ({navigation}: any) => {
               );
             })}
         </View>
+        <View style={{marginBottom: 100}}></View>
       </ScrollView>
       <BottomNav navigation={navigation} />
     </View>

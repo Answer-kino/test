@@ -251,7 +251,9 @@ const FindPwd = ({navigation}: any) => {
               <TouchableOpacity
                 style={styles.lastBtn}
                 onPress={checkedDigitCodeHandler()}>
-                <Text style={{color: 'white'}}>인증하기</Text>
+                <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
+                  인증하기
+                </Text>
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
@@ -259,7 +261,9 @@ const FindPwd = ({navigation}: any) => {
                 onPress={() => {
                   navigation.pop();
                 }}>
-                <Text style={{color: 'white'}}>확인</Text>
+                <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
+                  확인
+                </Text>
               </TouchableOpacity>
             )}
           </>
@@ -313,6 +317,7 @@ const styles = StyleSheet.create({
     height: 51,
     marginTop: 30,
     borderRadius: 10,
+
     backgroundColor: '#6DADDB',
     justifyContent: 'center',
     alignItems: 'center',
@@ -381,7 +386,7 @@ const styles = StyleSheet.create({
   warringMsg: {
     width: '100%',
     textAlign: 'left',
-    color: '#2D0DB6',
+    color: '#2D9DB6',
     fontSize: 12,
     marginBottom: 10,
   },

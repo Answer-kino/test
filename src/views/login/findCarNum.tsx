@@ -255,7 +255,7 @@ const FindCarNum = ({navigation}: any) => {
               navigation.pop();
             }
           }}>
-          <Text style={{color: 'white'}}>
+          <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
             {showTextInput.phone && !carNumber ? '인증하기' : '확인'}
           </Text>
         </TouchableOpacity>

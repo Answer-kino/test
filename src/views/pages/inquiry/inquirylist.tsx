@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import API_Inquiry_Service from '../../../@api/inquiry/inquiry';
 import BottomNav from '../../../components/bottomNav/BottomNav';
@@ -42,14 +43,23 @@ const InquiryList = ({navigation}: any) => {
     }
   };
   const deleteInquiryList = (number: number) => async () => {
-    // console.log('number', number);
-    try {
-      const result = await Inquiry_SerVice.DELETE_INQUIRY(number);
-      console.log(result);
-      getInquiryList();
-    } catch (error) {
-      console.log(error);
-    }
+    Alert.alert('정말로 삭제하시겠습니까?', '문의 사항을 삭제하시겠습니까?', [
+      {
+        text: '네',
+        onPress: async () => {
+          try {
+            const result = await Inquiry_SerVice.DELETE_INQUIRY(number);
+            console.log(result);
+            getInquiryList();
+          } catch (error) {
+            console.log(error);
+          }
+        },
+      },
+      {
+        text: '아니요',
+      },
+    ]);
   };
 
   useEffect(() => {
@@ -71,7 +81,9 @@ const InquiryList = ({navigation}: any) => {
   return (
     <View>
       <TopNav navigation={navigation} title="문의 목록" />
-      <ScrollView style={styles.scrollView}>
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={styles.scrollView}>
         <View
           style={{
             display: 'flex',
@@ -144,13 +156,13 @@ const InquiryList = ({navigation}: any) => {
                                   });
                                 }}>
                                 <View style={styles.modifyBtn}>
-                                  <Text>수정</Text>
+                                  <Text style={{color: 'white'}}>수정</Text>
                                 </View>
                               </TouchableOpacity>
                               <TouchableOpacity
                                 onPress={deleteInquiryList(number)}>
                                 <View style={styles.deleteBtn}>
-                                  <Text>삭제</Text>
+                                  <Text style={{color: 'white'}}>삭제</Text>
                                 </View>
                               </TouchableOpacity>
                             </View>

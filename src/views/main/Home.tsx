@@ -151,7 +151,7 @@ const Home = ({navigation}: any) => {
               </TouchableOpacity>
             </View>
           </View>
-          <Divider width={1} color={'white'} />
+          <Divider width={1} color={'white'} style={{opacity: 0.4}} />
           {/**----------- */}
           {isAccess && isAccess ? (
             <View style={styles.mainTopCarNumberWrap}>
@@ -226,10 +226,11 @@ const Home = ({navigation}: any) => {
               <Divider
                 width={1}
                 style={{
-                  width: '90%',
+                  width: '100%',
                   alignSelf: 'center',
                   marginTop: 7,
                   marginBottom: 7,
+                  opacity: 0.4,
                 }}
               />
               {/**----------- */}
@@ -342,7 +343,7 @@ const Home = ({navigation}: any) => {
         </View>
         <Divider
           width={1}
-          style={{marginBottom: 15, marginTop: 15, opacity: 0.3}}
+          style={{marginBottom: 15, marginTop: 15, opacity: 0.4}}
         />
         {/* bottom */}
         <View
@@ -363,11 +364,19 @@ const Home = ({navigation}: any) => {
                 paddingRight: 10,
               }}>
               <TouchableOpacity
+                onPress={navigationPushHandler(
+                  'TermsOfService'
+                )}></TouchableOpacity>
+              <TouchableOpacity
                 onPress={navigationPushHandler('TermsOfService')}>
                 <Text style={{fontSize: 14, fontWeight: '400', color: '#000'}}>
                   이용약관
                 </Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                onPress={navigationPushHandler(
+                  'TermsOfService'
+                )}></TouchableOpacity>
               <TouchableOpacity onPress={navigationPushHandler('Privacy')}>
                 <Text style={{fontSize: 14, fontWeight: '400', color: '#000'}}>
                   개인정보처리방침
@@ -408,7 +417,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height - 80,
   },
   background: {
-    height: 360,
+    height: 280, // 360->310 tw
     // alignItems: 'center',
     overflow: 'visible',
     marginBottom: 15,
@@ -419,7 +428,7 @@ const styles = StyleSheet.create({
   topTitle: {
     width: '92%',
     height: 50,
-    marginVertical: 12,
+    // marginVertical: 12, tw
     marginHorizontal: '4%',
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -522,12 +531,12 @@ const styles = StyleSheet.create({
     marginTop: '10%',
   },
   banner: {
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 10,
   },
   descriptionContainer: {
     paddingHorizontal: 30,
-    marginTop: 40,
+    marginTop: 35, //40->30 tw
   },
   descriptionContainer2: {
     marginHorizontal: 30,
@@ -628,9 +637,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     width: '100%',
-    height: 60,
-    marginTop: 25,
-    marginBottom: 25,
+    height: 50,
+    marginTop: 15, // 25->15  tw
+    marginBottom: 15, // 25->15
     backgroundColor: 'white',
     borderRadius: 15,
     ...Platform.select({android: {elevation: 10}}),
@@ -651,7 +660,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: '2.8%',
     paddingBottom: '6%',
-    height: 210,
+    height: 190,
     backgroundColor: 'white',
     borderRadius: 20,
     borderBottomRightRadius: 40,
@@ -670,7 +679,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mainBottomNavigationBorderBtn: {
-    height: '50%',
+    height: '40%',
     display: 'flex',
     justifyContent: 'center',
     // backgroundColor: 'blue',
@@ -679,8 +688,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#1E4467',
     fontWeight: '700',
-    fontSize: 13,
-    lineHeight: 16,
+    fontSize: 12,
+    // lineHeight: 14,
   },
   mainBottomNavigationBorderBtnImgWrap: {
     height: '50%',

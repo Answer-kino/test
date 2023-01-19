@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#6DADDB',
     width: '80%',
     borderRadius: 10,
-    height: 60,
+    height: 51,
     marginTop: 20,
     marginLeft: '10%',
     justifyContent: 'center',
@@ -325,8 +325,8 @@ const styles = StyleSheet.create({
   },
   modifyBtnText: {
     fontFamily: 'Noto Sans',
-    fontWeight: '700',
-    fontSize: 17,
+    fontWeight: '500',
+    fontSize: 16,
     color: 'white',
   },
   checkButton: {
