@@ -24,6 +24,7 @@ import {convertTime} from '../../../@utility/time';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 import ModalCloseBtn from '../../../assets/modalclosetbtn.svg';
+import {Divider} from '@rneui/base';
 
 const ContractCheck = ({navigation}: any) => {
   const CAPITAL_SERVICE = new API_CAPITAL_SERVICE();
@@ -114,6 +115,7 @@ const ContractCheck = ({navigation}: any) => {
               <Text style={styles.textStyle}>{capitalInfo?.Division}</Text>
             </View>
           </View>
+          <Divider style={styles.divider}></Divider>
           {/**----------- */}
           {/**----------- */}
           <View style={styles.descriptionContainer}>
@@ -143,6 +145,7 @@ const ContractCheck = ({navigation}: any) => {
               <Text style={styles.textStyle}>{capitalInfo?.VehicleName}</Text>
             </View>
           </View>
+          <Divider style={styles.divider}></Divider>
           {/**----------- */}
 
           {/**----------- */}
@@ -179,6 +182,7 @@ const ContractCheck = ({navigation}: any) => {
               </Text>
             </View>
           </View>
+          <Divider style={styles.divider}></Divider>
           {/**----------- */}
           {/**----------- */}
           <View style={styles.descriptionContainer}>
@@ -207,6 +211,7 @@ const ContractCheck = ({navigation}: any) => {
               <Text style={styles.textStyle}>{capitalInfo?.AccountHolder}</Text>
             </View>
           </View>
+          <Divider style={styles.divider}></Divider>
           {/**----------- */}
           {/**----------- */}
           <View style={styles.descriptionContainer2}>
@@ -274,11 +279,11 @@ const styles = StyleSheet.create({
   },
   descriptionContainer: {
     marginHorizontal: 30,
-    marginTop: 30,
+    marginTop: 20,
     marginBottom: -15,
     paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderColor: '#D8D8D8',
+    // borderBottomWidth: 1,
+    // borderColor: '#D8D8D8',
   },
   descriptionContainer2: {
     marginHorizontal: 30,
@@ -368,6 +373,10 @@ const styles = StyleSheet.create({
     marginTop: '-10%',
     width: '100%',
     // alignItems: 'flex-end',
+  },
+  divider: {
+    marginTop: 20,
+    opacity: 0.4,
   },
 });
 

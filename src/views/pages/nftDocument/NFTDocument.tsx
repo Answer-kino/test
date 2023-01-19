@@ -125,14 +125,8 @@ const NFTDocument = ({navigation}: any) => {
               검사와 검사를 198회 통과한 인증 중고차임을 증명합니다.
             </Text>
           </View>
-          <TouchableOpacity style={styles.detailBox}>
-            <View style={styles.detailBoxLeft}>
-              <Image source={require('../../../assets/Group.png')} />
-              <Text style={styles.detailText}>Details</Text>
-            </View>
-            <Image source={require('../../../assets/bottomArrow.png')} />
-          </TouchableOpacity>
         </View>
+        <View style={{marginBottom: 130}}></View>
       </ScrollView>
       <BottomNav navigation={navigation} />
     </View>

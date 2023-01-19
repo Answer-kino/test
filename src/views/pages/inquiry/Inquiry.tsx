@@ -48,6 +48,7 @@ const Inquiry = ({navigation}: any) => {
   return (
     <View style={styles.full}>
       <TopNav navigation={navigation} title="문의하기" />
+      <Text style={styles.topTitle}>1:1문의하기</Text>
       <View style={{alignItems: 'center'}}>
         <TextInput
           style={styles.text1}
@@ -92,6 +93,12 @@ const styles = StyleSheet.create({
   full: {
     backgroundColor: '#F2F6F8',
     height: '100%',
+  },
+  topTitle: {
+    marginLeft: '11%',
+    marginTop: 20,
+    fontWeight: '700',
+    fontSize: 18,
   },
   text1: {
     color: 'black',

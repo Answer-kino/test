@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.19,
     marginTop: 10,
     width: '100%',
+    opacity: 0.4,
   },
 });
 
