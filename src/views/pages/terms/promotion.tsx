@@ -30,12 +30,11 @@ const Promotion = ({navigation}: any) => {
       <View style={styles.full}>
         <ScrollView>
           <TopNav navigation={navigation} title="프로모션"></TopNav>
-          <View style={{height: '100%'}}>
+          <View style={{height: '100%', alignItems: 'center'}}>
             <View
               style={{
                 backgroundColor: 'white',
-                marginLeft: '9%',
-                marginRight: '9%',
+
                 width: '85%',
                 height: '100%',
                 marginTop: 22,
@@ -73,7 +72,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 18,
     lineHeight: 35,
-    marginLeft: '5%',
+    paddingLeft: 15,
+    paddingRight: 15,
     color: '#292929',
   },
   text2: {
@@ -82,7 +82,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 22,
     color: '#666666',
-    marginLeft: '5%',
+    paddingLeft: 15,
+    paddingRight: 15,
     marginTop: 8,
   },
   text3: {
@@ -91,7 +92,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 22,
     color: '#666666',
-    marginLeft: '8%',
+    paddingLeft: 15,
+    paddingRight: 15,
     marginTop: 8,
   },
 });

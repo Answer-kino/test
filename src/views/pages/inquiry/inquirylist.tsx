@@ -21,13 +21,16 @@ type dropDownType = {
 
 const InquiryList = ({navigation}: any) => {
   const [dropDown, setDropDown] = useState<dropDownType>({});
-  const [dropDown2, setDropDown2] = useState(false);
   const [inquiryListInfo, setInquiryListInfo] = useState([]);
-  const [idx, setIdx] = useState('');
   const Inquiry_SerVice = new API_Inquiry_Service();
 
-  const dropDownHandler = (idx: number, bool: boolean) => {
-    setDropDown({[idx]: bool});
+  const dropDownHandler = (idx: number) => {
+    // setDropDown()
+    if (dropDown[idx]) {
+      setDropDown({[idx]: false});
+    } else {
+      setDropDown({[idx]: true});
+    }
   };
 
   const getInquiryList = async () => {
@@ -39,7 +42,7 @@ const InquiryList = ({navigation}: any) => {
     }
   };
   const deleteInquiryList = (number: number) => async () => {
-    console.log('number', number);
+    // console.log('number', number);
     try {
       const result = await Inquiry_SerVice.DELETE_INQUIRY(number);
       console.log(result);
@@ -85,9 +88,10 @@ const InquiryList = ({navigation}: any) => {
                   <TouchableOpacity
                     style={{marginTop: '3%'}}
                     onPress={() => {
-                      dropDownHandler(index, !dropDown2);
-                      setDropDown2(!dropDown2);
-                      console.log(dropDown);
+                      dropDownHandler(index);
+                      // setDropDown2(!dropDown2);
+                      // console.log(dropDown);
+                      // console.log(index);
                     }}>
                     <View
                       style={{
@@ -98,9 +102,15 @@ const InquiryList = ({navigation}: any) => {
                       <Text style={styles.questionmark}>Q</Text>
                       <Text style={styles.questiontitle}>{title}</Text>
 
-                      <Image
-                        style={styles.dropdownimg}
-                        source={require('./../../../assets/dropdown.png')}></Image>
+                      {dropDown[index] ? (
+                        <Image
+                          style={styles.dropdownimg}
+                          source={require('./../../../assets/dropUp.png')}></Image>
+                      ) : (
+                        <Image
+                          style={styles.dropdownimg}
+                          source={require('./../../../assets/dropdown.png')}></Image>
+                      )}
                     </View>
                   </TouchableOpacity>
                 </View>

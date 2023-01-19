@@ -77,6 +77,10 @@ const Login = ({navigation}: any) => {
     phone: '',
     email: '',
   });
+  const regExp__pwd2 =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&\/])[A-Za-z\d$@$!%*#?&//]{8,}$/;
+
+  console.log('정규식', regExp__pwd2.test('/answer4321'));
   // 회원 체크박스 정보
   const [activeInfo, setActiveInfo] = useState({
     termsOfService: 'N',
@@ -525,6 +529,7 @@ const Login = ({navigation}: any) => {
               style={styles.inputBoxWithBtn}
               placeholder="차량번호"
               onChangeText={setSignInfoHandler(ESignInfoKey.carNumber)}
+              placeholderTextColor="#898989"
             />
             <TouchableOpacity
               style={styles.inputBtn}
@@ -547,11 +552,12 @@ const Login = ({navigation}: any) => {
             <TextInput
               style={styles.flexRowinput}
               textContentType={'password'}
-              placeholder="비밀번호"
+              placeholder="비밀번호 (영문+숫자+특수문자 : 8자리이상)"
               secureTextEntry={true}
               maxLength={20}
               onChangeText={setSignInfoHandler(ESignInfoKey.pwd)}
               onBlur={setPwdCheckedHandler('reg')}
+              placeholderTextColor="#898989"
             />
           </View>
           <View style={styles.flexRowText}>
@@ -576,6 +582,7 @@ const Login = ({navigation}: any) => {
               placeholder="비밀번호 확인"
               onChangeText={setCheckedCheckPwdInfoHandler}
               onBlur={setPwdCheckedHandler('same')}
+              placeholderTextColor="#898989"
             />
           </View>
           <View style={styles.flexRowText}>
@@ -597,6 +604,7 @@ const Login = ({navigation}: any) => {
               maxLength={11}
               placeholder="휴대폰"
               onChangeText={setSignInfoHandler(ESignInfoKey.phone)}
+              placeholderTextColor="#898989"
             />
             {isAllowSignInfo.phone ? (
               <></>
@@ -629,6 +637,7 @@ const Login = ({navigation}: any) => {
                   keyboardType={'number-pad'}
                   maxLength={6}
                   placeholder="인증번호 입력하세요"
+                  placeholderTextColor="#898989"
                   onChangeText={setCheckedInfoDistCodeHandler('phone')}
                   onBlur={checkedDigitCodeHandler('phone')}
                 />
@@ -661,6 +670,7 @@ const Login = ({navigation}: any) => {
               textContentType={'emailAddress'}
               keyboardType={'email-address'}
               placeholder="이메일"
+              placeholderTextColor="#898989"
               onChangeText={setSignInfoHandler(ESignInfoKey.email)}
             />
             {isAllowSignInfo.email ? (
@@ -696,6 +706,7 @@ const Login = ({navigation}: any) => {
                   maxLength={6}
                   placeholder="인증번호 입력하세요"
                   onChangeText={setCheckedInfoDistCodeHandler('email')}
+                  placeholderTextColor="#898989"
                   onBlur={checkedDigitCodeHandler('email')}
                 />
                 <View>
@@ -727,11 +738,13 @@ const Login = ({navigation}: any) => {
               <CheckBox
                 value={!Object.values(checkBox).some(el => el !== true)}
                 onChange={setAllCheckBoxHandler}
+                tintColors={{true: '#747474', false: 'black'}}
+                onTintColor="white"
               />
               <TouchableOpacity
                 style={styles.checkBoxLabelWrap}
                 onPress={setAllCheckBoxHandler}>
-                <Text>약관 전체동의</Text>
+                <Text style={{color: '#797979'}}>약관 전체동의</Text>
               </TouchableOpacity>
             </View>
             <Divider width={2} style={{marginBottom: 8, marginTop: 8}} />
@@ -739,14 +752,17 @@ const Login = ({navigation}: any) => {
               <CheckBox
                 value={checkBox.termsOfService}
                 onChange={setCheckBoxHandler('termsOfService')}
+                tintColors={{true: '#747474', false: 'black'}}
               />
               <TouchableOpacity
                 style={styles.checkBoxLabelWrap}
                 onPress={setCheckBoxHandler('termsOfService')}>
                 <Text style={styles.requirementsMsg}>필수</Text>
-                <Text>이용약관</Text>
+                <Text style={{color: '#797979'}}>이용약관</Text>
               </TouchableOpacity>
-              <Text onPress={navigationPushHandler('TermsOfService')}>
+              <Text
+                style={{color: '#797979'}}
+                onPress={navigationPushHandler('TermsOfService')}>
                 {' '}
                 [내용보기]
               </Text>
@@ -755,14 +771,17 @@ const Login = ({navigation}: any) => {
               <CheckBox
                 value={checkBox.privacy}
                 onChange={setCheckBoxHandler('privacy')}
+                tintColors={{true: '#747474', false: 'black'}}
               />
               <TouchableOpacity
                 style={styles.checkBoxLabelWrap}
                 onPress={setCheckBoxHandler('privacy')}>
                 <Text style={styles.requirementsMsg}>필수</Text>
-                <Text>개인정보수집 및 이용</Text>
+                <Text style={{color: '#797979'}}>개인정보수집 및 이용</Text>
               </TouchableOpacity>
-              <Text onPress={navigationPushHandler('Privacy')}>
+              <Text
+                style={{color: '#797979'}}
+                onPress={navigationPushHandler('Privacy')}>
                 {' '}
                 [내용보기]
               </Text>
@@ -771,14 +790,17 @@ const Login = ({navigation}: any) => {
               <CheckBox
                 value={checkBox.promotion}
                 onChange={setCheckBoxHandler('promotion')}
+                tintColors={{true: '#747474', false: 'black'}}
               />
               <TouchableOpacity
                 style={styles.checkBoxLabelWrap}
                 onPress={setCheckBoxHandler('promotion')}>
                 <Text style={styles.selectionMsg}>선택</Text>
-                <Text>프로모션 정보수신약관</Text>
+                <Text style={{color: '#797979'}}>프로모션 정보수신약관</Text>
               </TouchableOpacity>
-              <Text onPress={navigationPushHandler('Promotion')}>
+              <Text
+                style={{color: '#797979'}}
+                onPress={navigationPushHandler('Promotion')}>
                 {' '}
                 [내용보기]
               </Text>
@@ -787,14 +809,19 @@ const Login = ({navigation}: any) => {
               <CheckBox
                 value={checkBox.snsEmailMarketing}
                 onChange={setCheckBoxHandler('snsEmailMarketing')}
+                tintColors={{true: '#747474', false: 'black'}}
               />
               <TouchableOpacity
                 style={styles.checkBoxLabelWrap}
                 onPress={setCheckBoxHandler('snsEmailMarketing')}>
                 <Text style={styles.selectionMsg}>선택</Text>
-                <Text>마케팅,SNS,이메일 수신동의</Text>
+                <Text style={{color: '#797979'}}>
+                  마케팅,SNS,이메일 수신동의
+                </Text>
               </TouchableOpacity>
-              <Text onPress={navigationPushHandler('Marketing')}>
+              <Text
+                style={{color: '#797979'}}
+                onPress={navigationPushHandler('Marketing')}>
                 {' '}
                 [내용보기]
               </Text>

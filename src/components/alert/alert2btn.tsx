@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import ModalCloseBtn from '../../assets/modalclosetbtn.svg';
-const AlertCustom = ({setModalVisible, modalVisible, errorMsg}: any) => {
+const AlertCustom_2Btn = ({setModalVisible, modalVisible, errorMsg}: any) => {
   return (
     <Modal animationType="fade" transparent={true} visible={modalVisible}>
       <View style={styles.signUpModalWrap}>
@@ -140,4 +140,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AlertCustom;
+export default AlertCustom_2Btn;

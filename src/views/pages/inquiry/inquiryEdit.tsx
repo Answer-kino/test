@@ -23,19 +23,31 @@ const InquiryEdit = ({navigation, route}: any) => {
   const Inquiry_Service = new API_Inquiry_Service();
 
   const editInquiry = async () => {
-    const Content = content;
-    const Title = title;
-    const IDX_ENQ = route.params?.IDX_ENQ;
-    try {
-      const result = await Inquiry_Service.MODIFY_INQUIRY({
-        IDX_ENQ,
-        Title,
-        Content,
-      });
-      navigation.replace('InquiryList');
-    } catch (error) {
-      console.log(error);
-    }
+    Alert.alert('정말로 수정하시겠습니까?', '문의 사항을 수정하시겠습니까?', [
+      {
+        text: '네',
+        onPress: async () => {
+          const Content = content;
+          const Title = title;
+          const IDX_ENQ = route.params?.IDX_ENQ;
+          try {
+            const result = await Inquiry_Service.MODIFY_INQUIRY({
+              IDX_ENQ,
+              Title,
+              Content,
+            });
+            Alert.alert('수정되었습니다.');
+            navigation.replace('InquiryList');
+          } catch (error) {
+            console.log(error);
+          }
+        },
+      },
+      {
+        text: '아니오',
+        //   onPress:
+      },
+    ]);
   };
   useEffect(() => {
     if (route.params.title) {

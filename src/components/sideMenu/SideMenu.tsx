@@ -6,6 +6,9 @@ import API_HOME_SERVICE from '../../@api/home/home';
 import Banner from '../../assets/sidemenubanner.svg';
 import LoginImg from '../../assets/Login.svg';
 import LogoutImg from '../../assets/Logout.svg';
+import SideBanner from '../../assets/sideBanner2.svg';
+import Question from '../../assets/question.svg';
+import Inquiry from '../../assets/inquiry.svg';
 interface SideMenuProps {
   open: boolean;
   toggleOpen: Function;
@@ -83,7 +86,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                     navigation.navigate('Question');
                   }}>
                   <View style={styles.sideMenuSectionLeft}>
-                    <Image source={require('../../assets/question.png')} />
+                    <Question></Question>
                     <Text style={styles.menuText}>자주묻는질문</Text>
                   </View>
                   <Image source={require('../../assets/sideArrow.png')} />
@@ -94,7 +97,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                     enterPage('Inquiry');
                   }}>
                   <View style={styles.sideMenuSectionLeft}>
-                    <Image source={require('../../assets/inquiry.png')} />
+                    <Inquiry></Inquiry>
                     <Text style={styles.menuText}>문의하기</Text>
                   </View>
 
@@ -106,15 +109,24 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                     enterPage('InquiryList');
                   }}>
                   <View style={styles.sideMenuSectionLeft}>
-                    <Image source={require('../../assets/inquiry.png')} />
+                    <Inquiry></Inquiry>
                     <Text style={styles.menuText}>문의글보기</Text>
                   </View>
 
                   <Image source={require('../../assets/sideArrow.png')} />
                 </TouchableOpacity>
               </View>
-              <View style={{height: '30%'}}>
-                <Banner style={{marginTop: '90%', width: '0%'}}></Banner>
+              <View
+                style={{
+                  overflow: 'hidden',
+                  width: '100%',
+                }}>
+                <SideBanner
+                  style={{
+                    marginTop: '90%',
+                    maxWidth: '100%',
+                    height: 'auto',
+                  }}></SideBanner>
               </View>
             </View>
             {login ? (
@@ -183,7 +195,8 @@ const styles = StyleSheet.create({
   carInfo: {
     height: 97,
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    marginLeft: 23,
   },
   carIconContainer: {
     flexDirection: 'row',
@@ -196,7 +209,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 5,
+    marginRight: 7,
   },
   carNumber: {
     fontSize: 17,
@@ -206,6 +219,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     marginTop: 20,
+    marginRight: 12,
     color: '#707070',
   },
   sideMenuContainer: {

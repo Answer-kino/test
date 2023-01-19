@@ -156,7 +156,7 @@ const FindCarNum = ({navigation}: any) => {
           setCarNumber(data[0].CarNumber);
           clearInterval(intervalTimer.current.phone);
         }
-      } catch (error) {
+      } catch (error: any) {
         alert(error.message);
         if (error.message === '등록된 차량번호가 없습니다.') {
           setIsAllowPhone(false);

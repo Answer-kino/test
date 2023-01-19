@@ -79,6 +79,7 @@ const CommunityBoard = ({navigation, route}: any) => {
       const commentInfo: any = await BBS_SERVICE.BBS_Comment(boardIdx);
 
       setCommentInfo(commentInfo);
+      console.log(commentInfo);
     } catch (error) {
       console.error(error);
     }
@@ -141,6 +142,10 @@ const CommunityBoard = ({navigation, route}: any) => {
     return () => backHandler.remove();
   }, []);
 
+  useEffect(() => {
+    console.log(new Date());
+  }, []);
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'android' ? 'position' : 'padding'}
@@ -188,9 +193,18 @@ const CommunityBoard = ({navigation, route}: any) => {
             const comment = item.Comment;
             const temp = item.CreatedDay;
             const imgNum = item.ProfileImg;
+            const now = new Date();
             const CreateDay =
-              // temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
-              temp.split('T')[0];
+              temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
+
+            // temp.split('T')[0];
+            // console.log(CreateDay.split('-')[1]);
+            console.log(
+              // (now.getTime() - CreateDay.getTime()) / 60 / 60 / 1000,
+              now,
+              CreateDay
+            );
+
             return (
               <View key={index} style={styles.commentContainer}>
                 <View style={styles.commentFront}>
@@ -199,7 +213,7 @@ const CommunityBoard = ({navigation, route}: any) => {
                   </View>
                   <Text style={styles.comment}>{comment}</Text>
                 </View>
-                <Text style={styles.commentAt}>{CreateDay}</Text>
+                <Text style={styles.commentAt}>{}</Text>
               </View>
             );
           })}

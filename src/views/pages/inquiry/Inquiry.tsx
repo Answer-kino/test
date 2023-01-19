@@ -48,7 +48,7 @@ const Inquiry = ({navigation}: any) => {
   return (
     <View style={styles.full}>
       <TopNav navigation={navigation} title="문의하기" />
-      <View>
+      <View style={{alignItems: 'center'}}>
         <TextInput
           style={styles.text1}
           placeholder="문의 제목"
@@ -65,13 +65,22 @@ const Inquiry = ({navigation}: any) => {
           onChangeText={text => {
             setContent(text);
           }}></TextInput>
+
         <TouchableOpacity
-          style={{}}
+          style={{width: '80%'}}
           onPress={() => {
             writeInquiry();
           }}>
           <View style={styles.button}>
-            <Text>확인</Text>
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 17,
+                fontWeight: '500',
+                fontFamily: 'Noto Sans',
+              }}>
+              확인
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -86,7 +95,7 @@ const styles = StyleSheet.create({
   },
   text1: {
     color: 'black',
-    marginLeft: '7%',
+
     backgroundColor: 'white',
     borderRadius: 10,
     marginTop: 20,
@@ -96,7 +105,7 @@ const styles = StyleSheet.create({
   },
   text2: {
     color: 'black',
-    marginLeft: '7%',
+
     backgroundColor: 'white',
     borderRadius: 10,
     marginTop: 20,
@@ -108,11 +117,10 @@ const styles = StyleSheet.create({
   button: {
     color: 'white',
     backgroundColor: '#6DADDB',
-    width: '80%',
+    width: '100%',
     borderRadius: 10,
     height: 60,
     marginTop: 20,
-    marginLeft: '7%',
     justifyContent: 'center',
     alignItems: 'center',
   },

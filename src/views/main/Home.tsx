@@ -11,6 +11,7 @@ import {
   BackHandler,
   ToastAndroid,
   Platform,
+  Linking,
 } from 'react-native';
 import API_HOME_SERVICE from '../../@api/home/home';
 import {EUserInfo} from '../../@entity/user/entity';
@@ -22,6 +23,9 @@ import Cardocument from '../../assets/cardocument.svg';
 import NftWalletimg from '../../assets/nftWallet.svg';
 import Raceinfoimg from '../../assets/raceinfo.svg';
 import Community from '../../assets/community.svg';
+import Logo from '../../assets/NFTlogo.svg';
+import Hamburger from '../../assets/hamburger.svg';
+import Barcode from '../../assets/barcode.svg';
 import API_BBS_SERVICE from '../../@api/bbs/bbs';
 import API_Mypage from '../../@api/mypage/Mypage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -137,19 +141,13 @@ const Home = ({navigation}: any) => {
           style={styles.background}
           source={require('./../../assets/background.png')}>
           <View style={styles.topTitle}>
-            <Image
-              style={styles.topTitleLogo}
-              source={require('../../assets/logo1.png')}
-            />
+            <Logo />
             <View style={styles.topTitleSubContainer}>
               {/* <TouchableOpacity onPress={() => navigation.push('Connect')}>
                 <Text style={styles.topTitleContact}>연결</Text>
               </TouchableOpacity> */}
               <TouchableOpacity onPress={() => toggleOpen()}>
-                <Image
-                  style={styles.topTitleHamburger}
-                  source={require('../../assets/hamburger1.png')}
-                />
+                <Hamburger />
               </TouchableOpacity>
             </View>
           </View>
@@ -161,6 +159,7 @@ const Home = ({navigation}: any) => {
                 <Text style={styles.mainTopCarNumberBorderText}>
                   차량번호 : {carNumber}
                 </Text>
+                <Barcode />
               </View>
             </View>
           ) : (
@@ -186,8 +185,12 @@ const Home = ({navigation}: any) => {
                   style={styles.mainBottomNavigationBorderBtnWrap}
                   onPress={navigationAccessHandler('ContractCheck')}>
                   <View style={styles.mainBottomNavigationBorderBtn}>
-                    <Text style={styles.mainBottomNavigationBorderBtnText}>
-                      {'\n'}계약확인
+                    <Text
+                      style={[
+                        styles.mainBottomNavigationBorderBtnText,
+                        {paddingTop: '7%'},
+                      ]}>
+                      계약확인
                     </Text>
                   </View>
                   <View style={styles.mainBottomNavigationBorderBtnImgWrap}>
@@ -225,8 +228,8 @@ const Home = ({navigation}: any) => {
                 style={{
                   width: '90%',
                   alignSelf: 'center',
-                  marginTop: 5,
-                  marginBottom: 5,
+                  marginTop: 7,
+                  marginBottom: 7,
                 }}
               />
               {/**----------- */}
@@ -247,8 +250,12 @@ const Home = ({navigation}: any) => {
                   style={styles.mainBottomNavigationBorderBtnWrap}
                   onPress={navigationAccessHandler('CommunityBoardList')}>
                   <View style={styles.mainBottomNavigationBorderBtn}>
-                    <Text style={styles.mainBottomNavigationBorderBtnText}>
-                      {'\n'}커뮤니티
+                    <Text
+                      style={[
+                        styles.mainBottomNavigationBorderBtnText,
+                        {paddingTop: '7%'},
+                      ]}>
+                      커뮤니티
                     </Text>
                   </View>
                   <View style={styles.mainBottomNavigationBorderBtnImgWrap}>
@@ -311,7 +318,15 @@ const Home = ({navigation}: any) => {
               <Text style={styles.text}>
                 {capitalInfo?.Capital ? capitalInfo?.Capital : '캐피탈 콜센터'}
               </Text>
-              <Text style={styles.text}>
+              <Text
+                style={styles.text}
+                onPress={() => {
+                  {
+                    capitalInfo?.Contact
+                      ? Linking.openURL(`tel:${capitalInfo?.Contact}`)
+                      : Linking.openURL(`tel:1588-2114`);
+                  }
+                }}>
                 {capitalInfo?.Contact ? capitalInfo?.Contact : '1588-2114'}
               </Text>
             </View>
@@ -364,11 +379,6 @@ const Home = ({navigation}: any) => {
               flexDirection: 'column',
               alignItems: 'center',
             }}>
-            <View style={{paddingBottom: 10, paddingTop: 10}}>
-              <Text style={{fontSize: 25, fontWeight: '700', color: 'black'}}>
-                {capitalInfo?.Contact ? capitalInfo?.Contact : '1588-2114'}
-              </Text>
-            </View>
             <View>
               <Text
                 style={{
@@ -378,7 +388,7 @@ const Home = ({navigation}: any) => {
                   color: 'black',
                 }}>
                 경기도 용인시 기흥구 기흥로 58, 기흥 ITC벨리 B동 2101호{'\n'}
-                사업자등록번호 418-88-02279 전화번호 1533-3753
+                사업자등록번호 418-88-02279
               </Text>
             </View>
           </View>
@@ -403,15 +413,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topTitle: {
+    width: '92%',
     height: 50,
-    margin: 12,
+    marginVertical: 12,
+    marginHorizontal: '4%',
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
   },
   topTitleSubContainer: {
     height: 50,
-    width: 100,
     justifyContent: 'space-around',
     flexDirection: 'row',
     alignItems: 'center',
@@ -421,7 +432,6 @@ const styles = StyleSheet.create({
     height: 38,
     borderBottomWidth: 1,
     borderColor: 'white',
-    marginLeft: '8%',
   },
   topTitleContact: {
     width: 49,
@@ -531,6 +541,8 @@ const styles = StyleSheet.create({
   },
   descriptionTitle: {
     fontSize: 17,
+    fontFamily: 'Noto Sans',
+    fontWeight: '700',
     marginVertical: 3,
     color: 'black',
   },
@@ -602,7 +614,11 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     textAlign: 'center',
   },
-  mainTopCarNumberWrap: {width: '92%', display: 'flex', alignSelf: 'center'},
+  mainTopCarNumberWrap: {
+    width: '92%',
+    display: 'flex',
+    alignSelf: 'center',
+  },
   mainTopCarNumberBorder: {
     display: 'flex',
     alignItems: 'center',
@@ -628,15 +644,16 @@ const styles = StyleSheet.create({
   },
   mainBottomNavigationBorderWrap: {
     width: '100%',
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingTop: '2.8%',
+    paddingBottom: '6%',
     height: 210,
     backgroundColor: 'white',
-    borderRadius: 15,
+    borderRadius: 20,
+    borderBottomRightRadius: 40,
     ...Platform.select({android: {elevation: 10}}),
   },
   mainBottomNavigationBorder: {
-    height: '50%',
+    height: '49%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -651,6 +668,7 @@ const styles = StyleSheet.create({
     height: '50%',
     display: 'flex',
     justifyContent: 'center',
+    // backgroundColor: 'blue',
   },
   mainBottomNavigationBorderBtnText: {
     textAlign: 'center',
@@ -661,6 +679,7 @@ const styles = StyleSheet.create({
   },
   mainBottomNavigationBorderBtnImgWrap: {
     height: '50%',
+    justifyContent: 'center',
   },
 });
 

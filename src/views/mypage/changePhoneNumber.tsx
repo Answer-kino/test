@@ -327,6 +327,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Noto Sans',
     fontWeight: '700',
     fontSize: 17,
+    color: 'white',
   },
   checkButton: {
     width: 58,

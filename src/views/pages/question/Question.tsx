@@ -23,8 +23,12 @@ const Question = ({navigation}: any) => {
   const [dropDown2, setDropDown2] = useState(false);
   const getQuestion = new API_Question();
 
-  const dropDownHandler = (idx: any, bool: boolean) => {
-    setDropDown({[idx]: bool});
+  const dropDownHandler = (idx: any) => {
+    if (dropDown[idx]) {
+      setDropDown({[idx]: false});
+    } else {
+      setDropDown({[idx]: true});
+    }
   };
 
   const getQuestionInfo = async () => {
@@ -74,8 +78,8 @@ const Question = ({navigation}: any) => {
                       <TouchableOpacity
                         style={{marginTop: '3%'}}
                         onPress={() => {
-                          dropDownHandler(index, !dropDown2);
-                          setDropDown2(!dropDown2);
+                          dropDownHandler(index);
+
                           console.log(dropDown);
                         }}>
                         <View
@@ -87,9 +91,15 @@ const Question = ({navigation}: any) => {
                           <Text style={styles.questionmark}>Q</Text>
                           <Text style={styles.questiontitle}>{title}</Text>
 
-                          <Image
-                            style={styles.dropdownimg}
-                            source={require('./../../../assets/dropdown.png')}></Image>
+                          {dropDown[index] ? (
+                            <Image
+                              style={styles.dropdownimg}
+                              source={require('./../../../assets/dropUp.png')}></Image>
+                          ) : (
+                            <Image
+                              style={styles.dropdownimg}
+                              source={require('./../../../assets/dropdown.png')}></Image>
+                          )}
                         </View>
                       </TouchableOpacity>
                     </View>

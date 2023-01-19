@@ -23,19 +23,29 @@ const CommunityEdit = ({navigation, route}: any) => {
     console.log(route.params);
   }, [route]);
   const modifyBoard = async () => {
-    const boardIdx = route.params.boardIdx;
-    try {
-      const result = await BBS_SERVICE.BBS_Board_Modify({
-        newTitle,
-        newContent,
-        boardIdx,
-      });
-      Alert.alert('수정되었습니다.');
-      navigation.navigate('CommunityBoardList');
-      console.log('수정', result);
-    } catch (error) {
-      console.log(error);
-    }
+    Alert.alert('정말로 수정하시겠습니까?', '게시글을 수정하시겠습니까?', [
+      {
+        text: '예',
+        onPress: async () => {
+          const boardIdx = route.params.boardIdx;
+          try {
+            const result = await BBS_SERVICE.BBS_Board_Modify({
+              newTitle,
+              newContent,
+              boardIdx,
+            });
+            Alert.alert('수정되었습니다.');
+            navigation.navigate('CommunityBoardList');
+            console.log('수정', result);
+          } catch (error) {
+            console.log(error);
+          }
+        },
+      },
+      {
+        text: '아니오',
+      },
+    ]);
   };
   useEffect(() => {
     console.log('IDX', route.params.boardIdx);

@@ -74,8 +74,6 @@ const Setting = ({navigation}: any) => {
         </View>
         <View
           style={{
-            marginLeft: 21,
-            marginRight: 21,
             borderBottomColor: '#8D8D8D',
             borderWidth: 0.5,
             marginTop: 10,
@@ -93,8 +91,7 @@ const Setting = ({navigation}: any) => {
                 navigation.reset({routes: [{name: 'Login2'}]});
               }}>
               <Text style={styles.text2}>로그 아웃</Text>
-              <Navigation
-                style={{marginRight: '10%', marginTop: 10}}></Navigation>
+              <Navigation style={{marginRight: 10, marginTop: 10}}></Navigation>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -130,8 +127,6 @@ const Setting = ({navigation}: any) => {
         </View>
         <View
           style={{
-            marginLeft: 21,
-            marginRight: 21,
             borderBottomColor: '#8D8D8D',
             borderWidth: 0.5,
             marginTop: 10,
@@ -163,14 +158,11 @@ const Setting = ({navigation}: any) => {
               }
             }}>
             <Text style={styles.text2}>문의하기</Text>
-            <Navigation
-              style={{marginRight: '10%', marginTop: 10}}></Navigation>
+            <Navigation style={{marginRight: 10, marginTop: 10}}></Navigation>
           </TouchableOpacity>
         </View>
         <View
           style={{
-            marginLeft: 21,
-            marginRight: 21,
             borderBottomColor: '#8D8D8D',
             borderWidth: 0.5,
             marginTop: 10,
@@ -201,8 +193,7 @@ const styles = StyleSheet.create({
   },
   line: {
     borderBottomColor: '#72ABEE',
-    marginLeft: 21,
-    marginRight: 21,
+
     borderWidth: 0.5,
     marginTop: 10,
   },

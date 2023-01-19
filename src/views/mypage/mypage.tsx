@@ -409,10 +409,11 @@ const Mypage = ({navigation}: any) => {
             </View>
             <View style={styles.mainContainerRowBtnWrap}>
               <Switch
-                trackColor={{false: 'D9D9D9', true: '#6DADDB'}}
+                trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
                 thumbColor={'#FFFFFF'}
                 value={switchToggle?.Marketing}
                 onValueChange={toggleHandler(toggleKey.marketing)}
+                style={{transform: [{scaleX: 1.5}, {scaleY: 1.5}]}}
               />
             </View>
           </View>
@@ -422,10 +423,11 @@ const Mypage = ({navigation}: any) => {
             </View>
             <View style={styles.mainContainerRowBtnWrap}>
               <Switch
-                trackColor={{false: 'D9D9D9', true: '#6DADDB'}}
+                trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
                 thumbColor={'#FFFFFF'}
                 value={switchToggle?.Email}
                 onValueChange={toggleHandler(toggleKey.mail)}
+                style={{transform: [{scaleX: 1.5}, {scaleY: 1.5}]}}
               />
             </View>
           </View>
@@ -435,10 +437,11 @@ const Mypage = ({navigation}: any) => {
             </View>
             <View style={styles.mainContainerRowBtnWrap}>
               <Switch
-                trackColor={{false: 'D9D9D9', true: '#6DADDB'}}
+                trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
                 thumbColor={'#FFFFFF'}
                 value={switchToggle?.SNS}
                 onValueChange={toggleHandler(toggleKey.sns)}
+                style={{transform: [{scaleX: 1.5}, {scaleY: 1.5}]}}
               />
             </View>
           </View>

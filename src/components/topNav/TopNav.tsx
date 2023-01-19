@@ -11,25 +11,28 @@ const TopNav = (props: TopNavProps) => {
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen(!open);
   return (
-    <View style={styles.topNavContainer}>
-      <SideMenu
-        navigation={props.navigation}
-        open={open}
-        toggleOpen={toggleOpen}
-      />
-      <View style={styles.topNavSubContainer}>
-        <TouchableOpacity
-          style={styles.topNavSection}
-          onPress={() => props.navigation.goBack()}>
-          <Image source={require('../../assets/BackArrow.png')} />
-        </TouchableOpacity>
-        <View style={styles.topNavSection2}>
-          <Text style={styles.topTitle}>{props.title}</Text>
+    <View>
+      <View style={styles.topNavContainer}>
+        <SideMenu
+          navigation={props.navigation}
+          open={open}
+          toggleOpen={toggleOpen}
+        />
+        <View style={styles.topNavSubContainer}>
+          <TouchableOpacity
+            style={styles.topNavSection}
+            onPress={() => props.navigation.goBack()}>
+            <Image source={require('../../assets/BackArrow.png')} />
+          </TouchableOpacity>
+          <View style={styles.topNavSection2}>
+            <Text style={styles.topTitle}>{props.title}</Text>
+          </View>
+          <TouchableOpacity style={styles.topNavSection3} onPress={toggleOpen}>
+            <Image source={require('../../assets/hamburger2.png')} />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.topNavSection3} onPress={toggleOpen}>
-          <Image source={require('../../assets/hamburger2.png')} />
-        </TouchableOpacity>
       </View>
+      <View style={styles.line}></View>
     </View>
   );
 };
@@ -44,11 +47,12 @@ const styles = StyleSheet.create({
   },
   topNavSubContainer: {
     paddingVertical: 13,
-    borderBottomWidth: 1,
+
     height: 60,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    width: '100%',
   },
   topNavSection: {
     flex: 1,
@@ -68,6 +72,12 @@ const styles = StyleSheet.create({
     lineHeight: 29,
     textAlign: 'center',
     textAlignVertical: 'center',
+  },
+  line: {
+    borderBottomColor: '#8D8D8D',
+    borderWidth: 0.19,
+    marginTop: 10,
+    width: '100%',
   },
 });
 

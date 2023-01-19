@@ -35,6 +35,8 @@ const FindPwd = ({navigation}: any) => {
   const [reSendDigitCode, setReSendDigitCode] = useState({
     phone: false,
   });
+
+  const [valid, setValid] = useState(false);
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -135,7 +137,6 @@ const FindPwd = ({navigation}: any) => {
     if (digitCode.length === 6) {
       try {
         const checkedDigitCode = 'checkPhoneDigitCode';
-
         const checkDigitCodeParam = {
           phone: phone,
           digitCode,
@@ -148,9 +149,11 @@ const FindPwd = ({navigation}: any) => {
           throw new Error('인증번호가 일치하지 않습니다.');
         }
         await SIGN_SERVICE.findPwd(carNumber, phone);
+
         setIsAllowPhone(isTure);
+        setValid(isTure);
         clearInterval(intervalTimer.current.phone);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
         alert(error.message);
       } finally {
@@ -214,18 +217,29 @@ const FindPwd = ({navigation}: any) => {
                 returnKeyType="done"
                 placeholder="인증번호 입력하세요"
                 onChangeText={setCheckedInfoDistCodeHandler}
-                onBlur={checkedDigitCodeHandler()}
+                // onBlur={checkedDigitCodeHandler()}
               />
-              <View>
+              {/* 인증하기를 누르면 임시 비밀번호가 전송되었습니다 문구 보이고 그 밑에 확인 버튼 */}
+              {/* <View>
                 <Text style={styles.inputTimer}>
                   {isAllowPhone
                     ? `인증완료`
                     : `${timer.phone.min} : ${timer.phone.sec}`}
                 </Text>
-              </View>
+              </View> */}
             </View>
             {isAllowPhone ? (
-              <></>
+              <>
+                <View style={styles.flexRowText}>
+                  <Text style={styles.errorMsg}>인증 완료</Text>
+                </View>
+                <View style={styles.flexRowText}>
+                  <Text style={styles.warringMsg}>
+                    {`휴대폰 번호로 임시 비밀번호를 보내드렸습니다. 
+  로그인 후 비밀번호를 변경해 주십시오.`}
+                  </Text>
+                </View>
+              </>
             ) : (
               <View style={styles.flexRowText}>
                 <Text style={styles.errorMsg}>
@@ -233,25 +247,31 @@ const FindPwd = ({navigation}: any) => {
                 </Text>
               </View>
             )}
+            {!valid ? (
+              <TouchableOpacity
+                style={styles.lastBtn}
+                onPress={checkedDigitCodeHandler()}>
+                <Text style={{color: 'white'}}>인증하기</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.lastBtn}
+                onPress={() => {
+                  navigation.pop();
+                }}>
+                <Text style={{color: 'white'}}>확인</Text>
+              </TouchableOpacity>
+            )}
           </>
         ) : (
           <></>
         )}
-        {showTextInput.phone && isAllowPhone ? (
-          <View style={styles.flexRowText}>
-            <Text style={styles.warringMsg}>
-              {`휴대폰 번호로 임시 비밀번호를 보내드렸습니다. 
-로그인 후 비빌번호를 변경해 주십시오.`}
-            </Text>
-          </View>
-        ) : (
-          <></>
-        )}
-        <TouchableOpacity
+
+        {/* <TouchableOpacity
           style={styles.lastBtn}
           onPress={() => navigation.pop()}>
           <Text style={{color: 'white'}}>로그인</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

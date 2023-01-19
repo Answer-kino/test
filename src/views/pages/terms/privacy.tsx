@@ -38,7 +38,7 @@ const Privacy = ({navigation}: any) => {
       <View style={styles.full}>
         <ScrollView>
           <TopNav navigation={navigation} title="개인정보"></TopNav>
-          <View style={{height: '100%'}}>
+          <View style={{height: '100%' , alignItems:"center"}}>
             <View
               style={{
                 backgroundColor: 'white',
@@ -96,6 +96,7 @@ const Privacy = ({navigation}: any) => {
                     flexDirection: 'row',
                     marginTop: '1%',
                     justifyContent: 'space-between',
+                    // marginRight:15
                   }}>
                   <Text style={styles.tableTitle}>구분</Text>
                   <Text style={styles.tableTitle}>수집항목</Text>
@@ -519,11 +520,12 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: 'Noto Sans',
     fontWeight: '500',
-    fontSize: 18,
+    fontSize: 17,
     lineHeight: 35,
     marginLeft: '5%',
     color: '#292929',
     marginTop: '2%',
+    marginRight:10
   },
   text2: {
     fontFamily: 'Noto Sans',
@@ -532,6 +534,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     color: '#666666',
     marginLeft: '7%',
+    marginRight:10,
     marginTop: 8,
   },
   text3: {
@@ -540,7 +543,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 22,
     color: '#666666',
-    marginLeft: '10%',
+    paddingLeft: 15,
+    paddingRight: 15,
     marginTop: 8,
   },
   text4: {
@@ -555,12 +559,14 @@ const styles = StyleSheet.create({
   tableTitle: {
     color: 'black',
     fontSize: 13,
-    marginLeft: '10%',
+    paddingLeft:15,
+    paddingRight:15
     // width: '15%',
   },
   tableText: {
     color: 'black',
-    marginLeft: '10%',
+    marginLeft: 20,
+    marginRight:10,
     width: '15%',
     fontSize: 10,
   },
@@ -570,7 +576,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 22,
     color: '#666666',
-    marginLeft: '10%',
+    paddingLeft:15,
+    paddingRight:15,
     marginTop: 8,
   },
   text6: {
@@ -580,6 +587,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     color: '#666666',
     marginLeft: '13%',
+    marginRight: '5%',
     marginTop: 0,
   },
 });
