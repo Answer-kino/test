@@ -8,6 +8,7 @@ import {
   View,
   Modal,
   ActivityIndicator,
+  BackHandler,
 } from 'react-native';
 import API_Mypage from '../../@api/mypage/Mypage';
 import TopNav from '../../components/topNav/TopNav';
@@ -151,6 +152,19 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
       ]
     );
   };
+  useEffect(() => {
+    const backAction = () => {
+      navigation.goBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <View style={styles.full}>

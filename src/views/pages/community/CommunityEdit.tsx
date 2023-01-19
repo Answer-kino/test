@@ -35,7 +35,7 @@ const CommunityEdit = ({navigation, route}: any) => {
               boardIdx,
             });
             Alert.alert('수정되었습니다.');
-            navigation.navigate('CommunityBoardList');
+            navigation.replace('CommunityBoardList');
             console.log('수정', result);
           } catch (error) {
             console.log(error);

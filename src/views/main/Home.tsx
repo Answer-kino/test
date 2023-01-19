@@ -373,15 +373,16 @@ const Home = ({navigation}: any) => {
                   이용약관
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={navigationPushHandler(
-                  'TermsOfService'
-                )}></TouchableOpacity>
+
               <TouchableOpacity onPress={navigationPushHandler('Privacy')}>
                 <Text style={{fontSize: 14, fontWeight: '400', color: '#000'}}>
                   개인정보처리방침
                 </Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                onPress={navigationPushHandler(
+                  'TermsOfService'
+                )}></TouchableOpacity>
             </View>
           </View>
           {/**----------- */}
