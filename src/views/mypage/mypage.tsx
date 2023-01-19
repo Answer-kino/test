@@ -326,7 +326,7 @@ const Mypage = ({navigation}: any) => {
         </View>
       </Modal>
       <TopNav navigation={navigation} title="마이페이지" />
-      <Divider width={2} />
+
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View
           style={{
@@ -424,6 +424,12 @@ const Mypage = ({navigation}: any) => {
               </View>
             </View>
             {/* tmp end */}
+            <Divider
+              color="black"
+              width={0.2}
+              style={{marginTop: 20, marginBottom: 5, opacity: 0.4}}
+            />
+
             <View style={styles.mainContainerRow}>
               <View>
                 <Text style={styles.mainContainerRowText}>
@@ -629,9 +635,9 @@ const styles = StyleSheet.create({
   },
   footerContainerBtnText: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 16,
     lineHeight: 40,
-    fontWeight: '600',
+    fontWeight: '500',
     color: '#ffffff',
   },
 });

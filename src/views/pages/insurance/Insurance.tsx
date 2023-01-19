@@ -66,7 +66,7 @@ const Insurance = ({navigation}: any) => {
   }, []);
   return (
     <View>
-      <TopNav navigation={navigation} title="차량등록증" />
+      <TopNav navigation={navigation} title="보험가입증명서" />
 
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -79,6 +79,7 @@ const Insurance = ({navigation}: any) => {
               );
             })}
         </View>
+        <View style={{marginBottom: 100}} />
       </ScrollView>
       <BottomNav navigation={navigation} />
     </View>

@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
+import {Divider} from '@rneui/base';
 
 const Login2 = ({navigation}: any) => {
   const SIGN_SERVICE = new API_SIGN_SERVICE();
@@ -64,9 +65,13 @@ const Login2 = ({navigation}: any) => {
           placeholder="사용자 비밀번호"
           secureTextEntry={true}
           onChangeText={text => setPwd(text)}></TextInput>
+
         <TouchableOpacity style={styles.lastBtn} onPress={() => LoginAxios()}>
-          <Text style={{color: 'white'}}>로그인</Text>
+          <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
+            로그인
+          </Text>
         </TouchableOpacity>
+        <Divider width={1} style={{marginTop: 30, opacity: 0.4}}></Divider>
       </View>
       <View
         style={{

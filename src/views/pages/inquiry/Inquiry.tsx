@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#6DADDB',
     width: '100%',
     borderRadius: 10,
-    height: 60,
+    height: 51,
     marginTop: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   btntext: {
     fontFamily: 'Noto Sans',
     fontWeight: '500',
-    fontSize: 17,
+    fontSize: 16,
   },
 });
 export default Inquiry;
