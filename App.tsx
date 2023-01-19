@@ -44,9 +44,9 @@ import CommunityEdit from './src/views/pages/community/CommunityEdit';
 
 import FindCarNum from './src/views/login/findCarNum';
 import FindPwd from './src/views/login/findPwd';
-import InquiryEdit from './src/views/pages/inquiry/InquiryEdit';
-import InquiryList from './src/views/pages/inquiry/Inquirylist';
-import Mypage from './src/views/mypage/Mypage';
+import InquiryEdit from './src/views/pages/inquiry/inquiryEdit';
+import InquiryList from './src/views/pages/inquiry/inquirylist';
+import Mypage from './src/views/mypage/mypage';
 
 // import Mypage from './src/views/mypage/Mypage';
 
