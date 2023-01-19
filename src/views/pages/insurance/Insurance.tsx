@@ -6,7 +6,11 @@ import {
   ScrollView,
   View,
   StyleSheet,
+  TouchableOpacity,
+  Modal,
+  Text,
 } from 'react-native';
+import ImageViewer from 'react-native-image-zoom-viewer';
 import API_INSURANCE_SERVICE from '../../../@api/insurance/insurance';
 import _ from 'lodash';
 import API_TOKEN_SERVICE from '../../../@api/token/token';
@@ -20,11 +24,14 @@ const Insurance = ({navigation}: any) => {
   const {URL} = globalConfig;
   const [insuranceInfo, setInsuranceInfo] = useState<Array<any>>();
   const [insuranceImgUriArr, setInsuranceImgUriArr] = useState<Array<string>>();
+  const [isImgModal, setIsImgModal] = useState(false);
+  const [isImgViewItem, setIsImeViewItem] = useState<any>([]);
+
   const getInsuranceInfo = async () => {
     try {
       const data = await INSURANCE_SERVICE.GET();
       setInsuranceInfo(data);
-      console.log('data:', data);
+      // console.log('data:', data);
     } catch (error) {
       const success = await TOKEN_SERVICE.REFRESH__TOKEN();
 
@@ -36,6 +43,14 @@ const Insurance = ({navigation}: any) => {
       }
     }
   };
+
+  const showModalHandler = () => () => {
+    setIsImgModal(false);
+  };
+  const tnoModalHandler = () => () => {
+    setIsImgModal(true);
+  };
+
   useEffect(() => {
     getInsuranceInfo();
   }, []);
@@ -43,11 +58,14 @@ const Insurance = ({navigation}: any) => {
   useEffect(() => {
     if (!_.isUndefined(insuranceInfo)) {
       const imgUrlArr: Array<string> = [];
+      const tmpArr: Array<object> = [];
       insuranceInfo.map(info => {
         const imgUrl = URL.IMG + info?.ImgName + `?type=${info?.Category}`;
         imgUrlArr.push(imgUrl);
+        tmpArr.push({url: imgUrl});
       });
       setInsuranceImgUriArr(imgUrlArr);
+      setIsImeViewItem(tmpArr);
     }
   }, [insuranceInfo]);
 
@@ -64,8 +82,45 @@ const Insurance = ({navigation}: any) => {
 
     return () => backHandler.remove();
   }, []);
+
+  useEffect(() => {
+    console.log('isImgViewItem : ', isImgViewItem);
+  }, [isImgViewItem]);
   return (
-    <View>
+    <View style={{width: Dimensions.get('screen').width}}>
+      <Modal
+        visible={isImgModal}
+        transparent={false}
+        style={{backgroundColor: 'black'}}>
+        <View>
+          <TouchableOpacity
+            onPress={showModalHandler()}
+            style={{
+              backgroundColor: 'black',
+              display: 'flex',
+              alignItems: 'flex-end',
+            }}>
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 20,
+                width: '10%',
+                paddingTop: 10,
+                textAlign: 'center',
+              }}>
+              X
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <ImageViewer
+          style={{}}
+          imageUrls={isImgViewItem}
+          onSwipeDown={() => {
+            showModalHandler();
+          }}
+        />
+      </Modal>
       <TopNav navigation={navigation} title="차량등록증" />
 
       <ScrollView
@@ -75,7 +130,9 @@ const Insurance = ({navigation}: any) => {
           {insuranceImgUriArr &&
             insuranceImgUriArr?.map((imgUri, index) => {
               return (
-                <Image style={styles.documentImage} source={{uri: imgUri}} />
+                <TouchableOpacity key={index} onPress={tnoModalHandler()}>
+                  <Image style={styles.documentImage} source={{uri: imgUri}} />
+                </TouchableOpacity>
               );
             })}
         </View>
