@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     lineHeight: 29,
     textAlign: 'center',
     textAlignVertical: 'center',
+    fontWeight: '700',
   },
   line: {
     borderBottomColor: '#8D8D8D',

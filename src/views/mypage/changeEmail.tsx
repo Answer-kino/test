@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import {
   Alert,
+  BackHandler,
   Image,
   StyleSheet,
   Text,
@@ -32,6 +33,20 @@ const ChangeEmail = ({navigation, route}: any) => {
       }
     }
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      navigation.pop();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <View style={styles.full}>

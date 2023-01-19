@@ -8,6 +8,7 @@ import {
   View,
   Modal,
   ActivityIndicator,
+  BackHandler,
 } from 'react-native';
 import API_Mypage from '../../@api/mypage/Mypage';
 import TopNav from '../../components/topNav/TopNav';
@@ -97,6 +98,19 @@ const ChangePassword = ({navigation}: any) => {
       setIsAllowPwdInfo(cur => ({...cur, newPwd: true}));
     }
   }, [pwdChecked]);
+  useEffect(() => {
+    const backAction = () => {
+      navigation.pop();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <View style={styles.full}>

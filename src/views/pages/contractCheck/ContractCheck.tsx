@@ -278,16 +278,16 @@ const styles = StyleSheet.create({
     marginBottom: 100,
   },
   descriptionContainer: {
-    marginHorizontal: 30,
-    marginTop: 20,
-    marginBottom: -15,
+    marginHorizontal: 20,
+    marginTop: 10,
+    marginBottom: -10,
     paddingBottom: 15,
     // borderBottomWidth: 1,
     // borderColor: '#D8D8D8',
   },
   descriptionContainer2: {
-    marginHorizontal: 30,
-    marginTop: 30,
+    marginHorizontal: 20,
+    marginTop: 10,
     paddingBottom: 20,
   },
   descriptionTitle: {
@@ -353,8 +353,9 @@ const styles = StyleSheet.create({
     color: 'black',
     fontFamily: 'Noto Sans',
     fontWeight: '500',
-    fontSize: 15,
+    fontSize: 13,
     textAlign: 'center',
+    marginTop: 2,
   },
   modalTitle: {
     fontSize: 18,
@@ -375,7 +376,7 @@ const styles = StyleSheet.create({
     // alignItems: 'flex-end',
   },
   divider: {
-    marginTop: 20,
+    marginTop: 10,
     opacity: 0.4,
   },
 });

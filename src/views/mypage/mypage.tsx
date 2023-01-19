@@ -83,10 +83,10 @@ const Mypage = ({navigation}: any) => {
 
   // 네비게이션 함수
   const navigationReplaceHandler = (key: string) => () => {
-    navigation.replace(key);
+    navigation.push(key);
   };
   const navigationNavigateHandler = (key: string, params: any) => () => {
-    navigation.replace(key, params);
+    navigation.push(key, params);
   };
 
   const navigationNaivigateHandlerMap = (key: string) => () => {

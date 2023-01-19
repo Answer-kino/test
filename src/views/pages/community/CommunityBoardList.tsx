@@ -139,7 +139,7 @@ const CommunityBoardList = ({navigation, route}: any) => {
       </TouchableOpacity>
 
       <View style={styles.container}>
-        <Text style={styles.descriptionTitle}>자유게시판</Text>
+        <Text style={styles.descriptionTopTitle}>자유게시판</Text>
         <View>
           <FlatList
             renderItem={renderItem}
@@ -170,6 +170,14 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
 
     flexGrow: 1,
+  },
+  descriptionTopTitle: {
+    fontSize: 17,
+    color: '#292929',
+    lineHeight: 35,
+    letterSpacing: -0.05,
+    marginLeft: 15,
+    fontWeight: '700',
   },
   descriptionTitle: {
     fontSize: 17,

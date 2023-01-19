@@ -197,11 +197,16 @@ const CommunityBoard = ({navigation, route}: any) => {
             const imgNum = randomNumber__1__6();
 
             const now = new Date();
-            const CreateDay =
-              temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
-
-            // temp.split('T')[0];
-            // console.log(CreateDay.split('-')[1]);
+            const CreateDay = temp.split('T')[0] + ' ';
+            const diff =
+              (now.getTime() - new Date(temp).getTime()) / 1000 / 60 / 60;
+            const diff2 = (
+              (now.getTime() - new Date(temp).getTime()) /
+              1000 /
+              60
+            ).toFixed(0);
+            console.log('diff', diff);
+            console.log('day', temp.split('T')[1].split('.')[0]);
             // console.log(
             //   // (now.getTime() - CreateDay.getTime()) / 60 / 60 / 1000,
             //   now,
@@ -216,7 +221,13 @@ const CommunityBoard = ({navigation, route}: any) => {
                   </View>
                   <Text style={styles.comment}>{comment}</Text>
                 </View>
-                <Text style={styles.commentAt}>{}</Text>
+                <Text style={styles.commentAt}>
+                  {diff > 24
+                    ? CreateDay
+                    : diff < 1
+                    ? diff2 + '분전'
+                    : diff + '시간전'}
+                </Text>
               </View>
             );
           })}
