@@ -11,8 +11,12 @@ import {
   Alert,
   Switch,
   ActivityIndicator,
+  ImageBackground,
+  Dimensions,
+  ScrollView,
 } from 'react-native';
 import API_Mypage from '../../@api/mypage/Mypage';
+import IconBack from '../../assets/icon_back.svg';
 import Icon0 from '../../assets/icon0_big.svg';
 import Icon1 from '../../assets/icon1_big.svg';
 import Icon2 from '../../assets/icon2_big.svg';
@@ -22,6 +26,7 @@ import Icon5 from '../../assets/icon5_big.svg';
 import Icon6 from '../../assets/icon6_big.svg';
 import ModalSelect from '../../assets/modal_select.svg';
 import BottomNav from '../../components/bottomNav/BottomNav';
+import {Divider} from '@rneui/base';
 
 interface myDatatype {
   CarNumber?: string;
@@ -47,19 +52,19 @@ enum toggleKey {
 const myPageProfileMap = (num: any) => {
   switch (num) {
     case 1:
-      return <Icon1 style={styles.userImg} />;
+      return <Icon1 />;
     case 2:
-      return <Icon2 style={styles.userImg} />;
+      return <Icon2 />;
     case 3:
-      return <Icon3 style={styles.userImg} />;
+      return <Icon3 />;
     case 4:
-      return <Icon4 style={styles.userImg} />;
+      return <Icon4 />;
     case 5:
-      return <Icon5 style={styles.userImg} />;
+      return <Icon5 />;
     case 6:
-      return <Icon6 style={styles.userImg} />;
+      return <Icon6 />;
     default:
-      return <Icon0 style={styles.userImg} />;
+      return <Icon0 />;
   }
 };
 
@@ -321,140 +326,159 @@ const Mypage = ({navigation}: any) => {
         </View>
       </Modal>
       <TopNav navigation={navigation} title="마이페이지" />
-      <View
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <TouchableOpacity
-          onPress={() => {
-            setModalVisible(true);
+      <Divider width={2} />
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
+        <View
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: Dimensions.get('screen').width,
+            marginTop: '10%',
+            marginBottom: '10%',
           }}>
-          {myPageProfileMap(myData?.ProfileImg)}
-        </TouchableOpacity>
-      </View>
+          <View
+            style={{
+              display: 'flex',
+            }}>
+            <TouchableOpacity
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() => {
+                setModalVisible(true);
+              }}>
+              <IconBack style={{position: 'absolute'}} />
+              {myPageProfileMap(myData?.ProfileImg)}
+            </TouchableOpacity>
+          </View>
+        </View>
 
-      <View>
-        <View style={styles.mainContainerWrap}>
-          {/* tmp */}
-          <View style={styles.mainContainerRowTop}>
-            <View>
-              <Text style={styles.mainContainerRowText}>차량번호</Text>
-            </View>
-            <View>
-              <Text style={styles.mainContainerRowText}>
-                {myData?.CarNumber}
-              </Text>
-            </View>
-          </View>
-          <View style={styles.mainContainerRow}>
-            <View>
-              <Text style={styles.mainContainerRowText}>비밀번호</Text>
-            </View>
-            <View style={styles.mainContainerRowBtnWrap}>
-              <TouchableOpacity
-                style={styles.mainContainerRowBtn}
-                onPress={navigationReplaceHandler('ChangePassword')}>
-                <Text style={styles.mainContainerRowBtnText}>
-                  비밀번호 변경
+        <View>
+          <View style={styles.mainContainerWrap}>
+            {/* tmp */}
+            <View style={styles.mainContainerRowTop}>
+              <View>
+                <Text style={styles.mainContainerRowText}>차량번호</Text>
+              </View>
+              <View>
+                <Text style={styles.mainContainerRowText}>
+                  {myData?.CarNumber}
                 </Text>
-              </TouchableOpacity>
+              </View>
             </View>
-          </View>
-          <View style={styles.mainContainerRow}>
-            <View>
-              <Text style={styles.mainContainerRowText}>휴대폰번호</Text>
-            </View>
-            <View style={styles.mainContainerRowBtnWrap}>
-              <View style={styles.mainContainerRowRightTextWrap}>
-                <Text style={styles.mainContainerRowRightText}>
-                  {myData.Phone && convertPhone(myData?.Phone)}
-                </Text>
+            <View style={styles.mainContainerRow}>
+              <View>
+                <Text style={styles.mainContainerRowText}>비밀번호</Text>
+              </View>
+              <View style={styles.mainContainerRowBtnWrap}>
                 <TouchableOpacity
                   style={styles.mainContainerRowBtn}
-                  onPress={navigationNaivigateHandlerMap('ChangePhoneNumber')}>
+                  onPress={navigationReplaceHandler('ChangePassword')}>
                   <Text style={styles.mainContainerRowBtnText}>
-                    휴대폰번호 변경
+                    비밀번호 변경
                   </Text>
                 </TouchableOpacity>
               </View>
             </View>
-          </View>
-          <View style={styles.mainContainerRow}>
-            <View>
-              <Text style={styles.mainContainerRowText}>이메일</Text>
-            </View>
-            <View style={styles.mainContainerRowBtnWrap}>
-              <View style={styles.mainContainerRowRightTextWrap}>
-                <Text style={styles.mainContainerRowRightText}>
-                  {myData?.UserEmail}
-                </Text>
-                <TouchableOpacity
-                  style={styles.mainContainerRowBtn}
-                  onPress={navigationNaivigateHandlerMap('ChangeEmail')}>
-                  <Text style={styles.mainContainerRowBtnText}>
-                    이메일 변경하기
+            <View style={styles.mainContainerRow}>
+              <View>
+                <Text style={styles.mainContainerRowText}>휴대폰번호</Text>
+              </View>
+              <View style={styles.mainContainerRowBtnWrap}>
+                <View style={styles.mainContainerRowRightTextWrap}>
+                  <Text style={styles.mainContainerRowRightText}>
+                    {myData.Phone && convertPhone(myData?.Phone)}
                   </Text>
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.mainContainerRowBtn}
+                    onPress={navigationNaivigateHandlerMap(
+                      'ChangePhoneNumber'
+                    )}>
+                    <Text style={styles.mainContainerRowBtnText}>
+                      휴대폰번호 변경
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
+            <View style={styles.mainContainerRow}>
+              <View>
+                <Text style={styles.mainContainerRowText}>이메일</Text>
+              </View>
+              <View style={styles.mainContainerRowBtnWrap}>
+                <View style={styles.mainContainerRowRightTextWrap}>
+                  <Text style={styles.mainContainerRowRightText}>
+                    {myData?.UserEmail}
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.mainContainerRowBtn}
+                    onPress={navigationNaivigateHandlerMap('ChangeEmail')}>
+                    <Text style={styles.mainContainerRowBtnText}>
+                      이메일 변경하기
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+            {/* tmp end */}
+            <View style={styles.mainContainerRow}>
+              <View>
+                <Text style={styles.mainContainerRowText}>
+                  마케팅 정보 수신동의
+                </Text>
+              </View>
+              <View style={styles.mainContainerRowBtnWrap}>
+                <Switch
+                  trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
+                  thumbColor={'#FFFFFF'}
+                  value={switchToggle?.Marketing}
+                  onValueChange={toggleHandler(toggleKey.marketing)}
+                  style={{transform: [{scaleX: 1.5}, {scaleY: 1.5}]}}
+                />
+              </View>
+            </View>
+            <View style={styles.mainContainerRow}>
+              <View>
+                <Text style={styles.mainContainerRowText}>메일수신동의</Text>
+              </View>
+              <View style={styles.mainContainerRowBtnWrap}>
+                <Switch
+                  trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
+                  thumbColor={'#FFFFFF'}
+                  value={switchToggle?.Email}
+                  onValueChange={toggleHandler(toggleKey.mail)}
+                  style={{transform: [{scaleX: 1.5}, {scaleY: 1.5}]}}
+                />
+              </View>
+            </View>
+            <View style={styles.mainContainerRowBot}>
+              <View>
+                <Text style={styles.mainContainerRowText}>SNS수신동의</Text>
+              </View>
+              <View style={styles.mainContainerRowBtnWrap}>
+                <Switch
+                  trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
+                  thumbColor={'#FFFFFF'}
+                  value={switchToggle?.SNS}
+                  onValueChange={toggleHandler(toggleKey.sns)}
+                  style={{transform: [{scaleX: 1.5}, {scaleY: 1.5}]}}
+                />
+              </View>
+            </View>
+            {/*  */}
           </View>
-          {/* tmp end */}
-          <View style={styles.mainContainerRow}>
-            <View>
-              <Text style={styles.mainContainerRowText}>
-                마케팅 정보 수신동의
-              </Text>
-            </View>
-            <View style={styles.mainContainerRowBtnWrap}>
-              <Switch
-                trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
-                thumbColor={'#FFFFFF'}
-                value={switchToggle?.Marketing}
-                onValueChange={toggleHandler(toggleKey.marketing)}
-                style={{transform: [{scaleX: 1.5}, {scaleY: 1.5}]}}
-              />
-            </View>
+          <View style={styles.footerContainerWrap}>
+            <TouchableOpacity
+              style={styles.footerContainerBtn}
+              onPress={patchMyData}>
+              <Text style={styles.footerContainerBtnText}>수정하기</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.mainContainerRow}>
-            <View>
-              <Text style={styles.mainContainerRowText}>메일수신동의</Text>
-            </View>
-            <View style={styles.mainContainerRowBtnWrap}>
-              <Switch
-                trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
-                thumbColor={'#FFFFFF'}
-                value={switchToggle?.Email}
-                onValueChange={toggleHandler(toggleKey.mail)}
-                style={{transform: [{scaleX: 1.5}, {scaleY: 1.5}]}}
-              />
-            </View>
-          </View>
-          <View style={styles.mainContainerRowBot}>
-            <View>
-              <Text style={styles.mainContainerRowText}>SNS수신동의</Text>
-            </View>
-            <View style={styles.mainContainerRowBtnWrap}>
-              <Switch
-                trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
-                thumbColor={'#FFFFFF'}
-                value={switchToggle?.SNS}
-                onValueChange={toggleHandler(toggleKey.sns)}
-                style={{transform: [{scaleX: 1.5}, {scaleY: 1.5}]}}
-              />
-            </View>
-          </View>
-          {/*  */}
         </View>
-        <View style={styles.footerContainerWrap}>
-          <TouchableOpacity
-            style={styles.footerContainerBtn}
-            onPress={patchMyData}>
-            <Text style={styles.footerContainerBtnText}>수정하기</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </ScrollView>
       <BottomNav navigation={navigation}></BottomNav>
     </View>
   );
@@ -462,7 +486,7 @@ const Mypage = ({navigation}: any) => {
 const styles = StyleSheet.create({
   full: {
     backgroundColor: '#F2F6F8',
-    width: '100%',
+    width: Dimensions.get('screen').width,
     height: '100%',
   },
   image: {
@@ -511,9 +535,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba( 0, 0, 0, 0.5 )',
   },
-  userImg: {
-    marginTop: '12%',
-  },
   modifyBtn: {
     color: 'white',
     backgroundColor: '#6DADDB',
@@ -536,7 +557,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 14,
     width: '85%',
-    marginTop: '10%',
   },
   mainContainerRowTop: {
     display: 'flex',
@@ -598,6 +618,7 @@ const styles = StyleSheet.create({
   },
   footerContainerWrap: {
     paddingTop: 12,
+    paddingBottom: 80,
   },
   footerContainerBtn: {
     display: 'flex',
