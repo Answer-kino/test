@@ -26,6 +26,7 @@ import Icon5 from '../../../assets/icon5.svg';
 import Icon6 from '../../../assets/icon6.svg';
 import {ICommentInfo, IDetailInfo} from '../../../@interface/community';
 import API_HOME_SERVICE from '../../../@api/home/home';
+import {randomNumber__1__6} from '../../../@utility/number';
 
 const CommunityBoard = ({navigation, route}: any) => {
   const BBS_SERVICE = new API_BBS_SERVICE();
@@ -192,18 +193,20 @@ const CommunityBoard = ({navigation, route}: any) => {
           {commentInfo?.map((item, index) => {
             const comment = item.Comment;
             const temp = item.CreatedDay;
-            const imgNum = item.ProfileImg;
+            // const imgNum = item.ProfileImg;
+            const imgNum = randomNumber__1__6();
+
             const now = new Date();
             const CreateDay =
               temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
 
             // temp.split('T')[0];
             // console.log(CreateDay.split('-')[1]);
-            console.log(
-              // (now.getTime() - CreateDay.getTime()) / 60 / 60 / 1000,
-              now,
-              CreateDay
-            );
+            // console.log(
+            //   // (now.getTime() - CreateDay.getTime()) / 60 / 60 / 1000,
+            //   now,
+            //   CreateDay
+            // );
 
             return (
               <View key={index} style={styles.commentContainer}>

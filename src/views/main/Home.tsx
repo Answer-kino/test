@@ -159,7 +159,7 @@ const Home = ({navigation}: any) => {
                 <Text style={styles.mainTopCarNumberBorderText}>
                   차량번호 : {carNumber}
                 </Text>
-                <Barcode />
+                <Barcode style={{marginRight: 30}} />
               </View>
             </View>
           ) : (
@@ -339,8 +339,11 @@ const Home = ({navigation}: any) => {
               </Text>
             </View>
           </View>
-          <Divider width={2} style={{marginBottom: 15, marginTop: 15}} />
         </View>
+        <Divider
+          width={1}
+          style={{marginBottom: 15, marginTop: 15, opacity: 0.3}}
+        />
         {/* bottom */}
         <View
           style={{
@@ -378,6 +381,7 @@ const Home = ({navigation}: any) => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              marginTop: 20,
             }}>
             <View>
               <Text
@@ -387,7 +391,7 @@ const Home = ({navigation}: any) => {
                   fontWeight: '400',
                   color: 'black',
                 }}>
-                경기도 용인시 기흥구 기흥로 58, 기흥 ITC벨리 B동 2101호{'\n'}
+                경기도 용인시 기흥구 기흥로 58, 기흥 ITC벨리 {'\n'}
                 사업자등록번호 418-88-02279
               </Text>
             </View>
@@ -630,6 +634,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 15,
     ...Platform.select({android: {elevation: 10}}),
+    justifyContent: 'space-between',
   },
   mainTopCarNumberBorderText: {
     marginLeft: 20,
@@ -674,7 +679,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#1E4467',
     fontWeight: '700',
-    fontSize: 14,
+    fontSize: 13,
     lineHeight: 16,
   },
   mainBottomNavigationBorderBtnImgWrap: {
