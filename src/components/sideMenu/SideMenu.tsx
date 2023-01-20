@@ -9,6 +9,8 @@ import LogoutImg from '../../assets/Logout.svg';
 import SideBanner from '../../assets/sideBanner2.svg';
 import Question from '../../assets/question.svg';
 import Inquiry from '../../assets/inquiry.svg';
+import SideArrow from '../../assets/sideArrow.svg';
+import X from '../../assets/x.svg';
 interface SideMenuProps {
   open: boolean;
   toggleOpen: Function;
@@ -62,6 +64,17 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
         <View style={styles.container}>
           <View style={styles.box}>
             <View style={styles.boxTop}>
+              <View
+                style={{
+                  display: 'flex',
+                  alignSelf: 'flex-end',
+                  marginTop: 20,
+                  marginRight: 20,
+                }}>
+                <TouchableOpacity onPress={() => toggleOpen()}>
+                  <X />
+                </TouchableOpacity>
+              </View>
               <View style={styles.carInfo}>
                 <View style={styles.carIconContainer}>
                   <View style={styles.carIconWrap}>
@@ -69,14 +82,17 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                       source={require('../../assets/fa-solid_car-alt.png')}
                     />
                   </View>
-                  <Text style={styles.carNumber}>차량번호 : {userInfo}</Text>
+                  <Text style={styles.carNumber}>차량번호 : </Text>
+                  <Text
+                    style={{
+                      fontSize: 17,
+                      lineHeight: 23,
+                      letterSpacing: -0.02,
+                      color: '#2262AD',
+                    }}>
+                    {userInfo}
+                  </Text>
                 </View>
-                <TouchableOpacity onPress={() => toggleOpen()}>
-                  <Image
-                    style={styles.closeButton}
-                    source={require('../../assets/x.png')}
-                  />
-                </TouchableOpacity>
               </View>
 
               <View style={styles.sideMenuContainer}>
@@ -89,7 +105,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                     <Question></Question>
                     <Text style={styles.menuText}>자주묻는질문</Text>
                   </View>
-                  <Image source={require('../../assets/sideArrow.png')} />
+                  <SideArrow />
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.sideMenuSection}
@@ -100,8 +116,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                     <Inquiry></Inquiry>
                     <Text style={styles.menuText}>문의하기</Text>
                   </View>
-
-                  <Image source={require('../../assets/sideArrow.png')} />
+                  <SideArrow />
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.sideMenuSection}
@@ -113,7 +128,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                     <Text style={styles.menuText}>문의글보기</Text>
                   </View>
 
-                  <Image source={require('../../assets/sideArrow.png')} />
+                  <SideArrow />
                 </TouchableOpacity>
               </View>
               <View
@@ -123,13 +138,14 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                 }}>
                 <SideBanner
                   style={{
-                    marginTop: '90%',
                     maxWidth: '100%',
                     height: 'auto',
-                  }}></SideBanner>
+                    marginTop: '125%',
+                  }}
+                />
               </View>
             </View>
-            {login ? (
+            {/* {login ? (
               <View style={{justifyContent: 'flex-end'}}>
                 <TouchableOpacity
                   onPress={async () => {
@@ -166,7 +182,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                   </View>
                 </TouchableOpacity>
               </View>
-            )}
+            )} */}
           </View>
         </View>
       }
@@ -193,10 +209,11 @@ const styles = StyleSheet.create({
     height: 202,
   },
   carInfo: {
-    height: 97,
+    height: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginLeft: 23,
+    marginBottom: 10,
   },
   carIconContainer: {
     flexDirection: 'row',
@@ -216,6 +233,7 @@ const styles = StyleSheet.create({
     lineHeight: 23,
     letterSpacing: -0.02,
     color: '#2262AD',
+    fontWeight: 'bold',
   },
   closeButton: {
     marginTop: 20,
@@ -229,7 +247,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 12,
+    paddingVertical: 20,
     borderBottomColor: '#DBDBDB',
     borderBottomWidth: 1,
   },

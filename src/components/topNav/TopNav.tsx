@@ -1,3 +1,4 @@
+import {Divider} from '@rneui/base';
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import SideMenu from '../sideMenu/SideMenu';
@@ -22,7 +23,7 @@ const TopNav = (props: TopNavProps) => {
           <TouchableOpacity
             style={styles.topNavSection}
             onPress={() => props.navigation.goBack()}>
-            <Image source={require('../../assets/BackArrow.png')} />
+            <Image source={require('../../assets/Vector.png')} />
           </TouchableOpacity>
           <View style={styles.topNavSection2}>
             <Text style={styles.topTitle}>{props.title}</Text>
@@ -32,7 +33,7 @@ const TopNav = (props: TopNavProps) => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.line}></View>
+      <Divider width={0.5} />
     </View>
   );
 };
@@ -47,7 +48,6 @@ const styles = StyleSheet.create({
   },
   topNavSubContainer: {
     paddingVertical: 13,
-
     height: 60,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   topTitle: {
-    color: 'black',
-    fontSize: 21,
+    color: '#444444',
+    fontSize: 22,
     lineHeight: 29,
     textAlign: 'center',
     textAlignVertical: 'center',

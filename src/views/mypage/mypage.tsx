@@ -230,7 +230,11 @@ const Mypage = ({navigation}: any) => {
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
-          <View style={{backgroundColor: 'white', borderRadius: 14}}>
+          <View
+            style={{
+              backgroundColor: 'white',
+              borderRadius: 14,
+            }}>
             <View style={{display: 'flex', flexDirection: 'row'}}>
               <TouchableOpacity
                 style={{
@@ -334,8 +338,8 @@ const Mypage = ({navigation}: any) => {
             justifyContent: 'center',
             alignItems: 'center',
             width: Dimensions.get('screen').width,
-            marginTop: '10%',
-            marginBottom: '10%',
+            marginTop: '12.5%',
+            marginBottom: '12.5%',
           }}>
           <View
             style={{
@@ -371,20 +375,6 @@ const Mypage = ({navigation}: any) => {
             </View>
             <View style={styles.mainContainerRow}>
               <View>
-                <Text style={styles.mainContainerRowText}>비밀번호</Text>
-              </View>
-              <View style={styles.mainContainerRowBtnWrap}>
-                <TouchableOpacity
-                  style={styles.mainContainerRowBtn}
-                  onPress={navigationReplaceHandler('ChangePassword')}>
-                  <Text style={styles.mainContainerRowBtnText}>
-                    비밀번호 변경
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.mainContainerRow}>
-              <View>
                 <Text style={styles.mainContainerRowText}>휴대폰번호</Text>
               </View>
               <View style={styles.mainContainerRowBtnWrap}>
@@ -397,9 +387,7 @@ const Mypage = ({navigation}: any) => {
                     onPress={navigationNaivigateHandlerMap(
                       'ChangePhoneNumber'
                     )}>
-                    <Text style={styles.mainContainerRowBtnText}>
-                      휴대폰번호 변경
-                    </Text>
+                    <Text style={styles.mainContainerRowBtnText}>변경</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -416,20 +404,34 @@ const Mypage = ({navigation}: any) => {
                   <TouchableOpacity
                     style={styles.mainContainerRowBtn}
                     onPress={navigationNaivigateHandlerMap('ChangeEmail')}>
-                    <Text style={styles.mainContainerRowBtnText}>
-                      이메일 변경하기
-                    </Text>
+                    <Text style={styles.mainContainerRowBtnText}>변경</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+            <View style={styles.mainContainerRow}>
+              <View>
+                <Text style={styles.mainContainerRowText}>비밀번호</Text>
+              </View>
+              <View style={styles.mainContainerRowBtnWrap}>
+                <View style={styles.mainContainerRowRightTextWrap}>
+                  <Text style={styles.mainContainerRowRightText}>
+                    *********
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.mainContainerRowBtn}
+                    onPress={navigationReplaceHandler('ChangePassword')}>
+                    <Text style={styles.mainContainerRowBtnText}>변경</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
             {/* tmp end */}
             <Divider
-              color="black"
-              width={0.2}
-              style={{marginTop: 20, marginBottom: 5, opacity: 0.4}}
+              color="#d7d7d7"
+              width={0.5}
+              style={{marginTop: 20, marginBottom: 12}}
             />
-
             <View style={styles.mainContainerRow}>
               <View>
                 <Text style={styles.mainContainerRowText}>
@@ -577,7 +579,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 10,
+    alignItems: 'center',
+    paddingTop: 5,
     paddingLeft: 20,
     paddingRight: 20,
   },
@@ -586,20 +589,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: 10,
+    paddingTop: 5,
     paddingLeft: 20,
     paddingRight: 20,
-    paddingBottom: 20,
+    paddingBottom: 10,
   },
-  mainContainerRowText: {fontSize: 15, fontWeight: '500', color: '#292929'},
+  mainContainerRowText: {fontSize: 15, color: '#292929'},
   mainContainerRowBtnWrap: {
     display: 'flex',
     flexDirection: 'row',
   },
   mainContainerRowBtn: {
     display: 'flex',
-    width: 105,
-    height: 24,
+    width: 40,
+    height: 26,
     borderRadius: 6,
     backgroundColor: '#879BB9',
     justifyContent: 'center',
@@ -613,29 +616,33 @@ const styles = StyleSheet.create({
   },
   mainContainerRowRightTextWrap: {
     display: 'flex',
+    flexDirection: 'row',
     justifyContent: 'center',
   },
   mainContainerRowRightText: {
     fontSize: 14,
     fontWeight: '400',
-    color: '#393939',
+    color: '#666666',
     marginBottom: 5,
     textAlign: 'right',
+    marginRight: 5,
   },
   footerContainerWrap: {
-    paddingTop: 12,
+    paddingTop: 20,
     paddingBottom: 80,
   },
   footerContainerBtn: {
     display: 'flex',
     alignSelf: 'center',
     backgroundColor: '#6DADDB',
-    borderRadius: 14,
+    borderRadius: 8,
     width: '85%',
+    paddingTop: 7.5,
+    paddingBottom: 7.5,
   },
   footerContainerBtnText: {
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 17,
     lineHeight: 40,
     fontWeight: '500',
     color: '#ffffff',

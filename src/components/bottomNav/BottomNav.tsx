@@ -237,6 +237,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     padding: 10,
+    marginTop: 12.5,
     justifyContent: 'space-around',
   },
   imageContainer: {

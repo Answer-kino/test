@@ -12,6 +12,7 @@ import {
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 import API_Question from '../../../@api/question/question';
+import {Divider} from '@rneui/base';
 
 type dropDownType = {
   [key: number]: boolean;
@@ -73,42 +74,55 @@ const Question = ({navigation}: any) => {
                 const content = item.Content;
 
                 return (
-                  <View key={index}>
-                    <View>
-                      <TouchableOpacity
-                        style={{marginTop: '3%'}}
-                        onPress={() => {
-                          dropDownHandler(index);
+                  <>
+                    <View
+                      key={index}
+                      style={{paddingBottom: 10, paddingTop: 10}}>
+                      <View>
+                        <TouchableOpacity
+                          onPress={() => {
+                            dropDownHandler(index);
 
-                          console.log(dropDown);
-                        }}>
-                        <View
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            marginTop: '5%',
+                            console.log(dropDown);
                           }}>
-                          <Text style={styles.questionmark}>Q</Text>
-                          <Text style={styles.questiontitle}>{title}</Text>
+                          <View
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                            }}>
+                            <Text style={styles.questionmark}>Q</Text>
+                            <Text style={styles.questiontitle}>{title}</Text>
 
-                          {dropDown[index] ? (
-                            <Image
-                              style={styles.dropdownimg}
-                              source={require('./../../../assets/dropUp.png')}></Image>
-                          ) : (
-                            <Image
-                              style={styles.dropdownimg}
-                              source={require('./../../../assets/dropdown.png')}></Image>
-                          )}
-                        </View>
-                      </TouchableOpacity>
+                            {dropDown[index] ? (
+                              <Image
+                                style={styles.dropdownimg}
+                                source={require('./../../../assets/dropUp.png')}></Image>
+                            ) : (
+                              <Image
+                                style={styles.dropdownimg}
+                                source={require('./../../../assets/dropdown.png')}></Image>
+                            )}
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                      <Divider
+                        width={0.5}
+                        color={'#444444'}
+                        style={{paddingTop: 10}}
+                      />
+                      <View
+                        style={{
+                          width: '92%',
+                          alignSelf: 'center',
+                          backgroundColor: '#E9E9E9',
+                          marginTop: 0.5,
+                        }}>
+                        {dropDown[index] ? (
+                          <Text style={styles.contenttext}>{content}</Text>
+                        ) : null}
+                      </View>
                     </View>
-                    <View>
-                      {dropDown[index] ? (
-                        <Text style={styles.contenttext}>{content}</Text>
-                      ) : null}
-                    </View>
-                  </View>
+                  </>
                 );
               })}
             </View>
@@ -149,12 +163,10 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: 'black',
     marginLeft: '10%',
-    backgroundColor: '#E9E9E9',
     width: '80%',
     height: 'auto',
     flexShrink: 1,
-    padding: 10,
-    marginTop: 10,
+    padding: 15,
   },
 });
 

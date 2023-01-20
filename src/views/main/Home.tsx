@@ -151,7 +151,11 @@ const Home = ({navigation}: any) => {
               </TouchableOpacity>
             </View>
           </View>
-          <Divider width={1} color={'white'} style={{opacity: 0.4}} />
+          <Divider
+            width={1}
+            color={'white'}
+            style={{opacity: 0.4, marginBottom: 12.5}}
+          />
           {/**----------- */}
           {isAccess && isAccess ? (
             <View style={styles.mainTopCarNumberWrap}>
@@ -332,7 +336,7 @@ const Home = ({navigation}: any) => {
               </Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.text}>[ARS이용시간]</Text>
+              <Text style={styles.text}>ARS이용시간</Text>
               <Text style={styles.text}>
                 {capitalInfo?.ContactTime
                   ? capitalInfo?.ContactTime
@@ -360,8 +364,9 @@ const Home = ({navigation}: any) => {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-around',
-                paddingLeft: 10,
-                paddingRight: 10,
+                paddingLeft: 25,
+                paddingRight: 25,
+                paddingTop: 10,
               }}>
               <TouchableOpacity
                 onPress={navigationPushHandler(
@@ -391,7 +396,7 @@ const Home = ({navigation}: any) => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              marginTop: 20,
+              marginTop: 15,
             }}>
             <View>
               <Text
@@ -399,7 +404,7 @@ const Home = ({navigation}: any) => {
                   textAlign: 'center',
                   fontSize: 13,
                   fontWeight: '400',
-                  color: 'black',
+                  color: '#666666',
                 }}>
                 경기도 용인시 기흥구 기흥로 58, 기흥 ITC벨리 {'\n'}
                 사업자등록번호 418-88-02279
@@ -427,13 +432,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topTitle: {
-    width: '92%',
-    height: 50,
+    width: '85%',
+    height: 56,
     // marginVertical: 12, tw
     marginHorizontal: '4%',
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
+    alignSelf: 'center',
   },
   topTitleSubContainer: {
     height: 50,
@@ -504,7 +510,7 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     marginTop: 50,
-    width: '92%',
+    width: '94%',
     height: 201,
     backgroundColor: 'white',
     borderRadius: 20,
@@ -532,33 +538,20 @@ const styles = StyleSheet.create({
     marginTop: '10%',
   },
   banner: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 25,
+    marginBottom: 20,
   },
   descriptionContainer: {
     paddingHorizontal: 30,
-    marginTop: 35, //40->30 tw
-  },
-  descriptionContainer2: {
-    marginHorizontal: 30,
-    marginTop: 30,
-    marginBottom: -15,
-    paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderColor: '#D8D8D8',
-  },
-  descriptionContainer3: {
-    marginHorizontal: 30,
-    marginTop: 30,
-    paddingBottom: 70,
-    borderBottomWidth: 1,
+    marginTop: 50, //40->30 tw
   },
   descriptionTitle: {
-    fontSize: 17,
+    fontSize: 18,
     fontFamily: 'Noto Sans',
     fontWeight: '700',
     marginVertical: 3,
-    color: 'black',
+    color: '#292929',
+    marginBottom: 5,
   },
   descriptionRow: {
     flexDirection: 'row',
@@ -571,10 +564,11 @@ const styles = StyleSheet.create({
     color: '#123D70',
   },
   text: {
-    color: 'black',
+    color: '#292929',
     fontFamily: 'Noto Sans',
     fontWeight: '400',
-    fontSize: 13,
+    fontSize: 16,
+    lineHeight: 25,
   },
   text2: {
     color: '#666666',
@@ -632,12 +626,14 @@ const styles = StyleSheet.create({
     width: '92%',
     display: 'flex',
     alignSelf: 'center',
+    marginBottom: 5,
   },
   mainTopCarNumberBorder: {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
-    width: '100%',
+    width: '95%',
+    alignSelf: 'center',
     height: 50,
     marginTop: 15, // 25->15  tw
     marginBottom: 15, // 25->15
@@ -647,8 +643,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   mainTopCarNumberBorderText: {
-    marginLeft: 20,
-    fontSize: 18,
+    marginLeft: 27.5,
+    fontSize: 17,
     color: '#123D70',
     fontWeight: '700',
   },
@@ -658,7 +654,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   mainBottomNavigationBorderWrap: {
-    width: '100%',
+    width: '95%',
+    alignSelf: 'center',
     paddingTop: '2.8%',
     paddingBottom: '6%',
     height: 190,

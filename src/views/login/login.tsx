@@ -733,7 +733,7 @@ const Login = ({navigation}: any) => {
           )}
 
           {/* 체크박스 */}
-          <View>
+          <View style={styles.checkBoxWrap}>
             <View style={styles.checkBoxView}>
               <CheckBox
                 value={!Object.values(checkBox).some(el => el !== true)}
@@ -1023,6 +1023,9 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     lineHeight: 28,
     color: '#FFFFFF',
+  },
+  checkBoxWrap: {
+    width: '85%',
   },
   checkBoxView: {
     display: 'flex',
