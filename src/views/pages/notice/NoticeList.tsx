@@ -128,6 +128,7 @@ const NoticeList = ({navigation, route}: any) => {
           return (
             <>
               <View style={globalStyles.MainWrap}>
+                {/* TODO: 공지사항 추가 작업 필 */}
                 <TouchableOpacity
                   key={index}
                   onPress={() => navigation.push('Notice')}>

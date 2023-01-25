@@ -27,7 +27,9 @@ const Notice = ({navigation}: any) => {
 
     return () => backHandler.remove();
   }, []);
-
+  {
+    /* TODO: 공지사항 추가 작업 필 */
+  }
   const source = {
     html: `
     <div class="entry-content">
