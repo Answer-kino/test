@@ -27,6 +27,7 @@ import Icon6 from '../../assets/icon6_big.svg';
 import ModalSelect from '../../assets/modal_select.svg';
 import BottomNav from '../../components/bottomNav/BottomNav';
 import {Divider} from '@rneui/base';
+import {globalStyles} from '../../assets/css/global/styleSheet';
 
 interface myDatatype {
   CarNumber?: string;
@@ -211,7 +212,7 @@ const Mypage = ({navigation}: any) => {
   }, []);
 
   return (
-    <View style={styles.full}>
+    <View style={globalStyles.BodyWrap}>
       <Modal transparent={true} visible={isLoding}>
         <ActivityIndicator
           size={'large'}
@@ -360,7 +361,7 @@ const Mypage = ({navigation}: any) => {
           </View>
         </View>
 
-        <View>
+        <View style={globalStyles.MainWrap}>
           <View style={styles.mainContainerWrap}>
             {/* tmp */}
             <View style={styles.mainContainerRowTop}>
@@ -564,7 +565,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: 'white',
     borderRadius: 14,
-    width: '85%',
+    width: '100%',
   },
   mainContainerRowTop: {
     display: 'flex',
@@ -636,7 +637,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '#6DADDB',
     borderRadius: 8,
-    width: '85%',
+    width: '100%',
     paddingTop: 7.5,
     paddingBottom: 7.5,
   },

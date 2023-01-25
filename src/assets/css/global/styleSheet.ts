@@ -11,6 +11,14 @@ const globalStyles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
   },
+  FlexRow: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  FlexColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
 });
 
 export {globalStyles};
