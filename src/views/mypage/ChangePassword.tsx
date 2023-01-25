@@ -15,6 +15,10 @@ import TopNav from '../../components/topNav/TopNav';
 import {regExp__pwd} from '../../@utility/reg';
 import _ from 'lodash';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
+import {changeStyles} from '../../assets/css/mypage/change';
+import {globalStyles} from '../../assets/css/global/styleSheet';
+import {MarginTop} from '../../assets/css/global/margin';
+
 const ChangePassword = ({navigation}: any) => {
   const MYPAGE_SERVICE = new API_Mypage();
 
@@ -113,7 +117,7 @@ const ChangePassword = ({navigation}: any) => {
   }, []);
 
   return (
-    <View style={styles.full}>
+    <View style={globalStyles.BodyWrap}>
       <Modal transparent={true} visible={isLoding}>
         <ActivityIndicator
           size={'large'}
@@ -124,132 +128,64 @@ const ChangePassword = ({navigation}: any) => {
         />
       </Modal>
       <TopNav navigation={navigation} title="패스워드 변경" />
+      <View style={globalStyles.MainWrap}>
+        <TextInput
+          style={changeStyles.TextInput}
+          placeholder="비밀번호"
+          placeholderTextColor="#898989"
+          value={pwdInfo.curPwd}
+          onChangeText={setPwdInfoHandler('curPwd')}
+          secureTextEntry={true}
+        />
+        <View style={MarginTop(15)} />
+        <TextInput
+          style={changeStyles.TextInput}
+          placeholder="새 비밀번호"
+          placeholderTextColor="#898989"
+          value={pwdInfo.newPwd1}
+          onChangeText={setPwdInfoHandler('newPwd1')}
+          onBlur={setPwdCheckedHandler('reg')}
+          secureTextEntry={true}
+        />
 
-      <TextInput
-        style={styles.inputbox}
-        placeholder="비밀번호"
-        placeholderTextColor="#898989"
-        value={pwdInfo.curPwd}
-        onChangeText={setPwdInfoHandler('curPwd')}
-        secureTextEntry={true}
-      />
-      <TextInput
-        style={styles.inputbox2}
-        placeholder="새 비밀번호"
-        placeholderTextColor="#898989"
-        value={pwdInfo.newPwd1}
-        onChangeText={setPwdInfoHandler('newPwd1')}
-        onBlur={setPwdCheckedHandler('reg')}
-        secureTextEntry={true}
-      />
+        {_.isNull(pwdChecked.reg) ? (
+          <View style={MarginTop(15)} />
+        ) : pwdChecked.reg ? (
+          <View style={MarginTop(15)} />
+        ) : (
+          <Text style={changeStyles.ErrorText}>
+            숫자,영문,특수문자 포함하여 8자리 이상 입력해주세요.
+          </Text>
+        )}
 
-      {_.isNull(pwdChecked.reg) ? (
-        ''
-      ) : pwdChecked.reg ? (
-        ''
-      ) : (
-        <Text style={styles.pwdValidationText}>
-          숫자,영문,특수문자 포함하여 8자리 이상 입력해주세요.
-        </Text>
-      )}
+        <TextInput
+          style={changeStyles.TextInput}
+          placeholder="새 비밀번호 확인"
+          placeholderTextColor="#898989"
+          secureTextEntry={true}
+          value={pwdInfo.newPwd2}
+          onChangeText={setPwdInfoHandler('newPwd2')}
+          onBlur={setPwdCheckedHandler('same')}
+        />
 
-      <TextInput
-        style={styles.inputbox2}
-        placeholder="새 비밀번호 확인"
-        placeholderTextColor="#898989"
-        secureTextEntry={true}
-        value={pwdInfo.newPwd2}
-        onChangeText={setPwdInfoHandler('newPwd2')}
-        onBlur={setPwdCheckedHandler('same')}
-      />
+        {_.isNull(pwdChecked.same) ? (
+          <View style={MarginTop(15)} />
+        ) : pwdChecked.same ? (
+          <View style={MarginTop(15)} />
+        ) : (
+          <Text style={changeStyles.ErrorText}>
+            새로운 비밀번호가 다릅니다.
+          </Text>
+        )}
 
-      {_.isNull(pwdChecked.same) ? (
-        ''
-      ) : pwdChecked.same ? (
-        ''
-      ) : (
-        <Text style={styles.pwdValidationText}>
-          새로운 비밀번호가 다릅니다.
-        </Text>
-      )}
-
-      <TouchableOpacity style={styles.modifyBtn} onPress={modifyPwd}>
-        <Text style={styles.modifyBtnText}>수정 완료</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={changeStyles.SubmitBtnWrap}
+          onPress={modifyPwd}>
+          <Text style={changeStyles.SubmitBtnText}>수정 완료</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
-const styles = StyleSheet.create({
-  full: {
-    backgroundColor: '#F2F6F8',
-    width: '100%',
-    height: '100%',
-  },
-  inputbox: {
-    backgroundColor: 'white',
-    color: '#898989',
-    //   color: 'black',
-    fontFamily: 'Noto Sans',
-    fontWeight: '400',
-    fontSize: 15,
-    marginLeft: '9%',
-    borderRadius: 10,
-    width: '82%',
-    paddingLeft: 15,
-    marginTop: '10%',
-  },
-  inputbox2: {
-    backgroundColor: 'white',
-    color: '#898989',
-    //   color: 'black',
-    fontFamily: 'Noto Sans',
-    fontWeight: '400',
-    fontSize: 15,
-    marginLeft: '9%',
-    borderRadius: 10,
-    width: '82%',
-    paddingLeft: 15,
 
-    marginTop: '3%',
-  },
-  image: {
-    width: '12%',
-    height: '100%',
-  },
-
-  pwdValidationText: {
-    color: 'red',
-    marginLeft: '9%',
-    fontSize: 12,
-
-    marginTop: '1%',
-  },
-  modifyBtn: {
-    color: 'white',
-    backgroundColor: '#6DADDB',
-    width: '80%',
-    borderRadius: 10,
-    height: 51,
-    marginTop: 20,
-    marginLeft: '10%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modifyBtnText: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '500',
-    fontSize: 16,
-    color: 'white',
-  },
-  text: {
-    // backgroundColor: 'white',
-    color: '#898989',
-    //   color: 'black',
-    fontFamily: 'Noto Sans',
-    fontWeight: '400',
-    fontSize: 15,
-
-    paddingLeft: 15,
-  },
-});
 export default ChangePassword;

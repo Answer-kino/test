@@ -14,6 +14,10 @@ import API_Mypage from '../../@api/mypage/Mypage';
 import TopNav from '../../components/topNav/TopNav';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
 import {regExp_phone} from '../../@utility/reg';
+import {changeStyles} from '../../assets/css/mypage/change';
+import {globalStyles} from '../../assets/css/global/styleSheet';
+import {MarginTop} from '../../assets/css/global/margin';
+
 const ChangePhoneNumber = ({navigation, route}: any) => {
   const [newPhoneNumber, setNewPhoneNumber] = useState<string>('');
   const [validationText, setValidationText] = useState(false);
@@ -167,7 +171,7 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
   }, []);
 
   return (
-    <View style={styles.full}>
+    <View style={globalStyles.BodyWrap}>
       <Modal transparent={true} visible={isLoding}>
         <ActivityIndicator
           size={'large'}
@@ -178,90 +182,97 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
         />
       </Modal>
       <TopNav navigation={navigation} title="휴대폰 번호 변경" />
-      <View
-        style={{
-          marginLeft: '9%',
-          borderRadius: 10,
-          width: '82%',
-          marginTop: '5%',
-          height: '6%',
-          backgroundColor: 'white',
-          justifyContent: 'center',
-        }}>
-        <Text style={styles.text}>{route.params.phoneNumber}</Text>
-      </View>
-      <View style={{display: 'flex', flexDirection: 'row'}}>
+
+      <View style={globalStyles.MainWrap}>
         <TextInput
-          style={styles.inputbox}
-          placeholder="새 휴대폰 번호"
-          placeholderTextColor="#898989"
-          maxLength={11}
-          onChangeText={text => {
-            setNewPhoneNumber(text);
-          }}></TextInput>
-        <TouchableOpacity
-          style={styles.checkButton}
-          onPress={() => {
-            validPhoneNumber();
-          }}>
-          <Text style={styles.buttonText}>인증요청</Text>
-        </TouchableOpacity>
-      </View>
-      {validationText ? (
-        <>
-          <>
-            <Text style={styles.phoneValidText}>
-              인증번호를 발송했습니다. (유효시간 4분)
-            </Text>
-            <Text style={styles.phoneValidText2}>
-              인증번호가 오지 않으면 입력하신 정보가 정확한지 확인하여주세요.
-              이미 가입된 번호이거나, 가상전화번호는 인증번호를 받을 수
-              없습니다.
-            </Text>
-          </>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-            }}>
-            <TextInput
-              style={styles.inputbox}
-              placeholder="휴대폰인증번호"
-              placeholderTextColor="#898989"
-              onChangeText={text => {
-                setDigitCode(text);
-              }}></TextInput>
-            <Text style={{color: 'black', marginTop: '7%', marginLeft: '-33%'}}>
-              {time.min} : {time.sec}
-            </Text>
+          style={changeStyles.TextInput}
+          editable={false}
+          value={route.params.phoneNumber}
+        />
+        <View style={MarginTop(15)} />
+        <View style={changeStyles.TextInputThreeQuartersWrap}>
+          <TextInput
+            style={changeStyles.TextInputThreeQuarters}
+            placeholder="새 휴대폰 번호"
+            placeholderTextColor="#898989"
+            maxLength={11}
+            onChangeText={text => {
+              setNewPhoneNumber(text);
+            }}
+          />
+          <View style={changeStyles.TextInputWithBtnWrap}>
             <TouchableOpacity
-              style={styles.checkButton2}
+              style={changeStyles.TextInputWithBtn}
               onPress={() => {
-                validPhoneNumberCheck();
-              }}
-              disabled={(time.min === '00' && time.sec === '00') || validation}>
-              <Text style={styles.buttonText}>인증하기</Text>
+                validPhoneNumber();
+              }}>
+              <Text style={changeStyles.TextInputWithBtnText}>인증요청</Text>
             </TouchableOpacity>
           </View>
-          {validation ? (
-            <Text style={styles.validationTimeText}>인증 되었습니다.</Text>
-          ) : null}
-          {time.min === '00' && time.sec === '00' ? (
-            <Text style={styles.validationTimeText}>
-              인증시간이 만료되었습니다. 다시 인증해주세요.
-            </Text>
-          ) : null}
-          {/* {validationCheck.phone === true ? (
+        </View>
+
+        {validationText ? (
+          <>
+            <>
+              <Text style={changeStyles.InformText}>
+                인증번호를 발송했습니다. (유효시간 4분)
+                {'\n'}
+                인증번호가 오지 않으면 입력하신 정보가 정확한지 확인하여주세요.
+                이미 가입된 번호이거나, 가상전화번호는 인증번호를 받을 수
+                없습니다.
+              </Text>
+            </>
+            <View style={changeStyles.TextInputThreeQuartersWrap}>
+              <TextInput
+                style={changeStyles.TextInputThreeQuarters}
+                placeholder="휴대폰인증번호"
+                placeholderTextColor="#898989"
+                onChangeText={text => {
+                  setDigitCode(text);
+                }}
+              />
+              <View style={changeStyles.TextInputWithBtnWithTimerWrap}>
+                <View style={changeStyles.TextInputWithBtnWithTimer}>
+                  <View style={changeStyles.TextInputWithTimer}>
+                    <Text style={changeStyles.TextInputWithTimerText}>
+                      {time.min} : {time.sec}
+                    </Text>
+                  </View>
+
+                  <TouchableOpacity
+                    style={changeStyles.TextInputWithBtn}
+                    onPress={() => {
+                      validPhoneNumberCheck();
+                    }}
+                    disabled={
+                      (time.min === '00' && time.sec === '00') || validation
+                    }>
+                    <Text style={changeStyles.TextInputWithBtnText}>
+                      인증하기
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+            {validation ? (
+              <Text style={changeStyles.SuccessText}>인증 되었습니다.</Text>
+            ) : null}
+            {time.min === '00' && time.sec === '00' ? (
+              <Text style={changeStyles.ErrorText}>
+                인증시간이 만료되었습니다. 다시 인증해주세요.
+              </Text>
+            ) : null}
+            {/* {validationCheck.phone === true ? (
                 <Text style={styles.phoneValidationText}>
                   인증번호를 확인해주세요.
                 </Text>
               ) : (
                 <Text style={styles.phoneValidationText}>인증 완료</Text>
               )} */}
-        </>
-      ) : null}
+          </>
+        ) : null}
 
-      {/* <TextInput
+        {/* <TextInput
         style={styles.inputbox}
         placeholder="현재 휴대폰 번호"
         placeholderTextColor="#898989"
@@ -270,139 +281,17 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
         }}
         secureTextEntry={true}></TextInput> */}
 
-      <TouchableOpacity
-        style={styles.modifyBtn}
-        onPress={() => {
-          changePhoneNumber();
-        }}
-        disabled={validTimeCheck}>
-        <Text style={styles.modifyBtnText}>수정 완료</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={changeStyles.SubmitBtnWrap}
+          onPress={() => {
+            changePhoneNumber();
+          }}
+          disabled={validTimeCheck}>
+          <Text style={changeStyles.SubmitBtnText}>수정 완료</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
-const styles = StyleSheet.create({
-  full: {
-    backgroundColor: '#F2F6F8',
-    width: '100%',
-    height: '100%',
-  },
-  inputbox: {
-    backgroundColor: 'white',
-    // color: '#898989',
-    color: 'black',
-    fontFamily: 'Noto Sans',
-    fontWeight: '400',
-    fontSize: 15,
-    marginLeft: '9%',
-    borderRadius: 10,
-    width: '82%',
-    paddingLeft: 15,
-    marginTop: '3%',
-  },
-  inputbox2: {
-    backgroundColor: 'white',
-    color: '#898989',
-    //   color: 'black',
-    fontFamily: 'Noto Sans',
-    fontWeight: '400',
-    fontSize: 15,
-    marginLeft: '9%',
-    borderRadius: 10,
-    width: '82%',
-    paddingLeft: 15,
 
-    marginTop: '3%',
-  },
-  image: {
-    width: '12%',
-    height: '100%',
-  },
-
-  PhoneNumberValidationText: {
-    color: 'red',
-    marginLeft: '9%',
-    fontSize: 12,
-
-    marginTop: '1%',
-  },
-  modifyBtn: {
-    color: 'white',
-    backgroundColor: '#6DADDB',
-    width: '80%',
-    borderRadius: 10,
-    height: 51,
-    marginTop: 20,
-    marginLeft: '10%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modifyBtnText: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '500',
-    fontSize: 16,
-    color: 'white',
-  },
-  checkButton: {
-    width: 58,
-    height: 28,
-    marginTop: '6%',
-    borderRadius: 6,
-    marginLeft: '-20%',
-    backgroundColor: '#879BB9',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 13,
-    fontWeight: '500',
-    fontStyle: 'normal',
-    fontFamily: 'Noto Sans',
-  },
-  checkButton2: {
-    width: 58,
-    height: 28,
-    marginTop: '6%',
-    borderRadius: 6,
-    // marginLeft: '-20%',
-    backgroundColor: '#879BB9',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: '1%',
-  },
-  phoneValidationText: {
-    color: 'red',
-    marginLeft: '12%',
-    fontSize: 12,
-    marginTop: '1%',
-  },
-  phoneValidText: {
-    marginLeft: '12%',
-    color: '#2D9DB6',
-    fontSize: 12,
-    marginTop: '1%',
-  },
-  phoneValidText2: {
-    marginLeft: '12%',
-    color: '#2D9DB6',
-    fontSize: 12,
-  },
-  text: {
-    // backgroundColor: 'white',
-    // color: '#898989',
-    color: 'black',
-    fontFamily: 'Noto Sans',
-    fontWeight: '400',
-    fontSize: 15,
-
-    paddingLeft: 15,
-  },
-  validationTimeText: {
-    color: 'black',
-    marginLeft: '12%',
-    marginTop: '1%',
-    fontSize: 12,
-  },
-});
 export default ChangePhoneNumber;
