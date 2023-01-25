@@ -24,7 +24,7 @@ import API_BBS_SERVICE from '../../@api/bbs/bbs';
 import API_Mypage from '../../@api/mypage/Mypage';
 import {Divider} from '@rneui/base';
 import {globalStyles} from '../../assets/css/global/styleSheet';
-import {mainStyles} from '../../assets/css/home/homeStyleSheet';
+import {mainStyles} from '../../assets/css/home/home';
 import {MarginBottom, MarginTop} from '../../assets/css/global/margin';
 
 interface Capitalinfo {
@@ -233,7 +233,7 @@ const Home = ({navigation}: any) => {
                   <View style={mainStyles.MainNavigationBorder}>
                     <TouchableOpacity
                       style={mainStyles.MainNavigationBorderBtnWrap}
-                      onPress={navigationAccessHandler('ContractCheck')}>
+                      onPress={navigationAccessHandler('RaceInfo')}>
                       <View style={mainStyles.MainNavigationBorderBtn}>
                         <Text style={[mainStyles.MainNavigationBorderBtnText]}>
                           내차{'\n'}운행정보
@@ -245,7 +245,7 @@ const Home = ({navigation}: any) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={mainStyles.MainNavigationBorderBtnWrap}
-                      onPress={navigationAccessHandler('CarDocument')}>
+                      onPress={navigationAccessHandler('CommunityBoardList')}>
                       <View style={mainStyles.MainNavigationBorderBtn}>
                         <Text style={mainStyles.MainNavigationBorderBtnText}>
                           커뮤니티

@@ -53,6 +53,7 @@ const mainStyles = StyleSheet.create({
     textAlign: 'center',
     ...Weight.SemiBold,
   },
+
   // 차량번호 & 바코드
   CarNumberWrap: {
     width: '100%',
@@ -85,6 +86,7 @@ const mainStyles = StyleSheet.create({
     ...Colors.PrimaryColor,
     ...Weight.Bold,
   },
+
   // 중앙 네비게이션
   MainNavigationWrap: {
     width: '100%',
@@ -127,6 +129,7 @@ const mainStyles = StyleSheet.create({
     height: '50%',
     justifyContent: 'center',
   },
+
   // 공지사항, 콜센터
   DescriptionWrap: {
     width: '90%',
@@ -147,6 +150,7 @@ const mainStyles = StyleSheet.create({
     ...Colors[292929],
     ...Weight.Normal,
   },
+
   // 푸터
   FooterWrap: {
     width: '100%',
