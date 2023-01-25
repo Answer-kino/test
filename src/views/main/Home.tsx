@@ -122,10 +122,7 @@ const Home = ({navigation}: any) => {
   }, [backAction]);
 
   return (
-    <View
-      style={{
-        width: '100%',
-      }}>
+    <View style={globalStyles.BodyWrap}>
       <View>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
