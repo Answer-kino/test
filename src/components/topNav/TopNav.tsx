@@ -33,7 +33,7 @@ const TopNav = (props: TopNavProps) => {
           </TouchableOpacity>
         </View>
       </View>
-      <Divider width={0.5} style={{marginBottom: 21}} />
+      <Divider width={1.5} />
     </View>
   );
 };
