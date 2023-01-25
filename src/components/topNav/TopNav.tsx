@@ -33,7 +33,7 @@ const TopNav = (props: TopNavProps) => {
           </TouchableOpacity>
         </View>
       </View>
-      <Divider width={0.5} />
+      <Divider width={0.5} style={{marginBottom: 21}} />
     </View>
   );
 };
@@ -42,9 +42,9 @@ const styles = StyleSheet.create({
   topNavContainer: {
     width: '100%',
     height: 47,
-    marginBottom: 13,
     paddingHorizontal: 28,
-    marginTop: '3%',
+    marginTop: 21,
+    marginBottom: 13,
   },
   topNavSubContainer: {
     paddingVertical: 13,
