@@ -62,7 +62,9 @@ const Question = ({navigation}: any) => {
   return (
     <View style={globalStyles.BodyWrap}>
       <TopNav navigation={navigation} title="자주묻는 질문" />
-      <ScrollView style={styles.scrollView}>
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={globalStyles.ScrollViewBorder}>
         <View style={globalStyles.FlexColumn}>
           <View>
             {questionInfo.map((item: any, index: number) => {
