@@ -18,8 +18,8 @@ import _ from 'lodash';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
 import ModalCloseBtn from '../../assets/modalclosetbtn.svg';
 import {regExp__pwd, regExp__email} from '../../@utility/reg';
-import AlertCustom_2Btn from '../../components/alert/alert2btn';
-import AlertCustom_1btn from '../../components/alert/alert1btn';
+import AlertCustom_2Btn from '../../components/alert/Alert2btn';
+import AlertCustom_1btn from '../../components/alert/Alert1btn';
 enum ESignInfoKey {
   carNumber = 'carNumber',
   email = 'email',

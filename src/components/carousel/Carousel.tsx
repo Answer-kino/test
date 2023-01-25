@@ -12,7 +12,7 @@ import banner from '../../assets/banner.png';
 import banner2 from '../../assets/banner2.png';
 import Ellipse7 from '../../assets/Ellipse7.png';
 import Ellipse8 from '../../assets/Ellipse8.png';
-import useInterval from './useInterval';
+import useInterval from './UseInterval';
 
 const windowWidth = Dimensions.get('window').width;
 const cardSize = {width: windowWidth, height: windowWidth / 3.54545454};
@@ -35,11 +35,11 @@ const Carousel = () => {
         mainImageUrl: banner2,
       },
     ],
-    [],
+    []
   );
   const snapToOffsets = useMemo(
     () => Array.from(Array(data.length)).map((_, index) => index * offset),
-    [data],
+    [data]
   );
   useEffect(() => {
     if (currentIndex !== snapToOffsets.length) {

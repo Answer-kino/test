@@ -14,10 +14,10 @@ import ContractCheck from './src/views/pages/contractCheck/ContractCheck';
 import CarDocument from './src/views/pages/carDocument/CarDocument';
 import NFTWallet from './src/views/pages/nftWallet/NFTWallet';
 import RaceInfo from './src/views/pages/raceInfo/RaceInfo';
-import Login from './src/views/login/login';
-import Login2 from './src/views/login/login2';
-import Connect from './src/views/pages/setting/setting';
-import TermsOfService from './src/views/pages/terms/termsOfService';
+import Login from './src/views/login/Login';
+import Login2 from './src/views/login/Login2';
+import Connect from './src/views/pages/setting/Setting';
+import TermsOfService from './src/views/pages/terms/TermsOfService';
 import CommunityBoardList from './src/views/pages/community/CommunityBoardList';
 import CommunityBoard from './src/views/pages/community/CommunityBoard';
 import CommunityBoardWrite from './src/views/pages/community/CommunityBoardWrite';
@@ -26,29 +26,27 @@ import NoticeCategory from './src/views/pages/notice/NoticeCategory';
 import Notice from './src/views/pages/notice/Notice';
 
 import NFTDocument from './src/views/pages/nftDocument/NFTDocument';
-import ChangePassword from './src/views/mypage/changePassword';
+import ChangePassword from './src/views/mypage/ChangePassword';
 import SideMenu from './src/components/sideMenu/SideMenu';
 import Inquiry from './src/views/pages/inquiry/Inquiry';
 import Question from './src/views/pages/question/Question';
 import CarRegister from './src/views/pages/carRegister/CarRegister';
 import Insurance from './src/views/pages/insurance/Insurance';
-import Privacy from './src/views/pages/terms/privacy';
-import Promotion from './src/views/pages/terms/promotion';
-import Marketing from './src/views/pages/terms/marketing';
+import Privacy from './src/views/pages/terms/Privacy';
+import Promotion from './src/views/pages/terms/Promotion';
+import Marketing from './src/views/pages/terms/Marketing';
 
-import Setting from './src/views/pages/setting/setting';
-import ChangePhoneNumber from './src/views/mypage/changePhoneNumber';
-import ChangeEmail from './src/views/mypage/changeEmail';
+import Setting from './src/views/pages/setting/Setting';
+import ChangePhoneNumber from './src/views/mypage/ChangePhoneNumber';
+import ChangeEmail from './src/views/mypage/ChangeEmail';
 import {accesstokenReissue} from './src/@api/setInterval/reissueToken';
 import CommunityEdit from './src/views/pages/community/CommunityEdit';
 
-import FindCarNum from './src/views/login/findCarNum';
-import FindPwd from './src/views/login/findPwd';
-import InquiryEdit from './src/views/pages/inquiry/inquiryEdit';
-import InquiryList from './src/views/pages/inquiry/inquirylist';
-import Mypage from './src/views/mypage/mypage';
-
-// import Mypage from './src/views/mypage/Mypage';
+import FindCarNum from './src/views/login/FindCarNum';
+import FindPwd from './src/views/login/FindPwd';
+import InquiryEdit from './src/views/pages/inquiry/InquiryEdit';
+import InquiryList from './src/views/pages/inquiry/Inquirylist';
+import Mypage from './src/views/mypage/Mypage';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
