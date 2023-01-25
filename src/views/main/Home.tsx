@@ -1,23 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
-  StyleSheet,
   Text,
   View,
-  Image,
   ImageBackground,
-  Dimensions,
   TouchableOpacity,
   BackHandler,
   ToastAndroid,
-  Platform,
   Linking,
 } from 'react-native';
 import API_HOME_SERVICE from '../../@api/home/home';
-import {EUserInfo} from '../../@entity/user/entity';
 import BottomNav from '../../components/bottomNav/BottomNav';
 import Carousel from '../../components/carousel/Carousel';
-import SideMenu from '../../components/sideMenu/SideMenu';
 import Contract from '../../assets/contract.svg';
 import Cardocument from '../../assets/cardocument.svg';
 import NftWalletimg from '../../assets/nftWallet.svg';
@@ -28,8 +22,10 @@ import Hamburger from '../../assets/hamburger.svg';
 import Barcode from '../../assets/barcode.svg';
 import API_BBS_SERVICE from '../../@api/bbs/bbs';
 import API_Mypage from '../../@api/mypage/Mypage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Divider} from '@rneui/base';
+import {globalStyles} from '../../assets/css/global/styleSheet';
+import {mainStyles} from '../../assets/css/home/homeStyleSheet';
+import {MarginBottom, MarginTop} from '../../assets/css/global/margin';
 
 interface Capitalinfo {
   Capital: any;
@@ -81,9 +77,7 @@ const Home = ({navigation}: any) => {
     try {
       const result = await BBS_SERVICE.BBS_Main_Notice();
       setNoticeInfo(result);
-    } catch (error) {
-      console.log('getNotice :', error);
-    }
+    } catch (error) {}
   };
 
   const getCapitalinfo = async () => {
@@ -94,10 +88,6 @@ const Home = ({navigation}: any) => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    console.log('home');
-  }, []);
 
   const toastWithDurationHandler = () => {
     ToastAndroid.show(
@@ -132,567 +122,269 @@ const Home = ({navigation}: any) => {
   }, [backAction]);
 
   return (
-    <View>
-      <SideMenu open={open} toggleOpen={toggleOpen} navigation={navigation} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
-        <ImageBackground
-          style={styles.background}
-          source={require('./../../assets/background.png')}>
-          <View style={styles.topTitle}>
-            <Logo />
-            <View style={styles.topTitleSubContainer}>
-              {/* <TouchableOpacity onPress={() => navigation.push('Connect')}>
-                <Text style={styles.topTitleContact}>연결</Text>
-              </TouchableOpacity> */}
-              <TouchableOpacity onPress={() => toggleOpen()}>
-                <Hamburger />
+    <View
+      style={{
+        width: '100%',
+      }}>
+      <View>
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={globalStyles.ScrollView}>
+          <ImageBackground
+            style={mainStyles.Background}
+            source={require('./../../assets/background.png')}>
+            <View style={globalStyles.MainWrap}>
+              <View style={mainStyles.TopStyle}>
+                <Logo />
+                {/* <TouchableOpacity onPress={() => navigation.push('Connect')}>
+                  <Text style={styles.topTitleContact}>연결</Text>
+                </TouchableOpacity> */}
+                <TouchableOpacity onPress={() => toggleOpen()}>
+                  <Hamburger />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <Divider
+              width={1}
+              color={'white'}
+              style={{opacity: 0.4, marginBottom: 12.5}}
+            />
+            <View style={globalStyles.MainWrap}>
+              {isAccess && isAccess ? (
+                <View style={mainStyles.CarNumberWrap}>
+                  <View style={mainStyles.CarNumberBorder}>
+                    <View style={mainStyles.CarNumberBorderTextWarp}>
+                      <Text style={mainStyles.CarNumberBorderText}>
+                        차량번호 : {carNumber}
+                      </Text>
+                      <Barcode />
+                    </View>
+                  </View>
+                </View>
+              ) : (
+                <View style={mainStyles.LoginWrap}>
+                  <TouchableOpacity
+                    style={mainStyles.LoginBtn}
+                    onPress={navigationPushHandler('Login2')}>
+                    <Text style={mainStyles.LoginBtnText}>로그인</Text>
+                  </TouchableOpacity>
+                  <View style={mainStyles.LoginContentsWrap}>
+                    <Text style={mainStyles.LoginContentsText}>
+                      계정확인 및 FNT차량 보증서 확인하기
+                    </Text>
+                  </View>
+                </View>
+              )}
+            </View>
+            {/**----------- */}
+            <View style={globalStyles.MainWrap}>
+              <View style={mainStyles.MainNavigationWrap}>
+                <View style={mainStyles.MainNavigationBorderWrap}>
+                  <View style={mainStyles.MainNavigationBorder}>
+                    <TouchableOpacity
+                      style={mainStyles.MainNavigationBorderBtnWrap}
+                      onPress={navigationAccessHandler('ContractCheck')}>
+                      <View style={mainStyles.MainNavigationBorderBtn}>
+                        <Text
+                          style={[
+                            mainStyles.MainNavigationBorderBtnText,
+                            {paddingTop: '7%'},
+                          ]}>
+                          계약확인
+                        </Text>
+                      </View>
+                      <View style={mainStyles.MainNavigationBorderBtnImgWrap}>
+                        <Contract />
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={mainStyles.MainNavigationBorderBtnWrap}
+                      onPress={navigationAccessHandler('CarDocument')}>
+                      <View style={mainStyles.MainNavigationBorderBtn}>
+                        <Text style={mainStyles.MainNavigationBorderBtnText}>
+                          내차{'\n'}NFT 증빙서류
+                        </Text>
+                      </View>
+                      <View style={mainStyles.MainNavigationBorderBtnImgWrap}>
+                        <Cardocument />
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={mainStyles.MainNavigationBorderBtnWrap}
+                      onPress={navigationAccessHandler('NFTWallet')}>
+                      <View style={mainStyles.MainNavigationBorderBtn}>
+                        <Text style={mainStyles.MainNavigationBorderBtnText}>
+                          NFT{'\n'}전자지갑
+                        </Text>
+                      </View>
+                      <View style={mainStyles.MainNavigationBorderBtnImgWrap}>
+                        <NftWalletimg />
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                  {/* End mainBottomNavigationBorder */}
+                  <Divider
+                    width={1}
+                    style={{
+                      width: '100%',
+                      alignSelf: 'center',
+                      // marginTop: 7,
+                      // marginBottom: 7,
+                      opacity: 0.4,
+                    }}
+                  />
+                  <View style={mainStyles.MainNavigationBorder}>
+                    <TouchableOpacity
+                      style={mainStyles.MainNavigationBorderBtnWrap}
+                      onPress={navigationAccessHandler('ContractCheck')}>
+                      <View style={mainStyles.MainNavigationBorderBtn}>
+                        <Text style={[mainStyles.MainNavigationBorderBtnText]}>
+                          내차{'\n'}운행정보
+                        </Text>
+                      </View>
+                      <View style={mainStyles.MainNavigationBorderBtnImgWrap}>
+                        <Raceinfoimg />
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={mainStyles.MainNavigationBorderBtnWrap}
+                      onPress={navigationAccessHandler('CarDocument')}>
+                      <View style={mainStyles.MainNavigationBorderBtn}>
+                        <Text style={mainStyles.MainNavigationBorderBtnText}>
+                          커뮤니티
+                        </Text>
+                      </View>
+                      <View style={mainStyles.MainNavigationBorderBtnImgWrap}>
+                        <Community />
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={mainStyles.MainNavigationBorderBtnWrap}>
+                      <View style={mainStyles.MainNavigationBorderBtn}>
+                        <Text style={mainStyles.MainNavigationBorderBtnText} />
+                      </View>
+                      <View style={mainStyles.MainNavigationBorderBtnImgWrap} />
+                    </TouchableOpacity>
+                  </View>
+                  {/* End mainBottomNavigationBorder */}
+                </View>
+                {/* End MainNavigationBorderWrap */}
+              </View>
+              {/* End MainNavigationWrap */}
+            </View>
+            {/* End MainWrap */}
+          </ImageBackground>
+          {/*  */}
+          <View style={globalStyles.MainWrap}>
+            <View style={mainStyles.DescriptionWrap}>
+              <TouchableOpacity
+                onPress={navigationPushHandler('NoticeCategory')}>
+                <Text style={mainStyles.DescriptionTitle}>공지사항</Text>
               </TouchableOpacity>
+              <View style={MarginTop(5)} />
+              {noticeInfo.map((item: any, index: number) => {
+                const Title = item.Title;
+                const temp = item.CreatedDay;
+                const CreateDay = temp.split('T')[0];
+                return (
+                  <TouchableOpacity
+                    style={mainStyles.DescriptionRow}
+                    key={index}
+                    onPress={navigationPushHandler('NoticeCategory')}>
+                    <Text style={mainStyles.DescriptionText}> {Title}</Text>
+                    <Text style={mainStyles.DescriptionText}>{CreateDay}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            {/* End DescriptionWrap */}
+          </View>
+          {/* End MainWrap */}
+          {/*  */}
+          <View style={MarginTop(25)} />
+          <Carousel />
+          <View style={MarginBottom(20)} />
+          {/*  */}
+          <View style={globalStyles.MainWrap}>
+            <View style={mainStyles.DescriptionWrap}>
+              <View>
+                <Text style={mainStyles.DescriptionTitle}>콜센터</Text>
+                <View style={MarginTop(5)} />
+                <View style={mainStyles.DescriptionRow}>
+                  <Text style={mainStyles.DescriptionText}>
+                    {capitalInfo?.Capital
+                      ? capitalInfo?.Capital
+                      : '캐피탈 콜센터'}
+                  </Text>
+                  <Text
+                    style={mainStyles.DescriptionText}
+                    onPress={() => {
+                      {
+                        capitalInfo?.Contact
+                          ? Linking.openURL(`tel:${capitalInfo?.Contact}`)
+                          : Linking.openURL(`tel:1588-2114`);
+                      }
+                    }}>
+                    {capitalInfo?.Contact ? capitalInfo?.Contact : '1588-2114'}
+                  </Text>
+                </View>
+                <View style={mainStyles.DescriptionRow}>
+                  <Text style={mainStyles.DescriptionText}>ARS이용시간</Text>
+                  <Text style={mainStyles.DescriptionText}>
+                    {capitalInfo?.ContactTime
+                      ? capitalInfo?.ContactTime
+                      : '365일(10:00 ~ 18:00)'}
+                  </Text>
+                </View>
+              </View>
             </View>
           </View>
+          {/* End MainWrap */}
           <Divider
             width={1}
-            color={'white'}
-            style={{opacity: 0.4, marginBottom: 12.5}}
+            style={{marginBottom: 15, marginTop: 15, opacity: 0.4}}
           />
-          {/**----------- */}
-          {isAccess && isAccess ? (
-            <View style={styles.mainTopCarNumberWrap}>
-              <View style={styles.mainTopCarNumberBorder}>
-                <Text style={styles.mainTopCarNumberBorderText}>
-                  차량번호 : {carNumber}
-                </Text>
-                <Barcode style={{marginRight: 30}} />
+          {/*  */}
+          <View style={globalStyles.MainWrap}>
+            <View style={mainStyles.FooterWrap}>
+              <View style={MarginTop(10)} />
+              <View style={mainStyles.FooterTop}>
+                <TouchableOpacity
+                  onPress={navigationPushHandler('TermsOfService')}
+                />
+                <TouchableOpacity
+                  onPress={navigationPushHandler('TermsOfService')}>
+                  <Text style={mainStyles.FooterTopText}>이용약관</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={navigationPushHandler('Privacy')}>
+                  <Text style={mainStyles.FooterTopText}>개인정보처리방침</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={navigationPushHandler('TermsOfService')}
+                />
               </View>
-            </View>
-          ) : (
-            <View style={styles.mainTopLoginWrap}>
-              <TouchableOpacity
-                style={styles.mainTopLoginBtn}
-                onPress={navigationPushHandler('Login2')}>
-                <Text style={styles.mainTopLoginBtnText}>로그인</Text>
-              </TouchableOpacity>
-              <View style={styles.mainTopLoginContents}>
-                <Text style={styles.mainTopLoginContentsText}>
-                  계정확인 및 FNT차량 보증서 확인하기
-                </Text>
-              </View>
-            </View>
-          )}
+              {/* End FooterTop */}
 
-          {/**----------- */}
-          <View style={styles.mainBottomNavigationWrap}>
-            <View style={styles.mainBottomNavigationBorderWrap}>
-              <View style={styles.mainBottomNavigationBorder}>
-                <TouchableOpacity
-                  style={styles.mainBottomNavigationBorderBtnWrap}
-                  onPress={navigationAccessHandler('ContractCheck')}>
-                  <View style={styles.mainBottomNavigationBorderBtn}>
-                    <Text
-                      style={[
-                        styles.mainBottomNavigationBorderBtnText,
-                        {paddingTop: '7%'},
-                      ]}>
-                      계약확인
-                    </Text>
-                  </View>
-                  <View style={styles.mainBottomNavigationBorderBtnImgWrap}>
-                    <Contract />
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.mainBottomNavigationBorderBtnWrap}
-                  onPress={navigationAccessHandler('CarDocument')}>
-                  <View style={styles.mainBottomNavigationBorderBtn}>
-                    <Text style={styles.mainBottomNavigationBorderBtnText}>
-                      내차{'\n'}NFT 증빙서류
-                    </Text>
-                  </View>
-                  <View style={styles.mainBottomNavigationBorderBtnImgWrap}>
-                    <Cardocument />
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.mainBottomNavigationBorderBtnWrap}
-                  onPress={navigationAccessHandler('NFTWallet')}>
-                  <View style={styles.mainBottomNavigationBorderBtn}>
-                    <Text style={styles.mainBottomNavigationBorderBtnText}>
-                      NFT{'\n'}전자지갑
-                    </Text>
-                  </View>
-                  <View style={styles.mainBottomNavigationBorderBtnImgWrap}>
-                    <NftWalletimg />
-                  </View>
-                </TouchableOpacity>
-              </View>
               {/**----------- */}
-              <Divider
-                width={1}
-                style={{
-                  width: '100%',
-                  alignSelf: 'center',
-                  marginTop: 7,
-                  marginBottom: 7,
-                  opacity: 0.4,
-                }}
-              />
-              {/**----------- */}
-              <View style={styles.mainBottomNavigationBorder}>
-                <TouchableOpacity
-                  style={styles.mainBottomNavigationBorderBtnWrap}
-                  onPress={navigationAccessHandler('RaceInfo')}>
-                  <View style={styles.mainBottomNavigationBorderBtn}>
-                    <Text style={styles.mainBottomNavigationBorderBtnText}>
-                      내차{'\n'}운행정보
-                    </Text>
-                  </View>
-                  <View style={styles.mainBottomNavigationBorderBtnImgWrap}>
-                    <Raceinfoimg />
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.mainBottomNavigationBorderBtnWrap}
-                  onPress={navigationAccessHandler('CommunityBoardList')}>
-                  <View style={styles.mainBottomNavigationBorderBtn}>
-                    <Text
-                      style={[
-                        styles.mainBottomNavigationBorderBtnText,
-                        {paddingTop: '7%'},
-                      ]}>
-                      커뮤니티
-                    </Text>
-                  </View>
-                  <View style={styles.mainBottomNavigationBorderBtnImgWrap}>
-                    <Community />
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.mainBottomNavigationBorderBtnWrap}>
-                  <View style={styles.mainBottomNavigationBorderBtn}>
-                    <Text
-                      style={styles.mainBottomNavigationBorderBtnText}></Text>
-                  </View>
-                  <View
-                    style={styles.mainBottomNavigationBorderBtnImgWrap}></View>
-                </TouchableOpacity>
+              <View style={MarginTop(15)} />
+              <View style={mainStyles.FooterBottom}>
+                <View>
+                  <Text style={mainStyles.FooterBottomText}>
+                    경기도 용인시 기흥구 기흥로 58, 기흥 ITC벨리 {'\n'}
+                    사업자등록번호 418-88-02279
+                  </Text>
+                </View>
               </View>
+              {/* End FooterBottom */}
             </View>
+            {/* End FooterWrap */}
           </View>
-        </ImageBackground>
-        {/**----------- */}
-        <View style={styles.descriptionContainer}>
-          <TouchableOpacity onPress={navigationPushHandler('NoticeCategory')}>
-            <Text style={styles.descriptionTitle}>공지사항</Text>
-          </TouchableOpacity>
-          {noticeInfo.map((item: any, index: number) => {
-            const Title = item.Title;
-            const temp = item.CreatedDay;
-            const CreateDay = temp.split('T')[0];
-            return (
-              <TouchableOpacity
-                style={styles.descriptionRow}
-                key={index}
-                onPress={navigationPushHandler('NoticeCategory')}>
-                <Text style={styles.text}> {Title}</Text>
-                <Text style={styles.text}>{CreateDay}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-        {/**----------- */}
-        <View style={styles.banner}>
-          {/* <Image
-            source={require('../../assets/banner.png')}
-   
-          /> */}
-          <Carousel />
-        </View>
-        {/**----------- */}
-        <View
-          style={{
-            width: '85%',
-            display: 'flex',
-            alignSelf: 'center',
-          }}>
-          <View>
-            <View style={{paddingBottom: 5}}>
-              <Text style={styles.descriptionTitle}>콜센터</Text>
-            </View>
-            <View style={styles.descriptionRow}>
-              <Text style={styles.text}>
-                {capitalInfo?.Capital ? capitalInfo?.Capital : '캐피탈 콜센터'}
-              </Text>
-              <Text
-                style={styles.text}
-                onPress={() => {
-                  {
-                    capitalInfo?.Contact
-                      ? Linking.openURL(`tel:${capitalInfo?.Contact}`)
-                      : Linking.openURL(`tel:1588-2114`);
-                  }
-                }}>
-                {capitalInfo?.Contact ? capitalInfo?.Contact : '1588-2114'}
-              </Text>
-            </View>
-            <View style={styles.descriptionRow}>
-              <Text style={styles.text}>ARS이용시간</Text>
-              <Text style={styles.text}>
-                {capitalInfo?.ContactTime
-                  ? capitalInfo?.ContactTime
-                  : '365일(10:00 ~ 18:00)'}
-              </Text>
-            </View>
-          </View>
-        </View>
-        <Divider
-          width={1}
-          style={{marginBottom: 15, marginTop: 15, opacity: 0.4}}
-        />
-        {/* bottom */}
-        <View
-          style={{
-            width: '85%',
-            display: 'flex',
-            alignSelf: 'center',
-            paddingBottom: 45,
-          }}>
-          {/**----------- */}
-          <View>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                paddingLeft: 25,
-                paddingRight: 25,
-                paddingTop: 10,
-              }}>
-              <TouchableOpacity
-                onPress={navigationPushHandler(
-                  'TermsOfService'
-                )}></TouchableOpacity>
-              <TouchableOpacity
-                onPress={navigationPushHandler('TermsOfService')}>
-                <Text style={{fontSize: 14, fontWeight: '400', color: '#000'}}>
-                  이용약관
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={navigationPushHandler('Privacy')}>
-                <Text style={{fontSize: 14, fontWeight: '400', color: '#000'}}>
-                  개인정보처리방침
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={navigationPushHandler(
-                  'TermsOfService'
-                )}></TouchableOpacity>
-            </View>
-          </View>
-          {/**----------- */}
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              marginTop: 15,
-            }}>
-            <View>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontSize: 13,
-                  fontWeight: '400',
-                  color: '#666666',
-                }}>
-                경기도 용인시 기흥구 기흥로 58, 기흥 ITC벨리 {'\n'}
-                사업자등록번호 418-88-02279
-              </Text>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
-      <BottomNav navigation={navigation} />
+          {/* End MainWrap */}
+        </ScrollView>
+        <BottomNav navigation={navigation} />
+      </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    height: Dimensions.get('window').height - 80,
-  },
-  background: {
-    height: 280, // 360->310 tw
-    // alignItems: 'center',
-    overflow: 'visible',
-    marginBottom: 15,
-  },
-  align: {
-    alignItems: 'center',
-  },
-  topTitle: {
-    width: '85%',
-    height: 56,
-    // marginVertical: 12, tw
-    marginHorizontal: '4%',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'center',
-  },
-  topTitleSubContainer: {
-    height: 50,
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  topTitleLogo: {
-    width: 161,
-    height: 38,
-    borderBottomWidth: 1,
-    borderColor: 'white',
-  },
-  topTitleContact: {
-    width: 49,
-    height: 35,
-    fontSize: 17,
-    lineHeight: 24,
-    color: '#FFE600',
-    backgroundColor: '#123D70',
-    textAlign: 'center',
-    padding: 3,
-    borderRadius: 50,
-  },
-  topTitleHamburger: {
-    width: 29,
-    height: 25,
-  },
-  loginText1: {
-    fontSize: 18,
-    lineHeight: 25,
-    color: 'white',
-    textAlign: 'center',
-    alignItems: 'center',
-  },
-  loginText2: {
-    marginTop: 5,
-    fontSize: 18,
-    lineHeight: 25,
-    color: 'white',
-    textAlign: 'center',
-  },
-  loginTextContainer: {
-    marginTop: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loginText1Container: {
-    borderWidth: 1,
-    width: 95,
-    height: 31,
-    borderColor: 'white',
-    borderRadius: 50,
-  },
-  loginInfoContainer: {
-    marginTop: 50,
-    width: '92%',
-    height: 52,
-    backgroundColor: 'white',
-    borderRadius: 15,
-    paddingLeft: 20,
-    paddingRight: 20,
-    elevation: 10,
-    marginBottom: -20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  menuContainer: {
-    marginTop: 50,
-    width: '94%',
-    height: 201,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
-    elevation: 10,
-  },
-  menuRow1: {
-    width: '100%',
-    height: '45%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#D8D8D8',
-    justifyContent: 'space-around',
-  },
-  menuRow2: {
-    width: '100%',
-    height: '45%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-  menuImage: {
-    marginTop: '10%',
-  },
-  banner: {
-    marginTop: 25,
-    marginBottom: 20,
-  },
-  descriptionContainer: {
-    paddingHorizontal: 30,
-    marginTop: 50, //40->30 tw
-  },
-  descriptionTitle: {
-    fontSize: 18,
-    fontFamily: 'Noto Sans',
-    fontWeight: '700',
-    marginVertical: 3,
-    color: '#292929',
-    marginBottom: 5,
-  },
-  descriptionRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  carNumber: {
-    fontSize: 18,
-    lineHeight: 25,
-    letterSpacing: -0.02,
-    color: '#123D70',
-  },
-  text: {
-    color: '#292929',
-    fontFamily: 'Noto Sans',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 25,
-  },
-  text2: {
-    color: '#666666',
-    fontFamily: 'Noto Sans',
-    fontWeight: '400',
-    fontSize: 13,
-  },
-
-  menu: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  menu2: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: '10%',
-  },
-  mainTopLoginWrap: {
-    display: 'flex',
-    width: '92%',
-    height: 60,
-    alignItems: 'center',
-    marginTop: 25,
-    marginBottom: 25,
-  },
-  mainTopLoginBtn: {
-    display: 'flex',
-    width: 100,
-    height: 31,
-    borderWidth: 1,
-    borderColor: 'white',
-    borderRadius: 50,
-    justifyContent: 'center',
-  },
-  mainTopLoginBtnText: {
-    fontSize: 18,
-    fontWeight: '500',
-    color: 'white',
-    lineHeight: 24.5,
-    textAlign: 'center',
-  },
-  mainTopLoginContents: {
-    display: 'flex',
-    marginTop: 10,
-    justifyContent: 'center',
-  },
-  mainTopLoginContentsText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: 'white',
-    lineHeight: 22,
-    textAlign: 'center',
-  },
-  mainTopCarNumberWrap: {
-    width: '92%',
-    display: 'flex',
-    alignSelf: 'center',
-    marginBottom: 5,
-  },
-  mainTopCarNumberBorder: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'row',
-    width: '95%',
-    alignSelf: 'center',
-    height: 50,
-    marginTop: 15, // 25->15  tw
-    marginBottom: 15, // 25->15
-    backgroundColor: 'white',
-    borderRadius: 15,
-    ...Platform.select({android: {elevation: 10}}),
-    justifyContent: 'space-between',
-  },
-  mainTopCarNumberBorderText: {
-    marginLeft: 27.5,
-    fontSize: 17,
-    color: '#123D70',
-    fontWeight: '700',
-  },
-  mainBottomNavigationWrap: {
-    width: '92%',
-    display: 'flex',
-    alignSelf: 'center',
-  },
-  mainBottomNavigationBorderWrap: {
-    width: '95%',
-    alignSelf: 'center',
-    paddingTop: '2.8%',
-    paddingBottom: '6%',
-    height: 190,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    borderBottomRightRadius: 40,
-    ...Platform.select({android: {elevation: 10}}),
-  },
-  mainBottomNavigationBorder: {
-    height: '49%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  mainBottomNavigationBorderBtnWrap: {
-    width: '33%',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  mainBottomNavigationBorderBtn: {
-    height: '40%',
-    display: 'flex',
-    justifyContent: 'center',
-    // backgroundColor: 'blue',
-  },
-  mainBottomNavigationBorderBtnText: {
-    textAlign: 'center',
-    color: '#1E4467',
-    fontWeight: '700',
-    fontSize: 12,
-    // lineHeight: 14,
-  },
-  mainBottomNavigationBorderBtnImgWrap: {
-    height: '50%',
-    justifyContent: 'center',
-  },
-});
 
 export default Home;
