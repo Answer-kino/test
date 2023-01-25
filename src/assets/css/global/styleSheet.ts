@@ -4,6 +4,10 @@ const globalStyles = StyleSheet.create({
   ScrollView: {
     height: Dimensions.get('window').height - 120,
   },
+  ScrollViewBorder: {
+    height: Dimensions.get('window').height - 190,
+    paddingTop: 21,
+  },
   BodyWrap: {
     width: '100%',
   },
