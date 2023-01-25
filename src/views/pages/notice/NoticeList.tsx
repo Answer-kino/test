@@ -18,6 +18,9 @@ import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
+import {Colors, Weight} from '../../../assets/css/global/font';
+import {Divider} from '@rneui/base';
 
 const tmpObj: {[key: string]: any} = {
   capital: {
@@ -100,57 +103,62 @@ const NoticeList = ({navigation, route}: any) => {
   }, []);
 
   return (
-    <View>
+    <View style={globalStyles.BodyWrap}>
       <TopNav navigation={navigation} title="공지사항" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
-        <View style={styles.container}>
-          <Text style={styles.descriptionTitle}>{noticeTitle}</Text>
-          {noticeInfo.map((item: any, index: any) => {
-            const Title = item.Title;
-            const temp = item.CreatedDay;
-            const CreateDay =
-              temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={() => navigation.push('Notice')}
-                style={styles.documentMenu}>
-                <Text style={styles.descriptionTitle}>{Title}</Text>
-                <Text style={{color: 'black'}}>
-                  {CreateDay} | {category2}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
+        style={globalStyles.ScrollViewBorder}>
+        <View style={globalStyles.MainWrap}>
+          <Text
+            style={{
+              fontSize: 19,
+              lineHeight: 35,
+              ...Weight.Bold,
+              ...Colors[292929],
+            }}>
+            {noticeTitle}
+          </Text>
         </View>
+        <Divider width={1} style={{marginVertical: 15}} />
+        {noticeInfo.map((item: any, index: any) => {
+          const Title = item.Title;
+          const temp = item.CreatedDay;
+          const CreateDay =
+            temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
+          return (
+            <>
+              <View style={globalStyles.MainWrap}>
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => navigation.push('Notice')}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      lineHeight: 35,
+                      ...Weight.Normal,
+                      ...Colors[525252],
+                    }}>
+                    {Title}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      lineHeight: 35,
+                      ...Weight.Normal,
+                      ...Colors[666666],
+                    }}>
+                    {CreateDay} | {category2}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <Divider width={1} style={{marginVertical: 15}} />
+            </>
+          );
+        })}
       </ScrollView>
       <BottomNav navigation={navigation} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    height: Dimensions.get('window').height - 80,
-  },
-  container: {
-    marginHorizontal: 30,
-    marginTop: 15,
-  },
-  documentMenu: {
-    marginTop: 15,
-    paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderColor: '#D8D8D8',
-  },
-  descriptionTitle: {
-    fontSize: 17,
-    color: '#292929',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-  },
-});
 
 export default NoticeList;
