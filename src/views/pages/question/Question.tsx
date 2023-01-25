@@ -13,6 +13,7 @@ import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 import API_Question from '../../../@api/question/question';
 import {Divider} from '@rneui/base';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
 
 type dropDownType = {
   [key: number]: boolean;
@@ -59,76 +60,61 @@ const Question = ({navigation}: any) => {
     return () => backHandler.remove();
   }, []);
   return (
-    <View>
+    <View style={globalStyles.BodyWrap}>
       <TopNav navigation={navigation} title="자주묻는 질문" />
       <ScrollView style={styles.scrollView}>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}>
+        <View style={globalStyles.FlexColumn}>
           <View>
-            <View>
-              {questionInfo.map((item: any, index: number) => {
-                const title = item.Title;
-                const content = item.Content;
+            {questionInfo.map((item: any, index: number) => {
+              const title = item.Title;
+              const content = item.Content;
 
-                return (
-                  <>
-                    <View
-                      key={index}
-                      style={{paddingBottom: 10, paddingTop: 10}}>
-                      <View>
-                        <TouchableOpacity
-                          onPress={() => {
-                            dropDownHandler(index);
-
-                            console.log(dropDown);
-                          }}>
-                          <View
-                            style={{
-                              display: 'flex',
-                              flexDirection: 'row',
-                            }}>
+              return (
+                <>
+                  <View key={index} style={{paddingVertical: 10}}>
+                    <View style={globalStyles.MainWrap}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          dropDownHandler(index);
+                        }}>
+                        <View style={styles.questiontitleWrap}>
+                          <View style={styles.questiontitleLeft}>
                             <Text style={styles.questionmark}>Q</Text>
                             <Text style={styles.questiontitle}>{title}</Text>
-
+                          </View>
+                          <View style={styles.questiontitleRight}>
                             {dropDown[index] ? (
                               <Image
-                                style={styles.dropdownimg}
                                 source={require('./../../../assets/dropUp.png')}></Image>
                             ) : (
                               <Image
-                                style={styles.dropdownimg}
                                 source={require('./../../../assets/dropdown.png')}></Image>
                             )}
                           </View>
-                        </TouchableOpacity>
-                      </View>
-                      <Divider
-                        width={0.5}
-                        color={'#444444'}
-                        style={{paddingTop: 10}}
-                      />
-                      <View
-                        style={{
-                          width: '92%',
-                          alignSelf: 'center',
-                          backgroundColor: '#E9E9E9',
-                          marginTop: 0.5,
-                        }}>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+
+                    <Divider
+                      width={0.5}
+                      color={'#444444'}
+                      style={{paddingTop: 10}}
+                    />
+                    <View style={styles.contentTextWrap}>
+                      <View style={globalStyles.MainWrap}>
                         {dropDown[index] ? (
                           <Text style={styles.contenttext}>{content}</Text>
                         ) : null}
                       </View>
                     </View>
-                  </>
-                );
-              })}
-            </View>
+                  </View>
+                </>
+              );
+            })}
           </View>
         </View>
-        <View style={{marginTop: 110}}></View>
+
+        {/* <View style={{marginTop: 110}}></View> */}
       </ScrollView>
 
       <BottomNav navigation={navigation} />
@@ -138,35 +124,49 @@ const Question = ({navigation}: any) => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: Dimensions.get('window').height - 80,
+    height: Dimensions.get('window').height - 190,
+  },
+  questiontitleWrap: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  questiontitleLeft: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '90%',
+  },
+  questiontitleRight: {
+    width: '10%',
+    alignSelf: 'center',
+    alignItems: 'center',
   },
   questiontitle: {
-    color: 'black',
-    marginLeft: '3%',
     fontStyle: 'normal',
     fontSize: 16,
+    paddingHorizontal: 10,
+    color: 'black',
     fontWeight: '500',
-    marginTop: '1%',
-    width: '72%',
   },
   questionmark: {
-    color: '#2262AD',
-    marginLeft: '7%',
     fontFamily: 'Noto Sans',
-    fontWeight: '700',
     fontSize: 18,
+    color: '#2262AD',
+    fontWeight: '700',
   },
-  dropdownimg: {marginTop: '3%'},
+  contentTextWrap: {
+    width: '100%',
+    alignSelf: 'center',
+    backgroundColor: '#E9E9E9',
+    marginTop: 0.5,
+  },
   contenttext: {
     fontFamily: 'Noto Sans',
+    padding: 15,
     fontSize: 15,
     fontWeight: '500',
     color: 'black',
-    marginLeft: '10%',
-    width: '80%',
-    height: 'auto',
-    flexShrink: 1,
-    padding: 15,
+    // flexShrink: 1,
   },
 });
 
