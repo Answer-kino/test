@@ -26,6 +26,7 @@ import {Divider} from '@rneui/base';
 import {globalStyles} from '../../assets/css/global/styleSheet';
 import {mainStyles} from '../../assets/css/home/home';
 import {MarginBottom, MarginTop} from '../../assets/css/global/margin';
+import SideMenu from '../../components/sideMenu/SideMenu';
 
 interface Capitalinfo {
   Capital: any;
@@ -123,6 +124,7 @@ const Home = ({navigation}: any) => {
 
   return (
     <View style={globalStyles.BodyWrap}>
+      <SideMenu navigation={navigation} open={open} toggleOpen={toggleOpen} />
       <View>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
