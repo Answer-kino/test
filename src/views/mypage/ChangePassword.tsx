@@ -129,6 +129,7 @@ const ChangePassword = ({navigation}: any) => {
       </Modal>
       <TopNav navigation={navigation} title="패스워드 변경" />
       <View style={globalStyles.MainWrap}>
+        <View style={MarginTop(15)} />
         <TextInput
           style={changeStyles.TextInput}
           placeholder="비밀번호"
