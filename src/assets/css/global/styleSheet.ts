@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 const globalStyles = StyleSheet.create({
   ScrollView: {
@@ -6,7 +6,7 @@ const globalStyles = StyleSheet.create({
   },
   ScrollViewBorder: {
     height: Dimensions.get('window').height - 190,
-    paddingTop: 21,
+    marginTop: 21,
   },
   ScrollViewNft: {
     height: Dimensions.get('window').height - 190,
@@ -29,4 +29,4 @@ const globalStyles = StyleSheet.create({
   },
 });
 
-export { globalStyles };
+export {globalStyles};

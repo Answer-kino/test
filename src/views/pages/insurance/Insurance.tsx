@@ -18,7 +18,7 @@ import {globalConfig} from '../../../@config/config';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
-import {nftImgStyles} from '../../../assets/css/contract/nft';
+import {insuranceImgStyles} from '../../../assets/css/contract/insurance';
 
 const Insurance = ({navigation}: any) => {
   const TOKEN_SERVICE = new API_TOKEN_SERVICE();
@@ -149,7 +149,7 @@ const Insurance = ({navigation}: any) => {
               return (
                 <TouchableOpacity key={index} onPress={tnoModalHandler()}>
                   <Image
-                    style={nftImgStyles(ratioArr[index])}
+                    style={insuranceImgStyles(ratioArr[index])}
                     source={{uri: imgUri}}
                   />
                 </TouchableOpacity>
