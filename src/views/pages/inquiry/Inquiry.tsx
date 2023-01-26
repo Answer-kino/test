@@ -11,6 +11,8 @@ import {
   Alert,
 } from 'react-native';
 import API_Inquiry_Service from '../../../@api/inquiry/inquiry';
+import {MarginTop} from '../../../assets/css/global/margin';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
@@ -46,33 +48,71 @@ const Inquiry = ({navigation}: any) => {
     return () => backHandler.remove();
   }, []);
   return (
-    <View style={styles.full}>
+    <View style={globalStyles.BodyWrap}>
       <TopNav navigation={navigation} title="문의하기" />
-      <Text style={styles.topTitle}>1:1문의하기</Text>
-      <View style={{alignItems: 'center'}}>
+      <View style={globalStyles.MainWrap}>
+        <View style={MarginTop('5%')} />
+        <Text
+          style={{
+            color: '#444444',
+            fontWeight: 'bold',
+            fontSize: 18,
+          }}>
+          1:1문의하기
+        </Text>
+
+        <View style={MarginTop(15)} />
         <TextInput
-          style={styles.text1}
+          style={{
+            color: '#474747',
+            backgroundColor: 'white',
+            height: '10%',
+            lineHeight: 35,
+            borderRadius: 10,
+            paddingLeft: 15,
+          }}
           placeholder="문의 제목"
           placeholderTextColor="#898989"
-          multiline={true}
+          maxLength={50}
           onChangeText={text => {
             setTitle(text);
-          }}></TextInput>
+          }}
+        />
+
+        <View style={MarginTop(15)} />
         <TextInput
-          style={styles.text2}
+          style={{
+            color: '#474747',
+            backgroundColor: 'white',
+            height: '50%',
+            lineHeight: 35,
+            borderRadius: 10,
+            paddingLeft: 15,
+            textAlignVertical: 'top',
+          }}
           placeholder="문의 내용"
           placeholderTextColor="#898989"
           multiline={true}
+          maxLength={2048}
           onChangeText={text => {
             setContent(text);
-          }}></TextInput>
+          }}
+        />
 
         <TouchableOpacity
-          style={{width: '80%'}}
           onPress={() => {
             writeInquiry();
           }}>
-          <View style={styles.button}>
+          <View
+            style={{
+              backgroundColor: '#6DADDB',
+              width: '100%',
+              borderRadius: 10,
+              height: 51,
+              marginTop: 20,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             <Text
               style={{
                 color: 'white',
@@ -89,52 +129,5 @@ const Inquiry = ({navigation}: any) => {
     </View>
   );
 };
-const styles = StyleSheet.create({
-  full: {
-    backgroundColor: '#F2F6F8',
-    height: '100%',
-  },
-  topTitle: {
-    marginLeft: '11%',
-    marginTop: 20,
-    fontWeight: '700',
-    fontSize: 18,
-  },
-  text1: {
-    color: 'black',
 
-    backgroundColor: 'white',
-    borderRadius: 10,
-    marginTop: 20,
-    width: '80%',
-    paddingLeft: 10,
-    textAlignVertical: 'top',
-  },
-  text2: {
-    color: 'black',
-
-    backgroundColor: 'white',
-    borderRadius: 10,
-    marginTop: 20,
-    width: '80%',
-    paddingLeft: 10,
-    height: '40%',
-    textAlignVertical: 'top',
-  },
-  button: {
-    color: 'white',
-    backgroundColor: '#6DADDB',
-    width: '100%',
-    borderRadius: 10,
-    height: 51,
-    marginTop: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  btntext: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '500',
-    fontSize: 16,
-  },
-});
 export default Inquiry;
