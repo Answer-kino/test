@@ -264,7 +264,7 @@ const Setting = ({navigation}: any) => {
                   fontSize: 15,
                   color: 'black',
                 }}>
-                1.2.15
+                1.0.0
               </Text>
             </View>
           </View>
