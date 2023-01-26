@@ -1,13 +1,6 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
-import {
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-  Text,
-  Image,
-  View,
-} from 'react-native';
+import {ScrollView, Image, View} from 'react-native';
 import _ from 'lodash';
 
 import API_TOKEN_SERVICE from '../../../@api/token/token';
@@ -15,6 +8,8 @@ import API_VEHICLE_SERVICE from '../../../@api/vehicle/vehicle';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 import {globalConfig} from '../../../@config/config';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
+import {vehicleImgStyles} from '../../../assets/css/contract/vehicle';
 
 const CarRegister = ({navigation}: any) => {
   const TOKEN_SERVICE = new API_TOKEN_SERVICE();
@@ -22,12 +17,13 @@ const CarRegister = ({navigation}: any) => {
   const {URL} = globalConfig;
   const [vehicleInfo, setVehicleInfo] = useState<Array<any>>();
   const [vehicleImgUriArr, setVehicleImgUriArr] = useState<Array<string>>();
+  const [ratioArr, setRatioArr] = useState<Array<number>>();
+
   const getVehicleInfo = async () => {
     try {
       const data = await VEHICLE_SERVICE.GET();
 
       setVehicleInfo(data);
-      console.log(data);
     } catch (error) {
       const success = await TOKEN_SERVICE.REFRESH__TOKEN();
 
@@ -39,9 +35,22 @@ const CarRegister = ({navigation}: any) => {
       }
     }
   };
+
+  const setRatioArrHandler = async (imgArr: Array<string>) => {
+    const imgRatioArr: Array<number> = new Array();
+    for (let uri of imgArr) {
+      await Image.getSize(uri, (width, height) => {
+        imgRatioArr.push(width / height);
+      });
+    }
+
+    setRatioArr(imgRatioArr);
+  };
+
   useEffect(() => {
     getVehicleInfo();
   }, []);
+
   useEffect(() => {
     if (!_.isUndefined(vehicleInfo)) {
       const imgUrlArr: Array<string> = [];
@@ -53,53 +62,36 @@ const CarRegister = ({navigation}: any) => {
     }
   }, [vehicleInfo]);
 
+  useEffect(() => {
+    if (vehicleImgUriArr) {
+      setRatioArrHandler(vehicleImgUriArr);
+    }
+  }, [vehicleImgUriArr]);
+
   return (
-    <View>
+    <View style={globalStyles.BodyWrap}>
       <TopNav navigation={navigation} title="차량등록증" />
 
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
-        <View style={styles.container}>
+        style={globalStyles.ScrollViewNft}>
+        <View style={globalStyles.MainWrap}>
           {vehicleImgUriArr &&
+            ratioArr &&
             vehicleImgUriArr?.map((imgUri, index) => {
               return (
-                <Image style={styles.documentImage} source={{uri: imgUri}} />
+                <Image
+                  key={index}
+                  style={vehicleImgStyles(ratioArr[index])}
+                  source={{uri: imgUri}}
+                />
               );
             })}
         </View>
-        <View style={{marginBottom: 100}}></View>
       </ScrollView>
       <BottomNav navigation={navigation} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  text: {
-    marginLeft: '7%',
-    color: 'black',
-    marginTop: '5%',
-    fontWeight: '500',
-    fontSize: 18,
-  },
-  scrollView: {
-    height: Dimensions.get('window').height - 80,
-  },
-  container: {
-    marginHorizontal: 30,
-    marginVertical: 15,
-  },
-  titleCode: {
-    fontSize: 22,
-    color: '#292929',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-  },
-  documentImage: {
-    height: 400,
-    marginVertical: 10,
-    resizeMode: 'contain',
-  },
-});
 export default CarRegister;

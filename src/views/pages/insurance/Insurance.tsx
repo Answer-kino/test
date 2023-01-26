@@ -17,6 +17,8 @@ import API_TOKEN_SERVICE from '../../../@api/token/token';
 import {globalConfig} from '../../../@config/config';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
+import {nftImgStyles} from '../../../assets/css/contract/nft';
 
 const Insurance = ({navigation}: any) => {
   const TOKEN_SERVICE = new API_TOKEN_SERVICE();
@@ -24,14 +26,21 @@ const Insurance = ({navigation}: any) => {
   const {URL} = globalConfig;
   const [insuranceInfo, setInsuranceInfo] = useState<Array<any>>();
   const [insuranceImgUriArr, setInsuranceImgUriArr] = useState<Array<string>>();
+  const [ratioArr, setRatioArr] = useState<Array<number>>();
   const [isImgModal, setIsImgModal] = useState(false);
   const [isImgViewItem, setIsImeViewItem] = useState<any>([]);
+
+  const showModalHandler = () => () => {
+    setIsImgModal(false);
+  };
+  const tnoModalHandler = () => () => {
+    setIsImgModal(true);
+  };
 
   const getInsuranceInfo = async () => {
     try {
       const data = await INSURANCE_SERVICE.GET();
       setInsuranceInfo(data);
-      // console.log('data:', data);
     } catch (error) {
       const success = await TOKEN_SERVICE.REFRESH__TOKEN();
 
@@ -44,11 +53,15 @@ const Insurance = ({navigation}: any) => {
     }
   };
 
-  const showModalHandler = () => () => {
-    setIsImgModal(false);
-  };
-  const tnoModalHandler = () => () => {
-    setIsImgModal(true);
+  const setRatioArrHandler = async (imgArr: Array<string>) => {
+    const imgRatioArr: Array<number> = new Array();
+    for (let uri of imgArr) {
+      await Image.getSize(uri, (width, height) => {
+        imgRatioArr.push(width / height);
+      });
+    }
+
+    setRatioArr(imgRatioArr);
   };
 
   useEffect(() => {
@@ -84,10 +97,13 @@ const Insurance = ({navigation}: any) => {
   }, []);
 
   useEffect(() => {
-    console.log('isImgViewItem : ', isImgViewItem);
-  }, [isImgViewItem]);
+    if (insuranceImgUriArr) {
+      setRatioArrHandler(insuranceImgUriArr);
+    }
+  }, [insuranceImgUriArr]);
+
   return (
-    <View style={{width: Dimensions.get('screen').width}}>
+    <View style={globalStyles.BodyWrap}>
       <Modal
         visible={isImgModal}
         transparent={false}
@@ -125,13 +141,17 @@ const Insurance = ({navigation}: any) => {
 
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
-        <View style={styles.container}>
+        style={globalStyles.ScrollViewNft}>
+        <View style={globalStyles.MainWrap}>
           {insuranceImgUriArr &&
+            ratioArr &&
             insuranceImgUriArr?.map((imgUri, index) => {
               return (
                 <TouchableOpacity key={index} onPress={tnoModalHandler()}>
-                  <Image style={styles.documentImage} source={{uri: imgUri}} />
+                  <Image
+                    style={nftImgStyles(ratioArr[index])}
+                    source={{uri: imgUri}}
+                  />
                 </TouchableOpacity>
               );
             })}

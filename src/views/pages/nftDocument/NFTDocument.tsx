@@ -25,6 +25,7 @@ import {globalStyles} from '../../../assets/css/global/styleSheet';
 import {Weight} from '../../../assets/css/global/font';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {MarginBottom, MarginTop} from '../../../assets/css/global/margin';
+import {nftImgStyles, nftStyles} from '../../../assets/css/contract/nft';
 
 interface CapitalInfo {
   Capital: any;
@@ -44,7 +45,6 @@ const NFTDocument = ({navigation}: any) => {
   const getCapitalInfo = async () => {
     try {
       const data = await NFT_SERVICE.GET();
-      console.log('getCapitalInfo : ', data);
       setNftInfo(data);
     } catch (error) {
       const success = await TOKEN_SERVICE.REFRESH__TOKEN();
@@ -61,7 +61,6 @@ const NFTDocument = ({navigation}: any) => {
   const getCapital = async () => {
     try {
       const data = await MYypage_SERVICE.getMyData();
-      console.log('getCapital : ', data);
       setCapital(data);
     } catch (error) {
       console.log(error);
@@ -111,58 +110,26 @@ const NFTDocument = ({navigation}: any) => {
         contentInsetAdjustmentBehavior="automatic"
         style={globalStyles.ScrollViewNft}>
         <View style={globalStyles.MainWrap}>
-          <Text
-            style={{
-              fontSize: 22,
-              lineHeight: 35,
-              ...Weight.Bold,
-              ...Colors[292929],
-            }}>
-            {nftInfo?.VehicleId}
-          </Text>
+          <Text style={nftStyles.Title}>{nftInfo?.VehicleId}</Text>
 
-          <View style={MarginTop(15)} />
-          <Image
-            style={{
-              width: '100%',
-              height: undefined,
-              aspectRatio: ratio,
-              resizeMode: 'contain',
-              borderRadius: 15,
-            }}
-            source={{uri: nftImgUri}}
-          />
-          <View style={MarginBottom(15)} />
+          <Image style={nftImgStyles(ratio)} source={{uri: nftImgUri}} />
+
           <View style={globalStyles.FlexRow}>
-            <Text style={{fontSize: 16, ...Colors[666666], ...Weight.Normal}}>
-              Owned by
-            </Text>
+            <Text style={nftStyles.Text}>Owned by</Text>
             <Text> </Text>
-            <Text style={{fontSize: 16, ...Colors.SkyBlue, ...Weight.Normal}}>
+            <Text style={nftStyles.CapitalName}>
               {capital?.Capital !== '' ? capital?.Capital : null}
             </Text>
           </View>
           <View style={MarginTop(25)} />
-          <View
-            style={{
-              backgroundColor: 'white',
-              borderRadius: 15,
-              padding: 15,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginBottom: 10,
-              }}>
-              <Text
-                style={{fontSize: 16, ...Colors[666666], ...Weight.Default}}>
-                Description
-              </Text>
+          <View style={nftStyles.DescriptionWrap}>
+            <View style={nftStyles.DescriptionTitleWrap}>
+              <Text style={nftStyles.DescriptionTitle}>Description</Text>
               <Text>　</Text>
               <Image source={require('../../../assets/logos_ethereum.png')} />
             </View>
 
-            <Text style={{fontSize: 14, ...Colors[666666], ...Weight.Default}}>
+            <Text style={nftStyles.DescriptionText}>
               {/* {metaInfo?.description ||
                 'Example : 차량은 캐피탈사의 공식 보증된차이며, 한국보증협회의 엄격한 품질' +
                   '검사와 검사를 198회 통과한 인증 중고차임을 증명합니다.'} */}
