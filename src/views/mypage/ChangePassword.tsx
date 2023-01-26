@@ -150,8 +150,7 @@ const ChangePassword = ({navigation}: any) => {
           onChangeText={setPwdInfoHandler('newPwd1')}
           // onBlur={setPwdCheckedHandler('reg')}
           onChange={setPwdCheckedHandler('reg')}
-
-          // secureTextEntry={true}
+          secureTextEntry={true}
         />
 
         {_.isNull(pwdChecked.reg) ? (
@@ -168,7 +167,7 @@ const ChangePassword = ({navigation}: any) => {
           style={changeStyles.TextInput}
           placeholder="새 비밀번호 확인"
           placeholderTextColor="#898989"
-          // secureTextEntry={true}
+          secureTextEntry={true}
           value={pwdInfo.newPwd2}
           onChangeText={setPwdInfoHandler('newPwd2')}
           onChange={e => {
