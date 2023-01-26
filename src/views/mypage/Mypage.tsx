@@ -28,6 +28,8 @@ import ModalSelect from '../../assets/modal_select.svg';
 import BottomNav from '../../components/bottomNav/BottomNav';
 import {Divider} from '@rneui/base';
 import {globalStyles} from '../../assets/css/global/styleSheet';
+import {MarginBottom} from '../../assets/css/global/margin';
+import {modalStyles} from '../../assets/css/modal/modal';
 
 interface myDatatype {
   CarNumber?: string;
@@ -230,102 +232,63 @@ const Mypage = ({navigation}: any) => {
           Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
-        <View style={styles.centeredView}>
-          <View
-            style={{
-              backgroundColor: 'white',
-              borderRadius: 14,
-            }}>
-            <View style={{display: 'flex', flexDirection: 'row'}}>
+        <View style={modalStyles.ModalWrap}>
+          <View style={modalStyles.MainWrap}>
+            <View style={modalStyles.HeaderWrap}>
+              <Text style={modalStyles.HeaderText}>이미지 선택</Text>
               <TouchableOpacity
-                style={{
-                  marginLeft: '10%',
-                }}
-                onPress={setProfileImg(1)}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: '9%',
-                  }}>
-                  <Icon1 style={{height: 100, width: 100}}></Icon1>
-                  <ModalSelect></ModalSelect>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  marginLeft: '10%',
-                }}
-                onPress={setProfileImg(2)}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Icon2 style={{height: 100, width: 100}}></Icon2>
-                  <ModalSelect></ModalSelect>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  marginLeft: '10%',
-                }}
-                onPress={setProfileImg(3)}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Icon3 style={{height: 100, width: 100}}></Icon3>
-                  <ModalSelect></ModalSelect>
-                </View>
+                style={modalStyles.ModalCloseWrap}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}>
+                <Text style={modalStyles.ModalCloseText}>X</Text>
               </TouchableOpacity>
             </View>
-            <View style={{display: 'flex', flexDirection: 'row'}}>
-              <TouchableOpacity
-                style={{
-                  marginLeft: '10%',
-                }}
-                onPress={setProfileImg(4)}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Icon4 style={{height: 100, width: 100}}></Icon4>
-                  <ModalSelect></ModalSelect>
+            <View style={MarginBottom(25)} />
+            <View style={modalStyles.ImgBoxWrap}>
+              <View style={globalStyles.FlexRow}>
+                <View style={modalStyles.ImgBox}>
+                  <TouchableOpacity onPress={setProfileImg(1)}>
+                    <Icon1></Icon1>
+                    <ModalSelect></ModalSelect>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  marginLeft: '10%',
-                }}
-                onPress={setProfileImg(5)}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Icon5
-                    style={{height: 100, width: 100, marginTop: '10%'}}></Icon5>
-                  <ModalSelect></ModalSelect>
+                <View style={modalStyles.ImgBox}>
+                  <TouchableOpacity onPress={setProfileImg(2)}>
+                    <Icon2></Icon2>
+                    <ModalSelect></ModalSelect>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  marginLeft: '10%',
-                }}
-                onPress={setProfileImg(6)}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Icon6
-                    style={{height: 100, width: 100, marginTop: '13%'}}></Icon6>
-                  <ModalSelect></ModalSelect>
+                <View style={modalStyles.ImgBox}>
+                  <TouchableOpacity onPress={setProfileImg(3)}>
+                    <Icon3></Icon3>
+                    <ModalSelect></ModalSelect>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
+              </View>
+              {/*  */}
+              <View style={modalStyles.ImgBoxWrap}>
+                <View style={globalStyles.FlexRow}>
+                  <View style={modalStyles.ImgBox}>
+                    <TouchableOpacity onPress={setProfileImg(4)}>
+                      <Icon4></Icon4>
+                      <ModalSelect></ModalSelect>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={modalStyles.ImgBox}>
+                    <TouchableOpacity onPress={setProfileImg(5)}>
+                      <Icon5></Icon5>
+                      <ModalSelect></ModalSelect>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={modalStyles.ImgBox}>
+                    <TouchableOpacity onPress={setProfileImg(6)}>
+                      <Icon6></Icon6>
+                      <ModalSelect></ModalSelect>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
             </View>
           </View>
         </View>
