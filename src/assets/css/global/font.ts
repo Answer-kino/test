@@ -18,6 +18,17 @@ const Fonts = {
   Ios: {},
 };
 
+const FontNotoSans = {
+  Android: {
+    Black: {fontFamily: 'NotoSansKR-Black'},
+    Bold: {fontFamily: 'NotoSansKR-Bold'},
+    Light: {fontFamily: 'NotoSansKR-Light'},
+    Medium: {fontFamily: 'NotoSansKR-Medium'},
+    Regular: {fontFamily: 'NotoSansKR-Regular'},
+    Thin: {fontFamily: 'NotoSansKR-Thin'},
+  },
+};
+
 /**
  * color
  */
@@ -52,4 +63,4 @@ const Weight: {[key: string]: TextStyle} = {
   },
 };
 
-export {Fonts, Colors, Weight};
+export {Fonts, FontNotoSans, Colors, Weight};
