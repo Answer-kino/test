@@ -36,9 +36,9 @@ const mainStyles = StyleSheet.create({
   },
   LoginBtnText: {
     fontSize: 18,
-    color: 'white',
     lineHeight: 24.5,
     textAlign: 'center',
+    ...Colors.White,
     ...Weight.SemiBold,
   },
   LoginContentsWrap: {

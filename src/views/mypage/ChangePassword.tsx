@@ -28,6 +28,7 @@ const ChangePassword = ({navigation}: any) => {
     newPwd1: '',
     newPwd2: '',
   });
+
   // 패스워드 정규표현식, 패스워드1,2 동일 여부
   const [pwdChecked, setPwdChecked] = useState<any>({
     reg: null,
@@ -46,6 +47,7 @@ const ChangePassword = ({navigation}: any) => {
   };
 
   // 변경할 패스워드 입력
+
   const setPwdInfoHandler = (key: string) => (text: string) => {
     const value = text;
     setPwdInfo((cur: any) => ({...cur, [key]: value}));
@@ -59,6 +61,7 @@ const ChangePassword = ({navigation}: any) => {
     }
     if (key === 'same') {
       value = pwdInfo.newPwd1 === pwdInfo.newPwd2;
+      console.log('1', pwdInfo.newPwd1, '2', pwdInfo.newPwd2, '3', value);
     }
 
     setPwdChecked((cur: any) => ({...cur, [key]: value}));
@@ -145,8 +148,10 @@ const ChangePassword = ({navigation}: any) => {
           placeholderTextColor="#898989"
           value={pwdInfo.newPwd1}
           onChangeText={setPwdInfoHandler('newPwd1')}
-          onBlur={setPwdCheckedHandler('reg')}
-          secureTextEntry={true}
+          // onBlur={setPwdCheckedHandler('reg')}
+          onChange={setPwdCheckedHandler('reg')}
+
+          // secureTextEntry={true}
         />
 
         {_.isNull(pwdChecked.reg) ? (
@@ -163,10 +168,17 @@ const ChangePassword = ({navigation}: any) => {
           style={changeStyles.TextInput}
           placeholder="새 비밀번호 확인"
           placeholderTextColor="#898989"
-          secureTextEntry={true}
+          // secureTextEntry={true}
           value={pwdInfo.newPwd2}
           onChangeText={setPwdInfoHandler('newPwd2')}
-          onBlur={setPwdCheckedHandler('same')}
+          onChange={e => {
+            {
+              pwdInfo.newPwd1 === e.nativeEvent.text
+                ? setPwdChecked((cur: any) => ({...cur, ['same']: true}))
+                : setPwdChecked((cur: any) => ({...cur, ['same']: false}));
+            }
+          }}
+          // onChange={setPwdCheckedHandler('same')}
         />
 
         {_.isNull(pwdChecked.same) ? (

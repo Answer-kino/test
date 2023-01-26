@@ -77,6 +77,7 @@ const Home = ({navigation}: any) => {
   const getNotice = async () => {
     try {
       const result = await BBS_SERVICE.BBS_Main_Notice();
+      console.log('resutl', result);
       setNoticeInfo(result);
     } catch (error) {}
   };

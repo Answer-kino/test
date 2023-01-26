@@ -27,6 +27,7 @@ const CommunityBoardList = ({navigation, route}: any) => {
   const [totalCnt, setTotalCnt] = useState(0);
   const isFocused = useIsFocused();
   const [isLoading, setLoading] = useState(false);
+
   const getCommunity = async () => {
     try {
       const obj: any = {
@@ -44,6 +45,26 @@ const CommunityBoardList = ({navigation, route}: any) => {
     }
   };
   const ScrollGetData = async () => {
+    // if (totalCnt < infoCnt) {
+    //   return;
+    // }
+    // try {
+
+    //   setLoading(true);
+    //   const obj: any = {
+    //     category: 'BBS_BC_100003',
+    //     limit: 10,
+    //     offset: 0 + infoCnt,
+    //   };
+    //   const result: any = await BBS_SERVICE.BBS_Category_Notice(obj);
+    //   let copy: any = [...scrollInfo, ...result];
+    //   setScrollInfo(copy);
+
+    //   setLoading(false);
+    //   setInfoCnt(infoCnt + 10);
+    // } catch (error) {
+    //   console.error(error);
+    // }
     if (totalCnt > infoCnt) {
       try {
         setLoading(true);
@@ -84,7 +105,9 @@ const CommunityBoardList = ({navigation, route}: any) => {
               });
             }}
             style={styles.documentMenu}>
-            <View style={styles.titleContainer}>
+            {/* <View style={styles.titleContainer}> */}
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+              <Text style={styles.descriptionTitle}>{item.Title}</Text>
               <Text style={styles.descriptionTitle}>{item.Title}</Text>
               <Text style={styles.comment}>{item.CommentCnt}</Text>
             </View>
@@ -149,7 +172,7 @@ const CommunityBoardList = ({navigation, route}: any) => {
             // ListFooterComponent={loading && <ActivityIndicator />}
           />
         </View>
-        <View style={{marginTop: -270}}></View>
+        {totalCnt < 7 ? null : <View style={{marginTop: -200}}></View>}
       </View>
 
       <BottomNav navigation={navigation} />

@@ -198,15 +198,14 @@ const CommunityBoard = ({navigation, route}: any) => {
 
             const now = new Date();
             const CreateDay = temp.split('T')[0] + ' ';
-            const diff =
+            const diffHour =
               (now.getTime() - new Date(temp).getTime()) / 1000 / 60 / 60;
-            const diff2 = (
+            const diff2Minute = (
               (now.getTime() - new Date(temp).getTime()) /
               1000 /
               60
             ).toFixed(0);
-            console.log('diff', diff);
-            console.log('day', temp.split('T')[1].split('.')[0]);
+
             // console.log(
             //   // (now.getTime() - CreateDay.getTime()) / 60 / 60 / 1000,
             //   now,
@@ -222,11 +221,11 @@ const CommunityBoard = ({navigation, route}: any) => {
                   <Text style={styles.comment}>{comment}</Text>
                 </View>
                 <Text style={styles.commentAt}>
-                  {diff > 24
+                  {diffHour > 24
                     ? CreateDay
-                    : diff < 1
-                    ? diff2 + '분전'
-                    : diff + '시간전'}
+                    : diffHour < 1
+                    ? diff2Minute + '분전'
+                    : diffHour + '시간전'}
                 </Text>
               </View>
             );

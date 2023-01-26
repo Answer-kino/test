@@ -15,7 +15,7 @@ import {MarginTop} from '../../../assets/css/global/margin';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
-
+import {inquiryStyles} from '../../../assets/css/inquiry/inquiry';
 const Inquiry = ({navigation}: any) => {
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
@@ -52,25 +52,11 @@ const Inquiry = ({navigation}: any) => {
       <TopNav navigation={navigation} title="문의하기" />
       <View style={globalStyles.MainWrap}>
         <View style={MarginTop('5%')} />
-        <Text
-          style={{
-            color: '#444444',
-            fontWeight: 'bold',
-            fontSize: 18,
-          }}>
-          1:1문의하기
-        </Text>
+        <Text style={inquiryStyles.TopTitle}>1:1문의하기</Text>
 
         <View style={MarginTop(15)} />
         <TextInput
-          style={{
-            color: '#474747',
-            backgroundColor: 'white',
-            height: '10%',
-            lineHeight: 35,
-            borderRadius: 10,
-            paddingLeft: 15,
-          }}
+          style={inquiryStyles.TitleTextInput}
           placeholder="문의 제목"
           placeholderTextColor="#898989"
           maxLength={50}
@@ -81,15 +67,7 @@ const Inquiry = ({navigation}: any) => {
 
         <View style={MarginTop(15)} />
         <TextInput
-          style={{
-            color: '#474747',
-            backgroundColor: 'white',
-            height: '50%',
-            lineHeight: 35,
-            borderRadius: 10,
-            paddingLeft: 15,
-            textAlignVertical: 'top',
-          }}
+          style={inquiryStyles.ContentTextInput}
           placeholder="문의 내용"
           placeholderTextColor="#898989"
           multiline={true}
@@ -103,25 +81,8 @@ const Inquiry = ({navigation}: any) => {
           onPress={() => {
             writeInquiry();
           }}>
-          <View
-            style={{
-              backgroundColor: '#6DADDB',
-              width: '100%',
-              borderRadius: 10,
-              height: 51,
-              marginTop: 20,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 17,
-                fontWeight: '500',
-                fontFamily: 'Noto Sans',
-              }}>
-              확인
-            </Text>
+          <View style={globalStyles.Button}>
+            <Text style={globalStyles.ButtonText}>확인</Text>
           </View>
         </TouchableOpacity>
       </View>

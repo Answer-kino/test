@@ -137,7 +137,7 @@ const Insurance = ({navigation}: any) => {
           }}
         />
       </Modal>
-      <TopNav navigation={navigation} title="차량등록증" />
+      <TopNav navigation={navigation} title="보험가입증명서" />
 
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
