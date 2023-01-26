@@ -17,6 +17,9 @@ import {ENftInfo} from '../../../@entity/nft/entity';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
+import {nftImgStyles, nftStyles} from '../../../assets/css/contract/nft';
+import {MarginBottom, MarginTop} from '../../../assets/css/global/margin';
 
 const NFTWallet = ({navigation}: any) => {
   const TOKEN_SERVICE = new API_TOKEN_SERVICE();
@@ -24,11 +27,11 @@ const NFTWallet = ({navigation}: any) => {
   const {URL} = globalConfig;
   const [nftInfo, setNftInfo] = useState<ENftInfo>();
   const [nftImgUri, setNftImgUri] = useState<string>();
+  const [ratio, setRatio] = useState(1);
 
   const getNftInfo = async () => {
     try {
       const data = await NFT_SERVICE.GET();
-      console.log('data', data);
       setNftInfo(data);
     } catch (error) {
       const success = await TOKEN_SERVICE.REFRESH__TOKEN();
@@ -45,13 +48,21 @@ const NFTWallet = ({navigation}: any) => {
   useEffect(() => {
     getNftInfo();
   }, []);
+
   useEffect(() => {
     if (!_.isUndefined(nftInfo)) {
       const imgUrl = URL.IMG + nftInfo?.ImgName + `?type=${nftInfo?.Category}`;
       setNftImgUri(imgUrl);
-      console.log('imgUrl', imgUrl);
     }
   }, [nftInfo]);
+
+  useEffect(() => {
+    if (nftImgUri) {
+      Image.getSize(nftImgUri, (width, height) => {
+        setRatio(width / height);
+      });
+    }
+  }, [nftImgUri]);
 
   useEffect(() => {
     const backAction = () => {
@@ -68,41 +79,19 @@ const NFTWallet = ({navigation}: any) => {
   }, []);
 
   return (
-    <View>
+    <View style={globalStyles.BodyWrap}>
       <TopNav navigation={navigation} title="NFT 전자지갑" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
-        <View style={styles.container}>
-          <Text style={styles.titleCode}>{nftInfo?.VehicleId}</Text>
-          <Image style={styles.documentImage} source={{uri: nftImgUri}} />
+        style={globalStyles.ScrollViewNft}>
+        <View style={globalStyles.MainWrap}>
+          <Text style={nftStyles.Title}>{nftInfo?.VehicleId}</Text>
+          <Image style={nftImgStyles(ratio)} source={{uri: nftImgUri}} />
         </View>
-        <View style={{marginBottom: 100}}></View>
       </ScrollView>
       <BottomNav navigation={navigation} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    height: Dimensions.get('window').height - 80,
-  },
-  container: {
-    marginHorizontal: 30,
-    marginVertical: 15,
-  },
-  titleCode: {
-    fontSize: 22,
-    color: '#292929',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-  },
-  documentImage: {
-    height: 600,
-    marginVertical: 10,
-    resizeMode: 'contain',
-  },
-});
 
 export default NFTWallet;
