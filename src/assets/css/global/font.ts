@@ -25,6 +25,7 @@ const Colors = {
   PrimaryColor: {color: '#123D70'},
   White: {color: 'White'},
   Black: {color: 'Black'},
+  SkyBlue: {color: '#34ABD0'},
   292929: {color: '#292929'},
   525252: {color: '#525252'},
   666666: {color: '#666666'},
