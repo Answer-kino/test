@@ -8,6 +8,10 @@ const globalStyles = StyleSheet.create({
     height: Dimensions.get('window').height - 190,
     paddingTop: 21,
   },
+  ScrollViewNft: {
+    height: Dimensions.get('window').height - 190,
+    paddingTop: 21,
+  },
   BodyWrap: {
     width: '100%',
   },
