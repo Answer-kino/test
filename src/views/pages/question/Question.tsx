@@ -14,6 +14,7 @@ import TopNav from '../../../components/topNav/TopNav';
 import API_Question from '../../../@api/question/question';
 import {Divider} from '@rneui/base';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
+import {questionStyles} from '../../../assets/css/question/question';
 
 type dropDownType = {
   [key: number]: boolean;
@@ -79,12 +80,14 @@ const Question = ({navigation}: any) => {
                         onPress={() => {
                           dropDownHandler(index);
                         }}>
-                        <View style={styles.questiontitleWrap}>
-                          <View style={styles.questiontitleLeft}>
-                            <Text style={styles.questionmark}>Q</Text>
-                            <Text style={styles.questiontitle}>{title}</Text>
+                        <View style={questionStyles.QuestionTitleWrap}>
+                          <View style={questionStyles.QuestionTitleLeft}>
+                            <Text style={questionStyles.QuestionMark}>Q</Text>
+                            <Text style={questionStyles.QuestionTitle}>
+                              {title}
+                            </Text>
                           </View>
-                          <View style={styles.questiontitleRight}>
+                          <View style={questionStyles.QuestionTitleRight}>
                             {dropDown[index] ? (
                               <Image
                                 source={require('./../../../assets/dropUp.png')}></Image>
@@ -102,10 +105,12 @@ const Question = ({navigation}: any) => {
                       color={'#444444'}
                       style={{paddingTop: 10}}
                     />
-                    <View style={styles.contentTextWrap}>
+                    <View style={questionStyles.ContentTextWrap}>
                       <View style={globalStyles.MainWrap}>
                         {dropDown[index] ? (
-                          <Text style={styles.contenttext}>{content}</Text>
+                          <Text style={questionStyles.ContentText}>
+                            {content}
+                          </Text>
                         ) : null}
                       </View>
                     </View>
@@ -123,53 +128,5 @@ const Question = ({navigation}: any) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    height: Dimensions.get('window').height - 190,
-  },
-  questiontitleWrap: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  questiontitleLeft: {
-    display: 'flex',
-    flexDirection: 'row',
-    width: '90%',
-  },
-  questiontitleRight: {
-    width: '10%',
-    alignSelf: 'center',
-    alignItems: 'center',
-  },
-  questiontitle: {
-    fontStyle: 'normal',
-    fontSize: 16,
-    paddingHorizontal: 10,
-    color: 'black',
-    fontWeight: '500',
-  },
-  questionmark: {
-    fontFamily: 'Noto Sans',
-    fontSize: 18,
-    color: '#2262AD',
-    fontWeight: '700',
-  },
-  contentTextWrap: {
-    width: '100%',
-    alignSelf: 'center',
-    backgroundColor: '#E9E9E9',
-    marginTop: 0.5,
-  },
-  contenttext: {
-    fontFamily: 'Noto Sans',
-    padding: 15,
-    fontSize: 15,
-    fontWeight: '500',
-    color: 'black',
-    // flexShrink: 1,
-  },
-});
 
 export default Question;
