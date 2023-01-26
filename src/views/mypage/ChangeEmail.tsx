@@ -53,7 +53,7 @@ const ChangeEmail = ({navigation, route}: any) => {
     <View style={globalStyles.BodyWrap}>
       <TopNav navigation={navigation} title="이메일 변경" />
       <View style={globalStyles.MainWrap}>
-        <View style={MarginTop(15)} />
+        <View style={MarginTop('5%')} />
         <TextInput
           style={changeStyles.TextInput}
           editable={false}

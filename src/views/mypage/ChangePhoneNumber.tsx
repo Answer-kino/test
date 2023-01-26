@@ -184,7 +184,7 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
       <TopNav navigation={navigation} title="휴대폰 번호 변경" />
 
       <View style={globalStyles.MainWrap}>
-        <View style={MarginTop(15)} />
+        <View style={MarginTop('5%')} />
         <TextInput
           style={changeStyles.TextInput}
           editable={false}
