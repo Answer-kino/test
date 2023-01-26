@@ -12,5 +12,17 @@ const MarginBottom = (num: number) => {
   });
   return marginStyle.marginBottom;
 };
+const MarginLeft = (num: number) => {
+  const marginStyle = StyleSheet.create({
+    marginLeft: {marginLeft: num},
+  });
+  return marginStyle.marginLeft;
+};
+const MarginRight = (num: number) => {
+  const marginStyle = StyleSheet.create({
+    marginRight: {marginRight: num},
+  });
+  return marginStyle.marginRight;
+};
 
-export {MarginTop, MarginBottom};
+export {MarginTop, MarginBottom, MarginLeft, MarginRight};
