@@ -1,13 +1,16 @@
 import {Dimensions, StyleSheet} from 'react-native';
 
 const globalStyles = StyleSheet.create({
+  // Home
   ScrollView: {
-    height: Dimensions.get('window').height - 120,
+    height: Dimensions.get('window').height - 90,
   },
+  // NoticeList, Question
   ScrollViewBorder: {
     height: Dimensions.get('window').height - 190,
     marginTop: 21,
   },
+  // CarRegister, Insurance, NFTDocument, NFTWallet
   ScrollViewNft: {
     height: Dimensions.get('window').height - 190,
     marginTop: 21,

@@ -9,6 +9,8 @@ const vehicleImgStyles = (ratio: number) => {
       resizeMode: 'contain',
       borderRadius: 15,
       marginVertical: 15,
+      borderColor: '#D7D7D7',
+      borderWidth: 0.5,
     },
   });
 
