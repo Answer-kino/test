@@ -32,17 +32,40 @@ const Notice = ({navigation, route}: any) => {
       console.log(error);
     }
   };
+
+  const setCategoryHandler = () => {
+    let cateogryParam = '';
+    switch (route.params.category) {
+      case 'BBS_BC_200001':
+        cateogryParam = 'capital';
+        break;
+      case 'BBS_BC_200002':
+        cateogryParam = 'nft';
+        break;
+      case 'BBS_BC_200003':
+        cateogryParam = 'recall';
+        break;
+      default:
+        cateogryParam = route.params.category;
+        break;
+    }
+    setCategory(cateogryParam);
+  };
   // state 받는 부분, category받는 이유는 noteicelist 페이지로 다시 돌아갔을 때 에러를 잡기위해
   useEffect(() => {
     setBoardIdx(route.params.boardIdx);
-    setCategory(route.params.category);
+    setCategoryHandler();
   }, []);
 
   // boardIdx가
   useEffect(() => {
+    console.log('Notice boardIdx : ', boardIdx);
     getNoticeDetail();
   }, [boardIdx]);
 
+  useEffect(() => {
+    console.log('Notice category : ', category);
+  }, [category]);
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
