@@ -13,9 +13,10 @@ import {
 import API_Inquiry_Service from '../../../@api/inquiry/inquiry';
 import {MarginTop} from '../../../assets/css/global/margin';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
+import {inquiryStyle} from '../../../assets/css/inquiry/inquiry';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
-import {inquiryStyles} from '../../../assets/css/inquiry/inquiry';
+
 const Inquiry = ({navigation}: any) => {
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
