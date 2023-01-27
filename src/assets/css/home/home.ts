@@ -96,7 +96,7 @@ const mainStyles = StyleSheet.create({
   MainNavigationBorderWrap: {
     width: '100%',
     alignSelf: 'center',
-    height: 200,
+    height: 215, //200->215
     backgroundColor: 'white',
     borderRadius: 20,
     borderBottomRightRadius: 40,

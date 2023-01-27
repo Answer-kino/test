@@ -54,7 +54,7 @@ const inquiryStyle = StyleSheet.create({
   TitleTextInput: {
     color: '#474747',
     backgroundColor: 'white',
-    height: '10%',
+    // height: '10%',
     lineHeight: 35,
     borderRadius: 10,
     paddingLeft: 15,

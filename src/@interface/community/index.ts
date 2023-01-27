@@ -11,6 +11,7 @@ interface ICommentInfo {
   ProfileImg: string;
   Title: string;
   Content: string;
+  imgNumber: number;
 }
 
 export type {IDetailInfo, ICommentInfo};

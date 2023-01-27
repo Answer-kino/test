@@ -77,9 +77,13 @@ const CommunityBoard = ({navigation, route}: any) => {
   const getComment = async () => {
     try {
       const commentInfo: any = await BBS_SERVICE.BBS_Comment(boardIdx);
-
+      // 이미지 number 랜덤으로 하는 부분
+      for (let i = 0; i < commentInfo.length; i++) {
+        commentInfo[i]['imgNumber'] = randomNumber__1__6();
+        console.log('abc', commentInfo[i]);
+      }
       setCommentInfo(commentInfo);
-      console.log(commentInfo);
+      console.log('abcd', commentInfo.length);
     } catch (error) {
       console.error(error);
     }
@@ -111,6 +115,7 @@ const CommunityBoard = ({navigation, route}: any) => {
   const initBoardPage = () => {
     if (boardIdx) {
       setIsLoading(true);
+
       getComment();
       getCommunityBoardDetail();
       setIsLoading(false);
@@ -193,7 +198,7 @@ const CommunityBoard = ({navigation, route}: any) => {
             const comment = item.Comment;
             const temp = item.CreatedDay;
             // const imgNum = item.ProfileImg;
-            const imgNum = randomNumber__1__6();
+            const imgNum = item.imgNumber;
 
             const now = new Date();
             const CreateDay = temp.split('T')[0] + ' ';

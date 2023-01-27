@@ -28,7 +28,9 @@ const CommunityBoardWrite = ({navigation}: any) => {
     try {
       const result = BBS_SERVICE.BBS_Board_Regist(data);
       console.log(result);
-      navigation.replace('CommunityBoardList');
+      setTimeout(() => {
+        navigation.replace('CommunityBoardList');
+      }, 200);
     } catch (error) {
       console.log(error);
     }

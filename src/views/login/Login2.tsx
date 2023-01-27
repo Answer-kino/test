@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -14,7 +15,7 @@ import {Divider} from '@rneui/base';
 
 const Login2 = ({navigation}: any) => {
   const SIGN_SERVICE = new API_SIGN_SERVICE();
-
+  const [count, setCount] = useState<any>();
   const [carNumber, setCarNumber] = useState('');
   const [pwd, setPwd] = useState('');
 
@@ -36,9 +37,43 @@ const Login2 = ({navigation}: any) => {
       Alert.alert('아이디와 패스워드를 확인해주세요.');
     }
   };
+
+  const clearData = () => {
+    // console.log('num', carNumber, 'pwd', pwd);
+    setCarNumber(' ');
+    setPwd(' ');
+  };
+
+  // useEffect(() => {
+  //   const backAction = () => {
+  //     Alert.alert('뒤로가기', '뒤로가기 누를 시 입력된 데이터가 사라집니다.', [
+  //       {
+  //         text: '취소',
+
+  //         onPress: () => null,
+  //       },
+  //       {text: '확인', onPress: () => clearData()},
+  //     ]);
+
+  //     return true;
+  //   };
+
+  //   const backHandler = BackHandler.addEventListener(
+  //     'hardwareBackPress',
+  //     backAction
+  //   );
+  // }, []);
+
   useEffect(() => {
     const backAction = () => {
-      navigation.pop();
+      Alert.alert('종료', '앱을 종료하시겠습니까?', [
+        {
+          text: '아니요',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {text: '네', onPress: () => BackHandler.exitApp()},
+      ]);
       return true;
     };
 

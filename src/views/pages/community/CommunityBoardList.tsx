@@ -31,9 +31,10 @@ const CommunityBoardList = ({navigation, route}: any) => {
 
   const setCommnuityListHandler = async () => {
     try {
+      console.log('asdfsadf');
       const obj: any = {category: 'BBS_BC_100003', limit: 10, offset: 0};
       const {result, totalCnt} = await BBS_SERVICE.BBS_Community_LIst(obj);
-
+      console.log('result', result);
       setCommnuityList(result);
     } catch (error) {
       alert('리스트 항목을 불러오는데 실패 했습니다.');
