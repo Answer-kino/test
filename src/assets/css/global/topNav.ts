@@ -2,13 +2,14 @@ import {Dimensions, StyleSheet} from 'react-native';
 
 const topNavStyles = StyleSheet.create({
   TopNavWrap: {
-    width: '90%',
-    height: 70,
-    alignSelf: 'center',
     display: 'flex',
+    width: '100%',
+    height: 70,
+    marginHorizontal: '4%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    alignSelf: 'center',
   },
   Title: {
     color: '#444444',
