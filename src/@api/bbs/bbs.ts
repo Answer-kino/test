@@ -47,9 +47,10 @@ class API_BBS_SERVICE extends AxiosInstance {
       let url = `bbs/bbsList?category=${category}&limit=${limit}&offset=${offset}`;
       // if (limit && offset) url += `&limit=${limit}&offset=${offset}`;
 
-      const {data} = await this.API.get(url);
+      const {data}: any = await this.API.get(url);
+      const {result, totalCnt} = data;
 
-      return data;
+      return {result, totalCnt};
     } catch (error: any) {
       throw new Error(error);
     }

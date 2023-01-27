@@ -16,13 +16,12 @@ import RenderHtml from 'react-native-render-html';
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
+const BBS_SERVICE = new API_BBS_SERVICE();
 
 const Notice = ({navigation, route}: any) => {
-  console.log(route.params);
   const [boardIdx, setBoardIdx] = useState('');
   const [category, setCategory] = useState('');
   const [noticeDetail, setNoticeDetail] = useState<noticeDetailType>();
-  const BBS_SERVICE = new API_BBS_SERVICE();
 
   // 공지사항 API
   const getNoticeDetail = async () => {
@@ -34,32 +33,39 @@ const Notice = ({navigation, route}: any) => {
     }
   };
 
-  // 이전페이지에서 받아온 category 변환
-  const categoryHandler = () => {
-    switch (category) {
+  const setCategoryHandler = () => {
+    let cateogryParam = '';
+    switch (route.params.category) {
       case 'BBS_BC_200001':
-        setCategory('capital');
+        cateogryParam = 'capital';
         break;
       case 'BBS_BC_200002':
-        setCategory('nft');
+        cateogryParam = 'nft';
         break;
       case 'BBS_BC_200003':
-        setCategory('recall');
+        cateogryParam = 'recall';
+        break;
+      default:
+        cateogryParam = route.params.category;
+        break;
     }
+    setCategory(cateogryParam);
   };
-
   // state 받는 부분, category받는 이유는 noteicelist 페이지로 다시 돌아갔을 때 에러를 잡기위해
   useEffect(() => {
     setBoardIdx(route.params.boardIdx);
-    setCategory(route.params.category);
+    setCategoryHandler();
   }, []);
+
+  // boardIdx가
   useEffect(() => {
-    categoryHandler();
-  }, [category]);
-  useEffect(() => {
+    console.log('Notice boardIdx : ', boardIdx);
     getNoticeDetail();
   }, [boardIdx]);
 
+  useEffect(() => {
+    console.log('Notice category : ', category);
+  }, [category]);
   useEffect(() => {
     const backAction = () => {
       navigation.pop();
@@ -85,7 +91,6 @@ const Notice = ({navigation, route}: any) => {
           <TouchableOpacity
             style={styles.Button}
             onPress={() => {
-              console.log(category);
               navigation.replace('NoticeList', {category: category});
             }}>
             <Text style={styles.ButtonText}>확인</Text>

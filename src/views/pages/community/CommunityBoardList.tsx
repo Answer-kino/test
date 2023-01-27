@@ -13,117 +13,40 @@ import {
   Modal,
   ActivityIndicator,
 } from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
+import {timeForToday} from '../../../@utility/time';
+import {Weight} from '../../../assets/css/global/font';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
 const CommunityBoardList = ({navigation, route}: any) => {
   const BBS_SERVICE = new API_BBS_SERVICE();
-  const [communityInfo, setCommunityInfo] = useState([]);
-  const [scrollInfo, setScrollInfo] = useState([]);
-  const [infoCnt, setInfoCnt] = useState(0);
-  const [totalCnt, setTotalCnt] = useState(0);
-  const isFocused = useIsFocused();
+  const [commnuityList, setCommnuityList] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
-  const getCommunity = async () => {
+  const setCommnuityListHandler = async () => {
     try {
-      const obj: any = {
-        category: 'BBS_BC_100003',
-        limit: 10,
-        offset: 0,
-      };
+      const obj: any = {category: 'BBS_BC_100003', limit: 10, offset: 0};
+      const {result, totalCnt} = await BBS_SERVICE.BBS_Community_LIst(obj);
 
-      const result: any = await BBS_SERVICE.BBS_Community_LIst(obj);
-
-      setCommunityInfo(result);
-      setTotalCnt(result.totalCnt.TotalCnt);
+      setCommnuityList(result);
     } catch (error) {
-      console.error('getNotice :', error);
-    }
-  };
-  const ScrollGetData = async () => {
-    // if (totalCnt < infoCnt) {
-    //   return;
-    // }
-    // try {
-
-    //   setLoading(true);
-    //   const obj: any = {
-    //     category: 'BBS_BC_100003',
-    //     limit: 10,
-    //     offset: 0 + infoCnt,
-    //   };
-    //   const result: any = await BBS_SERVICE.BBS_Category_Notice(obj);
-    //   let copy: any = [...scrollInfo, ...result];
-    //   setScrollInfo(copy);
-
-    //   setLoading(false);
-    //   setInfoCnt(infoCnt + 10);
-    // } catch (error) {
-    //   console.error(error);
-    // }
-    if (totalCnt > infoCnt) {
-      try {
-        setLoading(true);
-        const obj: any = {
-          category: 'BBS_BC_100003',
-          limit: 10,
-          offset: 0 + infoCnt,
-        };
-        const result: any = await BBS_SERVICE.BBS_Category_Notice(obj);
-        let copy: any = [...scrollInfo, ...result];
-        setScrollInfo(copy);
-
-        setLoading(false);
-        setInfoCnt(infoCnt + 10);
-      } catch (error) {
-        console.error(error);
-      }
+      alert('리스트 항목을 불러오는데 실패 했습니다.');
     }
   };
 
-  const onEndReached = () => {
-    if (!isLoading) {
-      ScrollGetData();
-    }
+  const boardLinkHandler = (IDX_BOARD: number) => () => {
+    navigation.navigate('CommunityBoard', {IDX_BOARD});
   };
-  const renderItem = ({item}: any) => {
-    const temp = item.CreatedDay;
-    const CreateDay =
-      temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
 
-    return (
-      <View>
-        <View>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.push('CommunityBoard', {
-                IDX_BOARD: item.IDX_BOARD,
-              });
-            }}
-            style={styles.documentMenu}>
-            {/* <View style={styles.titleContainer}> */}
-            <View style={{display: 'flex', flexDirection: 'row'}}>
-              <Text style={styles.descriptionTitle}>{item.Title}</Text>
-              <Text style={styles.descriptionTitle}>{item.Title}</Text>
-              <Text style={styles.comment}>{item.CommentCnt}</Text>
-            </View>
-            <Text style={styles.commentAt}>{CreateDay}</Text>
-          </TouchableOpacity>
-        </View>
-        <Divider style={{opacity: 0.4}}></Divider>
-      </View>
-    );
-  };
   useEffect(() => {
-    getCommunity();
-  }, [isFocused]);
-  useEffect(() => {
-    ScrollGetData();
-  }, [totalCnt]);
+    setCommnuityListHandler();
+  }, []);
 
   useEffect(() => {
     const backAction = () => {
@@ -140,7 +63,7 @@ const CommunityBoardList = ({navigation, route}: any) => {
   }, []);
 
   return (
-    <View style={{flex: 1}}>
+    <View style={globalStyles.BodyWrap}>
       <Modal transparent={true} visible={isLoading}>
         <ActivityIndicator
           size={'large'}
@@ -160,21 +83,84 @@ const CommunityBoardList = ({navigation, route}: any) => {
           <Image source={require('../../../assets/write.png')} />
         </View>
       </TouchableOpacity>
-
-      <View style={styles.container}>
-        <Text style={styles.descriptionTopTitle}>자유게시판</Text>
-        <View>
-          <FlatList
-            renderItem={renderItem}
-            data={scrollInfo}
-            onEndReached={onEndReached}
-            onEndReachedThreshold={0.4}
-            // ListFooterComponent={loading && <ActivityIndicator />}
-          />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={globalStyles.ScrollViewBorder}>
+        <View style={globalStyles.MainWrap}>
+          <Text
+            style={{
+              fontSize: 19,
+              lineHeight: 35,
+              ...Weight.Bold,
+              ...Colors[292929],
+            }}>
+            자유게시판
+          </Text>
         </View>
-        {totalCnt < 7 ? null : <View style={{marginTop: -200}}></View>}
-      </View>
+        <Divider width={1} style={{marginVertical: 15}} />
+        {commnuityList.map((item, index) => {
+          console.log(item);
+          const {
+            Title,
+            View: itemView,
+            CreatedDay: tempTime,
+            IDX_BOARD,
+          }: any = item;
+          const CreatedDay = timeForToday(tempTime);
 
+          return (
+            <>
+              <View key={index} style={globalStyles.MainWrap}>
+                <TouchableOpacity onPress={boardLinkHandler(IDX_BOARD)}>
+                  <View style={{display: 'flex', flexDirection: 'row'}}>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        lineHeight: 30,
+                        ...Weight.Default,
+                        ...Colors[525252],
+                      }}>
+                      {Title}{' '}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        lineHeight: 30,
+                        color: '#FF4C46',
+                        ...Weight.Normal,
+                        // ...Colors.Red,
+                      }}>
+                      {itemView}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+
+                <View>
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      ...Weight.Normal,
+                      ...Colors[666666],
+                    }}>
+                    {CreatedDay}
+                  </Text>
+                </View>
+              </View>
+              <Divider width={1} style={{marginVertical: 15}} />
+            </>
+          );
+        })}
+        {/* <View>
+            <FlatList
+              renderItem={renderItem}
+              data={scrollInfo}
+              onEndReached={onEndReached}
+              onEndReachedThreshold={0.4}
+              // ListFooterComponent={loading && <ActivityIndicator />}
+            />
+          </View> */}
+        {/* {totalCnt < 7 ? null : <View style={{marginTop: -200}}></View>} */}
+      </ScrollView>
       <BottomNav navigation={navigation} />
     </View>
   );
