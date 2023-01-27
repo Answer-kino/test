@@ -33,13 +33,29 @@ const Notice = ({navigation, route}: any) => {
       console.log(error);
     }
   };
+
+  // 이전페이지에서 받아온 category 변환
+  const categoryHandler = () => {
+    switch (category) {
+      case 'BBS_BC_200001':
+        setCategory('capital');
+        break;
+      case 'BBS_BC_200002':
+        setCategory('nft');
+        break;
+      case 'BBS_BC_200003':
+        setCategory('recall');
+    }
+  };
+
   // state 받는 부분, category받는 이유는 noteicelist 페이지로 다시 돌아갔을 때 에러를 잡기위해
   useEffect(() => {
     setBoardIdx(route.params.boardIdx);
     setCategory(route.params.category);
   }, []);
-
-  // boardIdx가
+  useEffect(() => {
+    categoryHandler();
+  }, [category]);
   useEffect(() => {
     getNoticeDetail();
   }, [boardIdx]);

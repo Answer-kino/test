@@ -21,7 +21,7 @@ const questionStyles = StyleSheet.create({
     ...Fonts.Android.normal,
     fontSize: 16,
     paddingHorizontal: 10,
-    ...Colors.Black,
+    color: 'black',
     ...Weight.Default,
   },
   QuestionMark: {
@@ -43,7 +43,7 @@ const questionStyles = StyleSheet.create({
     paddingVertical: 17,
     fontSize: 15,
     ...Weight.Default,
-    ...Colors.Black,
+    color: 'black',
     // flexShrink: 1,
   },
 });
