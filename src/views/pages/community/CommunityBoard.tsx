@@ -38,7 +38,6 @@ const CommunityBoard = ({navigation, route}: any) => {
   const [commentInfo, setCommentInfo] = useState<ICommentInfo[]>();
   const [registComment, setRegistComment] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
   const getMyInfo = async () => {
     try {
       const userInfo = await HOME_SERVICE.INFO();
@@ -198,8 +197,14 @@ const CommunityBoard = ({navigation, route}: any) => {
 
             const now = new Date();
             const CreateDay = temp.split('T')[0] + ' ';
-            const diffHour =
-              (now.getTime() - new Date(temp).getTime()) / 1000 / 60 / 60;
+            const diffHour = Number(
+              (
+                (now.getTime() - new Date(temp).getTime()) /
+                1000 /
+                60 /
+                60
+              ).toFixed(0)
+            );
             const diff2Minute = (
               (now.getTime() - new Date(temp).getTime()) /
               1000 /

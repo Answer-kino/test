@@ -61,7 +61,6 @@ const ChangePassword = ({navigation}: any) => {
     }
     if (key === 'same') {
       value = pwdInfo.newPwd1 === pwdInfo.newPwd2;
-      console.log('1', pwdInfo.newPwd1, '2', pwdInfo.newPwd2, '3', value);
     }
 
     setPwdChecked((cur: any) => ({...cur, [key]: value}));

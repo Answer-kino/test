@@ -92,7 +92,7 @@ const CommunityBoardList = ({navigation, route}: any) => {
               fontSize: 19,
               lineHeight: 35,
               ...Weight.Bold,
-              ...Colors[292929],
+              color: '#292929',
             }}>
             자유게시판
           </Text>
@@ -102,7 +102,7 @@ const CommunityBoardList = ({navigation, route}: any) => {
           console.log(item);
           const {
             Title,
-            View: itemView,
+            CommentCnt: CommentCnt,
             CreatedDay: tempTime,
             IDX_BOARD,
           }: any = item;
@@ -118,7 +118,7 @@ const CommunityBoardList = ({navigation, route}: any) => {
                         fontSize: 16,
                         lineHeight: 30,
                         ...Weight.Default,
-                        ...Colors[525252],
+                        color: '#101010',
                       }}>
                       {Title}{' '}
                     </Text>
@@ -130,7 +130,7 @@ const CommunityBoardList = ({navigation, route}: any) => {
                         ...Weight.Normal,
                         // ...Colors.Red,
                       }}>
-                      {itemView}
+                      {CommentCnt}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -140,7 +140,7 @@ const CommunityBoardList = ({navigation, route}: any) => {
                     style={{
                       fontSize: 13,
                       ...Weight.Normal,
-                      ...Colors[666666],
+                      color: '#666666',
                     }}>
                     {CreatedDay}
                   </Text>

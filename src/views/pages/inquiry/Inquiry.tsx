@@ -53,11 +53,11 @@ const Inquiry = ({navigation}: any) => {
       <TopNav navigation={navigation} title="문의하기" />
       <View style={globalStyles.MainWrap}>
         <View style={MarginTop('5%')} />
-        <Text style={inquiryStyles.TopTitle}>1:1문의하기</Text>
+        <Text style={inquiryStyle.TopTitle}>1:1문의하기</Text>
 
         <View style={MarginTop(15)} />
         <TextInput
-          style={inquiryStyles.TitleTextInput}
+          style={inquiryStyle.TitleTextInput}
           placeholder="문의 제목"
           placeholderTextColor="#898989"
           maxLength={50}
@@ -68,7 +68,7 @@ const Inquiry = ({navigation}: any) => {
 
         <View style={MarginTop(15)} />
         <TextInput
-          style={inquiryStyles.ContentTextInput}
+          style={inquiryStyle.ContentTextInput}
           placeholder="문의 내용"
           placeholderTextColor="#898989"
           multiline={true}
