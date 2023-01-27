@@ -16,12 +16,13 @@ import RenderHtml from 'react-native-render-html';
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
-const BBS_SERVICE = new API_BBS_SERVICE();
 
 const Notice = ({navigation, route}: any) => {
+  console.log(route.params);
   const [boardIdx, setBoardIdx] = useState('');
   const [category, setCategory] = useState('');
   const [noticeDetail, setNoticeDetail] = useState<noticeDetailType>();
+  const BBS_SERVICE = new API_BBS_SERVICE();
 
   // 공지사항 API
   const getNoticeDetail = async () => {
@@ -68,6 +69,7 @@ const Notice = ({navigation, route}: any) => {
           <TouchableOpacity
             style={styles.Button}
             onPress={() => {
+              console.log(category);
               navigation.replace('NoticeList', {category: category});
             }}>
             <Text style={styles.ButtonText}>확인</Text>

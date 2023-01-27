@@ -33,6 +33,7 @@ const tmpObj: {[key: string]: any} = {
 };
 
 const NoticeList = ({navigation, route}: any) => {
+  console.log(route.params);
   const BBS_SERVICE = new API_BBS_SERVICE();
   const [noticeTitle, setNoticeTitle] = useState<string>();
   const [category, setCategory] = useState<any>();
@@ -69,6 +70,7 @@ const NoticeList = ({navigation, route}: any) => {
 
   useEffect(() => {
     const {category} = route.params;
+
     /**
      * Error 핸들링
      */

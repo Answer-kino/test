@@ -50,6 +50,10 @@ const Home = ({navigation}: any) => {
   const navigationPushHandler = (key: string) => () => {
     navigation.push(key);
   };
+  // 홈화면 공지사항 눌렀을 때 detail 페이지로 넘가기 위한 navigationhandler
+  const navigationPushHandlerProps = (key: string, props: any) => () => {
+    navigation.push(key, props);
+  };
   const navigationAccessHandler = (key: string) => () => {
     if (isAccess) {
       switch (key) {
@@ -286,11 +290,16 @@ const Home = ({navigation}: any) => {
                 const Title = item.Title;
                 const temp = item.CreatedDay;
                 const CreateDay = temp.split('T')[0];
+                const boardIdx = item.IDX_BOARD;
+                const category = item.Category;
                 return (
                   <TouchableOpacity
                     style={mainStyles.DescriptionRow}
                     key={index}
-                    onPress={navigationPushHandler('NoticeCategory')}>
+                    onPress={navigationPushHandlerProps('Notice', {
+                      boardIdx: boardIdx,
+                      category: category,
+                    })}>
                     <Text style={mainStyles.DescriptionText}> {Title}</Text>
                     <Text style={mainStyles.DescriptionText}>{CreateDay}</Text>
                   </TouchableOpacity>

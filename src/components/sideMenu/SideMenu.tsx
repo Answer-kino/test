@@ -48,6 +48,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
     if (act === null) {
       alert('로그인 해주세요.');
     } else {
+      toggleOpen(false);
       navigation.navigate(key);
     }
   };
