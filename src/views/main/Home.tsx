@@ -314,8 +314,19 @@ const Home = ({navigation}: any) => {
                       IDX_BOARD,
                       Category,
                     })}>
-                    <Text style={mainStyles.DescriptionText}> {Title}</Text>
-                    <Text style={mainStyles.DescriptionText}>{CreateDay}</Text>
+                    <View style={mainStyles.DescriptionRowLeft}>
+                      <Text
+                        style={mainStyles.DescriptionText}
+                        ellipsizeMode="tail"
+                        numberOfLines={1}>
+                        {Title}
+                      </Text>
+                    </View>
+                    <View style={mainStyles.DescriptionRowRight}>
+                      <Text style={mainStyles.DescriptionText}>
+                        {CreateDay}
+                      </Text>
+                    </View>
                   </TouchableOpacity>
                 );
               })}

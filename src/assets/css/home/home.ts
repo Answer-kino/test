@@ -144,6 +144,14 @@ const mainStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  DescriptionRowLeft: {
+    width: '70%',
+    justifyContent: 'flex-start',
+  },
+  DescriptionRowRight: {
+    width: '30%',
+    justifyContent: 'flex-end',
+  },
   DescriptionText: {
     fontSize: 16,
     lineHeight: 25,
