@@ -74,7 +74,11 @@ const Question = ({navigation}: any) => {
 
               return (
                 <>
-                  <View key={index} style={{paddingVertical: 10}}>
+                  <View
+                    key={index}
+                    style={{paddingVertical: 10}}
+                    // style={{paddingVertical: 10}}
+                  >
                     <View style={globalStyles.MainWrap}>
                       <TouchableOpacity
                         onPress={() => {
@@ -101,9 +105,9 @@ const Question = ({navigation}: any) => {
                     </View>
 
                     <Divider
-                      width={0.5}
-                      color={'#444444'}
-                      style={{paddingTop: 10}}
+                      width={1.5}
+                      color={'#DBDBDB'}
+                      style={{paddingVertical: 10}}
                     />
                     <View style={questionStyles.ContentTextWrap}>
                       <View style={globalStyles.MainWrap}>
