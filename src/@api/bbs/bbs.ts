@@ -30,14 +30,27 @@ class API_BBS_SERVICE extends AxiosInstance {
       throw new Error(error);
     }
   }
-  async BBS_Community_LIst({category, limit, offset}: IBBS_Category_Notice) {
+  async BBS_Notice_Detail({category, limit, offset}: IBBS_Category_Notice) {
     try {
       let url = `bbs/bbsList?category=${category}&limit=${limit}&offset=${offset}`;
       // if (limit && offset) url += `&limit=${limit}&offset=${offset}`;
 
       const {data} = await this.API.get(url);
 
-      return data;
+      return data?.result;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+  async BBS_Community_LIst({category, limit, offset}: IBBS_Category_Notice) {
+    try {
+      let url = `bbs/bbsList?category=${category}&limit=${limit}&offset=${offset}`;
+      // if (limit && offset) url += `&limit=${limit}&offset=${offset}`;
+
+      const {data}: any = await this.API.get(url);
+      const {result, totalCnt} = data;
+
+      return {result, totalCnt};
     } catch (error: any) {
       throw new Error(error);
     }

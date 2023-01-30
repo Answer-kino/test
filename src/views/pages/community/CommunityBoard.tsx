@@ -38,7 +38,6 @@ const CommunityBoard = ({navigation, route}: any) => {
   const [commentInfo, setCommentInfo] = useState<ICommentInfo[]>();
   const [registComment, setRegistComment] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
   const getMyInfo = async () => {
     try {
       const userInfo = await HOME_SERVICE.INFO();
@@ -78,9 +77,13 @@ const CommunityBoard = ({navigation, route}: any) => {
   const getComment = async () => {
     try {
       const commentInfo: any = await BBS_SERVICE.BBS_Comment(boardIdx);
-
+      // 이미지 number 랜덤으로 하는 부분
+      for (let i = 0; i < commentInfo.length; i++) {
+        commentInfo[i]['imgNumber'] = randomNumber__1__6();
+        console.log('abc', commentInfo[i]);
+      }
       setCommentInfo(commentInfo);
-      console.log(commentInfo);
+      console.log('abcd', commentInfo.length);
     } catch (error) {
       console.error(error);
     }
@@ -112,6 +115,7 @@ const CommunityBoard = ({navigation, route}: any) => {
   const initBoardPage = () => {
     if (boardIdx) {
       setIsLoading(true);
+
       getComment();
       getCommunityBoardDetail();
       setIsLoading(false);
@@ -194,19 +198,24 @@ const CommunityBoard = ({navigation, route}: any) => {
             const comment = item.Comment;
             const temp = item.CreatedDay;
             // const imgNum = item.ProfileImg;
-            const imgNum = randomNumber__1__6();
+            const imgNum = item.imgNumber;
 
             const now = new Date();
             const CreateDay = temp.split('T')[0] + ' ';
-            const diff =
-              (now.getTime() - new Date(temp).getTime()) / 1000 / 60 / 60;
-            const diff2 = (
+            const diffHour = Number(
+              (
+                (now.getTime() - new Date(temp).getTime()) /
+                1000 /
+                60 /
+                60
+              ).toFixed(0)
+            );
+            const diff2Minute = (
               (now.getTime() - new Date(temp).getTime()) /
               1000 /
               60
             ).toFixed(0);
-            console.log('diff', diff);
-            console.log('day', temp.split('T')[1].split('.')[0]);
+
             // console.log(
             //   // (now.getTime() - CreateDay.getTime()) / 60 / 60 / 1000,
             //   now,
@@ -222,11 +231,11 @@ const CommunityBoard = ({navigation, route}: any) => {
                   <Text style={styles.comment}>{comment}</Text>
                 </View>
                 <Text style={styles.commentAt}>
-                  {diff > 24
+                  {diffHour > 24
                     ? CreateDay
-                    : diff < 1
-                    ? diff2 + '분전'
-                    : diff + '시간전'}
+                    : diffHour < 1
+                    ? diff2Minute + '분전'
+                    : diffHour + '시간전'}
                 </Text>
               </View>
             );

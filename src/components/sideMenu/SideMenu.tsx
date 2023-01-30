@@ -11,6 +11,8 @@ import Question from '../../assets/question.svg';
 import Inquiry from '../../assets/inquiry.svg';
 import SideArrow from '../../assets/sideArrow.svg';
 import X from '../../assets/x.svg';
+import Logout from '../../assets/Logout.svg';
+import {Divider} from '@rneui/base';
 interface SideMenuProps {
   open: boolean;
   toggleOpen: Function;
@@ -48,6 +50,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
     if (act === null) {
       alert('로그인 해주세요.');
     } else {
+      toggleOpen(false); // 햄버거에서 다른 메뉴로 들어갔다가 홈화면으로 다시 돌아왔을 때 햄버거 메뉴가 열려있는 부분 방지
       navigation.navigate(key);
     }
   };
@@ -107,6 +110,9 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                   </View>
                   <SideArrow />
                 </TouchableOpacity>
+              </View>
+              <Divider></Divider>
+              <View style={styles.sideMenuContainer}>
                 <TouchableOpacity
                   style={styles.sideMenuSection}
                   onPress={() => {
@@ -118,6 +124,9 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                   </View>
                   <SideArrow />
                 </TouchableOpacity>
+              </View>
+              <Divider></Divider>
+              <View style={styles.sideMenuContainer}>
                 <TouchableOpacity
                   style={styles.sideMenuSection}
                   onPress={() => {
@@ -131,6 +140,23 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                   <SideArrow />
                 </TouchableOpacity>
               </View>
+              <Divider></Divider>
+              <View style={styles.sideMenuContainer}>
+                <TouchableOpacity
+                  style={styles.sideMenuSection}
+                  onPress={async () => {
+                    await AsyncStorage.clear();
+                    navigation.reset({routes: [{name: 'Login2'}]});
+                  }}>
+                  <View style={styles.sideMenuSectionLeft}>
+                    <Logout></Logout>
+                    <Text style={styles.menuText}>로그아웃</Text>
+                  </View>
+
+                  <SideArrow />
+                </TouchableOpacity>
+              </View>
+              <Divider></Divider>
               <View
                 style={{
                   overflow: 'hidden',
@@ -248,8 +274,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 20,
-    borderBottomColor: '#DBDBDB',
-    borderBottomWidth: 1,
+    // borderBottomColor: '#DBDBDB',
+    // borderBottomWidth: 1,
   },
   sideMenuSectionLeft: {
     flexDirection: 'row',

@@ -8,6 +8,7 @@ import {
   BackHandler,
   ToastAndroid,
   Linking,
+  Image,
 } from 'react-native';
 import API_HOME_SERVICE from '../../@api/home/home';
 import BottomNav from '../../components/bottomNav/BottomNav';
@@ -50,19 +51,27 @@ const Home = ({navigation}: any) => {
   const navigationPushHandler = (key: string) => () => {
     navigation.push(key);
   };
-  const navigationAccessHandler = (key: string) => () => {
-    if (isAccess) {
-      switch (key) {
-        case 'CommunityBoardList':
-          navigation.navigate(key, {CarNumber: carNumber});
-          break;
-        default:
-          navigation.push(key);
+  const navigationAccessHandler =
+    (key: string, Notice: any = null) =>
+    () => {
+      if (isAccess) {
+        switch (key) {
+          case 'CommunityBoardList':
+            navigation.navigate(key, {CarNumber: carNumber});
+            break;
+          case 'Notice':
+            navigation.navigate(key, {
+              boardIdx: Notice.IDX_BOARD,
+              category: Notice.Category,
+            });
+            break;
+          default:
+            navigation.push(key);
+        }
+      } else {
+        alert('비정상 적인 접근');
       }
-    } else {
-      alert('비정상 적인 접근');
-    }
-  };
+    };
 
   const getMyInfo = async () => {
     try {
@@ -183,41 +192,43 @@ const Home = ({navigation}: any) => {
                     <TouchableOpacity
                       style={mainStyles.MainNavigationBorderBtnWrap}
                       onPress={navigationAccessHandler('ContractCheck')}>
-                      <View style={mainStyles.MainNavigationBorderBtn}>
-                        <Text
-                          style={[
-                            mainStyles.MainNavigationBorderBtnText,
-                            {paddingTop: '7%'},
-                          ]}>
-                          계약확인
-                        </Text>
-                      </View>
-                      <View style={mainStyles.MainNavigationBorderBtnImgWrap}>
-                        <Contract />
+                      <View style={{width: '75%'}}>
+                        <Image
+                          style={{
+                            width: '100%',
+                            height: 105,
+                            resizeMode: 'contain',
+                          }}
+                          source={require('../../assets/img/main/01.png')}
+                        />
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={mainStyles.MainNavigationBorderBtnWrap}
                       onPress={navigationAccessHandler('CarDocument')}>
-                      <View style={mainStyles.MainNavigationBorderBtn}>
-                        <Text style={mainStyles.MainNavigationBorderBtnText}>
-                          내차{'\n'}NFT 증빙서류
-                        </Text>
-                      </View>
-                      <View style={mainStyles.MainNavigationBorderBtnImgWrap}>
-                        <Cardocument />
+                      <View style={{width: '75%'}}>
+                        <Image
+                          style={{
+                            width: '100%',
+                            height: 105,
+                            resizeMode: 'contain',
+                          }}
+                          source={require('../../assets/img/main/main_nav_02.png')}
+                        />
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={mainStyles.MainNavigationBorderBtnWrap}
                       onPress={navigationAccessHandler('NFTWallet')}>
-                      <View style={mainStyles.MainNavigationBorderBtn}>
-                        <Text style={mainStyles.MainNavigationBorderBtnText}>
-                          NFT{'\n'}전자지갑
-                        </Text>
-                      </View>
-                      <View style={mainStyles.MainNavigationBorderBtnImgWrap}>
-                        <NftWalletimg />
+                      <View style={{width: '75%'}}>
+                        <Image
+                          style={{
+                            width: '100%',
+                            height: 105,
+                            resizeMode: 'contain',
+                          }}
+                          source={require('../../assets/img/main/03.png')}
+                        />
                       </View>
                     </TouchableOpacity>
                   </View>
@@ -236,25 +247,29 @@ const Home = ({navigation}: any) => {
                     <TouchableOpacity
                       style={mainStyles.MainNavigationBorderBtnWrap}
                       onPress={navigationAccessHandler('RaceInfo')}>
-                      <View style={mainStyles.MainNavigationBorderBtn}>
-                        <Text style={[mainStyles.MainNavigationBorderBtnText]}>
-                          내차{'\n'}운행정보
-                        </Text>
-                      </View>
-                      <View style={mainStyles.MainNavigationBorderBtnImgWrap}>
-                        <Raceinfoimg />
+                      <View style={{width: '75%'}}>
+                        <Image
+                          style={{
+                            width: '100%',
+                            height: 105,
+                            resizeMode: 'contain',
+                          }}
+                          source={require('../../assets/img/main/main_nav_04.png')}
+                        />
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={mainStyles.MainNavigationBorderBtnWrap}
                       onPress={navigationAccessHandler('CommunityBoardList')}>
-                      <View style={mainStyles.MainNavigationBorderBtn}>
-                        <Text style={mainStyles.MainNavigationBorderBtnText}>
-                          커뮤니티
-                        </Text>
-                      </View>
-                      <View style={mainStyles.MainNavigationBorderBtnImgWrap}>
-                        <Community />
+                      <View style={{width: '75%'}}>
+                        <Image
+                          style={{
+                            width: '100%',
+                            height: 105,
+                            resizeMode: 'contain',
+                          }}
+                          source={require('../../assets/img/main/main_nav_05.png')}
+                        />
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -282,16 +297,36 @@ const Home = ({navigation}: any) => {
               </TouchableOpacity>
               <View style={MarginTop(5)} />
               {noticeInfo.map((item: any, index: number) => {
-                const Title = item.Title;
+                let {Title, CreatedDay, Category, IDX_BOARD} = item;
+
+                let subTitle = '';
+                if (Category === 'BBS_BC_200001') subTitle = `[캐피탈] `;
+                if (Category === 'BBS_BC_200002') subTitle = `[NFT] `;
+                if (Category === 'BBS_BC_200003') subTitle = `[리콜] `;
+                Title = subTitle + Title;
                 const temp = item.CreatedDay;
                 const CreateDay = temp.split('T')[0];
                 return (
                   <TouchableOpacity
                     style={mainStyles.DescriptionRow}
                     key={index}
-                    onPress={navigationPushHandler('NoticeCategory')}>
-                    <Text style={mainStyles.DescriptionText}> {Title}</Text>
-                    <Text style={mainStyles.DescriptionText}>{CreateDay}</Text>
+                    onPress={navigationAccessHandler('Notice', {
+                      IDX_BOARD,
+                      Category,
+                    })}>
+                    <View style={mainStyles.DescriptionRowLeft}>
+                      <Text
+                        style={mainStyles.DescriptionText}
+                        ellipsizeMode="tail"
+                        numberOfLines={1}>
+                        {Title}
+                      </Text>
+                    </View>
+                    <View style={mainStyles.DescriptionRowRight}>
+                      <Text style={mainStyles.DescriptionText}>
+                        {CreateDay}
+                      </Text>
+                    </View>
                   </TouchableOpacity>
                 );
               })}
@@ -379,6 +414,7 @@ const Home = ({navigation}: any) => {
             {/* End FooterWrap */}
           </View>
           {/* End MainWrap */}
+          <View style={MarginBottom(25)} />
         </ScrollView>
         <BottomNav navigation={navigation} />
       </View>

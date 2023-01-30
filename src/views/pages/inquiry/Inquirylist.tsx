@@ -1,3 +1,4 @@
+import {Divider} from '@rneui/base';
 import {useEffect, useState} from 'react';
 import {
   BackHandler,
@@ -12,6 +13,9 @@ import {
   Alert,
 } from 'react-native';
 import API_Inquiry_Service from '../../../@api/inquiry/inquiry';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
+import {inquiryStyle} from '../../../assets/css/inquiry/inquiry';
+
 import BottomNav from '../../../components/bottomNav/BottomNav';
 
 import TopNav from '../../../components/topNav/TopNav';
@@ -111,8 +115,8 @@ const InquiryList = ({navigation}: any) => {
                         flexDirection: 'row',
                         marginTop: '5%',
                       }}>
-                      <Text style={styles.questionmark}>Q</Text>
-                      <Text style={styles.questiontitle}>{title}</Text>
+                      <Text style={styles.Inquirymark}>Q</Text>
+                      <Text style={styles.Inquirytitle}>{title}</Text>
 
                       {dropDown[index] ? (
                         <Image
@@ -175,8 +179,8 @@ const InquiryList = ({navigation}: any) => {
                               flexDirection: 'row',
                               marginTop: 10,
                             }}>
-                            <Text style={styles.questionmark}>A</Text>
-                            <Text style={styles.questiontitle}>답변</Text>
+                            <Text style={styles.Inquirymark}>A</Text>
+                            <Text style={styles.Inquirytitle}>답변</Text>
                           </View>
                           <View
                             style={{
@@ -203,13 +207,103 @@ const InquiryList = ({navigation}: any) => {
       <BottomNav navigation={navigation} />
     </View>
   );
+  // return (
+  //   <View style={globalStyles.BodyWrap}>
+  //     <TopNav navigation={navigation} title="문의 목록" />
+  //     <ScrollView
+  //       contentInsetAdjustmentBehavior="automatic"
+  //       style={globalStyles.ScrollViewBorder}>
+  //       <View style={globalStyles.FlexColumn}>
+  //         <View>
+  //           {inquiryListInfo.map((item: any, index: number) => {
+  //             const title = item.Title;
+  //             const content = item.Content;
+  //             const answer = item.AdminAnswer;
+  //             const number = item.IDX_ENQ;
+  //             return (
+  //               <>
+  //                 <View
+  //                   key={index}
+  //                   style={{paddingVertical: 10}}
+  //                   // style={{paddingVertical: 10}}
+  //                 >
+  //                   <View style={globalStyles.MainWrap}>
+  //                     <TouchableOpacity
+  //                       onPress={() => {
+  //                         dropDownHandler(index);
+  //                       }}>
+  //                       <View style={inquiryStyle.InquiryTitleWrap}>
+  //                         <View style={inquiryStyle.InquiryTitleLeft}>
+  //                           <Text style={inquiryStyle.InquiryMark}>Q</Text>
+  //                           <Text style={inquiryStyle.InquiryTitle}>
+  //                             {title}
+  //                           </Text>
+  //                         </View>
+  //                         <View style={inquiryStyle.InquiryTitleRight}>
+  //                           {dropDown[index] ? (
+  //                             <Image
+  //                               source={require('./../../../assets/dropUp.png')}></Image>
+  //                           ) : (
+  //                             <Image
+  //                               source={require('./../../../assets/dropdown.png')}></Image>
+  //                           )}
+  //                         </View>
+  //                       </View>
+  //                     </TouchableOpacity>
+  //                   </View>
+
+  //                   <Divider
+  //                     width={1.5}
+  //                     color={'#DBDBDB'}
+  //                     style={{paddingVertical: 10}}
+  //                   />
+  //                   <View>
+  //                     <View style={globalStyles.MainWrap}>
+  //                       {dropDown[index] ? (
+  //                         <View>
+  //                           <View style={inquiryStyle.ContentTextWrap}>
+  //                             <Text style={inquiryStyle.ContentText}>
+  //                               {content}
+  //                             </Text>
+  //                           </View>
+  //                           <View>
+  //                             <View>
+  //                               <View>
+  //                                 <Text>A.</Text>
+  //                                 {answer ? (
+  //                                   <View>
+  //                                     <Text>{answer}</Text>
+  //                                   </View>
+  //                                 ) : (
+  //                                   <View>
+  //                                     <Text>확인중입니다.</Text>
+  //                                   </View>
+  //                                 )}
+  //                               </View>
+  //                             </View>
+  //                           </View>
+  //                         </View>
+  //                       ) : null}
+  //                     </View>
+  //                   </View>
+  //                 </View>
+  //               </>
+  //             );
+  //           })}
+  //         </View>
+  //       </View>
+  //     </ScrollView>
+
+  //     <BottomNav navigation={navigation} />
+  //   </View>
+  // );
 };
 
 const styles = StyleSheet.create({
   scrollView: {
     height: Dimensions.get('window').height - 80,
   },
-  questiontitle: {
+  Inquirytitle: {
     color: 'black',
     marginLeft: '3%',
     fontStyle: 'normal',
@@ -218,7 +312,7 @@ const styles = StyleSheet.create({
     marginTop: '1%',
     width: '72%',
   },
-  questionmark: {
+  Inquirymark: {
     color: '#2262AD',
     marginLeft: '7%',
     fontFamily: 'Noto Sans',

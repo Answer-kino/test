@@ -937,7 +937,6 @@ const styles = StyleSheet.create({
     color: '#292929',
     marginLeft: '7%',
     marginTop: 50,
-    width: 81,
     height: 30,
     fontSize: 22,
     fontWeight: '700',

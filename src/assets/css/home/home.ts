@@ -36,10 +36,10 @@ const mainStyles = StyleSheet.create({
   },
   LoginBtnText: {
     fontSize: 18,
-    color: 'white',
     lineHeight: 24.5,
     textAlign: 'center',
     ...FontNotoSans.Android.Medium,
+    ...Colors.White,
     ...Weight.SemiBold,
   },
   LoginContentsWrap: {
@@ -99,7 +99,7 @@ const mainStyles = StyleSheet.create({
   MainNavigationBorderWrap: {
     width: '100%',
     alignSelf: 'center',
-    height: 200,
+    height: 215, //200->215
     backgroundColor: 'white',
     borderRadius: 20,
     borderBottomRightRadius: 40,
@@ -148,6 +148,14 @@ const mainStyles = StyleSheet.create({
   DescriptionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  DescriptionRowLeft: {
+    width: '70%',
+    justifyContent: 'flex-start',
+  },
+  DescriptionRowRight: {
+    width: '30%',
+    justifyContent: 'flex-end',
   },
   DescriptionText: {
     fontSize: 16,

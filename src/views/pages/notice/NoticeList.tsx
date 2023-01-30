@@ -33,6 +33,7 @@ const tmpObj: {[key: string]: any} = {
 };
 
 const NoticeList = ({navigation, route}: any) => {
+  console.log(route.params);
   const BBS_SERVICE = new API_BBS_SERVICE();
   const [noticeTitle, setNoticeTitle] = useState<string>();
   const [category, setCategory] = useState<any>();
@@ -60,6 +61,7 @@ const NoticeList = ({navigation, route}: any) => {
       const obj: any = {category: categoryKey, limit: 10, offset: 0};
       const result: any = await BBS_SERVICE.BBS_Category_Notice(obj);
       setNoticeInfo(result);
+
       // console.log('0106', result);
     } catch (error) {
       // console.log('getNotice :', error);
@@ -68,6 +70,7 @@ const NoticeList = ({navigation, route}: any) => {
 
   useEffect(() => {
     const {category} = route.params;
+
     /**
      * Error 핸들링
      */
@@ -124,6 +127,7 @@ const NoticeList = ({navigation, route}: any) => {
         {noticeInfo.map((item: any, index: any) => {
           const Title = item.Title;
           const temp = item.CreatedDay;
+          const boardIdx = item.IDX_BOARD;
           const CreateDay =
             temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
           return (
@@ -132,7 +136,12 @@ const NoticeList = ({navigation, route}: any) => {
                 {/* TODO: 공지사항 추가 작업 필 */}
                 <TouchableOpacity
                   key={index}
-                  onPress={() => navigation.push('Notice')}>
+                  onPress={() =>
+                    navigation.push('Notice', {
+                      boardIdx: boardIdx,
+                      category: category,
+                    })
+                  }>
                   <Text
                     style={{
                       fontSize: 18,
