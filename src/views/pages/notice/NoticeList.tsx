@@ -19,7 +19,7 @@ import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
-import {Colors, Weight} from '../../../assets/css/global/font';
+import {Colors, FontNotoSans, Weight} from '../../../assets/css/global/font';
 import {Divider} from '@rneui/base';
 import Dividers from '../../../components/divider/Dividers';
 
@@ -117,6 +117,7 @@ const NoticeList = ({navigation, route}: any) => {
             style={{
               fontSize: 19,
               lineHeight: 35,
+              ...FontNotoSans.Android.Medium,
               ...Weight.Bold,
               ...Colors[292929],
             }}>
@@ -133,7 +134,7 @@ const NoticeList = ({navigation, route}: any) => {
             temp.split('T')[0] + ' ' + temp.split('T')[1].split('.')[0];
           return (
             <>
-              <View style={globalStyles.MainWrap}>
+              <View style={globalStyles.MainWrap} key={index}>
                 {/* TODO: 공지사항 추가 작업 필 */}
                 <TouchableOpacity
                   key={index}
@@ -147,6 +148,7 @@ const NoticeList = ({navigation, route}: any) => {
                     style={{
                       fontSize: 18,
                       lineHeight: 35,
+                      ...FontNotoSans.Android.Medium,
                       ...Weight.Normal,
                       ...Colors[525252],
                     }}>
@@ -156,6 +158,7 @@ const NoticeList = ({navigation, route}: any) => {
                     style={{
                       fontSize: 15,
                       lineHeight: 35,
+                      ...FontNotoSans.Android.Medium,
                       ...Weight.Normal,
                       ...Colors[666666],
                     }}>
