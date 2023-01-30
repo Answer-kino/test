@@ -1,5 +1,5 @@
 import {Dimensions, Platform, StyleSheet} from 'react-native';
-import {Colors, Fonts, Weight} from '../global/font';
+import {Colors, FontNotoSans, Fonts, Weight} from '../global/font';
 
 const mainStyles = StyleSheet.create({
   Background: {
@@ -39,6 +39,7 @@ const mainStyles = StyleSheet.create({
     color: 'white',
     lineHeight: 24.5,
     textAlign: 'center',
+    ...FontNotoSans.Android.Medium,
     ...Weight.SemiBold,
   },
   LoginContentsWrap: {
@@ -51,6 +52,7 @@ const mainStyles = StyleSheet.create({
     color: 'white',
     lineHeight: 22,
     textAlign: 'center',
+    ...FontNotoSans.Android.Medium,
     ...Weight.SemiBold,
   },
 
@@ -83,6 +85,7 @@ const mainStyles = StyleSheet.create({
   },
   CarNumberBorderText: {
     fontSize: 17,
+    ...FontNotoSans.Android.Medium,
     ...Colors.PrimaryColor,
     ...Weight.Bold,
   },
@@ -122,6 +125,7 @@ const mainStyles = StyleSheet.create({
   MainNavigationBorderBtnText: {
     textAlign: 'center',
     fontSize: 12,
+    ...FontNotoSans.Android.Medium,
     ...Colors.PrimaryColor,
     ...Weight.Bold,
   },
@@ -137,6 +141,7 @@ const mainStyles = StyleSheet.create({
   },
   DescriptionTitle: {
     fontSize: 18,
+    ...FontNotoSans.Android.Medium,
     ...Colors[292929],
     ...Weight.Bold,
   },
@@ -147,6 +152,7 @@ const mainStyles = StyleSheet.create({
   DescriptionText: {
     fontSize: 16,
     lineHeight: 25,
+    ...FontNotoSans.Android.Medium,
     ...Colors[292929],
     ...Weight.Normal,
   },
@@ -165,6 +171,7 @@ const mainStyles = StyleSheet.create({
   },
   FooterTopText: {
     fontSize: 14,
+    ...FontNotoSans.Android.Medium,
     ...Colors[292929],
     ...Weight.Normal,
   },
@@ -176,6 +183,7 @@ const mainStyles = StyleSheet.create({
   FooterBottomText: {
     fontSize: 13,
     textAlign: 'center',
+    ...FontNotoSans.Android.Medium,
     ...Colors[666666],
     ...Weight.Normal,
   },

@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {Colors, Weight} from '../global/font';
+import {Colors, FontNotoSans, Weight} from '../global/font';
 
 const changeStyles = StyleSheet.create({
   TextInput: {
@@ -7,6 +7,7 @@ const changeStyles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
     paddingLeft: 15,
+    ...FontNotoSans.Android.Medium,
     ...Colors[292929],
     ...Weight.Normal,
   },
@@ -22,6 +23,7 @@ const changeStyles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
     paddingLeft: 15,
+    ...FontNotoSans.Android.Medium,
     ...Colors[292929],
     ...Weight.Normal,
   },
@@ -48,6 +50,7 @@ const changeStyles = StyleSheet.create({
     paddingRight: 10,
   },
   TextInputWithTimerText: {
+    ...FontNotoSans.Android.Medium,
     ...Colors[292929],
   },
   TextInputWithBtn: {
@@ -62,8 +65,7 @@ const changeStyles = StyleSheet.create({
     color: 'white',
     fontSize: 13,
     fontWeight: '500',
-    fontStyle: 'normal',
-    fontFamily: 'Noto Sans',
+    ...FontNotoSans.Android.Medium,
   },
   SubmitBtnWrap: {
     backgroundColor: '#6DADDB',
@@ -74,7 +76,7 @@ const changeStyles = StyleSheet.create({
     alignItems: 'center',
   },
   SubmitBtnText: {
-    fontFamily: 'Noto Sans',
+    ...FontNotoSans.Android.Medium,
     fontWeight: '500',
     fontSize: 16,
     color: 'white',
@@ -82,16 +84,19 @@ const changeStyles = StyleSheet.create({
   ErrorText: {
     color: 'red',
     fontSize: 12,
+    ...FontNotoSans.Android.Medium,
     paddingVertical: 7.5,
   },
   InformText: {
-    fontSize: 12,
     color: '#2D9DB6',
+    fontSize: 12,
+    ...FontNotoSans.Android.Medium,
     paddingVertical: 7.5,
   },
   SuccessText: {
     color: '#292929',
     fontSize: 12,
+    ...FontNotoSans.Android.Medium,
     paddingVertical: 7.5,
   },
 });
