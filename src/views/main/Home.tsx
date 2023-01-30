@@ -28,6 +28,7 @@ import {globalStyles} from '../../assets/css/global/styleSheet';
 import {mainStyles} from '../../assets/css/home/home';
 import {MarginBottom, MarginTop} from '../../assets/css/global/margin';
 import SideMenu from '../../components/sideMenu/SideMenu';
+import Dividers from '../../components/divider/Dividers';
 
 interface Capitalinfo {
   Capital: any;
@@ -152,11 +153,12 @@ const Home = ({navigation}: any) => {
                 </TouchableOpacity>
               </View>
             </View>
-            <Divider
+            {/* <Divider
               width={1}
               color={'white'}
               style={{opacity: 0.4, marginBottom: 12.5}}
-            />
+            /> */}
+            <Dividers></Dividers>
             <View style={globalStyles.MainWrap}>
               {isAccess && isAccess ? (
                 <View style={mainStyles.CarNumberWrap}>
@@ -233,7 +235,7 @@ const Home = ({navigation}: any) => {
                     </TouchableOpacity>
                   </View>
                   {/* End mainBottomNavigationBorder */}
-                  <Divider
+                  {/* <Divider
                     width={1}
                     style={{
                       width: '100%',
@@ -242,7 +244,8 @@ const Home = ({navigation}: any) => {
                       // marginBottom: 7,
                       opacity: 0.4,
                     }}
-                  />
+                  /> */}
+                  <Dividers></Dividers>
                   <View style={mainStyles.MainNavigationBorder}>
                     <TouchableOpacity
                       style={mainStyles.MainNavigationBorderBtnWrap}
@@ -374,10 +377,11 @@ const Home = ({navigation}: any) => {
             </View>
           </View>
           {/* End MainWrap */}
-          <Divider
+          {/* <Divider
             width={1}
             style={{marginBottom: 15, marginTop: 15, opacity: 0.4}}
-          />
+          /> */}
+          <Dividers marginTop="15" marginBottom="15"></Dividers>
           {/*  */}
           <View style={globalStyles.MainWrap}>
             <View style={mainStyles.FooterWrap}>

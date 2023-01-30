@@ -17,6 +17,10 @@ import {
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
+import CapitalNotice from '../../../assets/img/noticeCategory/capitalNotice.svg';
+import NftNotice from '../../../assets/img/noticeCategory/nftNotice.svg';
+import RecallNotice from '../../../assets/img/noticeCategory/recallNotice.svg';
+import Dividers from '../../../components/divider/Dividers';
 const NoticeCategory = ({navigation}: any) => {
   const naviHander = (category: string) => {
     navigation.push('NoticeList', {category});
@@ -51,7 +55,7 @@ const NoticeCategory = ({navigation}: any) => {
             style={styles.documentMenu}>
             <View style={styles.leftContainer}>
               <View style={styles.leftImg}>
-                <Image source={require('../../../assets/notice.png')} />
+                <CapitalNotice />
               </View>
               <Text style={styles.descriptionTitle}>캐피탈 공지</Text>
             </View>
@@ -60,13 +64,16 @@ const NoticeCategory = ({navigation}: any) => {
               source={require('../../../assets/NoticeArrow.png')}
             />
           </TouchableOpacity>
+        </View>
+        <Dividers />
+        <View style={styles.container}>
           <TouchableOpacity
             // onPress={() => navigation.push('NoticeList', {title: 'NFT공지'})}
             onPress={() => naviHander('nft')}
             style={styles.documentMenu}>
             <View style={styles.leftContainer}>
               <View style={styles.leftImg2}>
-                <Image source={require('../../../assets/NFT.png')} />
+                <NftNotice></NftNotice>
               </View>
               <Text style={styles.descriptionTitle}>NFT공지</Text>
             </View>
@@ -75,13 +82,16 @@ const NoticeCategory = ({navigation}: any) => {
               source={require('../../../assets/NoticeArrow.png')}
             />
           </TouchableOpacity>
+        </View>
+        <Dividers />
+        <View style={styles.container}>
           <TouchableOpacity
             // onPress={() => navigation.push('NoticeList', {title: '리콜 공지'})}
             onPress={() => naviHander('recall')}
             style={styles.documentMenu}>
             <View style={styles.leftContainer}>
               <View style={styles.leftImg3}>
-                <Image source={require('../../../assets/re_call.png')} />
+                <RecallNotice></RecallNotice>
               </View>
               <Text style={styles.descriptionTitle}>리콜 공지</Text>
             </View>
@@ -91,6 +101,7 @@ const NoticeCategory = ({navigation}: any) => {
             />
           </TouchableOpacity>
         </View>
+        <Dividers />
       </ScrollView>
       <BottomNav navigation={navigation} />
     </View>
@@ -103,13 +114,11 @@ const styles = StyleSheet.create({
   },
   container: {
     marginHorizontal: 30,
-    marginTop: 15,
   },
   documentMenu: {
     marginTop: 15,
-    paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderColor: '#D8D8D8',
+    marginBottom: 15,
+
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

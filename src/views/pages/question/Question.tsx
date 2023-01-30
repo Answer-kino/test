@@ -15,6 +15,7 @@ import API_Question from '../../../@api/question/question';
 import {Divider} from '@rneui/base';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
 import {questionStyles} from '../../../assets/css/question/question';
+import Dividers from '../../../components/divider/Dividers';
 
 type dropDownType = {
   [key: number]: boolean;
@@ -76,7 +77,7 @@ const Question = ({navigation}: any) => {
                 <>
                   <View
                     key={index}
-                    style={{paddingVertical: 10}}
+                    // style={{paddingVertical: 10}}
                     // style={{paddingVertical: 10}}
                   >
                     <View style={globalStyles.MainWrap}>
@@ -104,11 +105,12 @@ const Question = ({navigation}: any) => {
                       </TouchableOpacity>
                     </View>
 
-                    <Divider
+                    {/* <Divider
                       width={1.5}
                       color={'#DBDBDB'}
                       style={{paddingVertical: 10}}
-                    />
+                    /> */}
+                    <Dividers marginTop="20" marginBottom="20" />
                     <View style={questionStyles.ContentTextWrap}>
                       <View style={globalStyles.MainWrap}>
                         {dropDown[index] ? (

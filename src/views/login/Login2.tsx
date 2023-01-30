@@ -38,32 +38,6 @@ const Login2 = ({navigation}: any) => {
     }
   };
 
-  const clearData = () => {
-    // console.log('num', carNumber, 'pwd', pwd);
-    setCarNumber(' ');
-    setPwd(' ');
-  };
-
-  // useEffect(() => {
-  //   const backAction = () => {
-  //     Alert.alert('뒤로가기', '뒤로가기 누를 시 입력된 데이터가 사라집니다.', [
-  //       {
-  //         text: '취소',
-
-  //         onPress: () => null,
-  //       },
-  //       {text: '확인', onPress: () => clearData()},
-  //     ]);
-
-  //     return true;
-  //   };
-
-  //   const backHandler = BackHandler.addEventListener(
-  //     'hardwareBackPress',
-  //     backAction
-  //   );
-  // }, []);
-
   useEffect(() => {
     const backAction = () => {
       Alert.alert('종료', '앱을 종료하시겠습니까?', [

@@ -13,6 +13,7 @@ import SideArrow from '../../assets/sideArrow.svg';
 import X from '../../assets/x.svg';
 import Logout from '../../assets/Logout.svg';
 import {Divider} from '@rneui/base';
+import Dividers from '../divider/Dividers';
 interface SideMenuProps {
   open: boolean;
   toggleOpen: Function;
@@ -111,7 +112,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                   <SideArrow />
                 </TouchableOpacity>
               </View>
-              <Divider></Divider>
+              <Dividers></Dividers>
               <View style={styles.sideMenuContainer}>
                 <TouchableOpacity
                   style={styles.sideMenuSection}
@@ -125,7 +126,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                   <SideArrow />
                 </TouchableOpacity>
               </View>
-              <Divider></Divider>
+              <Dividers></Dividers>
               <View style={styles.sideMenuContainer}>
                 <TouchableOpacity
                   style={styles.sideMenuSection}
@@ -140,7 +141,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                   <SideArrow />
                 </TouchableOpacity>
               </View>
-              <Divider></Divider>
+              <Dividers></Dividers>
               <View style={styles.sideMenuContainer}>
                 <TouchableOpacity
                   style={styles.sideMenuSection}
@@ -156,7 +157,7 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
                   <SideArrow />
                 </TouchableOpacity>
               </View>
-              <Divider></Divider>
+              <Dividers></Dividers>
               <View
                 style={{
                   overflow: 'hidden',

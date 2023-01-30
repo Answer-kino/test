@@ -30,6 +30,7 @@ import {Divider} from '@rneui/base';
 import {globalStyles} from '../../assets/css/global/styleSheet';
 import {MarginBottom} from '../../assets/css/global/margin';
 import {modalStyles} from '../../assets/css/modal/modal';
+import Dividers from '../../components/divider/Dividers';
 
 interface myDatatype {
   CarNumber?: string;
@@ -391,11 +392,12 @@ const Mypage = ({navigation}: any) => {
               </View>
             </View>
             {/* tmp end */}
-            <Divider
+            {/* <Divider
               color="#d7d7d7"
               width={0.5}
               style={{marginTop: 20, marginBottom: 12}}
-            />
+            /> */}
+            <Dividers marginTop="20" marginBottom="12"></Dividers>
             <View style={styles.mainContainerRow}>
               <View>
                 <Text style={styles.mainContainerRowText}>

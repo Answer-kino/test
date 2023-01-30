@@ -17,6 +17,7 @@ import {globalStyles} from '../../../assets/css/global/styleSheet';
 import {inquiryStyle} from '../../../assets/css/inquiry/inquiry';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
+import Dividers from '../../../components/divider/Dividers';
 
 import TopNav from '../../../components/topNav/TopNav';
 
@@ -82,221 +83,258 @@ const InquiryList = ({navigation}: any) => {
 
     return () => backHandler.remove();
   }, []);
-  return (
-    <View>
-      <TopNav navigation={navigation} title="문의 목록" />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}>
-          {inquiryListInfo.map((item: any, index: number) => {
-            const title = item.Title;
-            const content = item.Content;
-            const answer = item.AdminAnswer;
-            const number = item.IDX_ENQ;
-            return (
-              <View key={index}>
-                <View>
-                  <TouchableOpacity
-                    style={{marginTop: '3%'}}
-                    onPress={() => {
-                      dropDownHandler(index);
-                      // setDropDown2(!dropDown2);
-                      // console.log(dropDown);
-                      // console.log(index);
-                    }}>
-                    <View
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        marginTop: '5%',
-                      }}>
-                      <Text style={styles.Inquirymark}>Q</Text>
-                      <Text style={styles.Inquirytitle}>{title}</Text>
-
-                      {dropDown[index] ? (
-                        <Image
-                          style={styles.dropdownimg}
-                          source={require('./../../../assets/dropUp.png')}></Image>
-                      ) : (
-                        <Image
-                          style={styles.dropdownimg}
-                          source={require('./../../../assets/dropdown.png')}></Image>
-                      )}
-                    </View>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <View>
-                    {dropDown[index] === true ? (
-                      <>
-                        <View
-                          style={{
-                            backgroundColor: '#E9E9E9',
-                            width: '80%',
-                            marginLeft: '7%',
-                            marginTop: 10,
-                          }}>
-                          <Text style={styles.contenttext}>{content}</Text>
-                          {answer === null ? (
-                            <View
-                              style={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                justifyContent: 'flex-end',
-                                marginRight: 10,
-                                marginBottom: 5,
-                              }}>
-                              <TouchableOpacity
-                                onPress={() => {
-                                  navigation.navigate('InquiryEdit', {
-                                    IDX_ENQ: number,
-                                    title: title,
-                                    content: content,
-                                  });
-                                }}>
-                                <View style={styles.modifyBtn}>
-                                  <Text style={{color: 'white'}}>수정</Text>
-                                </View>
-                              </TouchableOpacity>
-                              <TouchableOpacity
-                                onPress={deleteInquiryList(number)}>
-                                <View style={styles.deleteBtn}>
-                                  <Text style={{color: 'white'}}>삭제</Text>
-                                </View>
-                              </TouchableOpacity>
-                            </View>
-                          ) : null}
-                        </View>
-                        <View>
-                          <View
-                            style={{
-                              display: 'flex',
-                              flexDirection: 'row',
-                              marginTop: 10,
-                            }}>
-                            <Text style={styles.Inquirymark}>A</Text>
-                            <Text style={styles.Inquirytitle}>답변</Text>
-                          </View>
-                          <View
-                            style={{
-                              backgroundColor: '#E9E9E9',
-                              width: '80%',
-                              marginLeft: '7%',
-                              marginTop: 10,
-                            }}>
-                            <Text style={styles.contenttext}>
-                              {answer === null ? '확인 중입니다.' : answer}
-                            </Text>
-                          </View>
-                        </View>
-                      </>
-                    ) : null}
-                  </View>
-                </View>
-              </View>
-            );
-          })}
-        </View>
-        <View style={{marginTop: 110}}></View>
-      </ScrollView>
-      <BottomNav navigation={navigation} />
-    </View>
-  );
   // return (
-  //   <View style={globalStyles.BodyWrap}>
+  //   <View>
   //     <TopNav navigation={navigation} title="문의 목록" />
   //     <ScrollView
   //       contentInsetAdjustmentBehavior="automatic"
-  //       style={globalStyles.ScrollViewBorder}>
-  //       <View style={globalStyles.FlexColumn}>
-  //         <View>
-  //           {inquiryListInfo.map((item: any, index: number) => {
-  //             const title = item.Title;
-  //             const content = item.Content;
-  //             const answer = item.AdminAnswer;
-  //             const number = item.IDX_ENQ;
-  //             return (
-  //               <>
-  //                 <View
-  //                   key={index}
-  //                   style={{paddingVertical: 10}}
-  //                   // style={{paddingVertical: 10}}
-  //                 >
-  //                   <View style={globalStyles.MainWrap}>
-  //                     <TouchableOpacity
-  //                       onPress={() => {
-  //                         dropDownHandler(index);
-  //                       }}>
-  //                       <View style={inquiryStyle.InquiryTitleWrap}>
-  //                         <View style={inquiryStyle.InquiryTitleLeft}>
-  //                           <Text style={inquiryStyle.InquiryMark}>Q</Text>
-  //                           <Text style={inquiryStyle.InquiryTitle}>
-  //                             {title}
+  //       style={styles.scrollView}>
+  //       <View
+  //         style={{
+  //           display: 'flex',
+  //           flexDirection: 'column',
+  //         }}>
+  //         {inquiryListInfo.map((item: any, index: number) => {
+  //           const title = item.Title;
+  //           const content = item.Content;
+  //           const answer = item.AdminAnswer;
+  //           const number = item.IDX_ENQ;
+  //           return (
+  //             <View key={index}>
+  //               <View>
+  //                 <TouchableOpacity
+  //                   style={{marginTop: '3%'}}
+  //                   onPress={() => {
+  //                     dropDownHandler(index);
+  //                     // setDropDown2(!dropDown2);
+  //                     // console.log(dropDown);
+  //                     // console.log(index);
+  //                   }}>
+  //                   <View
+  //                     style={{
+  //                       display: 'flex',
+  //                       flexDirection: 'row',
+  //                       marginTop: '5%',
+  //                     }}>
+  //                     <Text style={styles.Inquirymark}>Q</Text>
+  //                     <Text style={styles.Inquirytitle}>{title}</Text>
+
+  //                     {dropDown[index] ? (
+  //                       <Image
+  //                         style={styles.dropdownimg}
+  //                         source={require('./../../../assets/dropUp.png')}></Image>
+  //                     ) : (
+  //                       <Image
+  //                         style={styles.dropdownimg}
+  //                         source={require('./../../../assets/dropdown.png')}></Image>
+  //                     )}
+  //                   </View>
+  //                 </TouchableOpacity>
+  //               </View>
+  //               <View>
+  //                 <View>
+  //                   {dropDown[index] === true ? (
+  //                     <>
+  //                       <View
+  //                         style={{
+  //                           backgroundColor: '#E9E9E9',
+  //                           width: '80%',
+  //                           marginLeft: '7%',
+  //                           marginTop: 10,
+  //                         }}>
+  //                         <Text style={styles.contenttext}>{content}</Text>
+  //                         {answer === null ? (
+  //                           <View
+  //                             style={{
+  //                               display: 'flex',
+  //                               flexDirection: 'row',
+  //                               justifyContent: 'flex-end',
+  //                               marginRight: 10,
+  //                               marginBottom: 5,
+  //                             }}>
+  //                             <TouchableOpacity
+  //                               onPress={() => {
+  //                                 navigation.navigate('InquiryEdit', {
+  //                                   IDX_ENQ: number,
+  //                                   title: title,
+  //                                   content: content,
+  //                                 });
+  //                               }}>
+  //                               <View style={styles.modifyBtn}>
+  //                                 <Text style={{color: 'white'}}>수정</Text>
+  //                               </View>
+  //                             </TouchableOpacity>
+  //                             <TouchableOpacity
+  //                               onPress={deleteInquiryList(number)}>
+  //                               <View style={styles.deleteBtn}>
+  //                                 <Text style={{color: 'white'}}>삭제</Text>
+  //                               </View>
+  //                             </TouchableOpacity>
+  //                           </View>
+  //                         ) : null}
+  //                       </View>
+  //                       <View>
+  //                         <View
+  //                           style={{
+  //                             display: 'flex',
+  //                             flexDirection: 'row',
+  //                             marginTop: 10,
+  //                           }}>
+  //                           <Text style={styles.Inquirymark}>A</Text>
+  //                           <Text style={styles.Inquirytitle}>답변</Text>
+  //                         </View>
+  //                         <View
+  //                           style={{
+  //                             backgroundColor: '#E9E9E9',
+  //                             width: '80%',
+  //                             marginLeft: '7%',
+  //                             marginTop: 10,
+  //                           }}>
+  //                           <Text style={styles.contenttext}>
+  //                             {answer === null ? '확인 중입니다.' : answer}
   //                           </Text>
   //                         </View>
-  //                         <View style={inquiryStyle.InquiryTitleRight}>
-  //                           {dropDown[index] ? (
-  //                             <Image
-  //                               source={require('./../../../assets/dropUp.png')}></Image>
-  //                           ) : (
-  //                             <Image
-  //                               source={require('./../../../assets/dropdown.png')}></Image>
-  //                           )}
-  //                         </View>
   //                       </View>
-  //                     </TouchableOpacity>
-  //                   </View>
-
-  //                   <Divider
-  //                     width={1.5}
-  //                     color={'#DBDBDB'}
-  //                     style={{paddingVertical: 10}}
-  //                   />
-  //                   <View>
-  //                     <View style={globalStyles.MainWrap}>
-  //                       {dropDown[index] ? (
-  //                         <View>
-  //                           <View style={inquiryStyle.ContentTextWrap}>
-  //                             <Text style={inquiryStyle.ContentText}>
-  //                               {content}
-  //                             </Text>
-  //                           </View>
-  //                           <View>
-  //                             <View>
-  //                               <View>
-  //                                 <Text>A.</Text>
-  //                                 {answer ? (
-  //                                   <View>
-  //                                     <Text>{answer}</Text>
-  //                                   </View>
-  //                                 ) : (
-  //                                   <View>
-  //                                     <Text>확인중입니다.</Text>
-  //                                   </View>
-  //                                 )}
-  //                               </View>
-  //                             </View>
-  //                           </View>
-  //                         </View>
-  //                       ) : null}
-  //                     </View>
-  //                   </View>
+  //                     </>
+  //                   ) : null}
   //                 </View>
-  //               </>
-  //             );
-  //           })}
-  //         </View>
+  //               </View>
+  //             </View>
+  //           );
+  //         })}
   //       </View>
+  //       <View style={{marginTop: 110}}></View>
   //     </ScrollView>
-
   //     <BottomNav navigation={navigation} />
   //   </View>
   // );
+  return (
+    <View style={globalStyles.BodyWrap}>
+      <TopNav navigation={navigation} title="문의 목록" />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={globalStyles.ScrollViewBorder}>
+        <View style={globalStyles.FlexColumn}>
+          <View>
+            {inquiryListInfo.map((item: any, index: number) => {
+              const title = item.Title;
+              const content = item.Content;
+
+              const answer = item.AdminAnswer;
+              const number = item.IDX_ENQ;
+              return (
+                <>
+                  <View key={index} style={{paddingVertical: 10}}>
+                    <View style={globalStyles.MainWrap}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          dropDownHandler(index);
+                        }}>
+                        <View style={inquiryStyle.InquiryTitleWrap}>
+                          <View style={inquiryStyle.InquiryTitleLeft}>
+                            <Text style={inquiryStyle.InquiryMark}>Q</Text>
+                            <Text style={inquiryStyle.InquiryTitle}>
+                              {title}
+                            </Text>
+                          </View>
+                          <View style={inquiryStyle.InquiryTitleRight}>
+                            {dropDown[index] ? (
+                              <Image
+                                source={require('./../../../assets/dropUp.png')}></Image>
+                            ) : (
+                              <Image
+                                source={require('./../../../assets/dropdown.png')}></Image>
+                            )}
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+
+                    {/* Content Section Start */}
+                    <View>
+                      <View style={inquiryStyle.ContentWrap}>
+                        {dropDown[index] ? (
+                          <View>
+                            <View style={inquiryStyle.ContentTextWrap}>
+                              <Text style={inquiryStyle.ContentText}>
+                                {content}
+                              </Text>
+                            </View>
+                            {/* Centent Section End */}
+                            {/* Answer Section Start */}
+                            <View>
+                              <View>
+                                <View style={inquiryStyle.AnswerWrap}>
+                                  <View style={inquiryStyle.AnswerTop}>
+                                    <Text style={inquiryStyle.InquiryMark}>
+                                      A
+                                    </Text>
+                                    <Text style={inquiryStyle.InquiryTitle}>
+                                      답변
+                                    </Text>
+                                  </View>
+                                  {answer ? (
+                                    <View style={inquiryStyle.ContentTextWrap}>
+                                      <Text style={inquiryStyle.ContentText}>
+                                        {answer}
+                                      </Text>
+                                    </View>
+                                  ) : (
+                                    <View style={inquiryStyle.ContentTextWrap}>
+                                      <View>
+                                        <Text style={inquiryStyle.ContentText}>
+                                          확인중입니다.
+                                        </Text>
+                                      </View>
+                                      <View style={inquiryStyle.BtnWrap}>
+                                        <TouchableOpacity
+                                          onPress={() => {
+                                            navigation.navigate('InquiryEdit', {
+                                              IDX_ENQ: number,
+                                              title: title,
+                                              content: content,
+                                            });
+                                          }}>
+                                          <View style={inquiryStyle.ModifyBtn}>
+                                            <Text style={inquiryStyle.BtnText}>
+                                              수정
+                                            </Text>
+                                          </View>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                          onPress={deleteInquiryList(number)}>
+                                          <View style={inquiryStyle.DeleteBtn}>
+                                            <Text style={inquiryStyle.BtnText}>
+                                              삭제
+                                            </Text>
+                                          </View>
+                                        </TouchableOpacity>
+                                      </View>
+                                    </View>
+                                  )}
+                                </View>
+                              </View>
+                            </View>
+                          </View>
+                        ) : null}
+                      </View>
+                    </View>
+                  </View>
+                  {/* <Divider
+                    style={{marginVertical: '3%'}}
+                    color="#DBDBDB"
+                    width={1}></Divider> */}
+                  <Dividers marginTop="11" marginBottom="11"></Dividers>
+                </>
+              );
+            })}
+          </View>
+        </View>
+      </ScrollView>
+
+      <BottomNav navigation={navigation} />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

@@ -16,8 +16,11 @@ import {
 } from 'react-native';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
+import Dividers from '../../../components/divider/Dividers';
 import TopNav from '../../../components/topNav/TopNav';
-
+import Insurance from '../../../assets/img/carDocument/insurance.svg';
+import CarRegister from '../../../assets/img/carDocument/carregister.svg';
+import Nft from '../../../assets/img/carDocument/nft.svg';
 const CarDocument = ({navigation}: any) => {
   useEffect(() => {
     const backAction = () => {
@@ -45,7 +48,7 @@ const CarDocument = ({navigation}: any) => {
             onPress={() => {
               navigation.push('NFTDocument');
             }}>
-            <Image source={require('../../../assets/document2.png')} />
+            <Nft></Nft>
             <View style={styles.descriptionContainer}>
               <Text style={styles.descriptionTitle}>NFT 보증서</Text>
               <Text style={styles.text}>
@@ -54,37 +57,40 @@ const CarDocument = ({navigation}: any) => {
             </View>
           </TouchableOpacity>
         </View>
-        <Divider style={{marginTop: 10, opacity: 0.4}}></Divider>
+        {/* <Divider color="#DBDBDB" width={0.7} style={{opacity: 0.6}}></Divider> */}
+        <Dividers marginTop="10"></Dividers>
         <View style={styles.container}>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('CarRegister');
             }}>
             <View style={styles.documentMenu}>
-              <Image source={require('../../../assets/document1.png')} />
+              <CarRegister></CarRegister>
               <View style={styles.descriptionContainer}>
                 <Text style={styles.descriptionTitle}>차량등록증</Text>
                 <Text style={styles.text}>내 차량등록증 확인하기</Text>
               </View>
             </View>
-            <Divider style={{marginTop: 10, opacity: 0.4}}></Divider>
+            {/* <Divider style={{marginTop: 10, opacity: 0.4}}></Divider> */}
           </TouchableOpacity>
         </View>
+        <Dividers marginTop="10"></Dividers>
         <View style={styles.container}>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('Insurance');
             }}>
             <View style={styles.documentMenu}>
-              <Image source={require('../../../assets/insurance.png')} />
+              <Insurance></Insurance>
               <View style={styles.descriptionContainer}>
                 <Text style={styles.descriptionTitle}>보험가입증명서</Text>
                 <Text style={styles.text}>내 보험가입 증명서 확인하기</Text>
               </View>
             </View>
           </TouchableOpacity>
-          <Divider style={{marginTop: 10, opacity: 0.4}}></Divider>
+          {/* <Divider style={{marginTop: 10, opacity: 0.4}}></Divider> */}
         </View>
+        <Dividers></Dividers>
       </ScrollView>
       <BottomNav navigation={navigation} />
     </View>
@@ -97,13 +103,14 @@ const styles = StyleSheet.create({
   },
   container: {
     marginHorizontal: 30,
-    marginTop: 15,
+    marginTop: 10, // 15->10
   },
   documentMenu: {
     flexDirection: 'row',
     marginHorizontal: 10,
     marginTop: 15,
     paddingBottom: 15,
+    alignItems: 'center',
     // borderBottomWidth: 1,
     // borderColor: '#D8D8D8',
   },

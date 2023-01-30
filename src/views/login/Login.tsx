@@ -458,7 +458,7 @@ const Login = ({navigation}: any) => {
           text: '취소',
           onPress: () => null,
         },
-        {text: '확인', onPress: () => navigation.pop()},
+        {text: '확인', onPress: () => navigation.replace('Login2')},
       ]);
       return true;
     };
@@ -467,7 +467,7 @@ const Login = ({navigation}: any) => {
       'hardwareBackPress',
       backAction
     );
-  }, []);
+  }, [navigation]);
 
   return (
     <View style={styles.full}>
@@ -748,6 +748,7 @@ const Login = ({navigation}: any) => {
               </TouchableOpacity>
             </View>
             <Divider width={2} style={{marginBottom: 8, marginTop: 8}} />
+
             <View style={styles.checkBoxView}>
               <CheckBox
                 value={checkBox.termsOfService}
