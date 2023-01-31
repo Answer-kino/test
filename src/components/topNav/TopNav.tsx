@@ -6,6 +6,7 @@ import Hamburger from '../../assets/hamburger2.svg';
 import {globalStyles} from '../../assets/css/global/styleSheet';
 import {topNavStyles} from '../../assets/css/global/topNav';
 import Dividers from '../divider/Dividers';
+import {Font} from '../../assets/css/global/newFont';
 
 interface TopNavProps {
   title: string;
@@ -28,7 +29,7 @@ const TopNav = (props: TopNavProps) => {
             <BackArrow />
           </TouchableOpacity>
 
-          <Text style={topNavStyles.Title}>{props.title}</Text>
+          <Text style={Font.TopNavTitle}>{props.title}</Text>
 
           <TouchableOpacity onPress={toggleOpen}>
             <Hamburger />

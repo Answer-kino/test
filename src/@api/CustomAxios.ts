@@ -5,8 +5,8 @@ import {globalConfig} from '../@config/config';
 
 class AxiosInstance {
   private TIME_OUT = 60 * 1000;
-  private BASE_URL = globalConfig.URL.API;
-  // private BASE_URL = 'http://192.168.10.14:4500/api/';
+  // private BASE_URL = globalConfig.URL.API;
+  private BASE_URL = 'http://192.168.10.14:4500/api/';
 
   public API = axios.create({
     baseURL: this.BASE_URL,
