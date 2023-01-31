@@ -60,7 +60,7 @@ const Inquiry = ({navigation}: any) => {
           style={inquiryStyle.TitleTextInput}
           placeholder="문의 제목"
           placeholderTextColor="#898989"
-          // maxLength={50}
+          maxLength={50}
           onChangeText={text => {
             setTitle(text);
           }}

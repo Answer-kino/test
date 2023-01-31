@@ -12,7 +12,7 @@ import Inquiry from '../../assets/inquiry.svg';
 import SideArrow from '../../assets/sideArrow.svg';
 import X from '../../assets/x.svg';
 import Logout from '../../assets/Logout.svg';
-import {Divider} from '@rneui/base';
+
 import Dividers from '../divider/Dividers';
 interface SideMenuProps {
   open: boolean;
