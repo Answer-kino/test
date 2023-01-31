@@ -1,15 +1,15 @@
-import {Dimensions, Platform, StyleSheet} from 'react-native';
-import {Colors, FontNotoSans, Fonts, Weight} from '../global/font';
+import {Platform, StyleSheet} from 'react-native';
+import {Colors, Weight} from '../global/font';
 
 const mainStyles = StyleSheet.create({
   Background: {
-    height: 326,
+    height: 340,
     overflow: 'visible',
     marginBottom: 60,
   },
   TopStyle: {
     width: '100%',
-    height: 56,
+    height: 70,
     marginHorizontal: '4%',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -34,26 +34,11 @@ const mainStyles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: 'center',
   },
-  LoginBtnText: {
-    fontSize: 18,
-    lineHeight: 24.5,
-    textAlign: 'center',
-    ...FontNotoSans.Android.Medium,
-    ...Colors.White,
-    ...Weight.SemiBold,
-  },
+
   LoginContentsWrap: {
     display: 'flex',
     marginVertical: 15,
     justifyContent: 'center',
-  },
-  LoginContentsText: {
-    fontSize: 16,
-    color: 'white',
-    lineHeight: 22,
-    textAlign: 'center',
-    ...FontNotoSans.Android.Medium,
-    ...Weight.SemiBold,
   },
 
   // 차량번호 & 바코드
@@ -80,14 +65,9 @@ const mainStyles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     paddingHorizontal: 27.5,
-  },
-  CarNumberBorderText: {
-    fontSize: 17,
-    ...FontNotoSans.Android.Medium,
-    ...Colors.PrimaryColor,
-    ...Weight.Bold,
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 
   // 중앙 네비게이션
@@ -99,7 +79,7 @@ const mainStyles = StyleSheet.create({
   MainNavigationBorderWrap: {
     width: '100%',
     alignSelf: 'center',
-    height: 215, //200->215
+    height: 200,
     backgroundColor: 'white',
     borderRadius: 20,
     borderBottomRightRadius: 40,
@@ -125,7 +105,6 @@ const mainStyles = StyleSheet.create({
   MainNavigationBorderBtnText: {
     textAlign: 'center',
     fontSize: 12,
-    ...FontNotoSans.Android.Medium,
     ...Colors.PrimaryColor,
     ...Weight.Bold,
   },
@@ -141,7 +120,6 @@ const mainStyles = StyleSheet.create({
   },
   DescriptionTitle: {
     fontSize: 18,
-    ...FontNotoSans.Android.Medium,
     ...Colors[292929],
     ...Weight.Bold,
   },
@@ -149,18 +127,9 @@ const mainStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  DescriptionRowLeft: {
-    width: '70%',
-    justifyContent: 'flex-start',
-  },
-  DescriptionRowRight: {
-    width: '30%',
-    justifyContent: 'flex-end',
-  },
   DescriptionText: {
     fontSize: 16,
     lineHeight: 25,
-    ...FontNotoSans.Android.Medium,
     ...Colors[292929],
     ...Weight.Normal,
   },
@@ -179,7 +148,6 @@ const mainStyles = StyleSheet.create({
   },
   FooterTopText: {
     fontSize: 14,
-    ...FontNotoSans.Android.Medium,
     ...Colors[292929],
     ...Weight.Normal,
   },
@@ -191,7 +159,6 @@ const mainStyles = StyleSheet.create({
   FooterBottomText: {
     fontSize: 13,
     textAlign: 'center',
-    ...FontNotoSans.Android.Medium,
     ...Colors[666666],
     ...Weight.Normal,
   },

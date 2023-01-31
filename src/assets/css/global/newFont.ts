@@ -304,7 +304,7 @@ export const Font = StyleSheet.create({
   },
 
   //계약확인
-  ContractCheckTitle: {...NotoSansKRBlackText('Nero', 700, 16)},
+  ContractCheckTitle: {...NotoSansKRBlackText('Nero', 700, 16), lineHeight: 35},
   ContractCheckLeft: {...NotoSansKRBlackText('Nero', 500, 16)},
   ContractCheckRight: {...NotoSansKRBlackText('DimGray', 500, 15)},
   ContractCheckCheckBtn: {...NotoSansKRWhiteText('White', 500, 14)},
