@@ -22,6 +22,7 @@ import {Weight} from '../../../assets/css/global/font';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
+import Dividers from '../../../components/divider/Dividers';
 import TopNav from '../../../components/topNav/TopNav';
 
 const CommunityBoardList = ({navigation, route}: any) => {
@@ -98,7 +99,8 @@ const CommunityBoardList = ({navigation, route}: any) => {
             자유게시판
           </Text>
         </View>
-        <Divider width={1} style={{marginVertical: 15}} />
+        {/* <Divider width={1} style={{marginVertical: 15}} /> */}
+        <Dividers marginTop="15" marginBottom="15" />
         {commnuityList.map((item, index) => {
           console.log(item);
           const {
@@ -147,7 +149,8 @@ const CommunityBoardList = ({navigation, route}: any) => {
                   </Text>
                 </View>
               </View>
-              <Divider width={1} style={{marginVertical: 15}} />
+              {/* <Divider width={1} style={{marginVertical: 15}} /> */}
+              <Dividers marginTop="15" marginBottom="15" />
             </>
           );
         })}

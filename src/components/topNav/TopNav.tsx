@@ -1,4 +1,3 @@
-import {Divider} from '@rneui/base';
 import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import SideMenu from '../sideMenu/SideMenu';
@@ -6,6 +5,7 @@ import BackArrow from '../../assets/BackArrow.svg';
 import Hamburger from '../../assets/hamburger2.svg';
 import {globalStyles} from '../../assets/css/global/styleSheet';
 import {topNavStyles} from '../../assets/css/global/topNav';
+import Dividers from '../divider/Dividers';
 
 interface TopNavProps {
   title: string;
@@ -35,7 +35,7 @@ const TopNav = (props: TopNavProps) => {
           </TouchableOpacity>
         </View>
       </View>
-      <Divider width={1} />
+      <Dividers></Dividers>
     </View>
   );
 };

@@ -21,6 +21,7 @@ import TopNav from '../../../components/topNav/TopNav';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
 import {Colors, FontNotoSans, Weight} from '../../../assets/css/global/font';
 import {Divider} from '@rneui/base';
+import Dividers from '../../../components/divider/Dividers';
 
 const tmpObj: {[key: string]: any} = {
   capital: {
@@ -123,7 +124,8 @@ const NoticeList = ({navigation, route}: any) => {
             {noticeTitle}
           </Text>
         </View>
-        <Divider width={1} style={{marginVertical: 15}} />
+        {/* <Divider width={1} style={{marginVertical: 15}} /> */}
+        <Dividers marginTop="15" marginBottom="15"></Dividers>
         {noticeInfo.map((item: any, index: any) => {
           const Title = item.Title;
           const temp = item.CreatedDay;
@@ -164,7 +166,8 @@ const NoticeList = ({navigation, route}: any) => {
                   </Text>
                 </TouchableOpacity>
               </View>
-              <Divider width={1} style={{marginVertical: 15}} />
+              {/* <Divider width={1} style={{marginVertical: 15}} /> */}
+              <Dividers marginTop="15" marginBottom="15" />
             </>
           );
         })}

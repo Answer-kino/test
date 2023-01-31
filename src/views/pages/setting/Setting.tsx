@@ -14,6 +14,7 @@ import TopNav from '../../../components/topNav/TopNav';
 import Navigation from '../../../assets/Vector.svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Divider} from '@rneui/base';
+import Dividers from '../../../components/divider/Dividers';
 
 const Setting = ({navigation}: any) => {
   const checkToken = async () => {
@@ -84,11 +85,12 @@ const Setting = ({navigation}: any) => {
           </View>
         </View>
         {/* End Component Top */}
-        <Divider
+        {/* <Divider
           width={0.5}
           color="#72ABEE"
           style={{marginTop: 15, marginBottom: 15}}
-        />
+        /> */}
+        <Dividers color="#72ABEE" marginTop="15" marginBottom="15" />
         {/* Conponent Body-1 */}
         <View style={{width: '90%', alignSelf: 'center'}}>
           {/* Body - Content 1 */}
@@ -124,11 +126,12 @@ const Setting = ({navigation}: any) => {
           {/* End Body - Content 1 */}
         </View>
         {/* End Conponent Body */}
-        <Divider
+        {/* <Divider
           width={1}
           color="#C7C7C7"
           style={{marginTop: 15, marginBottom: 15}}
-        />
+        /> */}
+        <Dividers color="#C7C7C7" marginTop="15" marginBottom="15" />
         {/* Conponent Body */}
         <View style={{width: '90%', alignSelf: 'center'}}>
           {/* Body - Content 2 */}
@@ -231,11 +234,12 @@ const Setting = ({navigation}: any) => {
           </View>
         </View>
         {/* End Component Top */}
-        <Divider
+        {/* <Divider
           width={0.5}
           color="#72ABEE"
           style={{marginTop: 15, marginBottom: 15}}
-        />
+        /> */}
+        <Dividers color="#72ABEE" marginTop="15" marginBottom="15" />
         {/* Conponent Body-1 */}
         <View style={{width: '90%', alignSelf: 'center'}}>
           {/* Body - Content 1 */}
@@ -271,11 +275,12 @@ const Setting = ({navigation}: any) => {
           {/* End Body - Content 1 */}
         </View>
         {/* End Conponent Body */}
-        <Divider
+        {/* <Divider
           width={1}
           color="#C7C7C7"
           style={{marginTop: 15, marginBottom: 15}}
-        />
+        /> */}
+        <Dividers color="#C7C7C7" marginTop="15" marginBottom="15" />
       </View>
       <View
         style={{width: Dimensions.get('screen').width, alignSelf: 'center'}}>
@@ -302,11 +307,12 @@ const Setting = ({navigation}: any) => {
           </View>
         </View>
         {/* End Component Top */}
-        <Divider
+        {/* <Divider
           width={0.5}
           color="#72ABEE"
           style={{marginTop: 15, marginBottom: 15}}
-        />
+        /> */}
+        <Dividers color="#72ABEE" marginTop="15" marginBottom="15" />
 
         {/* Conponent Body */}
         <View style={{width: '90%', alignSelf: 'center'}}>
@@ -347,11 +353,12 @@ const Setting = ({navigation}: any) => {
 
           {/* End Body - Content 2 */}
         </View>
-        <Divider
+        {/* <Divider
           width={1}
           color="#C7C7C7"
           style={{marginTop: 15, marginBottom: 15}}
-        />
+        /> */}
+        <Dividers color="#C7C7C7" marginTop="15" marginBottom="15" />
         {/* End Conponent Body */}
       </View>
     </View>
