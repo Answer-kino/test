@@ -26,6 +26,7 @@ import TopNav from '../../../components/topNav/TopNav';
 import ModalCloseBtn from '../../../assets/modalclosetbtn.svg';
 import {Divider} from '@rneui/base';
 import Dividers from '../../../components/divider/Dividers';
+import {Font} from '../../../assets/css/global/newFont';
 
 const ContractCheck = ({navigation}: any) => {
   const CAPITAL_SERVICE = new API_CAPITAL_SERVICE();
@@ -104,16 +105,20 @@ const ContractCheck = ({navigation}: any) => {
         <View style={styles.container}>
           <View style={styles.descriptionContainer}>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>이용자명</Text>
-              <Text style={styles.textStyle}>{capitalInfo?.Name}</Text>
+              <Text style={Font.ContractCheckLeft}>이용자명</Text>
+              <Text style={Font.ContractCheckRight}>{capitalInfo?.Name}</Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>사업자</Text>
-              <Text style={styles.textStyle}>{capitalInfo?.Business}</Text>
+              <Text style={Font.ContractCheckLeft}>사업자</Text>
+              <Text style={Font.ContractCheckRight}>
+                {capitalInfo?.Business}
+              </Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>대상구분</Text>
-              <Text style={styles.textStyle}>{capitalInfo?.Division}</Text>
+              <Text style={Font.ContractCheckLeft}>대상구분</Text>
+              <Text style={Font.ContractCheckRight}>
+                {capitalInfo?.Division}
+              </Text>
             </View>
           </View>
           {/* <Divider style={styles.divider}></Divider> */}
@@ -121,30 +126,36 @@ const ContractCheck = ({navigation}: any) => {
           {/**----------- */}
           {/**----------- */}
           <View style={styles.descriptionContainer}>
-            <Text style={styles.descriptionTitle}>이용차량의 표시</Text>
+            <Text style={Font.ContractCheckTitle}>이용차량의 표시</Text>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>개시일</Text>
-              <Text style={styles.textStyle}>
+              <Text style={Font.ContractCheckLeft}>개시일</Text>
+              <Text style={Font.ContractCheckRight}>
                 {convertTime(capitalInfo?.StartAt)}
               </Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>만기일</Text>
-              <Text style={styles.textStyle}>
+              <Text style={Font.ContractCheckLeft}>만기일</Text>
+              <Text style={Font.ContractCheckRight}>
                 {convertTime(capitalInfo?.DueAt)}
               </Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>차량번호</Text>
-              <Text style={styles.textStyle}>{capitalInfo?.CarNumber}</Text>
+              <Text style={Font.ContractCheckLeft}>차량번호</Text>
+              <Text style={Font.ContractCheckRight}>
+                {capitalInfo?.CarNumber}
+              </Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>차대번호</Text>
-              <Text style={styles.textStyle}>{capitalInfo?.VehicleId}</Text>
+              <Text style={Font.ContractCheckLeft}>차대번호</Text>
+              <Text style={Font.ContractCheckRight}>
+                {capitalInfo?.VehicleId}
+              </Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>차량명</Text>
-              <Text style={styles.textStyle}>{capitalInfo?.VehicleName}</Text>
+              <Text style={Font.ContractCheckLeft}>차량명</Text>
+              <Text style={Font.ContractCheckRight}>
+                {capitalInfo?.VehicleName}
+              </Text>
             </View>
           </View>
           {/* <Divider style={styles.divider}></Divider> */}
@@ -153,34 +164,34 @@ const ContractCheck = ({navigation}: any) => {
 
           {/**----------- */}
           <View style={styles.descriptionContainer}>
-            <Text style={styles.descriptionTitle}>주요계약조건</Text>
+            <Text style={Font.ContractCheckTitle}>주요계약조건</Text>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>대여기간</Text>
-              <Text style={styles.textStyle}>
+              <Text style={Font.ContractCheckLeft}>대여기간</Text>
+              <Text style={Font.ContractCheckRight}>
                 {convertTime(capitalInfo?.RentalPeriod)}
               </Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>약정 운행거리</Text>
-              <Text style={styles.textStyle}>{`${addComma(
+              <Text style={Font.ContractCheckLeft}>약정 운행거리</Text>
+              <Text style={Font.ContractCheckRight}>{`${addComma(
                 capitalInfo?.ContractedMileage
               )} km`}</Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>보증금</Text>
-              <Text style={styles.textStyle}>{`${addComma(
+              <Text style={Font.ContractCheckLeft}>보증금</Text>
+              <Text style={Font.ContractCheckRight}>{`${addComma(
                 capitalInfo?.Subsidy
               )} 원`}</Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>선수금</Text>
-              <Text style={styles.textStyle}>{`${addComma(
+              <Text style={Font.ContractCheckLeft}>선수금</Text>
+              <Text style={Font.ContractCheckRight}>{`${addComma(
                 capitalInfo?.AdvancePay
               )} 원`}</Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>계약해지시</Text>
-              <Text style={styles.textStyle}>
+              <Text style={Font.ContractCheckLeft}>계약해지시</Text>
+              <Text style={Font.ContractCheckRight}>
                 {capitalInfo?.AcquisitionOrReturn}
               </Text>
             </View>
@@ -190,29 +201,35 @@ const ContractCheck = ({navigation}: any) => {
           {/**----------- */}
           {/**----------- */}
           <View style={styles.descriptionContainer}>
-            <Text style={styles.descriptionTitle}>결제정보</Text>
+            <Text style={Font.ContractCheckTitle}>결제정보</Text>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>정비 서비스</Text>
-              <Text style={styles.textStyle}>{capitalInfo?.Repair}</Text>
+              <Text style={Font.ContractCheckLeft}>정비 서비스</Text>
+              <Text style={Font.ContractCheckRight}>{capitalInfo?.Repair}</Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>결제방법</Text>
-              <Text style={styles.textStyle}>{capitalInfo?.PaymentMethod}</Text>
+              <Text style={Font.ContractCheckLeft}>결제방법</Text>
+              <Text style={Font.ContractCheckRight}>
+                {capitalInfo?.PaymentMethod}
+              </Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>결제은행</Text>
-              <Text style={styles.textStyle}>{capitalInfo?.PaymentBank}</Text>
+              <Text style={Font.ContractCheckLeft}>결제은행</Text>
+              <Text style={Font.ContractCheckRight}>
+                {capitalInfo?.PaymentBank}
+              </Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>결제일</Text>
+              <Text style={Font.ContractCheckLeft}>결제일</Text>
               <Text
                 style={
-                  styles.textStyle
+                  Font.ContractCheckRight
                 }>{`매월 ${capitalInfo?.PaymentAt} 일`}</Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>예금주</Text>
-              <Text style={styles.textStyle}>{capitalInfo?.AccountHolder}</Text>
+              <Text style={Font.ContractCheckLeft}>예금주</Text>
+              <Text style={Font.ContractCheckRight}>
+                {capitalInfo?.AccountHolder}
+              </Text>
             </View>
           </View>
           {/* <Divider style={styles.divider}></Divider> */}
@@ -220,43 +237,47 @@ const ContractCheck = ({navigation}: any) => {
           {/**----------- */}
           {/**----------- */}
           <View style={styles.descriptionContainer2}>
-            <Text style={styles.descriptionTitle}>보험내용</Text>
+            <Text style={Font.ContractCheckTitle}>보험내용</Text>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>운전자 연령</Text>
+              <Text style={Font.ContractCheckLeft}>운전자 연령</Text>
               <Text
                 style={
-                  styles.textStyle
+                  Font.ContractCheckRight
                 }>{`${capitalInfo?.DriverAge} 세이상`}</Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>자기부담금</Text>
-              <Text style={styles.textStyle}>{`${cutOff__10000(
+              <Text style={Font.ContractCheckLeft}>자기부담금</Text>
+              <Text style={Font.ContractCheckRight}>{`${cutOff__10000(
                 capitalInfo?.Dedutible
               )} 만원`}</Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>차량반납시 차량훼손 면책금</Text>
-              <Text style={styles.textStyle}>{`${cutOff__10000(
+              <Text style={Font.ContractCheckLeft}>
+                차량반납시 차량훼손 면책금
+              </Text>
+              <Text style={Font.ContractCheckRight}>{`${cutOff__10000(
                 capitalInfo?.IndemnityReturn
               )} 만원`}</Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>차량전손시 차량손해 면책금</Text>
-              <Text style={styles.textStyle}>{`${cutOff__10000(
+              <Text style={Font.ContractCheckLeft}>
+                차량전손시 차량손해 면책금
+              </Text>
+              <Text style={Font.ContractCheckRight}>{`${cutOff__10000(
                 capitalInfo?.IndemnityTotalLoss
               )} 만원`}</Text>
             </View>
             <View style={styles.descriptionRow}>
-              <Text style={styles.textStyle}>의무가입사항</Text>
+              <Text style={Font.ContractCheckLeft}>의무가입사항</Text>
               <TouchableOpacity style={styles.button} onPress={openModal}>
-                <Text style={styles.buttonText}>확인하기</Text>
+                <Text style={Font.ContractCheckCheckBtn}>확인하기</Text>
               </TouchableOpacity>
             </View>
           </View>
           {/**----------- */}
         </View>
         <View style={styles.bottomDescription}>
-          <Text style={styles.descriptionText}>
+          <Text style={Font.ContractCheckBottomText}>
             {`※상기 계약과 같이 ${capitalInfo?.Capital} 렌트카 계약이 체결되었음을 확인합니다.`}
           </Text>
         </View>
@@ -317,6 +338,8 @@ const styles = StyleSheet.create({
     height: 24,
     backgroundColor: '#879BB9',
     borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonText: {
     fontSize: 14,

@@ -29,6 +29,7 @@ import {mainStyles} from '../../assets/css/home/home';
 import {MarginBottom, MarginTop} from '../../assets/css/global/margin';
 import SideMenu from '../../components/sideMenu/SideMenu';
 import Dividers from '../../components/divider/Dividers';
+import {Font} from '../../assets/css/global/newFont';
 
 interface Capitalinfo {
   Capital: any;
@@ -164,7 +165,7 @@ const Home = ({navigation}: any) => {
                 <View style={mainStyles.CarNumberWrap}>
                   <View style={mainStyles.CarNumberBorder}>
                     <View style={mainStyles.CarNumberBorderTextWarp}>
-                      <Text style={mainStyles.CarNumberBorderText}>
+                      <Text style={Font.MainCarNumberText}>
                         차량번호 : {carNumber}
                       </Text>
                       <Barcode />
@@ -176,10 +177,10 @@ const Home = ({navigation}: any) => {
                   <TouchableOpacity
                     style={mainStyles.LoginBtn}
                     onPress={navigationPushHandler('Login2')}>
-                    <Text style={mainStyles.LoginBtnText}>로그인</Text>
+                    <Text style={Font.MainLoginBtnText}>로그인</Text>
                   </TouchableOpacity>
                   <View style={mainStyles.LoginContentsWrap}>
-                    <Text style={mainStyles.LoginContentsText}>
+                    <Text style={Font.MainLoginBottomText}>
                       계정확인 및 FNT차량 보증서 확인하기
                     </Text>
                   </View>
@@ -296,9 +297,8 @@ const Home = ({navigation}: any) => {
             <View style={mainStyles.DescriptionWrap}>
               <TouchableOpacity
                 onPress={navigationPushHandler('NoticeCategory')}>
-                <Text style={mainStyles.DescriptionTitle}>공지사항</Text>
+                <Text style={Font.MainNoticeTitleText}>공지사항</Text>
               </TouchableOpacity>
-              <View style={MarginTop(5)} />
               {noticeInfo.map((item: any, index: number) => {
                 let {Title, CreatedDay, Category, IDX_BOARD} = item;
 
@@ -317,18 +317,16 @@ const Home = ({navigation}: any) => {
                       IDX_BOARD,
                       Category,
                     })}>
-                    <View style={mainStyles.DescriptionRowLeft}>
+                    <View style={{}}>
                       <Text
-                        style={mainStyles.DescriptionText}
+                        style={Font.MainNoticeLeftText}
                         ellipsizeMode="tail"
                         numberOfLines={1}>
                         {Title}
                       </Text>
                     </View>
-                    <View style={mainStyles.DescriptionRowRight}>
-                      <Text style={mainStyles.DescriptionText}>
-                        {CreateDay}
-                      </Text>
+                    <View style={{}}>
+                      <Text style={Font.MainNoticeRightText}>{CreateDay}</Text>
                     </View>
                   </TouchableOpacity>
                 );
@@ -345,16 +343,16 @@ const Home = ({navigation}: any) => {
           <View style={globalStyles.MainWrap}>
             <View style={mainStyles.DescriptionWrap}>
               <View>
-                <Text style={mainStyles.DescriptionTitle}>콜센터</Text>
+                <Text style={Font.MainBottomTitle}>콜센터</Text>
                 <View style={MarginTop(5)} />
                 <View style={mainStyles.DescriptionRow}>
-                  <Text style={mainStyles.DescriptionText}>
+                  <Text style={Font.MainBottomLeft}>
                     {capitalInfo?.Capital
                       ? capitalInfo?.Capital
                       : '캐피탈 콜센터'}
                   </Text>
                   <Text
-                    style={mainStyles.DescriptionText}
+                    style={Font.MainBottomRight}
                     onPress={() => {
                       {
                         capitalInfo?.Contact
@@ -366,8 +364,8 @@ const Home = ({navigation}: any) => {
                   </Text>
                 </View>
                 <View style={mainStyles.DescriptionRow}>
-                  <Text style={mainStyles.DescriptionText}>ARS이용시간</Text>
-                  <Text style={mainStyles.DescriptionText}>
+                  <Text style={Font.MainBottomLeft}>ARS이용시간</Text>
+                  <Text style={Font.MainBottomRight}>
                     {capitalInfo?.ContactTime
                       ? capitalInfo?.ContactTime
                       : '365일(10:00 ~ 18:00)'}
@@ -392,10 +390,10 @@ const Home = ({navigation}: any) => {
                 />
                 <TouchableOpacity
                   onPress={navigationPushHandler('TermsOfService')}>
-                  <Text style={mainStyles.FooterTopText}>이용약관</Text>
+                  <Text style={Font.MainFooterTop}>이용약관</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={navigationPushHandler('Privacy')}>
-                  <Text style={mainStyles.FooterTopText}>개인정보처리방침</Text>
+                  <Text style={Font.MainFooterTop}>개인정보처리방침</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={navigationPushHandler('TermsOfService')}
@@ -407,7 +405,7 @@ const Home = ({navigation}: any) => {
               <View style={MarginTop(15)} />
               <View style={mainStyles.FooterBottom}>
                 <View>
-                  <Text style={mainStyles.FooterBottomText}>
+                  <Text style={Font.MainFooterBottom}>
                     경기도 용인시 기흥구 기흥로 58, 기흥 ITC벨리 {'\n'}
                     사업자등록번호 418-88-02279
                   </Text>
