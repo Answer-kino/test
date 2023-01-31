@@ -27,6 +27,10 @@ import Icon6 from '../../../assets/icon6.svg';
 import {ICommentInfo, IDetailInfo} from '../../../@interface/community';
 import API_HOME_SERVICE from '../../../@api/home/home';
 import {randomNumber__1__6} from '../../../@utility/number';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
+import CommunityStyles from '../../../assets/css/community/community';
+import {Font} from '../../../assets/css/global/newFont';
+import Dividers from '../../../components/divider/Dividers';
 
 const CommunityBoard = ({navigation, route}: any) => {
   const BBS_SERVICE = new API_BBS_SERVICE();
@@ -154,7 +158,7 @@ const CommunityBoard = ({navigation, route}: any) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'android' ? 'position' : 'padding'}
-      style={styles.container2}>
+      style={{flex: 1}}>
       <Modal transparent={true} visible={isLoading}>
         <ActivityIndicator
           size={'large'}
@@ -167,19 +171,22 @@ const CommunityBoard = ({navigation, route}: any) => {
       <TopNav navigation={navigation} title="커뮤니티" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
-        <View style={styles.container}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.descriptionTitle}>{detailInfo?.Title}</Text>
-            <Text style={styles.commentLength}>{detailInfo?.CommentCnt}</Text>
+        style={globalStyles.ScrollView}>
+        <View style={CommunityStyles.Container}>
+          <View style={CommunityStyles.TitleContainer}>
+            <Text style={Font.CommunityDetailTitle}>{detailInfo?.Title}</Text>
+            <Text style={Font.CommunityComment}>{detailInfo?.CommentCnt}</Text>
           </View>
-          <View style={styles.content}>
-            <Text style={styles.text}>{detailInfo?.Content}</Text>
+          <View style={CommunityStyles.Content}>
+            <Text style={Font.CommunityDetailContent}>
+              {detailInfo?.Content}
+            </Text>
           </View>
-          <View style={styles.endLine}>
+
+          <View>
             {loginId === detailInfo?.userId ? (
               <TouchableOpacity
-                style={styles.modifyButton}
+                style={CommunityStyles.ModifyButton}
                 onPress={() => {
                   navigation.navigate('CommunityEdit', {
                     content: detailInfo?.Content,
@@ -187,12 +194,14 @@ const CommunityBoard = ({navigation, route}: any) => {
                     boardIdx: boardIdx,
                   });
                 }}>
-                <Text style={styles.modifyButtonText}>수정</Text>
+                <Text style={Font.CommunityModifyBtn}>수정</Text>
               </TouchableOpacity>
             ) : null}
           </View>
-
-          <Text style={styles.descriptionTitle}>댓글</Text>
+        </View>
+        <Dividers marginTop="10"></Dividers>
+        <View style={CommunityStyles.Container}>
+          <Text style={Font.CommunityMiddleComment}>댓글</Text>
 
           {commentInfo?.map((item, index) => {
             const comment = item.Comment;
@@ -223,14 +232,14 @@ const CommunityBoard = ({navigation, route}: any) => {
             // );
 
             return (
-              <View key={index} style={styles.commentContainer}>
-                <View style={styles.commentFront}>
-                  <View style={styles.profileImg}>
+              <View key={index} style={CommunityStyles.CommentContainer}>
+                <View style={CommunityStyles.CommentFront}>
+                  <View style={CommunityStyles.ProfileImg}>
                     {myPageProfileMap(imgNum)}
                   </View>
-                  <Text style={styles.comment}>{comment}</Text>
+                  <Text style={Font.CommunityComment}>{comment}</Text>
                 </View>
-                <Text style={styles.commentAt}>
+                <Text style={Font.CommunityCommentTime}>
                   {diffHour > 24
                     ? CreateDay
                     : diffHour < 1
@@ -241,7 +250,7 @@ const CommunityBoard = ({navigation, route}: any) => {
             );
           })}
 
-          <View style={styles.commentInputContainer}>
+          <View style={CommunityStyles.CommentInputContainer}>
             <TextInput
               style={styles.registInput}
               value={registComment}
@@ -252,7 +261,7 @@ const CommunityBoard = ({navigation, route}: any) => {
             <TouchableOpacity
               style={styles.registButton}
               onPress={() => enrollBtnHandler()}>
-              <Text style={styles.registButtonText}>등록</Text>
+              <Text style={Font.CommunityCommentRegisterBtn}>등록</Text>
             </TouchableOpacity>
           </View>
           <View style={{height: 100, width: 360}}></View>

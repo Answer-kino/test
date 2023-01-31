@@ -118,20 +118,10 @@ const mainStyles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
   },
-  DescriptionTitle: {
-    fontSize: 18,
-    ...Colors[292929],
-    ...Weight.Bold,
-  },
+
   DescriptionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  DescriptionText: {
-    fontSize: 16,
-    lineHeight: 25,
-    ...Colors[292929],
-    ...Weight.Normal,
   },
 
   // 푸터

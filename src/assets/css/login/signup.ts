@@ -87,13 +87,8 @@ const SignUpStyles = StyleSheet.create({
     lineHeight: 20,
   },
   TopText: {
-    color: '#292929',
     marginLeft: '7%',
     marginTop: 50,
-    height: 30,
-    fontSize: 22,
-    fontWeight: '700',
-    fontFamily: 'Noto Sans',
   },
 
   ViewWrap: {
@@ -119,6 +114,7 @@ const SignUpStyles = StyleSheet.create({
     width: '85%',
     paddingLeft: 10,
     paddingRight: 10,
+    marginBottom: 10,
   },
   FlexRowinputBox: {
     display: 'flex',
@@ -207,19 +203,8 @@ const SignUpStyles = StyleSheet.create({
     color: '#000000',
     marginRight: 5,
   },
-  SuccessMsg: {
+  MsgContainer: {
     width: '100%',
-    textAlign: 'left',
-    color: 'black',
-    fontSize: 12,
-    marginBottom: 10,
-  },
-  WarringMsg: {
-    width: '100%',
-    textAlign: 'left',
-    color: '#2D0DB6',
-    fontSize: 12,
-    marginBottom: 10,
   },
   ErrorMsg: {
     width: '100%',

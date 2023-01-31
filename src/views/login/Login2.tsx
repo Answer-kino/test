@@ -13,10 +13,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
 import {Divider} from '@rneui/base';
 import {LoginStyles} from '../../assets/css/login/login';
+import {MarginLeft, MarginTop} from '../../assets/css/global/margin';
+import {Font} from '../../assets/css/global/newFont';
 
 const Login2 = ({navigation}: any) => {
   const SIGN_SERVICE = new API_SIGN_SERVICE();
-  const [count, setCount] = useState<any>();
   const [carNumber, setCarNumber] = useState('');
   const [pwd, setPwd] = useState('');
 
@@ -62,8 +63,8 @@ const Login2 = ({navigation}: any) => {
 
   return (
     <View style={LoginStyles.Full}>
-      <View>
-        <Text style={LoginStyles.TopText}>로그인</Text>
+      <View style={LoginStyles.TopTitleContainer}>
+        <Text style={Font.SignInTitle}>로그인</Text>
       </View>
       <View style={LoginStyles.MiddleContainer}>
         <TextInput
@@ -81,7 +82,7 @@ const Login2 = ({navigation}: any) => {
         <TouchableOpacity
           style={LoginStyles.LoginBtn}
           onPress={() => LoginAxios()}>
-          <Text style={LoginStyles.LoginBtnText}>로그인</Text>
+          <Text style={Font.SignInSubmitBtnText}>로그인</Text>
         </TouchableOpacity>
         <Divider width={1} style={{marginTop: 30, opacity: 0.4}}></Divider>
       </View>
@@ -90,12 +91,12 @@ const Login2 = ({navigation}: any) => {
           <TouchableOpacity
             style={LoginStyles.BottomTopBtn}
             onPress={() => navigation.navigate('FindCarNum')}>
-            <Text style={LoginStyles.BottomBtnText}>차량번호 찾기</Text>
+            <Text style={Font.SignInHalfBtnText}>차량번호 찾기</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={LoginStyles.BottomTopBtn}
             onPress={() => navigation.navigate('FindPwd')}>
-            <Text style={LoginStyles.BottomBtnText}>비밀번호 찾기</Text>
+            <Text style={Font.SignInHalfBtnText}>비밀번호 찾기</Text>
           </TouchableOpacity>
         </View>
         <View style={LoginStyles.BottomBotContainer}>
@@ -103,8 +104,9 @@ const Login2 = ({navigation}: any) => {
             style={LoginStyles.BottomBotBtn}
             onPress={() => navigation.navigate('Login')}>
             <View style={{display: 'flex', flexDirection: 'row'}}>
-              <Text style={LoginStyles.BottomBtnText}>계정이 없으신가요?</Text>
-              <Text style={LoginStyles.SignUpText}>회원가입</Text>
+              <Text style={Font.SignInFullBtnLeftText}>계정이 없으신가요?</Text>
+
+              <Text style={Font.SignInFullBtnRightText}>회원가입</Text>
             </View>
           </TouchableOpacity>
         </View>

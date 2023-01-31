@@ -16,6 +16,8 @@ import {Divider} from '@rneui/base';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
 import {questionStyles} from '../../../assets/css/question/question';
 import Dividers from '../../../components/divider/Dividers';
+import {Font} from '../../../assets/css/global/newFont';
+import {MarginLeft} from '../../../assets/css/global/margin';
 
 type dropDownType = {
   [key: number]: boolean;
@@ -87,10 +89,10 @@ const Question = ({navigation}: any) => {
                         }}>
                         <View style={questionStyles.QuestionTitleWrap}>
                           <View style={questionStyles.QuestionTitleLeft}>
-                            <Text style={questionStyles.QuestionMark}>Q</Text>
-                            <Text style={questionStyles.QuestionTitle}>
-                              {title}
-                            </Text>
+                            <Text style={Font.QuestionQmark}>Q</Text>
+                            <View style={MarginLeft(10)}>
+                              <Text style={Font.QuestionTitle}>{title}</Text>
+                            </View>
                           </View>
                           <View style={questionStyles.QuestionTitleRight}>
                             {dropDown[index] ? (
@@ -114,9 +116,7 @@ const Question = ({navigation}: any) => {
                     <View style={questionStyles.ContentTextWrap}>
                       <View style={globalStyles.MainWrap}>
                         {dropDown[index] ? (
-                          <Text style={questionStyles.ContentText}>
-                            {content}
-                          </Text>
+                          <Text style={Font.QuestionContent}>{content}</Text>
                         ) : null}
                       </View>
                     </View>

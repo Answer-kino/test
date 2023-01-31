@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import TopNav from '../../../components/topNav/TopNav';
 import BottomNav from '../../../components/bottomNav/BottomNav';
+import TermsOfServiceStyles from '../../../assets/css/termsOfService/termsOfService';
+import {Font} from '../../../assets/css/global/newFont';
 
 const Promotion = ({navigation}: any) => {
   useEffect(() => {
@@ -27,23 +29,15 @@ const Promotion = ({navigation}: any) => {
 
   return (
     <View>
-      <View style={styles.full}>
+      <View style={TermsOfServiceStyles.Full}>
         <ScrollView>
           <TopNav navigation={navigation} title="프로모션"></TopNav>
-          <View style={{height: '100%', alignItems: 'center'}}>
-            <View
-              style={{
-                backgroundColor: 'white',
-
-                width: '85%',
-                height: '100%',
-                marginTop: 22,
-                borderRadius: 10,
-                display: 'flex',
-                flexDirection: 'column',
-              }}>
-              <Text style={styles.text}>프로모션 정보의 이용목적</Text>
-              <Text style={styles.text2}>
+          <View style={TermsOfServiceStyles.MainContainer}>
+            <View style={TermsOfServiceStyles.ContentWrap}>
+              <Text style={Font.TermsOfServiceTitle}>
+                프로모션 정보의 이용목적
+              </Text>
+              <Text style={Font.TermsOfServiceContent}>
                 에이치오토 제공하는 이벤트/혜택 등 다양한 정보를
                 휴대전화(에이치오토 알림 또는 문자), 이메일로 받아 보실 수
                 있습니다. 일부 서비스(별도 회원 체계로 운영하거나 에이치오토
@@ -60,41 +54,4 @@ const Promotion = ({navigation}: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  full: {
-    backgroundColor: '#F2F6F8',
-    width: '100%',
-    height: '100%',
-  },
-
-  text: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '500',
-    fontSize: 18,
-    lineHeight: 35,
-    paddingLeft: 15,
-    paddingRight: 15,
-    color: '#292929',
-  },
-  text2: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '500',
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#666666',
-    paddingLeft: 15,
-    paddingRight: 15,
-    marginTop: 8,
-  },
-  text3: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '500',
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#666666',
-    paddingLeft: 15,
-    paddingRight: 15,
-    marginTop: 8,
-  },
-});
 export default Promotion;

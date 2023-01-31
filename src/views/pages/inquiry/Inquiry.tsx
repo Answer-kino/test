@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import API_Inquiry_Service from '../../../@api/inquiry/inquiry';
 import {MarginTop} from '../../../assets/css/global/margin';
+import {Font} from '../../../assets/css/global/newFont';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
 import {inquiryStyle} from '../../../assets/css/inquiry/inquiry';
 import BottomNav from '../../../components/bottomNav/BottomNav';
@@ -53,7 +54,7 @@ const Inquiry = ({navigation}: any) => {
       <TopNav navigation={navigation} title="문의하기" />
       <View style={globalStyles.MainWrap}>
         <View style={MarginTop('5%')} />
-        <Text style={inquiryStyle.TopTitle}>1:1문의하기</Text>
+        <Text style={Font.InquiryTop}>1:1문의하기</Text>
 
         <View style={MarginTop(15)} />
         <TextInput

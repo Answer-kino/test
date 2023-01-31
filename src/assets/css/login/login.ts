@@ -1,21 +1,14 @@
 import {StyleSheet} from 'react-native';
-
+import {Font} from '../global/newFont';
 const LoginStyles = StyleSheet.create({
   Full: {
     height: '100%',
     width: '100%',
     backgroundColor: '#DEDEDE',
   },
-  TopText: {
-    color: '#292929',
-    marginLeft: '7%',
-    marginTop: 50,
-    width: 81,
-    height: 30,
-    fontSize: 22,
-    fontWeight: '700',
-    fontFamily: 'Noto Sans',
-  },
+  TopTitleContainer: {width: '80%', alignSelf: 'center', marginTop: 50},
+  TopText: Font.SignInTitle,
+
   MiddleContainer: {
     marginTop: 10,
     alignItems: 'center',
@@ -38,12 +31,7 @@ const LoginStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  LoginBtnText: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '500',
-    fontSize: 16,
-    color: 'white',
-  },
+  LoginBtnText: Font.SignInSubmitBtnText,
   BottomTopContainer: {
     marginTop: 30,
     display: 'flex',
@@ -61,15 +49,12 @@ const LoginStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  BottomBtnText: {
-    fontWeight: '500',
-    fontFamily: 'Noto Sans',
-    fontSize: 13,
-    lineHeight: 18,
-  },
+
+  BottomBtnText: Font.SignInHalfBtnText,
   BottomBotContainer: {
     marginTop: 15,
     alignItems: 'center',
+    // height: 300,
   },
   BottomBotBtn: {
     width: '80%',
@@ -79,16 +64,12 @@ const LoginStyles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: 0,
+
     //   backgroundColor: 'white',
   },
-  SignUpText: {
-    fontFamily: 'Noto Sans',
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 19,
-    lineHeight: 20,
-    color: '#2D9DB6',
-  },
+  FullBtnLeftText: Font.SignInFullBtnLeftText,
+  FullBtnRightText: Font.SignInFullBtnRightText,
 });
 
 export {LoginStyles};

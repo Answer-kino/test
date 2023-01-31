@@ -14,6 +14,9 @@ import X from '../../assets/x.svg';
 import Logout from '../../assets/Logout.svg';
 
 import Dividers from '../divider/Dividers';
+import SideMenuStyles from '../../assets/css/sideMenu/sideMenu';
+import {Font} from '../../assets/css/global/newFont';
+import {MarginLeft} from '../../assets/css/global/margin';
 interface SideMenuProps {
   open: boolean;
   toggleOpen: Function;
@@ -65,93 +68,87 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
       open={open}
       position={'right'}
       drawerContent={
-        <View style={styles.container}>
-          <View style={styles.box}>
-            <View style={styles.boxTop}>
-              <View
-                style={{
-                  display: 'flex',
-                  alignSelf: 'flex-end',
-                  marginTop: 20,
-                  marginRight: 20,
-                }}>
+        <View style={SideMenuStyles.Container}>
+          <View style={SideMenuStyles.Box}>
+            <View style={SideMenuStyles.BoxTop}>
+              <View style={SideMenuStyles.CloseBtn}>
                 <TouchableOpacity onPress={() => toggleOpen()}>
                   <X />
                 </TouchableOpacity>
               </View>
-              <View style={styles.carInfo}>
-                <View style={styles.carIconContainer}>
-                  <View style={styles.carIconWrap}>
+              <View style={SideMenuStyles.CarInfo}>
+                <View style={SideMenuStyles.CarIconContainer}>
+                  <View style={SideMenuStyles.CarIconWrap}>
                     <Image
                       source={require('../../assets/fa-solid_car-alt.png')}
                     />
                   </View>
-                  <Text style={styles.carNumber}>차량번호 : </Text>
-                  <Text
-                    style={{
-                      fontSize: 17,
-                      lineHeight: 23,
-                      letterSpacing: -0.02,
-                      color: '#2262AD',
-                    }}>
-                    {userInfo}
-                  </Text>
+                  <Text style={Font.SideMenuCarNumber}>차량번호 : </Text>
+                  <Text style={Font.SideMenuCarNumber}>{userInfo}</Text>
                 </View>
               </View>
 
-              <View style={styles.sideMenuContainer}>
+              <View style={SideMenuStyles.SideMenuContainer}>
                 <TouchableOpacity
-                  style={styles.sideMenuSection}
+                  style={SideMenuStyles.SideMenuSection}
                   onPress={() => {
                     navigation.navigate('Question');
                   }}>
-                  <View style={styles.sideMenuSectionLeft}>
+                  <View style={SideMenuStyles.SideMenuSectionLeft}>
                     <Question></Question>
-                    <Text style={styles.menuText}>자주묻는질문</Text>
+                    <View style={MarginLeft(10)}>
+                      <Text style={Font.SideMenuMenuName}>자주묻는질문</Text>
+                    </View>
                   </View>
                   <SideArrow />
                 </TouchableOpacity>
               </View>
               <Dividers></Dividers>
-              <View style={styles.sideMenuContainer}>
+              <View style={SideMenuStyles.SideMenuContainer}>
                 <TouchableOpacity
-                  style={styles.sideMenuSection}
+                  style={SideMenuStyles.SideMenuSection}
                   onPress={() => {
                     enterPage('Inquiry');
                   }}>
-                  <View style={styles.sideMenuSectionLeft}>
+                  <View style={SideMenuStyles.SideMenuSectionLeft}>
                     <Inquiry></Inquiry>
-                    <Text style={styles.menuText}>문의하기</Text>
+                    <View style={MarginLeft(10)}>
+                      <Text style={Font.SideMenuMenuName}>문의하기</Text>
+                    </View>
                   </View>
                   <SideArrow />
                 </TouchableOpacity>
               </View>
               <Dividers></Dividers>
-              <View style={styles.sideMenuContainer}>
+              <View style={SideMenuStyles.SideMenuContainer}>
                 <TouchableOpacity
-                  style={styles.sideMenuSection}
+                  style={SideMenuStyles.SideMenuSection}
                   onPress={() => {
                     enterPage('InquiryList');
                   }}>
-                  <View style={styles.sideMenuSectionLeft}>
+                  <View style={SideMenuStyles.SideMenuSectionLeft}>
                     <Inquiry></Inquiry>
-                    <Text style={styles.menuText}>문의글보기</Text>
+                    <View style={MarginLeft(10)}>
+                      <Text style={Font.SideMenuMenuName}>문의글보기</Text>
+                    </View>
                   </View>
 
                   <SideArrow />
                 </TouchableOpacity>
               </View>
               <Dividers></Dividers>
-              <View style={styles.sideMenuContainer}>
+              <View style={SideMenuStyles.SideMenuContainer}>
                 <TouchableOpacity
-                  style={styles.sideMenuSection}
+                  style={SideMenuStyles.SideMenuSection}
                   onPress={async () => {
                     await AsyncStorage.clear();
                     navigation.reset({routes: [{name: 'Login2'}]});
                   }}>
-                  <View style={styles.sideMenuSectionLeft}>
+                  <View style={SideMenuStyles.SideMenuSectionLeft}>
                     <Logout></Logout>
-                    <Text style={styles.menuText}>로그아웃</Text>
+                    <View style={MarginLeft(10)}>
+                      <Text style={Font.SideMenuMenuName}>로그아웃</Text>
+                    </View>
                   </View>
 
                   <SideArrow />
@@ -220,94 +217,5 @@ const SideMenu = ({open, toggleOpen, navigation}: SideMenuProps) => {
     </MenuDrawer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'rgba( 0, 0, 0, 0.4 )',
-    alignItems: 'flex-end',
-  },
-  box: {
-    flex: 1,
-    width: 270,
-    backgroundColor: 'white',
-  },
-  boxTop: {
-    height: 202,
-  },
-  carInfo: {
-    height: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginLeft: 23,
-    marginBottom: 10,
-  },
-  carIconContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  carIconWrap: {
-    width: 23,
-    height: 23,
-    backgroundColor: '#A7C1CF',
-    borderRadius: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 7,
-  },
-  carNumber: {
-    fontSize: 17,
-    lineHeight: 23,
-    letterSpacing: -0.02,
-    color: '#2262AD',
-    fontWeight: 'bold',
-  },
-  closeButton: {
-    marginTop: 20,
-    marginRight: 12,
-    color: '#707070',
-  },
-  sideMenuContainer: {
-    marginHorizontal: 25,
-  },
-  sideMenuSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 20,
-    // borderBottomColor: '#DBDBDB',
-    // borderBottomWidth: 1,
-  },
-  sideMenuSectionLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  menuText: {
-    fontSize: 15,
-    // lineHeight: 32,
-    letterSpacing: -0.05,
-    marginLeft: 10,
-    color: 'black',
-  },
-  body: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F04812',
-  },
-  sideMenuSectionLeft2: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    color: 'black',
-
-    // marginLeft: '60%',
-  },
-  logoutText: {
-    marginLeft: '7%',
-    fontSize: 15,
-    color: 'black',
-  },
-});
 
 export default SideMenu;

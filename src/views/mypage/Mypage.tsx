@@ -31,6 +31,8 @@ import {globalStyles} from '../../assets/css/global/styleSheet';
 import {MarginBottom} from '../../assets/css/global/margin';
 import {modalStyles} from '../../assets/css/modal/modal';
 import Dividers from '../../components/divider/Dividers';
+import {Font} from '../../assets/css/global/newFont';
+import {MyPageStyles} from '../../assets/css/mypage/mypage';
 
 interface myDatatype {
   CarNumber?: string;
@@ -236,7 +238,9 @@ const Mypage = ({navigation}: any) => {
         <View style={modalStyles.ModalWrap}>
           <View style={modalStyles.MainWrap}>
             <View style={modalStyles.HeaderWrap}>
-              <Text style={modalStyles.HeaderText}>이미지 선택</Text>
+              <View style={{alignItems: 'center'}}>
+                <Text style={Font.MypageModalText}>이미지 선택</Text>
+              </View>
               <TouchableOpacity
                 style={modalStyles.ModalCloseWrap}
                 onPress={() => {
@@ -297,25 +301,13 @@ const Mypage = ({navigation}: any) => {
       <TopNav navigation={navigation} title="마이페이지" />
 
       <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <View
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: Dimensions.get('screen').width,
-            marginTop: '12.5%',
-            marginBottom: '12.5%',
-          }}>
+        <View style={MyPageStyles.TopImageContainer}>
           <View
             style={{
               display: 'flex',
             }}>
             <TouchableOpacity
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
+              style={MyPageStyles.TopImageBackgroud}
               onPress={() => {
                 setModalVisible(true);
               }}>
@@ -326,67 +318,61 @@ const Mypage = ({navigation}: any) => {
         </View>
 
         <View style={globalStyles.MainWrap}>
-          <View style={styles.mainContainerWrap}>
+          <View style={MyPageStyles.MainContainerWrap}>
             {/* tmp */}
-            <View style={styles.mainContainerRowTop}>
+            <View style={MyPageStyles.MainContainerRowTop}>
               <View>
-                <Text style={styles.mainContainerRowText}>차량번호</Text>
+                <Text style={Font.MypageLeftText}>차량번호</Text>
               </View>
               <View>
-                <Text style={styles.mainContainerRowText}>
-                  {myData?.CarNumber}
-                </Text>
+                <Text style={Font.MypageRightText}>{myData?.CarNumber}</Text>
               </View>
             </View>
-            <View style={styles.mainContainerRow}>
+            <View style={MyPageStyles.MainContainerRow}>
               <View>
-                <Text style={styles.mainContainerRowText}>휴대폰번호</Text>
+                <Text style={Font.MypageLeftText}>휴대폰번호</Text>
               </View>
-              <View style={styles.mainContainerRowBtnWrap}>
-                <View style={styles.mainContainerRowRightTextWrap}>
-                  <Text style={styles.mainContainerRowRightText}>
+              <View style={MyPageStyles.MainContainerRowBtnWrap}>
+                <View style={MyPageStyles.MainContainerRowRightTextWrap}>
+                  <Text style={Font.MypageRightText}>
                     {myData.Phone && convertPhone(myData?.Phone)}
                   </Text>
                   <TouchableOpacity
-                    style={styles.mainContainerRowBtn}
+                    style={MyPageStyles.MainContainerRowBtn}
                     onPress={navigationNaivigateHandlerMap(
                       'ChangePhoneNumber'
                     )}>
-                    <Text style={styles.mainContainerRowBtnText}>변경</Text>
+                    <Text style={Font.MyPageBtnText}>변경</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
-            <View style={styles.mainContainerRow}>
+            <View style={MyPageStyles.MainContainerRow}>
               <View>
-                <Text style={styles.mainContainerRowText}>이메일</Text>
+                <Text style={Font.MypageLeftText}>이메일</Text>
               </View>
-              <View style={styles.mainContainerRowBtnWrap}>
-                <View style={styles.mainContainerRowRightTextWrap}>
-                  <Text style={styles.mainContainerRowRightText}>
-                    {myData?.UserEmail}
-                  </Text>
+              <View style={MyPageStyles.MainContainerRowBtnWrap}>
+                <View style={MyPageStyles.MainContainerRowRightTextWrap}>
+                  <Text style={Font.MypageRightText}>{myData?.UserEmail}</Text>
                   <TouchableOpacity
-                    style={styles.mainContainerRowBtn}
+                    style={MyPageStyles.MainContainerRowBtn}
                     onPress={navigationNaivigateHandlerMap('ChangeEmail')}>
-                    <Text style={styles.mainContainerRowBtnText}>변경</Text>
+                    <Text style={Font.MyPageBtnText}>변경</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
-            <View style={styles.mainContainerRow}>
+            <View style={MyPageStyles.MainContainerRow}>
               <View>
-                <Text style={styles.mainContainerRowText}>비밀번호</Text>
+                <Text style={Font.MypageLeftText}>비밀번호</Text>
               </View>
-              <View style={styles.mainContainerRowBtnWrap}>
-                <View style={styles.mainContainerRowRightTextWrap}>
-                  <Text style={styles.mainContainerRowRightText}>
-                    *********
-                  </Text>
+              <View style={MyPageStyles.MainContainerRowBtnWrap}>
+                <View style={MyPageStyles.MainContainerRowRightTextWrap}>
+                  <Text style={Font.MypageRightText}>*********</Text>
                   <TouchableOpacity
-                    style={styles.mainContainerRowBtn}
+                    style={MyPageStyles.MainContainerRowBtn}
                     onPress={navigationReplaceHandler('ChangePassword')}>
-                    <Text style={styles.mainContainerRowBtnText}>변경</Text>
+                    <Text style={Font.MyPageBtnText}>변경</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -398,13 +384,11 @@ const Mypage = ({navigation}: any) => {
               style={{marginTop: 20, marginBottom: 12}}
             /> */}
             <Dividers marginTop="20" marginBottom="12"></Dividers>
-            <View style={styles.mainContainerRow}>
+            <View style={MyPageStyles.MainContainerRow}>
               <View>
-                <Text style={styles.mainContainerRowText}>
-                  마케팅 정보 수신동의
-                </Text>
+                <Text style={Font.MypageLeftText}>마케팅 정보 수신동의</Text>
               </View>
-              <View style={styles.mainContainerRowBtnWrap}>
+              <View style={MyPageStyles.MainContainerRowBtnWrap}>
                 <Switch
                   trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
                   thumbColor={'#FFFFFF'}
@@ -414,11 +398,11 @@ const Mypage = ({navigation}: any) => {
                 />
               </View>
             </View>
-            <View style={styles.mainContainerRow}>
+            <View style={MyPageStyles.MainContainerRow}>
               <View>
-                <Text style={styles.mainContainerRowText}>메일수신동의</Text>
+                <Text style={Font.MypageLeftText}>메일수신동의</Text>
               </View>
-              <View style={styles.mainContainerRowBtnWrap}>
+              <View style={MyPageStyles.MainContainerRowBtnWrap}>
                 <Switch
                   trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
                   thumbColor={'#FFFFFF'}
@@ -428,11 +412,11 @@ const Mypage = ({navigation}: any) => {
                 />
               </View>
             </View>
-            <View style={styles.mainContainerRowBot}>
+            <View style={MyPageStyles.MainContainerRowBot}>
               <View>
-                <Text style={styles.mainContainerRowText}>SNS수신동의</Text>
+                <Text style={Font.MypageLeftText}>SNS수신동의</Text>
               </View>
-              <View style={styles.mainContainerRowBtnWrap}>
+              <View style={MyPageStyles.MainContainerRowBtnWrap}>
                 <Switch
                   trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
                   thumbColor={'#FFFFFF'}
@@ -444,11 +428,13 @@ const Mypage = ({navigation}: any) => {
             </View>
             {/*  */}
           </View>
-          <View style={styles.footerContainerWrap}>
+          <View style={MyPageStyles.FooterContainerWrap}>
             <TouchableOpacity
-              style={styles.footerContainerBtn}
+              style={MyPageStyles.FooterContainerBtn}
               onPress={patchMyData}>
-              <Text style={styles.footerContainerBtnText}>수정하기</Text>
+              <View style={{alignItems: 'center'}}>
+                <Text style={Font.AllBtnText}>수정하기</Text>
+              </View>
             </TouchableOpacity>
           </View>
         </View>

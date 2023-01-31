@@ -21,6 +21,9 @@ import {regExp__pwd, regExp__email} from '../../@utility/reg';
 import AlertCustom_2Btn from '../../components/alert/Alert2btn';
 import AlertCustom_1btn from '../../components/alert/Alert1btn';
 import {SignUpStyles} from '../../assets/css/login/signup';
+import {Font} from '../../assets/css/global/newFont';
+import {MarginLeft, MarginTop} from '../../assets/css/global/margin';
+import {globalStyles} from '../../assets/css/global/styleSheet';
 enum ESignInfoKey {
   carNumber = 'carNumber',
   email = 'email',
@@ -493,17 +496,15 @@ const Login = ({navigation}: any) => {
                 <TouchableOpacity
                   style={SignUpStyles.SignUpModalTopHeadBtn}
                   onPress={signUpSuccessHandler}>
-                  <Text style={SignUpStyles.SignUpModalTopHeadText}>X</Text>
+                  <Text style={Font.SignUpModalClose}>X</Text>
                 </TouchableOpacity>
               </View>
               <View style={SignUpStyles.SignUpModalTopBody}>
-                <Text style={SignUpStyles.SignUpModalTopBodyTitle}>
-                  환영합니다!
-                </Text>
-                <Text style={SignUpStyles.SignUpModalTopBodyContent}>
+                <Text style={Font.SignUpModalTitle}>환영합니다!</Text>
+                <Text style={Font.SignUpModalMiddleTop}>
                   NFT차량 가입이 완료됐습니다.
                 </Text>
-                <Text style={SignUpStyles.SignUpModalTopBodyCarNumber}>
+                <Text style={Font.SignUpModalCarNumber}>
                   차량번호 : {signInfo?.carNumber}
                 </Text>
               </View>
@@ -512,15 +513,15 @@ const Login = ({navigation}: any) => {
               <TouchableOpacity
                 style={SignUpStyles.SignUpModalBottomBtn}
                 onPress={signUpSuccessHandler}>
-                <Text style={SignUpStyles.SignUpModalBottomText}>시작하기</Text>
+                <Text style={Font.SignUpModalBtn}>시작하기</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
       </Modal>
 
-      <View>
-        <Text style={SignUpStyles.TopText}>회원가입</Text>
+      <View style={SignUpStyles.TopText}>
+        <Text style={Font.SignUpTop}>회원가입</Text>
       </View>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -537,20 +538,22 @@ const Login = ({navigation}: any) => {
             <TouchableOpacity
               style={SignUpStyles.InputBtn}
               onPress={carNumberOverLapCheckedHandler}>
-              <Text style={SignUpStyles.InputText}>중복확인</Text>
+              <Text style={Font.SignUpCheckBtn}>중복확인</Text>
             </TouchableOpacity>
           </View>
           <View style={SignUpStyles.FlexRowText}>
             {_.isNull(carNubmerOverLap.status) ? (
               ''
             ) : carNubmerOverLap.status ? (
-              <Text style={SignUpStyles.ErrorMsg}>
-                사용 불가능한 차량번호입니다.
-              </Text>
+              <View style={SignUpStyles.MsgContainer}>
+                <Text style={Font.SignUpWarningMsg}>
+                  사용 불가능한 차량번호입니다.
+                </Text>
+              </View>
             ) : (
-              <Text style={SignUpStyles.SuccessMsg}>
-                사용 가능한 차량번호입니다.
-              </Text>
+              <View style={SignUpStyles.MsgContainer}>
+                <Text style={Font.SignUpMsg}>사용 가능한 차량번호입니다.</Text>
+              </View>
             )}
           </View>
 
@@ -573,9 +576,11 @@ const Login = ({navigation}: any) => {
             ) : pwdChecked.reg ? (
               ''
             ) : (
-              <Text style={SignUpStyles.ErrorMsg}>
-                영문+숫자+특수문자 : 8자리이상을 사용해주세요.
-              </Text>
+              <View style={SignUpStyles.MsgContainer}>
+                <Text style={Font.SignUpWarningMsg}>
+                  영문+숫자+특수문자 : 8자리이상을 사용해주세요.
+                </Text>
+              </View>
             )}
           </View>
 
@@ -598,9 +603,11 @@ const Login = ({navigation}: any) => {
             ) : pwdChecked.same ? (
               ''
             ) : (
-              <Text style={SignUpStyles.ErrorMsg}>
-                비밀번호가 일치하지 않습니다.
-              </Text>
+              <View style={SignUpStyles.MsgContainer}>
+                <Text style={Font.SignUpWarningMsg}>
+                  비밀번호가 일치하지 않습니다.
+                </Text>
+              </View>
             )}
           </View>
 
@@ -621,7 +628,7 @@ const Login = ({navigation}: any) => {
               <TouchableOpacity
                 style={SignUpStyles.InputBtn}
                 onPress={sendDigitCodeHandler('phone')}>
-                <Text style={SignUpStyles.InputText}>인증요청</Text>
+                <Text style={Font.SignUpCheckBtn}>인증요청</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -632,7 +639,7 @@ const Login = ({navigation}: any) => {
                 <></>
               ) : (
                 <View style={SignUpStyles.FlexRowText}>
-                  <Text style={SignUpStyles.WarringMsg}>
+                  <Text style={Font.SignUpSendValidNumText}>
                     인증번호를 발송했습니다.(유효시간 4분) 인증번호가오지 않으면
                     입력하신 정보가 정확한지 확인하여주세요. 이미 가입된
                     번호이거나, 가상전화번호는 인증번호를 받을 수 없습니다.
@@ -652,7 +659,7 @@ const Login = ({navigation}: any) => {
                 />
                 <View>
                   <Text style={SignUpStyles.InputTimer}>
-                    {isAllowSignInfo.phone
+                    {Font.SignUpValidComplete
                       ? `인증완료`
                       : `${timer.phone.min} : ${timer.phone.sec}`}
                   </Text>
@@ -662,9 +669,11 @@ const Login = ({navigation}: any) => {
                 <></>
               ) : (
                 <View style={SignUpStyles.FlexRowText}>
-                  <Text style={SignUpStyles.ErrorMsg}>
-                    인증번호를 다시 확인해주세요.
-                  </Text>
+                  <View style={SignUpStyles.MsgContainer}>
+                    <Text style={Font.SignUpWarningMsg}>
+                      인증번호를 다시 확인해주세요.
+                    </Text>
+                  </View>
                 </View>
               )}
             </>
@@ -688,7 +697,7 @@ const Login = ({navigation}: any) => {
               <TouchableOpacity
                 style={SignUpStyles.InputBtn}
                 onPress={sendDigitCodeHandler('email')}>
-                <Text style={SignUpStyles.InputText}>인증요청</Text>
+                <Text style={Font.SignUpCheckBtn}>인증요청</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -699,7 +708,7 @@ const Login = ({navigation}: any) => {
                 <></>
               ) : (
                 <View style={SignUpStyles.FlexRowText}>
-                  <Text style={SignUpStyles.WarringMsg}>
+                  <Text style={Font.SignUpSendValidNumText}>
                     인증번호를 발송했습니다.(유효시간 4분) 인증번호가오지 않으면
                     입력하신 정보가 정확한지 확인하여주세요. 이미 가입된
                     이메일이거나, 존재하지 않는 이메일은 인증번호를 받을 수
@@ -719,7 +728,7 @@ const Login = ({navigation}: any) => {
                   onBlur={checkedDigitCodeHandler('email')}
                 />
                 <View>
-                  <Text style={SignUpStyles.InputTimer}>
+                  <Text style={Font.SignUpValidComplete}>
                     {' '}
                     {isAllowSignInfo.email
                       ? `인증완료`
@@ -731,7 +740,7 @@ const Login = ({navigation}: any) => {
                 <></>
               ) : (
                 <View style={SignUpStyles.FlexRowText}>
-                  <Text style={SignUpStyles.ErrorMsg}>
+                  <Text style={Font.SignUpWarningMsg}>
                     인증번호를 다시 확인해주세요.
                   </Text>
                 </View>
@@ -767,11 +776,13 @@ const Login = ({navigation}: any) => {
               <TouchableOpacity
                 style={SignUpStyles.CheckBoxLabelWrap}
                 onPress={setCheckBoxHandler('termsOfService')}>
-                <Text style={SignUpStyles.RequirementsMsg}>필수</Text>
-                <Text style={{color: '#797979'}}>이용약관</Text>
+                <Text style={Font.SignUpEssential}>필수</Text>
+                <View style={MarginLeft(5)}>
+                  <Text style={Font.SignUpCheckBoxRightText}>이용약관</Text>
+                </View>
               </TouchableOpacity>
               <Text
-                style={{color: '#797979'}}
+                style={Font.SignUpCheckBoxRightText}
                 onPress={navigationPushHandler('TermsOfService')}>
                 {' '}
                 [내용보기]
@@ -786,11 +797,15 @@ const Login = ({navigation}: any) => {
               <TouchableOpacity
                 style={SignUpStyles.CheckBoxLabelWrap}
                 onPress={setCheckBoxHandler('privacy')}>
-                <Text style={SignUpStyles.RequirementsMsg}>필수</Text>
-                <Text style={{color: '#797979'}}>개인정보수집 및 이용</Text>
+                <Text style={Font.SignUpEssential}>필수</Text>
+                <View style={MarginLeft(5)}>
+                  <Text style={Font.SignUpCheckBoxRightText}>
+                    개인정보수집 및 이용
+                  </Text>
+                </View>
               </TouchableOpacity>
               <Text
-                style={{color: '#797979'}}
+                style={Font.SignUpCheckBoxRightText}
                 onPress={navigationPushHandler('Privacy')}>
                 {' '}
                 [내용보기]
@@ -805,11 +820,15 @@ const Login = ({navigation}: any) => {
               <TouchableOpacity
                 style={SignUpStyles.CheckBoxLabelWrap}
                 onPress={setCheckBoxHandler('promotion')}>
-                <Text style={SignUpStyles.SelectionMsg}>선택</Text>
-                <Text style={{color: '#797979'}}>프로모션 정보수신약관</Text>
+                <Text style={Font.SignUpNotEssential}>선택</Text>
+                <View style={MarginLeft(5)}>
+                  <Text style={Font.SignUpCheckBoxRightText}>
+                    프로모션 정보수신약관
+                  </Text>
+                </View>
               </TouchableOpacity>
               <Text
-                style={{color: '#797979'}}
+                style={Font.SignUpCheckBoxRightText}
                 onPress={navigationPushHandler('Promotion')}>
                 {' '}
                 [내용보기]
@@ -824,20 +843,22 @@ const Login = ({navigation}: any) => {
               <TouchableOpacity
                 style={SignUpStyles.CheckBoxLabelWrap}
                 onPress={setCheckBoxHandler('snsEmailMarketing')}>
-                <Text style={SignUpStyles.SelectionMsg}>선택</Text>
-                <Text style={{color: '#797979'}}>
-                  마케팅,SNS,이메일 수신동의
-                </Text>
+                <Text style={Font.SignUpNotEssential}>선택</Text>
+                <View style={MarginLeft(5)}>
+                  <Text style={Font.SignUpCheckBoxRightText}>
+                    마케팅,SNS,이메일 수신동의
+                  </Text>
+                </View>
               </TouchableOpacity>
               <Text
-                style={{color: '#797979'}}
+                style={Font.SignUpCheckBoxRightText}
                 onPress={navigationPushHandler('Marketing')}>
                 {' '}
                 [내용보기]
               </Text>
             </View>
             <View style={SignUpStyles.CheckBoxView}>
-              <Text style={{color: 'red', fontSize: 13}}>
+              <Text style={Font.SignUpWarningMsg}>
                 이용 약관과 개인정보수집 및 이용 안내에 모두 동의해주세요.
               </Text>
             </View>
@@ -846,9 +867,7 @@ const Login = ({navigation}: any) => {
             <TouchableOpacity
               style={SignUpStyles.LastBtn}
               onPress={signUpHandler}>
-              <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
-                가입하기
-              </Text>
+              <Text style={globalStyles.ButtonText}>가입하기</Text>
             </TouchableOpacity>
           </View>
         </View>
