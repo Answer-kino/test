@@ -1,7 +1,16 @@
 import {StyleSheet, TextStyle} from 'react-native';
 
 // Color
-type BlackColor = 'Black' | 'Black2' | 'Nero' | 'Charcoal' | 'Matterhorn' | 'DimGray' | 'SuvaGrey' | 'Grey' | 'NightRider';
+type BlackColor =
+  | 'Black'
+  | 'Black2'
+  | 'Nero'
+  | 'Charcoal'
+  | 'Matterhorn'
+  | 'DimGray'
+  | 'SuvaGrey'
+  | 'Grey'
+  | 'NightRider';
 type BlueColor = 'DarkCerulean' | 'SummerSky' | 'Denim' | 'Denim2' | 'Pelorous';
 type RedColor = 'SunsetOrange' | 'Scarlet';
 type WhiteColor = 'White';
@@ -110,13 +119,18 @@ const fontsStyleGuide: IFontsStyleGuide = {
  * @Grey #797979
  * @NightRider #2C2C2C
  */
-const NotoSansKRBlackText = (color: BlackColor, weight: NotoSansKRWeight, size: number) => {
+const NotoSansKRBlackText = (
+  color: BlackColor,
+  weight: NotoSansKRWeight,
+  size: number
+) => {
   const style = StyleSheet.create({
     Text: {
       ...fontsStyleGuide.Color.CBlack[color],
       ...fontsStyleGuide.Weight.NotoSansKR(weight),
       ...fontsStyleGuide.Size(size),
       letterSpacing: -0.5,
+      lineHeight: 23.5,
     },
   });
 
@@ -133,13 +147,18 @@ const NotoSansKRBlackText = (color: BlackColor, weight: NotoSansKRWeight, size: 
  * @Grey #797979
  * @NightRider #2C2C2C
  */
-const PoppinsBlackText = (color: BlackColor, weight: PoppinsWeight, size: number) => {
+const PoppinsBlackText = (
+  color: BlackColor,
+  weight: PoppinsWeight,
+  size: number
+) => {
   const style = StyleSheet.create({
     Text: {
       ...fontsStyleGuide.Color.CBlack[color],
       ...fontsStyleGuide.Weight.Poppins(weight),
       ...fontsStyleGuide.Size(size),
       letterSpacing: -0.5,
+      lineHeight: 23.5,
     },
   });
 
@@ -152,13 +171,18 @@ const PoppinsBlackText = (color: BlackColor, weight: PoppinsWeight, size: number
  * @Denim2 #2262AD
  * @Pelorous #2D9DB6
  */
-const NotoSansKRBlueText = (color: BlueColor, weight: NotoSansKRWeight, size: number) => {
+const NotoSansKRBlueText = (
+  color: BlueColor,
+  weight: NotoSansKRWeight,
+  size: number
+) => {
   const style = StyleSheet.create({
     Text: {
       ...fontsStyleGuide.Color.CBlue[color],
       ...fontsStyleGuide.Weight.NotoSansKR(weight),
       ...fontsStyleGuide.Size(size),
       letterSpacing: -0.5,
+      lineHeight: 23.5,
     },
   });
 
@@ -171,13 +195,18 @@ const NotoSansKRBlueText = (color: BlueColor, weight: NotoSansKRWeight, size: nu
  * @Denim2 #2262AD
  * @Pelorous #2D9DB6
  */
-const PoppinsBlueText = (color: BlueColor, weight: PoppinsWeight, size: number) => {
+const PoppinsBlueText = (
+  color: BlueColor,
+  weight: PoppinsWeight,
+  size: number
+) => {
   const style = StyleSheet.create({
     Text: {
       ...fontsStyleGuide.Color.CBlue[color],
       ...fontsStyleGuide.Weight.Poppins(weight),
       ...fontsStyleGuide.Size(size),
       letterSpacing: -0.5,
+      lineHeight: 23.5,
     },
   });
 
@@ -187,13 +216,18 @@ const PoppinsBlueText = (color: BlueColor, weight: PoppinsWeight, size: number) 
  * @White #FFFFFF
  *
  */
-const NotoSansKRWhiteText = (color: WhiteColor, weight: NotoSansKRWeight, size: number) => {
+const NotoSansKRWhiteText = (
+  color: WhiteColor,
+  weight: NotoSansKRWeight,
+  size: number
+) => {
   const style = StyleSheet.create({
     Text: {
       ...fontsStyleGuide.Color.CWhite[color],
       ...fontsStyleGuide.Weight.NotoSansKR(weight),
       ...fontsStyleGuide.Size(size),
       letterSpacing: -0.5,
+      lineHeight: 23.5,
     },
   });
 
@@ -203,13 +237,18 @@ const NotoSansKRWhiteText = (color: WhiteColor, weight: NotoSansKRWeight, size: 
  * @White #FFFFFF
  *
  */
-const PoppinsWhiteText = (color: WhiteColor, weight: PoppinsWeight, size: number) => {
+const PoppinsWhiteText = (
+  color: WhiteColor,
+  weight: PoppinsWeight,
+  size: number
+) => {
   const style = StyleSheet.create({
     Text: {
       ...fontsStyleGuide.Color.CWhite[color],
       ...fontsStyleGuide.Weight.Poppins(weight),
       ...fontsStyleGuide.Size(size),
       letterSpacing: -0.5,
+      lineHeight: 23.5,
     },
   });
 
@@ -220,34 +259,49 @@ const PoppinsWhiteText = (color: WhiteColor, weight: PoppinsWeight, size: number
  * @SunsetOrange #FF4C46
  * @Scarlet #F31414
  */
-const NotoSansKRRedText = (color: RedColor, weight: NotoSansKRWeight, size: number) => {
+const NotoSansKRRedText = (
+  color: RedColor,
+  weight: NotoSansKRWeight,
+  size: number
+) => {
   const style = StyleSheet.create({
     Text: {
       ...fontsStyleGuide.Color.CRed[color],
       ...fontsStyleGuide.Weight.NotoSansKR(weight),
       ...fontsStyleGuide.Size(size),
       letterSpacing: -0.5,
+      lineHeight: 23.5,
     },
   });
 
   return style.Text;
 };
 
-export const fontsStyles = StyleSheet.create({
+export const Font = StyleSheet.create({
   // TopNav
   TopNavTitle: {...NotoSansKRBlackText('Charcoal', 700, 22)},
 
   // Home
-  MainLoginBtnText: {...NotoSansKRWhiteText('White', 500, 18)},
-  MainLoginBottomText: {...NotoSansKRWhiteText('White', 500, 16)},
-  MainNoticeTitleText: {...NotoSansKRBlackText('Nero', 700, 16)},
+  MainLoginBtnText: {
+    ...NotoSansKRWhiteText('White', 500, 18),
+    textAlign: 'center',
+  },
+  MainLoginBottomText: {
+    ...NotoSansKRWhiteText('White', 500, 16),
+    textAlign: 'center',
+  },
+  MainCarNumberText: {...NotoSansKRBlueText('DarkCerulean', 700, 17)},
+  MainNoticeTitleText: {...NotoSansKRBlackText('Nero', 700, 17)},
   MainNoticeLeftText: {...NotoSansKRBlackText('Nero', 500, 15)},
   MainNoticeRightText: {...NotoSansKRBlackText('Nero', 400, 15)},
   MainBottomTitle: {...NotoSansKRBlackText('Nero', 700, 17)},
   MainBottomLeft: {...NotoSansKRBlackText('Nero', 500, 15)},
   MainBottomRight: {...NotoSansKRBlackText('Nero', 500, 16)},
   MainFooterTop: {...NotoSansKRBlackText('Nero', 400, 14)},
-  MainFooterBottom: {...NotoSansKRBlackText('DimGray', 400, 13)},
+  MainFooterBottom: {
+    ...NotoSansKRBlackText('DimGray', 400, 13),
+    textAlign: 'center',
+  },
 
   //계약확인
   ContractCheckTitle: {...NotoSansKRBlackText('Nero', 700, 16)},
