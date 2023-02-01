@@ -15,7 +15,7 @@ import Navigation from '../../../assets/Vector.svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Divider} from '@rneui/base';
 import Dividers from '../../../components/divider/Dividers';
-import {SettingStyles} from '../../../assets/css/setting/Setting';
+import {SettingStyles} from '../../../assets/css/setting/setting';
 import {Font} from '../../../assets/css/global/newFont';
 
 const Setting = ({navigation}: any) => {

@@ -18,7 +18,9 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 import {timeForToday} from '../../../@utility/time';
+import CommunityListStyles from '../../../assets/css/community/communityList';
 import {Weight} from '../../../assets/css/global/font';
+import {Font} from '../../../assets/css/global/newFont';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
@@ -77,11 +79,11 @@ const CommunityBoardList = ({navigation, route}: any) => {
       </Modal>
       <TopNav navigation={navigation} title="커뮤니티" />
       <TouchableOpacity
-        style={styles.writeButtonFloat}
+        style={CommunityListStyles.WriteButtonFloat}
         onPress={() => {
           navigation.push('CommunityBoardWrite');
         }}>
-        <View style={styles.writeContainer}>
+        <View style={CommunityListStyles.WriteContainer}>
           <Image source={require('../../../assets/write.png')} />
         </View>
       </TouchableOpacity>
@@ -89,15 +91,7 @@ const CommunityBoardList = ({navigation, route}: any) => {
         contentInsetAdjustmentBehavior="automatic"
         style={globalStyles.ScrollViewBorder}>
         <View style={globalStyles.MainWrap}>
-          <Text
-            style={{
-              fontSize: 19,
-              lineHeight: 35,
-              ...Weight.Bold,
-              color: '#292929',
-            }}>
-            자유게시판
-          </Text>
+          <Text style={Font.CommunityListTopTitle}>자유게시판</Text>
         </View>
         {/* <Divider width={1} style={{marginVertical: 15}} /> */}
         <Dividers marginTop="15" marginBottom="15" />
@@ -115,36 +109,16 @@ const CommunityBoardList = ({navigation, route}: any) => {
             <>
               <View key={index} style={globalStyles.MainWrap}>
                 <TouchableOpacity onPress={boardLinkHandler(IDX_BOARD)}>
-                  <View style={{display: 'flex', flexDirection: 'row'}}>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        lineHeight: 30,
-                        ...Weight.Default,
-                        color: '#101010',
-                      }}>
-                      {Title}{' '}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        lineHeight: 30,
-                        color: '#FF4C46',
-                        ...Weight.Normal,
-                        // ...Colors.Red,
-                      }}>
+                  <View style={CommunityListStyles.MiddleTopWrap}>
+                    <Text style={Font.CommunityListTitle}>{Title} </Text>
+                    <Text style={Font.CommunityListCommentCountText}>
                       {CommentCnt}
                     </Text>
                   </View>
                 </TouchableOpacity>
 
                 <View>
-                  <Text
-                    style={{
-                      fontSize: 13,
-                      ...Weight.Normal,
-                      color: '#666666',
-                    }}>
+                  <Text style={Font.CommunityListCreatedTime}>
                     {CreatedDay}
                   </Text>
                 </View>
@@ -169,66 +143,5 @@ const CommunityBoardList = ({navigation, route}: any) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    // marginHorizontal: 30,
-    marginTop: 15,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-  },
-  documentMenu: {
-    marginTop: 15,
-    paddingBottom: 15,
-
-    flexGrow: 1,
-  },
-  descriptionTopTitle: {
-    fontSize: 17,
-    color: '#292929',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-    marginLeft: 15,
-    fontWeight: '700',
-  },
-  descriptionTitle: {
-    fontSize: 17,
-    color: '#292929',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-    marginLeft: 15,
-  },
-  comment: {
-    fontSize: 17,
-    color: '#FF4C46',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-    marginLeft: 10,
-  },
-  writeButtonFloat: {
-    backgroundColor: 'black',
-    width: 53,
-    height: 53,
-    zIndex: 1,
-    position: 'absolute',
-    top: Dimensions.get('window').height - 170,
-    bottom: 0,
-    // left: 0,
-    right: '5%',
-    borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  writeContainer: {
-    borderBottomColor: 'white',
-    paddingBottom: 4,
-    borderBottomWidth: 3,
-  },
-  commentAt: {
-    color: '#666666',
-    marginLeft: 15,
-  },
-});
 
 export default CommunityBoardList;

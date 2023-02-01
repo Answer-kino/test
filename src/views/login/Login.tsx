@@ -22,8 +22,11 @@ import AlertCustom_2Btn from '../../components/alert/Alert2btn';
 import AlertCustom_1btn from '../../components/alert/Alert1btn';
 import {SignUpStyles} from '../../assets/css/login/signup';
 import {Font} from '../../assets/css/global/newFont';
-import {MarginLeft, MarginTop} from '../../assets/css/global/margin';
-import {globalStyles} from '../../assets/css/global/styleSheet';
+import {
+  MarginLeft,
+  MarginRight,
+  MarginTop,
+} from '../../assets/css/global/margin';
 enum ESignInfoKey {
   carNumber = 'carNumber',
   email = 'email',
@@ -657,9 +660,10 @@ const Login = ({navigation}: any) => {
                   onChangeText={setCheckedInfoDistCodeHandler('phone')}
                   onBlur={checkedDigitCodeHandler('phone')}
                 />
-                <View>
-                  <Text style={SignUpStyles.InputTimer}>
-                    {Font.SignUpValidComplete
+                <View style={MarginRight(10)}>
+                  <Text style={Font.SignUpValidComplete}>
+                    {' '}
+                    {isAllowSignInfo.phone
                       ? `인증완료`
                       : `${timer.phone.min} : ${timer.phone.sec}`}
                   </Text>
@@ -728,12 +732,14 @@ const Login = ({navigation}: any) => {
                   onBlur={checkedDigitCodeHandler('email')}
                 />
                 <View>
-                  <Text style={Font.SignUpValidComplete}>
-                    {' '}
-                    {isAllowSignInfo.email
-                      ? `인증완료`
-                      : `${timer.email.min} : ${timer.email.sec}`}
-                  </Text>
+                  <View style={MarginRight(10)}>
+                    <Text style={Font.SignUpValidComplete}>
+                      {' '}
+                      {isAllowSignInfo.email
+                        ? `인증완료`
+                        : `${timer.email.min} : ${timer.email.sec}`}
+                    </Text>
+                  </View>
                 </View>
               </View>
               {isAllowSignInfo.email ? (
@@ -857,17 +863,13 @@ const Login = ({navigation}: any) => {
                 [내용보기]
               </Text>
             </View>
-            <View style={SignUpStyles.CheckBoxView}>
-              <Text style={Font.SignUpWarningMsg}>
-                이용 약관과 개인정보수집 및 이용 안내에 모두 동의해주세요.
-              </Text>
-            </View>
+            <View style={SignUpStyles.CheckBoxView}></View>
           </View>
           <View style={SignUpStyles.FlexRow}>
             <TouchableOpacity
               style={SignUpStyles.LastBtn}
               onPress={signUpHandler}>
-              <Text style={globalStyles.ButtonText}>가입하기</Text>
+              <Text style={Font.SignUpCheckBtn}>가입하기</Text>
             </TouchableOpacity>
           </View>
         </View>

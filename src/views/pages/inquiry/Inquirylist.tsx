@@ -15,7 +15,8 @@ import {
 import API_Inquiry_Service from '../../../@api/inquiry/inquiry';
 import {Font} from '../../../assets/css/global/newFont';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
-import {inquiryStyle} from '../../../assets/css/inquiry/inquiry';
+
+import {InquiryListStyles} from '../../../assets/css/inquiry/inquiryList';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import Dividers from '../../../components/divider/Dividers';
@@ -107,12 +108,12 @@ const InquiryList = ({navigation}: any) => {
                         onPress={() => {
                           dropDownHandler(index);
                         }}>
-                        <View style={inquiryStyle.InquiryTitleWrap}>
-                          <View style={inquiryStyle.InquiryTitleLeft}>
+                        <View style={InquiryListStyles.InquiryTitleWrap}>
+                          <View style={InquiryListStyles.InquiryTitleLeft}>
                             <Text style={Font.InquiryListMark}>Q</Text>
                             <Text style={Font.InquiryListTitle}>{title}</Text>
                           </View>
-                          <View style={inquiryStyle.InquiryTitleRight}>
+                          <View style={InquiryListStyles.InquiryTitleRight}>
                             {dropDown[index] ? (
                               <Image
                                 source={require('./../../../assets/dropUp.png')}></Image>
@@ -127,10 +128,10 @@ const InquiryList = ({navigation}: any) => {
 
                     {/* Content Section Start */}
                     <View>
-                      <View style={inquiryStyle.ContentWrap}>
+                      <View style={InquiryListStyles.ContentWrap}>
                         {dropDown[index] ? (
                           <View>
-                            <View style={inquiryStyle.ContentTextWrap}>
+                            <View style={InquiryListStyles.ContentTextWrap}>
                               <Text style={Font.InquiryListContent}>
                                 {content}
                               </Text>
@@ -139,27 +140,29 @@ const InquiryList = ({navigation}: any) => {
                             {/* Answer Section Start */}
                             <View>
                               <View>
-                                <View style={inquiryStyle.AnswerWrap}>
-                                  <View style={inquiryStyle.AnswerTop}>
+                                <View style={InquiryListStyles.AnswerWrap}>
+                                  <View style={InquiryListStyles.AnswerTop}>
                                     <Text style={Font.InquiryListMark}>A</Text>
                                     <Text style={Font.InquiryListTitle}>
                                       답변
                                     </Text>
                                   </View>
                                   {answer ? (
-                                    <View style={inquiryStyle.ContentTextWrap}>
+                                    <View
+                                      style={InquiryListStyles.ContentTextWrap}>
                                       <Text style={Font.InquiryListContent}>
                                         {answer}
                                       </Text>
                                     </View>
                                   ) : (
-                                    <View style={inquiryStyle.ContentTextWrap}>
+                                    <View
+                                      style={InquiryListStyles.ContentTextWrap}>
                                       <View>
                                         <Text style={Font.InquiryListContent}>
                                           확인중입니다.
                                         </Text>
                                       </View>
-                                      <View style={inquiryStyle.BtnWrap}>
+                                      <View style={InquiryListStyles.BtnWrap}>
                                         <TouchableOpacity
                                           onPress={() => {
                                             navigation.navigate('InquiryEdit', {
@@ -168,7 +171,8 @@ const InquiryList = ({navigation}: any) => {
                                               content: content,
                                             });
                                           }}>
-                                          <View style={inquiryStyle.ModifyBtn}>
+                                          <View
+                                            style={InquiryListStyles.ModifyBtn}>
                                             <Text style={Font.InquiryListBtn}>
                                               수정
                                             </Text>
@@ -176,7 +180,8 @@ const InquiryList = ({navigation}: any) => {
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                           onPress={deleteInquiryList(number)}>
-                                          <View style={inquiryStyle.DeleteBtn}>
+                                          <View
+                                            style={InquiryListStyles.DeleteBtn}>
                                             <Text style={Font.InquiryListBtn}>
                                               삭제
                                             </Text>

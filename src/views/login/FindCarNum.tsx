@@ -10,6 +10,9 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
+import FindCarNumStyles from '../../assets/css/login/findCarNum';
+import {Font} from '../../assets/css/global/newFont';
+import {MarginRight, MarginTop} from '../../assets/css/global/margin';
 
 const FindCarNum = ({navigation}: any) => {
   const SIGN_SERVICE = new API_SIGN_SERVICE();
@@ -168,12 +171,12 @@ const FindCarNum = ({navigation}: any) => {
     }
   };
   return (
-    <View style={styles.full}>
+    <View style={FindCarNumStyles.Full}>
       <View>
-        <Text style={styles.TopText}>차량번호 확인</Text>
+        <Text style={Font.FindCarNumTopText}>차량번호 확인</Text>
       </View>
-      <View style={{marginTop: 20}}>
-        <View style={styles.flexRowWithBtn}>
+      <View style={MarginTop(20)}>
+        <View style={FindCarNumStyles.FlexRowWithBtn}>
           <TextInput
             style={styles.inputBoxWithBtn}
             textContentType={'telephoneNumber'}
@@ -199,26 +202,26 @@ const FindCarNum = ({navigation}: any) => {
             {isAllowPhone ? (
               <></>
             ) : (
-              <View style={styles.flexRowText}>
-                <Text style={styles.warringMsg}>
+              <View style={FindCarNumStyles.FlexRowText}>
+                <Text style={Font.SignUpSendValidNumText}>
                   인증번호를 발송했습니다.(유효시간 4분) 인증번호가오지 않으면
                   입력하신 정보가 정확한지 확인하여주세요. 이미 가입된
                   번호이거나, 가상전화번호는 인증번호를 받을 수 없습니다.
                 </Text>
               </View>
             )}
-            <View style={styles.flexRowWithBtn}>
+            <View style={FindCarNumStyles.FlexRowWithBtn}>
               <TextInput
                 style={styles.inputBoxWithBtn}
                 editable={!isAllowPhone}
                 keyboardType={'number-pad'}
                 maxLength={6}
                 returnKeyType="done"
-                placeholder="인증번호 입력하세요"
+                placeholder="인증번호를 입력하세요"
                 onChangeText={setCheckedInfoDistCodeHandler}
               />
-              <View>
-                <Text style={styles.inputTimer}>
+              <View style={MarginRight(10)}>
+                <Text style={Font.SignUpTimer}>
                   {isAllowPhone
                     ? `인증완료`
                     : `${timer.phone.min} : ${timer.phone.sec}`}
@@ -228,10 +231,12 @@ const FindCarNum = ({navigation}: any) => {
             {isAllowPhone ? (
               <></>
             ) : (
-              <View style={styles.flexRowText}>
-                <Text style={styles.errorMsg}>
-                  인증번호를 다시 확인해주세요.
-                </Text>
+              <View style={FindCarNumStyles.FlexRowText}>
+                <View style={MarginTop(5)}>
+                  <Text style={Font.SignUpWarningMsg}>
+                    인증번호를 다시 확인해주세요.
+                  </Text>
+                </View>
               </View>
             )}
           </>
@@ -239,9 +244,9 @@ const FindCarNum = ({navigation}: any) => {
           <></>
         )}
         {carNumber && (
-          <View style={styles.flexRowWithBtn}>
-            <Text style={styles.carNumberText}>차량번호: </Text>
-            <Text selectable style={styles.carNumberText2}>
+          <View style={FindCarNumStyles.FlexRowWithBtn}>
+            <Text style={Font.FindCarNumCarNumTextLeft}>차량번호: </Text>
+            <Text selectable style={Font.FindCarNumCarNumTextRight}>
               {carNumber}
             </Text>
           </View>

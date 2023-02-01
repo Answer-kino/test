@@ -11,6 +11,10 @@ import {
   Alert,
 } from 'react-native';
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
+import CommunityWriteStyles from '../../../assets/css/community/communityWrite';
+import {MarginTop} from '../../../assets/css/global/margin';
+import {Font} from '../../../assets/css/global/newFont';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
@@ -53,14 +57,14 @@ const CommunityBoardWrite = ({navigation}: any) => {
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
-      style={styles.scrollView}>
+      style={globalStyles.ScrollView}>
       <View>
         <TopNav navigation={navigation} title="커뮤니티" />
-        <View style={styles.container}>
-          <Text style={styles.descriptionTitle}>글쓰기</Text>
+        <View style={CommunityWriteStyles.Container}>
+          <Text style={Font.CommunityWriteTopTitle}>글쓰기</Text>
           <TextInput
             placeholder="제목"
-            style={styles.titleInput}
+            style={CommunityWriteStyles.TitleInput}
             placeholderTextColor="black"
             onChangeText={text => {
               setTitle(text);
@@ -68,7 +72,7 @@ const CommunityBoardWrite = ({navigation}: any) => {
           />
           <TextInput
             placeholder="내용"
-            style={styles.contentInput}
+            style={CommunityWriteStyles.ContentInput}
             multiline={true}
             numberOfLines={17}
             placeholderTextColor="black"
@@ -76,9 +80,9 @@ const CommunityBoardWrite = ({navigation}: any) => {
               setContent(text);
             }}
           />
-          <View style={{flex: 1}}>
+          <View style={MarginTop(10)}>
             <TouchableOpacity
-              style={styles.writeButton}
+              style={CommunityWriteStyles.WriteButton}
               onPress={() => {
                 {
                   title !== '' && content !== ''
@@ -86,7 +90,7 @@ const CommunityBoardWrite = ({navigation}: any) => {
                     : Alert.alert('제목과 내용을 입력해주세요.');
                 }
               }}>
-              <Text style={styles.writeButtonText}>글쓰기</Text>
+              <Text style={Font.CommunityWriteBtn}>글쓰기</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -95,60 +99,5 @@ const CommunityBoardWrite = ({navigation}: any) => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    height: Dimensions.get('window').height - 80,
-  },
-  container: {
-    marginHorizontal: 30,
-    marginTop: 15,
-  },
-  descriptionTitle: {
-    fontSize: 17,
-    color: '#292929',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-  },
-  titleInput: {
-    marginTop: 10,
-    backgroundColor: 'white',
-    flex: 1,
-    height: 54,
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    color: 'black',
-  },
-  contentInput: {
-    marginTop: 10,
-    paddingTop: 10,
-    backgroundColor: 'white',
-    flex: 1,
-    minHeight: 54,
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    justifyContent: 'flex-start',
-    textAlignVertical: 'top',
-    color: 'black',
-  },
-  writeButton: {
-    marginTop: 10,
-    backgroundColor: 'black',
-    height: 51,
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    justifyContent: 'center',
-  },
-  writeButtonText: {
-    fontSize: 16,
-    color: 'white',
-    alignItems: 'center',
-    textAlign: 'center',
-    fontWeight: '500',
-  },
-  container2: {
-    flex: 1,
-  },
-});
 
 export default CommunityBoardWrite;

@@ -17,6 +17,7 @@ import {regExp_phone} from '../../@utility/reg';
 import {changeStyles} from '../../assets/css/mypage/change';
 import {globalStyles} from '../../assets/css/global/styleSheet';
 import {MarginTop} from '../../assets/css/global/margin';
+import {Font} from '../../assets/css/global/newFont';
 
 const ChangePhoneNumber = ({navigation, route}: any) => {
   const [newPhoneNumber, setNewPhoneNumber] = useState<string>('');
@@ -207,7 +208,7 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
               onPress={() => {
                 validPhoneNumber();
               }}>
-              <Text style={changeStyles.TextInputWithBtnText}>인증요청</Text>
+              <Text style={Font.SignUpCheckBtn}>인증요청</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -215,13 +216,15 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
         {validationText ? (
           <>
             <>
-              <Text style={changeStyles.InformText}>
-                인증번호를 발송했습니다. (유효시간 4분)
-                {'\n'}
-                인증번호가 오지 않으면 입력하신 정보가 정확한지 확인하여주세요.
-                이미 가입된 번호이거나, 가상전화번호는 인증번호를 받을 수
-                없습니다.
-              </Text>
+              <View style={{marginVertical: 10}}>
+                <Text style={Font.SignUpSendValidNumText}>
+                  인증번호를 발송했습니다. (유효시간 4분)
+                  {'\n'}
+                  인증번호가 오지 않으면 입력하신 정보가 정확한지
+                  확인하여주세요. 이미 가입된 번호이거나, 가상전화번호는
+                  인증번호를 받을 수 없습니다.
+                </Text>
+              </View>
             </>
             <View style={changeStyles.TextInputThreeQuartersWrap}>
               <TextInput
@@ -235,7 +238,7 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
               <View style={changeStyles.TextInputWithBtnWithTimerWrap}>
                 <View style={changeStyles.TextInputWithBtnWithTimer}>
                   <View style={changeStyles.TextInputWithTimer}>
-                    <Text style={changeStyles.TextInputWithTimerText}>
+                    <Text style={Font.SignUpTimer}>
                       {time.min} : {time.sec}
                     </Text>
                   </View>
@@ -248,20 +251,23 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
                     disabled={
                       (time.min === '00' && time.sec === '00') || validation
                     }>
-                    <Text style={changeStyles.TextInputWithBtnText}>
-                      인증하기
-                    </Text>
+                    <Text style={Font.SignUpCheckBtn}>인증하기</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
+
             {validation ? (
-              <Text style={changeStyles.SuccessText}>인증 되었습니다.</Text>
+              <View style={MarginTop(10)}>
+                <Text style={Font.SignUpMsg}>인증 되었습니다.</Text>
+              </View>
             ) : null}
             {time.min === '00' && time.sec === '00' ? (
-              <Text style={changeStyles.ErrorText}>
-                인증시간이 만료되었습니다. 다시 인증해주세요.
-              </Text>
+              <View style={MarginTop(10)}>
+                <Text style={Font.SignUpCheckBoxWarningText}>
+                  인증시간이 만료되었습니다. 다시 인증해주세요.
+                </Text>
+              </View>
             ) : null}
             {/* {validationCheck.phone === true ? (
                 <Text style={styles.phoneValidationText}>
@@ -288,7 +294,7 @@ const ChangePhoneNumber = ({navigation, route}: any) => {
             changePhoneNumber();
           }}
           disabled={validTimeCheck}>
-          <Text style={changeStyles.SubmitBtnText}>수정 완료</Text>
+          <Text style={Font.ChangePwdCheckBtn}>수정 완료</Text>
         </TouchableOpacity>
       </View>
     </View>

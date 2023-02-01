@@ -22,6 +22,7 @@ import {globalStyles} from '../../../assets/css/global/styleSheet';
 import {Colors, FontNotoSans, Weight} from '../../../assets/css/global/font';
 import {Divider} from '@rneui/base';
 import Dividers from '../../../components/divider/Dividers';
+import {Font} from '../../../assets/css/global/newFont';
 
 const tmpObj: {[key: string]: any} = {
   capital: {
@@ -113,16 +114,7 @@ const NoticeList = ({navigation, route}: any) => {
         contentInsetAdjustmentBehavior="automatic"
         style={globalStyles.ScrollViewBorder}>
         <View style={globalStyles.MainWrap}>
-          <Text
-            style={{
-              fontSize: 19,
-              lineHeight: 35,
-              ...FontNotoSans.Android.Medium,
-              ...Weight.Bold,
-              ...Colors[292929],
-            }}>
-            {noticeTitle}
-          </Text>
+          <Text style={Font.NoticeTopTitle}>{noticeTitle}</Text>
         </View>
         {/* <Divider width={1} style={{marginVertical: 15}} /> */}
         <Dividers marginTop="15" marginBottom="15"></Dividers>
@@ -144,24 +136,8 @@ const NoticeList = ({navigation, route}: any) => {
                       category: category,
                     })
                   }>
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      lineHeight: 35,
-                      ...FontNotoSans.Android.Medium,
-                      ...Weight.Normal,
-                      ...Colors[525252],
-                    }}>
-                    {Title}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      lineHeight: 35,
-                      ...FontNotoSans.Android.Medium,
-                      ...Weight.Normal,
-                      ...Colors[666666],
-                    }}>
+                  <Text style={Font.NoticeTitle}>{Title}</Text>
+                  <Text style={Font.NoticeTimeCategory}>
                     {CreateDay} | {category2}
                   </Text>
                 </TouchableOpacity>

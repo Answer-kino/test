@@ -288,7 +288,7 @@ const NotoSansKRRedText = (
 
 export const Font = StyleSheet.create({
   // TopNav
-  TopNavTitle: {...NotoSansKRBlackText('Charcoal', 700, 22)},
+  TopNavTitle: {...NotoSansKRBlackText('Charcoal', 700, 22), lineHeight: 28},
 
   // Home
   MainLoginBtnText: {
@@ -355,12 +355,15 @@ export const Font = StyleSheet.create({
   },
   CommunityListCreatedTime: {...NotoSansKRBlackText('DimGray', 400, 13)},
   // NoticeCategory
-  NoticeCategoryText: {...NotoSansKRBlackText('Nero', 500, 16)},
+  NoticeCategoryText: {
+    ...NotoSansKRBlackText('Nero', 500, 16),
+    paddingLeft: 10,
+  },
   // MyPage
   MypageModalText: {...NotoSansKRBlueText('Chambray', 700, 20)},
   MypageLeftText: {...NotoSansKRBlackText('Nero', 500, 15)},
   MypageRightText: {...NotoSansKRBlackText('DimGray', 500, 15)},
-  MyPageBtnText: {...NotoSansKRWhiteText('White', 500, 17)},
+  MyPageBtnText: {...NotoSansKRWhiteText('White', 500, 15)},
   // NFT 보증서
   NftTitle: {...PoppinsBlackText('Nero', 500, 22), lineHeight: 35},
   NftOwnedBy: {...PoppinsBlackText('Nero', 400, 16), lineHeight: 35},
@@ -382,11 +385,21 @@ export const Font = StyleSheet.create({
   SignUpMsg: {
     ...NotoSansKRBlackText('Nero', 400, 13),
     textAlign: 'left',
+    paddingLeft: 10,
+    paddingRight: 10,
   },
+  SignUpTimer: {
+    ...NotoSansKRBlackText('SuvaGrey', 400, 14),
+    paddingLeft: 10,
+  },
+
   SignUpWarningMsg: {
     ...NotoSansKRRedText('SunsetOrange', 400, 13),
     textAlign: 'left',
     lineHeight: 15,
+    // paddingTop: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   SignUpAllAgree: {...NotoSansKRBlackText('Grey', 400, 16)},
   SignUpEssential: {...NotoSansKRBlueText('Denim', 400, 15), lineHeight: 20},
@@ -402,6 +415,8 @@ export const Font = StyleSheet.create({
   SignUpSendValidNumText: {
     ...NotoSansKRBlueText('Pelorous', 400, 13),
     lineHeight: 18,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   SignUpValidComplete: {...NotoSansKRBlackText('SuvaGrey', 400, 13)},
   SignUpModalTitle: {...NotoSansKRBlackText('Nero', 700, 20), lineHeight: 35},
@@ -484,28 +499,61 @@ export const Font = StyleSheet.create({
     ...NotoSansKRBlackText('SuvaGrey', 500, 14),
   },
   CommunityCommentRegisterBtn: {...NotoSansKRWhiteText('White', 700, 16)},
-  //공지사항
+  //공지사항리스트
   NoticeTopTitle: {...NotoSansKRBlackText('Nero', 700, 19)},
-  NoticeTitle: {...NotoSansKRBlackText('Matterhorn', 500, 18)},
-  NoticeTimeCategory: {...NotoSansKRBlackText('DimGray', 400, 15)},
+  NoticeTitle: {...NotoSansKRBlackText('Matterhorn', 500, 18), lineHeight: 35},
+  NoticeTimeCategory: {
+    ...NotoSansKRBlackText('DimGray', 400, 15),
+    lineHeight: 35,
+  },
   //비밀번호변경
   ChangePwdInputBox: {...NotoSansKRBlackText('Nero', 400, 15)},
   ChangePwdInputBoxPlaceholder: {...NotoSansKRBlackText('SuvaGrey', 400, 15)},
   ChangePwdCheckBtn: {...NotoSansKRWhiteText('White', 500, 17)},
+  ChangePwdWarningMsg: {
+    ...NotoSansKRRedText('SunsetOrange', 400, 13),
+    textAlign: 'left',
+    lineHeight: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+  },
   //차량번호찾기
-  FindCarNumTopText: {...NotoSansKRBlackText('Nero', 700, 22)},
+  FindCarNumTopText: {...NotoSansKRBlackText('Nero', 700, 22), lineHeight: 30},
   FindCarNumInput: {...NotoSansKRBlackText('Nero', 400, 14)},
   FindCarNumPlaceholder: {...NotoSansKRBlackText('SuvaGrey', 400, 14)},
   FindCarNumCertificationBtn: {...NotoSansKRWhiteText('White', 500, 13)},
-  FindCarNumCarNumTextLeft: {...NotoSansKRBlackText('DimGray', 700, 16)}, //600없음
-  FindCarNumCarNumTextRight: {...NotoSansKRBlueText('Denim', 700, 16)},
+  FindCarNumCarNumTextLeft: {
+    ...NotoSansKRBlackText('DimGray', 700, 16),
+    lineHeight: 18,
+  }, //600없음
+  FindCarNumCarNumTextRight: {
+    ...NotoSansKRBlueText('Denim', 700, 16),
+    lineHeight: 18,
+    padding: 5,
+  },
   FindCarNumCheckBtn: {...NotoSansKRWhiteText('White', 500, 16)},
   //비밀번호찾기
-  FindPwdTopText: {...NotoSansKRBlackText('Nero', 700, 22)},
+  FindPwdTopText: {...NotoSansKRBlackText('Nero', 700, 22), lineHeight: 30},
   FindPwdInput: {...NotoSansKRBlackText('Nero', 400, 14)},
   FindPwdPlaceholder: {...NotoSansKRBlackText('SuvaGrey', 400, 14)},
+  FindPwdWarningMsg: {
+    ...NotoSansKRRedText('SunsetOrange', 400, 13),
+    textAlign: 'left',
+    lineHeight: 15,
+    paddingTop: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
   FindPwdCertificationBtn: {...NotoSansKRWhiteText('White', 500, 13)},
-  FindPwdSendValidNumText: {...NotoSansKRBlueText('Pelorous', 400, 13)},
+  FindPwdValidSuccess: {
+    ...NotoSansKRBlackText('SuvaGrey', 400, 13),
+    paddingLeft: 10,
+  },
+  FindPwdSendValidNumText: {
+    ...NotoSansKRBlueText('Pelorous', 400, 13),
+    paddingLeft: 10,
+    // lineHeight: 10,
+  },
   FindPwdLoginBtn: {...NotoSansKRWhiteText('White', 500, 16)},
   //커뮤니티글쓰기
   CommunityWriteTopTitle: {...NotoSansKRBlackText('Nero', 700, 19)},
@@ -516,7 +564,7 @@ export const Font = StyleSheet.create({
   CommunityWriteBtn: {...NotoSansKRWhiteText('White', 500, 17)},
   //공지사항디테일
   NoticeDetailTitle: {...NotoSansKRBlackText('Matterhorn', 500, 18)},
-  NoticeDetailContent: {...NotoSansKRBlackText('DimGray', 700, 14)},
+  NoticeDetailContent: {...NotoSansKRBlackText('DimGray', 500, 14)},
   NoticeDetailCheckBtn: {...NotoSansKRBlackText('NightRider', 500, 17)},
   //문의글보기
   InquiryListMark: {...NotoSansKRBlueText('Denim2', 700, 18)},

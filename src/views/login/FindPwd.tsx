@@ -10,6 +10,9 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
+import FindPwdStyles from '../../assets/css/login/findPwd';
+import {Font} from '../../assets/css/global/newFont';
+import {MarginTop} from '../../assets/css/global/margin';
 
 const FindPwd = ({navigation}: any) => {
   const SIGN_SERVICE = new API_SIGN_SERVICE();
@@ -162,18 +165,18 @@ const FindPwd = ({navigation}: any) => {
     }
   };
   return (
-    <View style={styles.full}>
+    <View style={FindPwdStyles.Full}>
       <View>
-        <Text style={styles.TopText}>비밀번호 찾기</Text>
+        <Text style={Font.FindPwdTopText}>비밀번호 찾기</Text>
       </View>
-      <View style={{marginTop: 20}}>
+      <View style={MarginTop(20)}>
         <TextInput
           style={styles.inputbox1}
           placeholder="차량번호"
           placeholderTextColor="black"
           onChangeText={text => setCarNumber(text)}></TextInput>
 
-        <View style={styles.flexRowWithBtn}>
+        <View style={FindPwdStyles.FlexRowWithBtn}>
           <TextInput
             style={styles.inputBoxWithBtn}
             textContentType={'telephoneNumber'}
@@ -188,9 +191,9 @@ const FindPwd = ({navigation}: any) => {
             <></>
           ) : (
             <TouchableOpacity
-              style={styles.inputBtn}
+              style={FindPwdStyles.InputBtn}
               onPress={sendDigitCodeHandler}>
-              <Text style={styles.inputText}>인증요청</Text>
+              <Text style={Font.SignUpCheckBtn}>인증요청</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -200,15 +203,15 @@ const FindPwd = ({navigation}: any) => {
             {isAllowPhone ? (
               <></>
             ) : (
-              <View style={styles.flexRowText}>
-                <Text style={styles.warringMsg}>
+              <View style={FindPwdStyles.FlexRowText}>
+                <Text style={Font.SignUpSendValidNumText}>
                   인증번호를 발송했습니다.(유효시간 4분) 인증번호가오지 않으면
                   입력하신 정보가 정확한지 확인하여주세요. 이미 가입된
                   번호이거나, 가상전화번호는 인증번호를 받을 수 없습니다.
                 </Text>
               </View>
             )}
-            <View style={styles.flexRowWithBtn}>
+            <View style={FindPwdStyles.FlexRowWithBtn}>
               <TextInput
                 style={styles.inputBoxWithBtn}
                 editable={!isAllowPhone}
@@ -220,29 +223,29 @@ const FindPwd = ({navigation}: any) => {
                 // onBlur={checkedDigitCodeHandler()}
               />
               {/* 인증하기를 누르면 임시 비밀번호가 전송되었습니다 문구 보이고 그 밑에 확인 버튼 */}
-              {/* <View>
+              <View>
                 <Text style={styles.inputTimer}>
                   {isAllowPhone
                     ? `인증완료`
                     : `${timer.phone.min} : ${timer.phone.sec}`}
                 </Text>
-              </View> */}
+              </View>
             </View>
             {isAllowPhone ? (
               <>
-                <View style={styles.flexRowText}>
-                  <Text style={styles.errorMsg}>인증 완료</Text>
+                <View style={FindPwdStyles.FlexRowText}>
+                  <Text style={Font.FindPwdValidSuccess}>인증 완료</Text>
                 </View>
-                <View style={styles.flexRowText}>
-                  <Text style={styles.warringMsg}>
-                    {`휴대폰 번호로 임시 비밀번호를 보내드렸습니다. 
-  로그인 후 비밀번호를 변경해 주십시오.`}
+                <View style={FindPwdStyles.FlexRowText}>
+                  <Text style={Font.FindPwdSendValidNumText}>
+                    휴대폰 번호로 임시 비밀번호를 보내드렸습니다. 로그인 후
+                    비밀번호를 변경해 주십시오.
                   </Text>
                 </View>
               </>
             ) : (
-              <View style={styles.flexRowText}>
-                <Text style={styles.errorMsg}>
+              <View style={FindPwdStyles.FlexRowText}>
+                <Text style={Font.FindPwdWarningMsg}>
                   인증번호를 다시 확인해주세요.
                 </Text>
               </View>
@@ -282,13 +285,6 @@ const FindPwd = ({navigation}: any) => {
 };
 
 const styles = StyleSheet.create({
-  full: {
-    height: '100%',
-    width: '100%',
-    paddingTop: 50,
-    paddingHorizontal: 30,
-    backgroundColor: '#DEDEDE',
-  },
   TopText: {
     color: '#292929',
     fontSize: 22,

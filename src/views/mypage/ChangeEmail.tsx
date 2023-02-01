@@ -13,6 +13,7 @@ import {regExp__email} from '../../@utility/reg';
 import {changeStyles} from '../../assets/css/mypage/change';
 import {globalStyles} from '../../assets/css/global/styleSheet';
 import {MarginTop} from '../../assets/css/global/margin';
+import {Font} from '../../assets/css/global/newFont';
 
 const ChangeEmail = ({navigation, route}: any) => {
   const [newEmail, setNewEmail] = useState<string>('');
@@ -71,7 +72,7 @@ const ChangeEmail = ({navigation, route}: any) => {
         <TouchableOpacity
           style={changeStyles.SubmitBtnWrap}
           onPress={changeEmail}>
-          <Text style={changeStyles.SubmitBtnText}>수정 완료</Text>
+          <Text style={Font.ChangePwdCheckBtn}>수정 완료</Text>
         </TouchableOpacity>
       </View>
     </View>

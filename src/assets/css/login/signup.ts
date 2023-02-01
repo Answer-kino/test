@@ -109,10 +109,8 @@ const SignUpStyles = StyleSheet.create({
   FlexRowText: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
     width: '85%',
-    paddingLeft: 10,
     paddingRight: 10,
     marginBottom: 10,
   },
