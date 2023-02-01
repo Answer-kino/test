@@ -56,19 +56,19 @@ const CommunityBoard = ({navigation, route}: any) => {
   const myPageProfileMap = (num: any) => {
     switch (num) {
       case 1:
-        return <Icon1 style={styles.useImg} />;
+        return <Icon1 style={CommunityStyles.UseImg} />;
       case 2:
-        return <Icon2 style={styles.useImg} />;
+        return <Icon2 style={CommunityStyles.UseImg} />;
       case 3:
-        return <Icon3 style={styles.useImg} />;
+        return <Icon3 style={CommunityStyles.UseImg} />;
       case 4:
-        return <Icon4 style={styles.useImg} />;
+        return <Icon4 style={CommunityStyles.UseImg} />;
       case 5:
-        return <Icon5 style={styles.useImg} />;
+        return <Icon5 style={CommunityStyles.UseImg} />;
       case 6:
-        return <Icon6 style={styles.useImg} />;
+        return <Icon6 style={CommunityStyles.UseImg} />;
       default:
-        return <Icon0 style={styles.useImg} />;
+        return <Icon0 style={CommunityStyles.UseImg} />;
     }
   };
 
@@ -345,14 +345,14 @@ const CommunityBoard = ({navigation, route}: any) => {
         <View style={CommunityStyles.Container}>
           <View style={CommunityStyles.CommentInputContainer}>
             <TextInput
-              style={styles.registInput}
+              style={CommunityStyles.RegistInput}
               value={registComment}
               onChangeText={text => {
                 setRegistComment(text);
               }}
             />
             <TouchableOpacity
-              style={styles.registButton}
+              style={CommunityStyles.RegistButton}
               onPress={() => enrollBtnHandler()}>
               <Text style={Font.CommunityCommentRegisterBtn}>등록</Text>
             </TouchableOpacity>
@@ -364,132 +364,5 @@ const CommunityBoard = ({navigation, route}: any) => {
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  text: {
-    color: 'black',
-  },
-  scrollView: {
-    height: Dimensions.get('window').height - 80,
-  },
-  container: {
-    marginHorizontal: 30,
-    marginTop: 15,
-  },
-  container2: {
-    flex: 1,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-  },
-  content: {
-    marginTop: 10,
-    minHeight: 200,
-  },
-  commentContainer: {
-    marginTop: 15,
-    paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderColor: '#D8D8D8',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    // flex: 1,
-  },
-  descriptionTitle: {
-    fontSize: 17,
-    color: '#292929',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-  },
-  commentLength: {
-    fontSize: 17,
-    color: '#FF4C46',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-    marginLeft: 10,
-  },
-  comment: {
-    fontSize: 14,
-    lineHeight: 22,
-    letterSpacing: -0.05,
-    paddingRight: 10,
-    color: 'black',
-    marginLeft: '3%',
-  },
-  commentAt: {
-    fontSize: 12,
-    lineHeight: 22,
-    letterSpacing: -0.05,
-    flex: 1.2,
-    color: 'black',
-  },
-  commentFront: {
-    flexDirection: 'row',
-    flex: 4,
-    alignItems: 'center',
-  },
-  modifyButton: {
-    backgroundColor: '#6DADDB',
-    width: 50,
-    height: 27,
-    borderRadius: 50,
-    alignItems: 'center',
-  },
-  modifyButtonText: {
-    color: 'white',
-    fontSize: 14,
-    lineHeight: 22,
-  },
-  endLine: {
-    alignItems: 'flex-end',
-    borderBottomWidth: 1,
-    paddingBottom: 7,
-  },
-  profileImg: {
-    backgroundColor: '#A7C1CF',
-    width: 10,
-    height: 10,
-    borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  commentInputContainer: {
-    marginTop: 15,
-    paddingBottom: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  registButton: {
-    backgroundColor: '#6DADDB',
-    width: 47,
-    height: 42,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  registButtonText: {
-    fontSize: 16,
-    color: 'white',
-    lineHeight: 32,
-    flex: 1,
-  },
-  registInput: {
-    backgroundColor: 'white',
-    flex: 3,
-    marginRight: 10,
-    height: 42,
-    borderRadius: 20,
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    color: 'black',
-    borderColor: '#DEDEDE',
-  },
-  useImg: {
-    height: 10,
-    width: 10,
-    marginLeft: '3%',
-  },
-});
 
 export default CommunityBoard;

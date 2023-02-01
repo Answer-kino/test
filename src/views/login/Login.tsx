@@ -660,14 +660,13 @@ const Login = ({navigation}: any) => {
                   onChangeText={setCheckedInfoDistCodeHandler('phone')}
                   onBlur={checkedDigitCodeHandler('phone')}
                 />
-                <View style={MarginRight(10)}>
-                  <Text style={Font.SignUpValidComplete}>
-                    {' '}
-                    {isAllowSignInfo.phone
-                      ? `인증완료`
-                      : `${timer.phone.min} : ${timer.phone.sec}`}
-                  </Text>
-                </View>
+
+                <Text style={Font.SignUpTimer}>
+                  {' '}
+                  {isAllowSignInfo.phone
+                    ? `인증완료`
+                    : `${timer.phone.min} : ${timer.phone.sec}`}
+                </Text>
               </View>
               {isAllowSignInfo.phone ? (
                 <></>
@@ -732,16 +731,15 @@ const Login = ({navigation}: any) => {
                   onBlur={checkedDigitCodeHandler('email')}
                 />
                 <View>
-                  <View style={MarginRight(10)}>
-                    <Text style={Font.SignUpValidComplete}>
-                      {' '}
-                      {isAllowSignInfo.email
-                        ? `인증완료`
-                        : `${timer.email.min} : ${timer.email.sec}`}
-                    </Text>
-                  </View>
+                  <Text style={Font.SignUpTimer}>
+                    {' '}
+                    {isAllowSignInfo.email
+                      ? `인증완료`
+                      : `${timer.email.min} : ${timer.email.sec}`}
+                  </Text>
                 </View>
               </View>
+
               {isAllowSignInfo.email ? (
                 <></>
               ) : (

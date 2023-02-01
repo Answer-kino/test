@@ -1,6 +1,11 @@
 import {StyleSheet} from 'react-native';
 
 const CommunityStyles = StyleSheet.create({
+  UseImg: {
+    height: 10,
+    width: 10,
+    marginLeft: '3%',
+  },
   CommunityModalContainer: {
     backgroundColor: 'white',
     width: '90%',
@@ -37,7 +42,12 @@ const CommunityStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  TitleContainer: {display: 'flex', flexDirection: 'row', marginTop: 10},
+  TitleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 10,
+    alignItems: 'center',
+  },
   Content: {
     marginTop: 10,
     minHeight: 200,
@@ -76,6 +86,25 @@ const CommunityStyles = StyleSheet.create({
     paddingBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  RegistButton: {
+    backgroundColor: '#6DADDB',
+    width: 47,
+    height: 42,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  RegistInput: {
+    backgroundColor: 'white',
+    flex: 3,
+    marginRight: 10,
+    height: 42,
+    borderRadius: 20,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    color: 'black',
+    borderColor: '#DEDEDE',
   },
 });
 

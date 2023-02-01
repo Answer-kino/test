@@ -390,7 +390,7 @@ export const Font = StyleSheet.create({
   },
   SignUpTimer: {
     ...NotoSansKRBlackText('SuvaGrey', 400, 14),
-    paddingLeft: 10,
+    paddingRight: 10,
   },
 
   SignUpWarningMsg: {
@@ -418,7 +418,9 @@ export const Font = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
   },
-  SignUpValidComplete: {...NotoSansKRBlackText('SuvaGrey', 400, 13)},
+  SignUpValidComplete: {
+    ...NotoSansKRBlackText('SuvaGrey', 400, 13),
+  },
   SignUpModalTitle: {...NotoSansKRBlackText('Nero', 700, 20), lineHeight: 35},
   SignUpModalMiddleTop: {
     ...NotoSansKRBlackText('DimGray', 500, 14),

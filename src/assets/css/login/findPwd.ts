@@ -8,6 +8,21 @@ const FindPwdStyles = StyleSheet.create({
     paddingHorizontal: 30,
     backgroundColor: '#DEDEDE',
   },
+  Inputbox1: {
+    backgroundColor: 'white',
+    width: '100%',
+    height: 48,
+    marginTop: 15,
+    borderRadius: 10,
+    paddingLeft: 15,
+    color: 'black',
+  },
+  InputBoxWithBtn: {
+    display: 'flex',
+    flex: 1,
+    color: 'black',
+  },
+
   FlexRowWithBtn: {
     marginTop: 15,
     display: 'flex',
@@ -35,6 +50,15 @@ const FindPwdStyles = StyleSheet.create({
     // alignItems: 'center',
     width: '100%',
     paddingRight: 10,
+  },
+  LastBtn: {
+    width: '100%',
+    height: 51,
+    marginTop: 30,
+    borderRadius: 10,
+    backgroundColor: '#6DADDB',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

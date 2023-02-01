@@ -171,14 +171,14 @@ const FindPwd = ({navigation}: any) => {
       </View>
       <View style={MarginTop(20)}>
         <TextInput
-          style={styles.inputbox1}
+          style={FindPwdStyles.Inputbox1}
           placeholder="차량번호"
           placeholderTextColor="black"
           onChangeText={text => setCarNumber(text)}></TextInput>
 
         <View style={FindPwdStyles.FlexRowWithBtn}>
           <TextInput
-            style={styles.inputBoxWithBtn}
+            style={FindPwdStyles.InputBoxWithBtn}
             textContentType={'telephoneNumber'}
             keyboardType={'number-pad'}
             maxLength={11}
@@ -213,7 +213,7 @@ const FindPwd = ({navigation}: any) => {
             )}
             <View style={FindPwdStyles.FlexRowWithBtn}>
               <TextInput
-                style={styles.inputBoxWithBtn}
+                style={FindPwdStyles.InputBoxWithBtn}
                 editable={!isAllowPhone}
                 keyboardType={'number-pad'}
                 maxLength={6}
@@ -224,7 +224,7 @@ const FindPwd = ({navigation}: any) => {
               />
               {/* 인증하기를 누르면 임시 비밀번호가 전송되었습니다 문구 보이고 그 밑에 확인 버튼 */}
               <View>
-                <Text style={styles.inputTimer}>
+                <Text style={Font.SignUpTimer}>
                   {isAllowPhone
                     ? `인증완료`
                     : `${timer.phone.min} : ${timer.phone.sec}`}
@@ -252,7 +252,7 @@ const FindPwd = ({navigation}: any) => {
             )}
             {!valid ? (
               <TouchableOpacity
-                style={styles.lastBtn}
+                style={FindPwdStyles.LastBtn}
                 onPress={checkedDigitCodeHandler()}>
                 <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
                   인증하기
@@ -260,7 +260,7 @@ const FindPwd = ({navigation}: any) => {
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
-                style={styles.lastBtn}
+                style={FindPwdStyles.LastBtn}
                 onPress={() => {
                   navigation.pop();
                 }}>
@@ -283,137 +283,5 @@ const FindPwd = ({navigation}: any) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  TopText: {
-    color: '#292929',
-    fontSize: 22,
-    marginLeft: -4,
-    lineHeight: 30,
-    fontWeight: '700',
-    fontFamily: 'Noto Sans',
-  },
-  inputbox1: {
-    backgroundColor: 'white',
-    width: '100%',
-    height: 48,
-    marginTop: 15,
-    borderRadius: 10,
-    paddingLeft: 15,
-    color: 'black',
-  },
-  lastBtnText: {
-    fontWeight: '500',
-    fontFamily: 'Noto Sans',
-    fontSize: 13,
-    lineHeight: 18,
-  },
-  lastBtn: {
-    width: '100%',
-    height: 51,
-    marginTop: 30,
-    borderRadius: 10,
-
-    backgroundColor: '#6DADDB',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  login2Btn: {
-    width: '100%',
-    height: 53,
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    //   backgroundColor: 'white',
-  },
-  login3Btn: {
-    width: '48%',
-    height: 53,
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    //   backgroundColor: 'white',
-  },
-  flexRowWithBtn: {
-    marginTop: 15,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    backgroundColor: 'white',
-    height: 48,
-    paddingLeft: 12,
-    borderRadius: 10,
-  },
-  inputBoxWithBtn: {
-    display: 'flex',
-    flex: 1,
-    color: 'black',
-  },
-  inputBtn: {
-    width: 58,
-    height: 28,
-    borderRadius: 6,
-    backgroundColor: '#879BB9',
-    textAlign: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  inputText: {
-    fontSize: 13,
-    fontWeight: '500',
-    lineHeight: 18,
-    color: '#FFFFFF',
-  },
-  flexRowText: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '85%',
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  warringMsg: {
-    width: '100%',
-    textAlign: 'left',
-    color: '#2D9DB6',
-    fontSize: 12,
-    marginBottom: 10,
-  },
-  inputTimer: {
-    width: 58,
-    fontSize: 14,
-    lineHeight: 18,
-    fontWeight: '400',
-    color: '#898989',
-  },
-  errorMsg: {
-    width: '100%',
-    textAlign: 'left',
-    color: 'red',
-    fontSize: 12,
-    marginBottom: 10,
-  },
-  carNumberText: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 18,
-    color: '#666666',
-  },
-  carNumberText2: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 18,
-    color: '#226EC8',
-  },
-});
 
 export default FindPwd;

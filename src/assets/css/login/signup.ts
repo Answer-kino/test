@@ -156,7 +156,7 @@ const SignUpStyles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 20,
+    marginRight: 10,
   },
   InputTimer: {
     width: 58,
