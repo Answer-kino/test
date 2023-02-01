@@ -485,13 +485,22 @@ export const Font = StyleSheet.create({
   InquiryInputbox: {...NotoSansKRBlackText('Nero', 400, 15)},
   InquiryBtn: {...NotoSansKRWhiteText('White', 500, 17)},
   //커뮤니티디테일
+  CommunityDetailModalText: {...NotoSansKRRedText('SunsetOrange', 500, 18)},
+  CommunityDetailModalCancelText: {...NotoSansKRBlackText('DimGray', 500, 18)},
+  CommunityDetailCarnumber: {
+    ...NotoSansKRBlackText('DimGray', 500, 13),
+    // paddingLeft: 10,
+  },
   CommunityDetailTitle: {...NotoSansKRBlackText('Black2', 500, 18)},
+  CommunityDetailCommentCnt: {
+    ...NotoSansKRRedText('SunsetOrange', 500, 16),
+    paddingLeft: 10,
+  },
   CommunityDetailContent: {...NotoSansKRBlackText('DimGray', 500, 15)},
   CommunityModifyBtn: {...NotoSansKRWhiteText('White', 700, 14)},
   CommunityMiddleComment: {...NotoSansKRBlackText('DimGray', 700, 15)},
   CommunityComment: {
     ...NotoSansKRBlackText('DimGray', 500, 14),
-    paddingLeft: 10,
   },
   CommunityCommentTime: {...NotoSansKRBlackText('DimGray', 500, 12)},
   CommunityCommentInputBox: {...NotoSansKRBlackText('Nero', 500, 14)},
@@ -564,7 +573,7 @@ export const Font = StyleSheet.create({
   CommunityWriteBtn: {...NotoSansKRWhiteText('White', 500, 17)},
   //공지사항디테일
   NoticeDetailTitle: {...NotoSansKRBlackText('Matterhorn', 500, 18)},
-  NoticeDetailContent: {...NotoSansKRBlackText('DimGray', 500, 14)},
+  NoticeDetailContent: {...NotoSansKRBlackText('DimGray', 700, 14)},
   NoticeDetailCheckBtn: {...NotoSansKRBlackText('NightRider', 500, 17)},
   //문의글보기
   InquiryListMark: {...NotoSansKRBlueText('Denim2', 700, 18)},

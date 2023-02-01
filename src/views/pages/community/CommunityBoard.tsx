@@ -12,6 +12,8 @@ import {
   Platform,
   Modal,
   ActivityIndicator,
+  TouchableOpacityBase,
+  Alert,
 } from 'react-native';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
@@ -31,11 +33,13 @@ import {globalStyles} from '../../../assets/css/global/styleSheet';
 import CommunityStyles from '../../../assets/css/community/community';
 import {Font} from '../../../assets/css/global/newFont';
 import Dividers from '../../../components/divider/Dividers';
+import {modalStyles} from '../../../assets/css/modal/modal';
+import {MarginTop} from '../../../assets/css/global/margin';
 
 const CommunityBoard = ({navigation, route}: any) => {
   const BBS_SERVICE = new API_BBS_SERVICE();
   const HOME_SERVICE = new API_HOME_SERVICE();
-
+  const [modalVisible, setModalVisible] = useState(false);
   const [boardIdx, setBoardIdx] = useState();
   const [loginId, setLoginId] = useState();
   const [detailInfo, setDetailInfo] = useState<IDetailInfo>();
@@ -168,14 +172,85 @@ const CommunityBoard = ({navigation, route}: any) => {
           }}
         />
       </Modal>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={modalStyles.ModalWrap}>
+          <View style={CommunityStyles.CommunityModalContainer}>
+            {/* 사용자신고 */}
+            <View style={CommunityStyles.ModalBody1}>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(false);
+                }}>
+                <Text style={Font.CommunityDetailModalText}>사용자 신고</Text>
+              </TouchableOpacity>
+            </View>
+            {/* 사용자 차단 */}
+            <View>
+              <TouchableOpacity
+                style={CommunityStyles.ModalBody2}
+                onPress={() => {
+                  setModalVisible(false);
+                }}>
+                <Text style={Font.CommunityDetailModalText}>사용자 차단</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          {/* 취소 */}
+          <View
+            style={{
+              backgroundColor: 'white',
+              width: '90%',
+              alignItems: 'center',
+              borderRadius: 10,
+              height: 63,
+              justifyContent: 'space-around',
+              marginTop: 10,
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false);
+              }}>
+              <Text style={Font.CommunityDetailModalCancelText}>취소</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       <TopNav navigation={navigation} title="커뮤니티" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={globalStyles.ScrollView}>
         <View style={CommunityStyles.Container}>
+          <View style={CommunityStyles.CarnumberContainer}>
+            <View style={CommunityStyles.TopImgContainer}>
+              <View style={CommunityStyles.ProfileImg}>
+                {myPageProfileMap(randomNumber__1__6())}
+              </View>
+              <Text style={Font.CommunityDetailCarnumber}>
+                {detailInfo?.userId}
+              </Text>
+            </View>
+            <View>
+              <Text
+                style={{color: 'black'}}
+                onPress={() => {
+                  setModalVisible(true);
+                }}>
+                • • •
+              </Text>
+            </View>
+          </View>
           <View style={CommunityStyles.TitleContainer}>
             <Text style={Font.CommunityDetailTitle}>{detailInfo?.Title}</Text>
-            <Text style={Font.CommunityComment}>{detailInfo?.CommentCnt}</Text>
+            <Text style={Font.CommunityDetailCommentCnt}>
+              {detailInfo?.CommentCnt}
+            </Text>
           </View>
           <View style={CommunityStyles.Content}>
             <Text style={Font.CommunityDetailContent}>
@@ -202,54 +277,72 @@ const CommunityBoard = ({navigation, route}: any) => {
         <Dividers marginTop="10"></Dividers>
         <View style={CommunityStyles.Container}>
           <Text style={Font.CommunityMiddleComment}>댓글</Text>
+        </View>
+        {commentInfo?.map((item, index) => {
+          const comment = item.Comment;
+          const temp = item.CreatedDay;
+          // const imgNum = item.ProfileImg;
+          const imgNum = item.imgNumber;
 
-          {commentInfo?.map((item, index) => {
-            const comment = item.Comment;
-            const temp = item.CreatedDay;
-            // const imgNum = item.ProfileImg;
-            const imgNum = item.imgNumber;
-
-            const now = new Date();
-            const CreateDay = temp.split('T')[0] + ' ';
-            const diffHour = Number(
-              (
-                (now.getTime() - new Date(temp).getTime()) /
-                1000 /
-                60 /
-                60
-              ).toFixed(0)
-            );
-            const diff2Minute = (
+          const now = new Date();
+          const CreateDay = temp.split('T')[0] + ' ';
+          const diffHour = Number(
+            (
               (now.getTime() - new Date(temp).getTime()) /
               1000 /
+              60 /
               60
-            ).toFixed(0);
+            ).toFixed(0)
+          );
+          const diff2Minute = Number(
+            ((now.getTime() - new Date(temp).getTime()) / 1000 / 60).toFixed(0)
+          );
+          console.log(diff2Minute === 0);
 
-            // console.log(
-            //   // (now.getTime() - CreateDay.getTime()) / 60 / 60 / 1000,
-            //   now,
-            //   CreateDay
-            // );
+          // console.log(
+          //   // (now.getTime() - CreateDay.getTime()) / 60 / 60 / 1000,
+          //   now,
+          //   CreateDay
+          // );
 
-            return (
-              <View key={index} style={CommunityStyles.CommentContainer}>
-                <View style={CommunityStyles.CommentFront}>
-                  <View style={CommunityStyles.ProfileImg}>
-                    {myPageProfileMap(imgNum)}
+          return (
+            <View>
+              <View style={CommunityStyles.Container}>
+                <View key={index} style={CommunityStyles.CommentContainer}>
+                  <View style={CommunityStyles.CommentFront}>
+                    <View style={CommunityStyles.ProfileImg}>
+                      {myPageProfileMap(imgNum)}
+                    </View>
+                    <Text style={Font.CommunityDetailCarnumber}>
+                      {detailInfo?.userId}
+                    </Text>
                   </View>
+                  <Text style={Font.CommunityCommentTime}>
+                    {/* {diffHour > 24
+                      ? CreateDay
+                      : diffHour < 1
+                      ? diff2Minute + '분전'
+                      : diff2Minute === 0
+                      ? '방금전'
+                      : diffHour + '시간전'} */}
+                    {diffHour > 24
+                      ? CreateDay
+                      : diffHour > 0
+                      ? diffHour + '시간전'
+                      : diffHour < 1 && diff2Minute > 0
+                      ? diff2Minute + '분전'
+                      : '방금전'}
+                  </Text>
+                </View>
+                <View>
                   <Text style={Font.CommunityComment}>{comment}</Text>
                 </View>
-                <Text style={Font.CommunityCommentTime}>
-                  {diffHour > 24
-                    ? CreateDay
-                    : diffHour < 1
-                    ? diff2Minute + '분전'
-                    : diffHour + '시간전'}
-                </Text>
               </View>
-            );
-          })}
-
+              <Dividers></Dividers>
+            </View>
+          );
+        })}
+        <View style={CommunityStyles.Container}>
           <View style={CommunityStyles.CommentInputContainer}>
             <TextInput
               style={styles.registInput}
