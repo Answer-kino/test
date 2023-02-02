@@ -4,10 +4,7 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
-  Button,
   TouchableOpacity,
-  TouchableOpacityComponent,
   Alert,
 } from 'react-native';
 import API_Inquiry_Service from '../../../@api/inquiry/inquiry';

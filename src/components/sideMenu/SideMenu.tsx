@@ -3,16 +3,12 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import MenuDrawer from 'react-native-side-drawer';
 import API_HOME_SERVICE from '../../@api/home/home';
-import Banner from '../../assets/sidemenubanner.svg';
-import LoginImg from '../../assets/Login.svg';
-import LogoutImg from '../../assets/Logout.svg';
 import SideBanner from '../../assets/sideBanner2.svg';
 import Question from '../../assets/question.svg';
 import Inquiry from '../../assets/inquiry.svg';
 import SideArrow from '../../assets/sideArrow.svg';
 import X from '../../assets/x.svg';
 import Logout from '../../assets/Logout.svg';
-
 import Dividers from '../divider/Dividers';
 import SideMenuStyles from '../../assets/css/sideMenu/sideMenu';
 import {Font} from '../../assets/css/global/newFont';

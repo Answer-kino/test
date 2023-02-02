@@ -13,17 +13,11 @@ import {
 import API_HOME_SERVICE from '../../@api/home/home';
 import BottomNav from '../../components/bottomNav/BottomNav';
 import Carousel from '../../components/carousel/Carousel';
-import Contract from '../../assets/contract.svg';
-import Cardocument from '../../assets/cardocument.svg';
-import NftWalletimg from '../../assets/nftWallet.svg';
-import Raceinfoimg from '../../assets/raceinfo.svg';
-import Community from '../../assets/community.svg';
 import Logo from '../../assets/NFTlogo.svg';
 import Hamburger from '../../assets/hamburger.svg';
 import Barcode from '../../assets/barcode.svg';
 import API_BBS_SERVICE from '../../@api/bbs/bbs';
 import API_Mypage from '../../@api/mypage/Mypage';
-import {Divider} from '@rneui/base';
 import {globalStyles} from '../../assets/css/global/styleSheet';
 import {mainStyles} from '../../assets/css/home/home';
 import {MarginBottom, MarginTop} from '../../assets/css/global/margin';

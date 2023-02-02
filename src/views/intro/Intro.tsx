@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect} from 'react';
 import {View, Image, StyleSheet} from 'react-native';
 import API_TOKEN_SERVICE from '../../@api/token/token';

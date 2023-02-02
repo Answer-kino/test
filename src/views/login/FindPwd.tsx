@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {
   Alert,
   BackHandler,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,

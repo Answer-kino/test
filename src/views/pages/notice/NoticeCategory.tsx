@@ -1,22 +1,15 @@
 import React, {useEffect} from 'react';
 import {
   ScrollView,
-  StyleSheet,
   Text,
   View,
   Image,
-  ImageBackground,
-  Dimensions,
   TouchableOpacity,
-  Touchable,
-  Button,
-  Pressable,
   BackHandler,
 } from 'react-native';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
-
 import CapitalNotice from '../../../assets/img/noticeCategory/capitalNotice.svg';
 import NftNotice from '../../../assets/img/noticeCategory/nftNotice.svg';
 import RecallNotice from '../../../assets/img/noticeCategory/recallNotice.svg';

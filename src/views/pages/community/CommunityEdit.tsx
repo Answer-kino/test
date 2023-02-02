@@ -1,10 +1,6 @@
 import {useEffect, useState} from 'react';
 import {
   Alert,
-  Dimensions,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -13,7 +9,6 @@ import {
 } from 'react-native';
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 import CommunityEditStyles from '../../../assets/css/community/communityEdit';
-import CommunityWriteStyles from '../../../assets/css/community/communityWrite';
 import {Font} from '../../../assets/css/global/newFont';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';

@@ -2,10 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {
   Alert,
   BackHandler,
-  StyleSheet,
   Text,
   TextInput,
-  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -13,7 +11,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
 import {Divider} from '@rneui/base';
 import {LoginStyles} from '../../assets/css/login/login';
-import {MarginLeft, MarginTop} from '../../assets/css/global/margin';
 import {Font} from '../../assets/css/global/newFont';
 
 const Login2 = ({navigation}: any) => {

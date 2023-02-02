@@ -1,26 +1,19 @@
-import {Divider} from '@rneui/base';
 import {useEffect, useState} from 'react';
 import {
   BackHandler,
-  Dimensions,
   Image,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  ActivityIndicator,
   Alert,
 } from 'react-native';
 import API_Inquiry_Service from '../../../@api/inquiry/inquiry';
 import {Font} from '../../../assets/css/global/newFont';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
-
 import {InquiryListStyles} from '../../../assets/css/inquiry/inquiryList';
-
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import Dividers from '../../../components/divider/Dividers';
-
 import TopNav from '../../../components/topNav/TopNav';
 
 type dropDownType = {
@@ -214,53 +207,5 @@ const InquiryList = ({navigation}: any) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    height: Dimensions.get('window').height - 80,
-  },
-  Inquirytitle: {
-    color: 'black',
-    marginLeft: '3%',
-    fontStyle: 'normal',
-    fontSize: 16,
-    fontWeight: '500',
-    marginTop: '1%',
-    width: '72%',
-  },
-  Inquirymark: {
-    color: '#2262AD',
-    marginLeft: '7%',
-    fontFamily: 'Noto Sans',
-    fontWeight: '700',
-    fontSize: 18,
-  },
-  dropdownimg: {marginTop: '3%'},
-  contenttext: {
-    fontFamily: 'Noto Sans',
-    fontSize: 15,
-    fontWeight: '500',
-    color: 'black',
-
-    height: 'auto',
-    flexShrink: 1,
-    padding: 10,
-  },
-  modifyBtn: {
-    backgroundColor: '#4C79BC',
-    borderRadius: 5,
-    width: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  deleteBtn: {
-    backgroundColor: '#898989',
-    borderRadius: 5,
-    width: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 5,
-  },
-});
 
 export default InquiryList;

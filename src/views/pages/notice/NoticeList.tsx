@@ -1,26 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
-  StyleSheet,
   Text,
   View,
-  Image,
-  ImageBackground,
-  Dimensions,
   TouchableOpacity,
-  Touchable,
-  Button,
-  Pressable,
   BackHandler,
 } from 'react-native';
 import _ from 'lodash';
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
-
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
-import {Colors, FontNotoSans, Weight} from '../../../assets/css/global/font';
-import {Divider} from '@rneui/base';
 import Dividers from '../../../components/divider/Dividers';
 import {Font} from '../../../assets/css/global/newFont';
 

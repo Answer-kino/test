@@ -1,16 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
-  StyleSheet,
   Text,
   View,
-  Image,
-  ImageBackground,
-  Dimensions,
   TouchableOpacity,
-  Touchable,
-  Button,
-  Pressable,
   Modal,
   Alert,
   BackHandler,
@@ -20,11 +13,9 @@ import API_TOKEN_SERVICE from '../../../@api/token/token';
 import {ECapitalInfo} from '../../../@entity/capital/entity';
 import {addComma, cutOff__10000} from '../../../@utility/number';
 import {convertTime} from '../../../@utility/time';
-
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 import ModalCloseBtn from '../../../assets/modalclosetbtn.svg';
-import {Divider} from '@rneui/base';
 import Dividers from '../../../components/divider/Dividers';
 import {Font} from '../../../assets/css/global/newFont';
 import {MarginTop} from '../../../assets/css/global/margin';
@@ -35,18 +26,15 @@ import {ContractChecktyles} from '../../../assets/css/contractCheck/contractChec
 const ContractCheck = ({navigation}: any) => {
   const CAPITAL_SERVICE = new API_CAPITAL_SERVICE();
   const TOKEN_SERVICE = new API_TOKEN_SERVICE();
-
   const [capitalInfo, setCapitalInfo] = useState<ECapitalInfo>({});
   const [modalVisible, setModalVisible] = useState(false);
   const openModal = () => setModalVisible(true);
-
   const getCapitalInfo = async () => {
     try {
       const data = await CAPITAL_SERVICE.GET();
       setCapitalInfo(data);
     } catch (error) {
       const success = await TOKEN_SERVICE.REFRESH__TOKEN();
-
       if (success) {
         alert('관리자에게 문의해주세요.');
       } else {
@@ -55,7 +43,6 @@ const ContractCheck = ({navigation}: any) => {
       }
     }
   };
-
   useEffect(() => {
     getCapitalInfo();
   }, []);
@@ -64,12 +51,10 @@ const ContractCheck = ({navigation}: any) => {
       navigation.pop();
       return true;
     };
-
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       backAction
     );
-
     return () => backHandler.remove();
   }, []);
 

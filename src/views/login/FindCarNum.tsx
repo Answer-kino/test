@@ -2,13 +2,11 @@ import React, {useEffect, useRef, useState} from 'react';
 import {
   Alert,
   BackHandler,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
 import FindCarNumStyles from '../../assets/css/login/findCarNum';
 import {Font} from '../../assets/css/global/newFont';

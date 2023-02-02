@@ -3,16 +3,12 @@ import TopNav from '../../components/topNav/TopNav';
 import {
   View,
   Text,
-  Image,
-  StyleSheet,
   TouchableOpacity,
   BackHandler,
   Modal,
   Alert,
   Switch,
   ActivityIndicator,
-  ImageBackground,
-  Dimensions,
   ScrollView,
 } from 'react-native';
 import API_Mypage from '../../@api/mypage/Mypage';
@@ -26,7 +22,6 @@ import Icon5 from '../../assets/icon5_big.svg';
 import Icon6 from '../../assets/icon6_big.svg';
 import ModalSelect from '../../assets/modal_select.svg';
 import BottomNav from '../../components/bottomNav/BottomNav';
-import {Divider} from '@rneui/base';
 import {globalStyles} from '../../assets/css/global/styleSheet';
 import {MarginBottom} from '../../assets/css/global/margin';
 import {modalStyles} from '../../assets/css/modal/modal';

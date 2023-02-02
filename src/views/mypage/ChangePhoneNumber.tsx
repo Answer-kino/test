@@ -1,7 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import {
   Alert,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,

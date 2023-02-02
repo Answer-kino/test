@@ -2,18 +2,14 @@ import {useEffect, useState} from 'react';
 import {
   View,
   Text,
-  Image,
-  StyleSheet,
   BackHandler,
   TouchableOpacity,
-  Alert,
   Dimensions,
 } from 'react-native';
 import API_HOME_SERVICE from '../../../@api/home/home';
 import TopNav from '../../../components/topNav/TopNav';
 import Navigation from '../../../assets/Vector.svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Divider} from '@rneui/base';
 import Dividers from '../../../components/divider/Dividers';
 import {SettingStyles} from '../../../assets/css/setting/setting';
 import {Font} from '../../../assets/css/global/newFont';

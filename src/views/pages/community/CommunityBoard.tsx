@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
-  StyleSheet,
   Text,
   View,
-  Dimensions,
   TouchableOpacity,
   TextInput,
   BackHandler,
@@ -12,10 +10,8 @@ import {
   Platform,
   Modal,
   ActivityIndicator,
-  TouchableOpacityBase,
   Alert,
 } from 'react-native';
-
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
@@ -34,7 +30,6 @@ import CommunityStyles from '../../../assets/css/community/community';
 import {Font} from '../../../assets/css/global/newFont';
 import Dividers from '../../../components/divider/Dividers';
 import {modalStyles} from '../../../assets/css/modal/modal';
-import {MarginTop} from '../../../assets/css/global/margin';
 
 const CommunityBoard = ({navigation, route}: any) => {
   const BBS_SERVICE = new API_BBS_SERVICE();

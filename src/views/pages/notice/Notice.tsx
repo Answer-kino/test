@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
-  StyleSheet,
   Text,
   View,
-  Dimensions,
   TouchableOpacity,
   BackHandler,
 } from 'react-native';
@@ -12,7 +10,6 @@ interface noticeDetailType {
   Title: string;
   Content: string;
 }
-import RenderHtml from 'react-native-render-html';
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 import {Font} from '../../../assets/css/global/newFont';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
@@ -104,30 +101,5 @@ const Notice = ({navigation, route}: any) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-  },
-  content: {
-    marginTop: 10,
-    minHeight: 400,
-    color: 'black',
-  },
-  commentContainer: {
-    marginTop: 15,
-    paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderColor: '#D8D8D8',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  descriptionTitle: {
-    fontSize: 17,
-    color: '#292929',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-  },
-});
 
 export default Notice;

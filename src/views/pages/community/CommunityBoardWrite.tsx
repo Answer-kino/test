@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
-  StyleSheet,
   Text,
   View,
-  Dimensions,
   TouchableOpacity,
   TextInput,
   BackHandler,

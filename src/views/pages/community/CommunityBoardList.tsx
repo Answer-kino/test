@@ -1,28 +1,19 @@
-import {useIsFocused} from '@react-navigation/native';
-import {Divider} from '@rneui/base';
 import React, {useEffect, useState} from 'react';
 import {
-  StyleSheet,
   Text,
   View,
   Image,
-  Dimensions,
   TouchableOpacity,
   BackHandler,
-  FlatList,
   Modal,
   ActivityIndicator,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 import {timeForToday} from '../../../@utility/time';
 import CommunityListStyles from '../../../assets/css/community/communityList';
-import {Weight} from '../../../assets/css/global/font';
 import {Font} from '../../../assets/css/global/newFont';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
-
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import Dividers from '../../../components/divider/Dividers';
 import TopNav from '../../../components/topNav/TopNav';

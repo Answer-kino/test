@@ -455,6 +455,10 @@ export const Font = StyleSheet.create({
     lineHeight: 20,
     // letterSpacing: -5,
   },
+  //내차 운행정보
+  RaceInfoText: {
+    ...NotoSansKRBlackText('Charcoal', 500, 14),
+  },
   //이용약관
   TermsOfServiceTitle: {
     ...NotoSansKRBlackText('Nero', 500, 18),
@@ -482,7 +486,7 @@ export const Font = StyleSheet.create({
   QuestionTitle: {...NotoSansKRBlackText('Matterhorn', 400, 16)},
   QuestionContent: {...NotoSansKRBlackText('Charcoal', 500, 15), padding: 10},
   //문의하기, 문의하기수정하기 inputbox확인
-  InquiryTop: {...NotoSansKRBlackText('Charcoal', 700, 18)},
+  InquiryTop: {...NotoSansKRBlackText('Charcoal', 700, 18), lineHeight: 35},
   InquiryInputboxPlaceholder: {...NotoSansKRBlackText('SuvaGrey', 400, 15)},
   InquiryInputbox: {...NotoSansKRBlackText('Nero', 400, 15)},
   InquiryBtn: {...NotoSansKRWhiteText('White', 500, 17)},

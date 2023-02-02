@@ -1,8 +1,6 @@
-import axios from 'axios';
 import {useEffect, useState} from 'react';
 import {ScrollView, Image, View} from 'react-native';
 import _ from 'lodash';
-
 import API_TOKEN_SERVICE from '../../../@api/token/token';
 import API_VEHICLE_SERVICE from '../../../@api/vehicle/vehicle';
 import BottomNav from '../../../components/bottomNav/BottomNav';

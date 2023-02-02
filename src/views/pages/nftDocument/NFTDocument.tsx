@@ -1,18 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  Dimensions,
-  TouchableOpacity,
-  Touchable,
-  Button,
-  Pressable,
-  BackHandler,
-} from 'react-native';
+import {ScrollView, Text, View, Image, BackHandler} from 'react-native';
 import _ from 'lodash';
 import API_NFT_SERVICE from '../../../@api/nft/nft';
 import API_TOKEN_SERVICE from '../../../@api/token/token';
@@ -22,8 +9,6 @@ import TopNav from '../../../components/topNav/TopNav';
 import {globalConfig} from '../../../@config/config';
 import API_Mypage from '../../../@api/mypage/Mypage';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
-import {Weight} from '../../../assets/css/global/font';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {MarginBottom, MarginTop} from '../../../assets/css/global/margin';
 import {nftImgStyles, nftStyles} from '../../../assets/css/contract/nft';
 import {Font} from '../../../assets/css/global/newFont';

@@ -1,10 +1,8 @@
 import {useEffect, useState} from 'react';
 import {
   BackHandler,
-  Dimensions,
   Image,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -12,7 +10,6 @@ import {
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 import API_Question from '../../../@api/question/question';
-import {Divider} from '@rneui/base';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
 import {questionStyles} from '../../../assets/css/question/question';
 import Dividers from '../../../components/divider/Dividers';

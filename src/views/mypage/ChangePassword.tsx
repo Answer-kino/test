@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react';
 import {
   Alert,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -14,7 +13,6 @@ import API_Mypage from '../../@api/mypage/Mypage';
 import TopNav from '../../components/topNav/TopNav';
 import {regExp__pwd} from '../../@utility/reg';
 import _ from 'lodash';
-import API_SIGN_SERVICE from '../../@api/sign/sign';
 import {changeStyles} from '../../assets/css/mypage/change';
 import {globalStyles} from '../../assets/css/global/styleSheet';
 import {MarginTop} from '../../assets/css/global/margin';

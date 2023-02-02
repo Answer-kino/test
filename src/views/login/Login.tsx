@@ -1,14 +1,12 @@
 import {useEffect, useRef, useState} from 'react';
 import {
   ScrollView,
-  StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
   BackHandler,
   Alert,
-  Dimensions,
   Modal,
   ActivityIndicator,
 } from 'react-native';
@@ -16,17 +14,11 @@ import {Divider} from '@rneui/themed';
 import CheckBox from '@react-native-community/checkbox';
 import _ from 'lodash';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
-import ModalCloseBtn from '../../assets/modalclosetbtn.svg';
 import {regExp__pwd, regExp__email} from '../../@utility/reg';
-import AlertCustom_2Btn from '../../components/alert/Alert2btn';
 import AlertCustom_1btn from '../../components/alert/Alert1btn';
 import {SignUpStyles} from '../../assets/css/login/signup';
 import {Font} from '../../assets/css/global/newFont';
-import {
-  MarginLeft,
-  MarginRight,
-  MarginTop,
-} from '../../assets/css/global/margin';
+import {MarginLeft} from '../../assets/css/global/margin';
 enum ESignInfoKey {
   carNumber = 'carNumber',
   email = 'email',
