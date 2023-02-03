@@ -197,7 +197,7 @@ const Home = ({navigation}: any) => {
                             height: 105,
                             resizeMode: 'contain',
                           }}
-                          source={require('../../assets/img/main/01.png')}
+                          source={require('../../assets/img/main/main_nav_01.png')}
                         />
                       </View>
                     </TouchableOpacity>
@@ -225,7 +225,7 @@ const Home = ({navigation}: any) => {
                             height: 105,
                             resizeMode: 'contain',
                           }}
-                          source={require('../../assets/img/main/03.png')}
+                          source={require('../../assets/img/main/main_nav_03.png')}
                         />
                       </View>
                     </TouchableOpacity>

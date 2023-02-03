@@ -82,7 +82,6 @@ const mainStyles = StyleSheet.create({
     height: 200,
     backgroundColor: 'white',
     borderRadius: 20,
-    borderBottomRightRadius: 40,
     ...Platform.select({android: {elevation: 10}}),
   },
   MainNavigationBorder: {
