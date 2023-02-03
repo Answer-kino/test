@@ -17,13 +17,13 @@ const CommunityStyles = StyleSheet.create({
   ModalBody1: {
     borderBottomColor: '#D7D7D7',
     borderBottomWidth: 0.7,
-    height: 63,
+    height: 43,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   ModalBody2: {
-    height: 63,
+    height: 43,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',

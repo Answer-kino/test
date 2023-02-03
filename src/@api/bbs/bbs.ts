@@ -9,10 +9,10 @@ interface IBBS_Category_Notice {
 class API_BBS_SERVICE extends AxiosInstance {
   async BBS_Main_Notice() {
     try {
+      await this.getActHeader();
       const url = 'bbs/mainNotice';
-
       const {data} = await this.API.get(url);
-
+      // console.lo)
       return data?.result;
     } catch (error: any) {
       throw new Error(error);
@@ -20,6 +20,7 @@ class API_BBS_SERVICE extends AxiosInstance {
   }
   async BBS_Category_Notice({category, limit, offset}: IBBS_Category_Notice) {
     try {
+      await this.getActHeader();
       let url = `bbs/bbsList?category=${category}&limit=${limit}&offset=${offset}`;
       // if (limit && offset) url += `&limit=${limit}&offset=${offset}`;
 
@@ -32,6 +33,7 @@ class API_BBS_SERVICE extends AxiosInstance {
   }
   async BBS_Notice_Detail({category, limit, offset}: IBBS_Category_Notice) {
     try {
+      await this.getActHeader();
       let url = `bbs/bbsList?category=${category}&limit=${limit}&offset=${offset}`;
       // if (limit && offset) url += `&limit=${limit}&offset=${offset}`;
 
@@ -44,6 +46,7 @@ class API_BBS_SERVICE extends AxiosInstance {
   }
   async BBS_Community_LIst({category, limit, offset}: IBBS_Category_Notice) {
     try {
+      await this.getActHeader();
       let url = `bbs/bbsList?category=${category}&limit=${limit}&offset=${offset}`;
       // if (limit && offset) url += `&limit=${limit}&offset=${offset}`;
 
@@ -57,10 +60,9 @@ class API_BBS_SERVICE extends AxiosInstance {
   }
   async BBS_Community_Detail(boardIdx: any) {
     try {
+      await this.getActHeader();
       let url = `bbs/content?boardIdx=${boardIdx}`;
-
       const {data} = await this.API.get(url);
-
       return data.result;
     } catch (error: any) {
       throw new Error(error);
@@ -68,12 +70,10 @@ class API_BBS_SERVICE extends AxiosInstance {
   }
   async BBS_Comment(boardIdx: any) {
     try {
+      await this.getActHeader();
       let url = `bbs/comment?boardIdx=${boardIdx}`;
       // if (limit && offset) url += `&limit=${limit}&offset=${offset}`;
-      await this.getActHeader();
-
       const {data} = await this.API.get(url);
-
       return data?.result;
     } catch (error: any) {
       throw new Error(error);
@@ -81,9 +81,8 @@ class API_BBS_SERVICE extends AxiosInstance {
   }
   async BBS_Regist_Comment({comment, boardIdx}: any) {
     try {
-      const url = 'bbs/registComment';
       await this.getActHeader();
-
+      const url = 'bbs/registComment';
       const {data} = await this.API.post(url, {comment, boardIdx});
 
       return data;

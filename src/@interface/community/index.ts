@@ -12,6 +12,9 @@ interface ICommentInfo {
   Title: string;
   Content: string;
   imgNumber: number;
+  CarNumber: string;
+  IDX_COMMENT: string;
+  IDX_USER: number;
 }
 
 export type {IDetailInfo, ICommentInfo};

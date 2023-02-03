@@ -1,3 +1,4 @@
+import {useIsFocused} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
   Text,
@@ -7,6 +8,7 @@ import {
   BackHandler,
   Modal,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
@@ -22,7 +24,8 @@ const CommunityBoardList = ({navigation, route}: any) => {
   const BBS_SERVICE = new API_BBS_SERVICE();
   const [commnuityList, setCommnuityList] = useState([]);
   const [isLoading, setLoading] = useState(false);
-
+  const [carNumber, setCarNumber] = useState('');
+  const isFocused = useIsFocused();
   const setCommnuityListHandler = async () => {
     try {
       console.log('asdfsadf');
@@ -35,17 +38,30 @@ const CommunityBoardList = ({navigation, route}: any) => {
     }
   };
 
-  const boardLinkHandler = (IDX_BOARD: number) => () => {
-    navigation.navigate('CommunityBoard', {IDX_BOARD});
-  };
-
+  const boardLinkHandler =
+    (IDX_BOARD: number, IDX_USER: number, Blind: boolean, carNumber: string) =>
+    () => {
+      if (Blind) {
+        Alert.alert('차단된 게시글입니다.');
+      } else {
+        navigation.navigate('CommunityBoard', {IDX_BOARD, IDX_USER, carNumber});
+        console.log('IDX', IDX_BOARD);
+      }
+    };
+  // 댓글을 쓰고 뒤로가기를 눌렀을 때 렌더링이 되지 않아 focused 사용
   useEffect(() => {
     setCommnuityListHandler();
-  }, []);
+  }, [isFocused]);
+
+  useEffect(() => {
+    setCarNumber(route.params?.CarNumber);
+  }, [route]);
 
   useEffect(() => {
     const backAction = () => {
-      navigation.pop();
+      setTimeout(() => {
+        navigation.pop();
+      }, 200);
       return true;
     };
 
@@ -93,13 +109,21 @@ const CommunityBoardList = ({navigation, route}: any) => {
             CommentCnt: CommentCnt,
             CreatedDay: tempTime,
             IDX_BOARD,
+            IDX_USER,
+            Blind,
           }: any = item;
           const CreatedDay = timeForToday(tempTime);
 
           return (
             <>
               <View key={index} style={globalStyles.MainWrap}>
-                <TouchableOpacity onPress={boardLinkHandler(IDX_BOARD)}>
+                <TouchableOpacity
+                  onPress={boardLinkHandler(
+                    IDX_BOARD,
+                    IDX_USER,
+                    Blind,
+                    carNumber
+                  )}>
                   <View style={CommunityListStyles.MiddleTopWrap}>
                     <Text style={Font.CommunityListTitle}>{Title} </Text>
                     <Text style={Font.CommunityListCommentCountText}>

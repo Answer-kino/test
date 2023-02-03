@@ -83,6 +83,7 @@ const Home = ({navigation}: any) => {
     try {
       const result = await BBS_SERVICE.BBS_Main_Notice();
       setNoticeInfo(result);
+      console.log('notice', result);
     } catch (error) {}
   };
 
