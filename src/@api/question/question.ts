@@ -2,7 +2,6 @@ import AxiosInstance from '../CustomAxios';
 
 class API_Question extends AxiosInstance {
   async QuestionInfo() {
-    console.log('a');
     try {
       await this.getActHeader();
       const url = 'bbs/faqList';
