@@ -29,8 +29,10 @@ import {globalStyles} from '../../../assets/css/global/styleSheet';
 import CommunityStyles from '../../../assets/css/community/community';
 import {Font} from '../../../assets/css/global/newFont';
 import Dividers from '../../../components/divider/Dividers';
-import {modalStyles} from '../../../assets/css/modal/modal';
 import API_BLOCK_SERVICE from '../../../@api/block/block';
+import {blackReportModalStyles} from '../../../assets/css/modal/blackReportModal';
+import {MarginBottom} from '../../../assets/css/global/margin';
+import {Divider} from '@rneui/base';
 
 const CommunityBoard = ({navigation, route}: any) => {
   const BBS_SERVICE = new API_BBS_SERVICE();
@@ -298,57 +300,57 @@ const CommunityBoard = ({navigation, route}: any) => {
           Alert.alert('Modal has been closed.');
           setModalVisibleTop(false);
         }}>
-        <View style={modalStyles.ModalWrap}>
-          <View style={CommunityStyles.CommunityModalContainer}>
-            {/* 사용자신고 */}
-            <View style={CommunityStyles.ModalBody1}>
-              <TouchableOpacity
-                onPress={() => {
-                  BlockHandlerContent('ReportUser');
-                }}>
-                <Text style={Font.CommunityDetailModalText}>사용자 신고</Text>
-              </TouchableOpacity>
+        <View style={blackReportModalStyles.ModalBackGround}>
+          <View style={blackReportModalStyles.ModalWrap}>
+            <View style={blackReportModalStyles.MainWrap}>
+              <View style={blackReportModalStyles.BtnWrap}>
+                <TouchableOpacity
+                  onPress={() => {
+                    BlockHandlerContent('ReportUser');
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalText}>
+                      사용자 신고
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <Divider color="#A6A6A6" />
+                <TouchableOpacity
+                  onPress={() => {
+                    BlockHandlerContent('BlockUser');
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalText}>
+                      사용자 차단
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <Divider color="#A6A6A6" />
+                <TouchableOpacity
+                  onPress={() => {
+                    BlockHandlerContent('BlockBoard');
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalText}>
+                      게시글 차단
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={MarginBottom(10)} />
+              <View style={blackReportModalStyles.BtnWrap}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setModalVisibleTop(false);
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalCancelText}>
+                      취소하기
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
             </View>
-            {/* 사용자신고END */}
-            {/* 사용자 차단 */}
-            <View style={CommunityStyles.ModalBody1}>
-              <TouchableOpacity
-                onPress={() => {
-                  BlockHandlerContent('BlockUser');
-                }}>
-                <Text style={Font.CommunityDetailModalText}>사용자 차단</Text>
-              </TouchableOpacity>
-            </View>
-            {/* 게시글차단 */}
-            <View>
-              <TouchableOpacity
-                style={CommunityStyles.ModalBody2}
-                onPress={() => {
-                  BlockHandlerContent('BlockBoard');
-                }}>
-                <Text style={Font.CommunityDetailModalText}>게시글 차단</Text>
-              </TouchableOpacity>
-            </View>
-            {/* 게시글차단END */}
-          </View>
-          {/* 사용자차단END */}
-          {/* 취소 */}
-          <View
-            style={{
-              backgroundColor: 'white',
-              width: '90%',
-              alignItems: 'center',
-              borderRadius: 10,
-              height: 43,
-              justifyContent: 'space-around',
-              marginTop: 10,
-            }}>
-            <TouchableOpacity
-              onPress={() => {
-                setModalVisibleTop(false);
-              }}>
-              <Text style={Font.CommunityDetailModalCancelText}>취소</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -362,58 +364,55 @@ const CommunityBoard = ({navigation, route}: any) => {
           Alert.alert('Modal has been closed.');
           setModalVisibleBot(false);
         }}>
-        <View style={modalStyles.ModalWrap}>
-          <View style={CommunityStyles.CommunityModalContainer}>
-            {/* 사용자신고 */}
-            <View style={CommunityStyles.ModalBody1}>
-              <TouchableOpacity
-                onPress={() => {
-                  BlockHandlerComment('ReportUser');
-                }}>
-                <Text style={Font.CommunityDetailModalText}>사용자 신고</Text>
-              </TouchableOpacity>
+        <View style={blackReportModalStyles.ModalBackGround}>
+          <View style={blackReportModalStyles.ModalWrap}>
+            <View style={blackReportModalStyles.MainWrap}>
+              <View style={blackReportModalStyles.BtnWrap}>
+                <TouchableOpacity
+                  onPress={() => {
+                    BlockHandlerComment('ReportUser');
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalText}>
+                      사용자 신고
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <Divider color="#A6A6A6" />
+                <TouchableOpacity
+                  onPress={() => {
+                    BlockHandlerComment('BlockUser');
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalText}>
+                      사용자 차단
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <Divider color="#A6A6A6" />
+                <TouchableOpacity
+                  onPress={() => {
+                    BlockHandlerComment('BlockComment');
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalText}>댓글 차단</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={MarginBottom(10)} />
+              <View style={blackReportModalStyles.BtnWrap}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setModalVisibleBot(false);
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalCancelText}>
+                      취소하기
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
             </View>
-            {/* 사용자신고END */}
-            {/* 사용자 차단 */}
-            <View style={CommunityStyles.ModalBody1}>
-              <TouchableOpacity
-                onPress={() => {
-                  BlockHandlerComment('BlockUser');
-                }}>
-                <Text style={Font.CommunityDetailModalText}>사용자 차단</Text>
-              </TouchableOpacity>
-            </View>
-            {/* 댓글차단 */}
-            <View>
-              <TouchableOpacity
-                style={CommunityStyles.ModalBody2}
-                onPress={() => {
-                  BlockHandlerComment('BlockComment');
-                }}>
-                <Text style={Font.CommunityDetailModalText}>댓글 차단</Text>
-              </TouchableOpacity>
-            </View>
-            {/* 댓글차단END */}
-          </View>
-          {/* 사용자차단END */}
-          {/* 취소 */}
-          {/* Modal2End */}
-          <View
-            style={{
-              backgroundColor: 'white',
-              width: '90%',
-              alignItems: 'center',
-              borderRadius: 10,
-              height: 43,
-              justifyContent: 'space-around',
-              marginTop: 10,
-            }}>
-            <TouchableOpacity
-              onPress={() => {
-                setModalVisibleBot(false);
-              }}>
-              <Text style={Font.CommunityDetailModalCancelText}>취소</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </Modal>
