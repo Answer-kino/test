@@ -23,7 +23,7 @@ import Icon6 from '../../assets/icon6_big.svg';
 import ModalSelect from '../../assets/modal_select.svg';
 import BottomNav from '../../components/bottomNav/BottomNav';
 import {globalStyles} from '../../assets/css/global/styleSheet';
-import {MarginBottom} from '../../assets/css/global/margin';
+import {MarginBottom, MarginLeft} from '../../assets/css/global/margin';
 import {modalStyles} from '../../assets/css/modal/modal';
 import Dividers from '../../components/divider/Dividers';
 import {Font} from '../../assets/css/global/newFont';
@@ -332,6 +332,7 @@ const Mypage = ({navigation}: any) => {
                   <Text style={Font.MypageRightText}>
                     {myData.Phone && convertPhone(myData?.Phone)}
                   </Text>
+                  <View style={MarginLeft(5)} />
                   <TouchableOpacity
                     style={MyPageStyles.MainContainerRowBtn}
                     onPress={navigationNaivigateHandlerMap(
@@ -349,6 +350,7 @@ const Mypage = ({navigation}: any) => {
               <View style={MyPageStyles.MainContainerRowBtnWrap}>
                 <View style={MyPageStyles.MainContainerRowRightTextWrap}>
                   <Text style={Font.MypageRightText}>{myData?.UserEmail}</Text>
+                  <View style={MarginLeft(5)} />
                   <TouchableOpacity
                     style={MyPageStyles.MainContainerRowBtn}
                     onPress={navigationNaivigateHandlerMap('ChangeEmail')}>
@@ -364,6 +366,7 @@ const Mypage = ({navigation}: any) => {
               <View style={MyPageStyles.MainContainerRowBtnWrap}>
                 <View style={MyPageStyles.MainContainerRowRightTextWrap}>
                   <Text style={Font.MypageRightText}>*********</Text>
+                  <View style={MarginLeft(5)} />
                   <TouchableOpacity
                     style={MyPageStyles.MainContainerRowBtn}
                     onPress={navigationReplaceHandler('ChangePassword')}>
@@ -423,15 +426,11 @@ const Mypage = ({navigation}: any) => {
             </View>
             {/*  */}
           </View>
-          <View style={MyPageStyles.FooterContainerWrap}>
-            <TouchableOpacity
-              style={MyPageStyles.FooterContainerBtn}
-              onPress={patchMyData}>
-              <View style={{alignItems: 'center'}}>
-                <Text style={Font.AllBtnText}>수정하기</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={patchMyData}>
+            <View style={globalStyles.Button}>
+              <Text style={Font.AllBtnText}>수정하기</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </ScrollView>
       <BottomNav navigation={navigation}></BottomNav>
