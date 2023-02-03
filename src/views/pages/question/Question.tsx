@@ -36,6 +36,7 @@ const Question = ({navigation}: any) => {
 
   const getQuestionInfo = async () => {
     try {
+      console.log('a');
       const result = await getQuestion.QuestionInfo();
       console.log('QuestionawefawefF', result);
       setQuestionInfo(result.faqList);
