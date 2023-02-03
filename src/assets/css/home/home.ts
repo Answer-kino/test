@@ -82,6 +82,7 @@ const mainStyles = StyleSheet.create({
     height: 200,
     backgroundColor: 'white',
     borderRadius: 20,
+    // paddingTop: 5,
     ...Platform.select({android: {elevation: 10}}),
   },
   MainNavigationBorder: {
@@ -95,6 +96,11 @@ const mainStyles = StyleSheet.create({
     width: '33%',
     display: 'flex',
     alignItems: 'center',
+  },
+  MainNavigationBorderBtnImg: {
+    width: '100%',
+    height: 105,
+    resizeMode: 'contain',
   },
   MainNavigationBorderBtn: {
     height: '40%',

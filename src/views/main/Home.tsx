@@ -186,17 +186,14 @@ const Home = ({navigation}: any) => {
             <View style={globalStyles.MainWrap}>
               <View style={mainStyles.MainNavigationWrap}>
                 <View style={mainStyles.MainNavigationBorderWrap}>
+                  <View style={MarginTop(2)} />
                   <View style={mainStyles.MainNavigationBorder}>
                     <TouchableOpacity
                       style={mainStyles.MainNavigationBorderBtnWrap}
                       onPress={navigationAccessHandler('ContractCheck')}>
                       <View style={{width: '75%'}}>
                         <Image
-                          style={{
-                            width: '100%',
-                            height: 105,
-                            resizeMode: 'contain',
-                          }}
+                          style={mainStyles.MainNavigationBorderBtnImg}
                           source={require('../../assets/img/main/main_nav_01.png')}
                         />
                       </View>
@@ -206,11 +203,7 @@ const Home = ({navigation}: any) => {
                       onPress={navigationAccessHandler('CarDocument')}>
                       <View style={{width: '75%'}}>
                         <Image
-                          style={{
-                            width: '100%',
-                            height: 105,
-                            resizeMode: 'contain',
-                          }}
+                          style={mainStyles.MainNavigationBorderBtnImg}
                           source={require('../../assets/img/main/main_nav_02.png')}
                         />
                       </View>
@@ -220,11 +213,7 @@ const Home = ({navigation}: any) => {
                       onPress={navigationAccessHandler('NFTWallet')}>
                       <View style={{width: '75%'}}>
                         <Image
-                          style={{
-                            width: '100%',
-                            height: 105,
-                            resizeMode: 'contain',
-                          }}
+                          style={mainStyles.MainNavigationBorderBtnImg}
                           source={require('../../assets/img/main/main_nav_03.png')}
                         />
                       </View>
@@ -248,11 +237,7 @@ const Home = ({navigation}: any) => {
                       onPress={navigationAccessHandler('RaceInfo')}>
                       <View style={{width: '75%'}}>
                         <Image
-                          style={{
-                            width: '100%',
-                            height: 105,
-                            resizeMode: 'contain',
-                          }}
+                          style={mainStyles.MainNavigationBorderBtnImg}
                           source={require('../../assets/img/main/main_nav_04.png')}
                         />
                       </View>
@@ -262,21 +247,17 @@ const Home = ({navigation}: any) => {
                       onPress={navigationAccessHandler('CommunityBoardList')}>
                       <View style={{width: '75%'}}>
                         <Image
-                          style={{
-                            width: '100%',
-                            height: 105,
-                            resizeMode: 'contain',
-                          }}
+                          style={mainStyles.MainNavigationBorderBtnImg}
                           source={require('../../assets/img/main/main_nav_05.png')}
                         />
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      style={mainStyles.MainNavigationBorderBtnWrap}>
-                      <View style={mainStyles.MainNavigationBorderBtn}>
-                        <Text style={mainStyles.MainNavigationBorderBtnText} />
+                      style={mainStyles.MainNavigationBorderBtnWrap}
+                      onPress={navigationAccessHandler('CommunityBoardList')}>
+                      <View style={{width: '75%'}}>
+                        <Image style={mainStyles.MainNavigationBorderBtnImg} />
                       </View>
-                      <View style={mainStyles.MainNavigationBorderBtnImgWrap} />
                     </TouchableOpacity>
                   </View>
                   {/* End mainBottomNavigationBorder */}
