@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Modal,
   Text,
+  ActivityIndicator,
 } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import API_INSURANCE_SERVICE from '../../../@api/insurance/insurance';
@@ -29,16 +30,20 @@ const Insurance = ({navigation}: any) => {
   const [ratioArr, setRatioArr] = useState<Array<number>>();
   const [isImgModal, setIsImgModal] = useState(false);
   const [isImgViewItem, setIsImeViewItem] = useState<any>([]);
+  const [imgIndex, setImgIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const showModalHandler = () => () => {
     setIsImgModal(false);
   };
-  const tnoModalHandler = () => () => {
+  const tnoModalHandler = (index: number) => () => {
+    setImgIndex(index);
     setIsImgModal(true);
   };
 
   const getInsuranceInfo = async () => {
     try {
+      setIsLoading(true);
       const data = await INSURANCE_SERVICE.GET();
       setInsuranceInfo(data);
     } catch (error) {
@@ -50,6 +55,8 @@ const Insurance = ({navigation}: any) => {
         alert('로그인을 다시 시도해주세요.');
         navigation.push('Login2');
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -104,6 +111,17 @@ const Insurance = ({navigation}: any) => {
 
   return (
     <View style={globalStyles.BodyWrap}>
+      {/* spinner */}
+      <Modal transparent={true} visible={isLoading}>
+        <ActivityIndicator
+          size={'large'}
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+          }}
+        />
+      </Modal>
+      {/* react-native-image-zoom-viewer */}
       <Modal
         visible={isImgModal}
         transparent={false}
@@ -131,6 +149,7 @@ const Insurance = ({navigation}: any) => {
 
         <ImageViewer
           style={{}}
+          index={imgIndex}
           imageUrls={isImgViewItem}
           onSwipeDown={() => {
             showModalHandler();
@@ -147,7 +166,7 @@ const Insurance = ({navigation}: any) => {
             ratioArr &&
             insuranceImgUriArr?.map((imgUri, index) => {
               return (
-                <TouchableOpacity key={index} onPress={tnoModalHandler()}>
+                <TouchableOpacity key={index} onPress={tnoModalHandler(index)}>
                   <Image
                     style={insuranceImgStyles(ratioArr[index])}
                     source={{uri: imgUri}}
