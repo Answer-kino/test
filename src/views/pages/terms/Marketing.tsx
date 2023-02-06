@@ -1,14 +1,6 @@
 import {useEffect} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  ScrollView,
-  BackHandler,
-} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, BackHandler} from 'react-native';
 import TopNav from '../../../components/topNav/TopNav';
-import BottomNav from '../../../components/bottomNav/BottomNav';
 
 const Marketing = ({navigation}: any) => {
   useEffect(() => {

@@ -1,10 +1,6 @@
 import {useEffect, useState} from 'react';
 import {
   Alert,
-  Dimensions,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -12,6 +8,8 @@ import {
   View,
 } from 'react-native';
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
+import CommunityEditStyles from '../../../assets/css/community/communityEdit';
+import {Font} from '../../../assets/css/global/newFont';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 
@@ -62,21 +60,20 @@ const CommunityEdit = ({navigation, route}: any) => {
   return (
     <View>
       <TopNav navigation={navigation} title="게시글 수정" />
-      <View style={styles.container}>
-        <Text style={styles.descriptionTitle}>게시글 수정</Text>
+      <View style={CommunityEditStyles.Container}>
+        <Text style={Font.CommunityWriteTopTitle}>게시글 수정</Text>
         <TextInput
           value={newTitle}
-          style={styles.titleInput}
+          style={CommunityEditStyles.TitleInput}
           placeholderTextColor="black"
           multiline={true}
           onChangeText={text => {
             setNewTitle(text);
-            console.log('텍스트', text);
           }}
         />
         <TextInput
           value={newContent}
-          style={styles.contentInput}
+          style={CommunityEditStyles.ContentInput}
           multiline={true}
           numberOfLines={17}
           placeholderTextColor="black"
@@ -86,7 +83,7 @@ const CommunityEdit = ({navigation, route}: any) => {
         />
         <View style={{flex: 1}}>
           <TouchableOpacity
-            style={styles.modifyBtn}
+            style={CommunityEditStyles.ModifyBtn}
             onPress={() => {
               {
                 newTitle !== '' || newContent !== ''
@@ -94,7 +91,7 @@ const CommunityEdit = ({navigation, route}: any) => {
                   : Alert.alert('제목과 내용을 확인해주세요.');
               }
             }}>
-            <Text style={styles.modifyButtonText}>수정</Text>
+            <Text style={Font.CommunityWriteBtn}>수정</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -104,45 +101,6 @@ const CommunityEdit = ({navigation, route}: any) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 30,
-    marginTop: 15,
-  },
-  descriptionTitle: {
-    fontSize: 17,
-    color: '#292929',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-  },
-  titleInput: {
-    marginTop: 10,
-    backgroundColor: 'white',
-    flex: 1,
-    minHeight: 50,
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    color: 'black',
-  },
-  contentInput: {
-    marginTop: 10,
-    paddingTop: 10,
-    backgroundColor: 'white',
-    flex: 1,
-    minHeight: 200,
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    justifyContent: 'flex-start',
-    textAlignVertical: 'top',
-    color: 'black',
-  },
-  modifyBtn: {
-    marginTop: 10,
-    backgroundColor: 'black',
-    height: 57,
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    justifyContent: 'center',
-  },
   modifyButtonText: {
     fontSize: 17,
     color: 'white',

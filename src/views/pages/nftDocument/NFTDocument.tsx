@@ -25,10 +25,9 @@ import TopNav from '../../../components/topNav/TopNav';
 import {globalConfig} from '../../../@config/config';
 import API_Mypage from '../../../@api/mypage/Mypage';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
-import {Weight} from '../../../assets/css/global/font';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {MarginBottom, MarginTop} from '../../../assets/css/global/margin';
 import {nftImgStyles, nftStyles} from '../../../assets/css/contract/nft';
+import {Font} from '../../../assets/css/global/newFont';
 
 interface CapitalInfo {
   Capital: any;
@@ -171,26 +170,26 @@ const NFTDocument = ({navigation}: any) => {
         contentInsetAdjustmentBehavior="automatic"
         style={globalStyles.ScrollViewNft}>
         <View style={globalStyles.MainWrap}>
-          <Text style={nftStyles.Title}>{nftInfo?.VehicleId}</Text>
+          <Text style={Font.NftTitle}>{nftInfo?.VehicleId}</Text>
           <TouchableOpacity onPress={tnoModalHandler()}>
             <Image style={nftImgStyles(ratio)} source={{uri: nftImgUri}} />
           </TouchableOpacity>
           <View style={globalStyles.FlexRow}>
-            <Text style={nftStyles.Text}>Owned by</Text>
+            <Text style={Font.NftOwnedBy}>Owned by</Text>
             <Text> </Text>
-            <Text style={nftStyles.CapitalName}>
+            <Text style={Font.NftCreatedCapital}>
               {capital?.Capital !== '' ? capital?.Capital : null}
             </Text>
           </View>
           <View style={MarginTop(25)} />
           <View style={nftStyles.DescriptionWrap}>
             <View style={nftStyles.DescriptionTitleWrap}>
-              <Text style={nftStyles.DescriptionTitle}>Description</Text>
+              <Text style={Font.NftMainDescriptionTitle}>Description</Text>
               <Text>　</Text>
               <Image source={require('../../../assets/logos_ethereum.png')} />
             </View>
 
-            <Text style={nftStyles.DescriptionText}>
+            <Text style={Font.NftMainDescriptionText}>
               {/* {metaInfo?.description ||
                 'Example : 차량은 캐피탈사의 공식 보증된차이며, 한국보증협회의 엄격한 품질' +
                   '검사와 검사를 198회 통과한 인증 중고차임을 증명합니다.'} */}

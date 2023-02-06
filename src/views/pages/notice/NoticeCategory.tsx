@@ -1,26 +1,22 @@
 import React, {useEffect} from 'react';
 import {
   ScrollView,
-  StyleSheet,
   Text,
   View,
   Image,
-  ImageBackground,
-  Dimensions,
   TouchableOpacity,
-  Touchable,
-  Button,
-  Pressable,
   BackHandler,
 } from 'react-native';
 
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
-
 import CapitalNotice from '../../../assets/img/noticeCategory/capitalNotice.svg';
 import NftNotice from '../../../assets/img/noticeCategory/nftNotice.svg';
 import RecallNotice from '../../../assets/img/noticeCategory/recallNotice.svg';
 import Dividers from '../../../components/divider/Dividers';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
+import NoticeCategoryListStyles from '../../../assets/css/notice/noticeCategory';
+import {Font} from '../../../assets/css/global/newFont';
 const NoticeCategory = ({navigation}: any) => {
   const naviHander = (category: string) => {
     navigation.push('NoticeList', {category});
@@ -45,58 +41,58 @@ const NoticeCategory = ({navigation}: any) => {
       <TopNav navigation={navigation} title="공지사항" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
-        <View style={styles.container}>
+        style={globalStyles.ScrollView}>
+        <View style={NoticeCategoryListStyles.Container}>
           <TouchableOpacity
             // onPress={() =>
             //   navigation.push('NoticeList', {title: '캐피탈 공지'})
             // }
             onPress={() => naviHander('capital')}
-            style={styles.documentMenu}>
-            <View style={styles.leftContainer}>
-              <View style={styles.leftImg}>
+            style={NoticeCategoryListStyles.DocumentMenu}>
+            <View style={NoticeCategoryListStyles.LeftContainer}>
+              <View style={NoticeCategoryListStyles.LeftImg}>
                 <CapitalNotice />
               </View>
-              <Text style={styles.descriptionTitle}>캐피탈 공지</Text>
+              <Text style={Font.NoticeCategoryText}>캐피탈 공지</Text>
             </View>
             <Image
-              style={styles.rightArrow}
+              style={NoticeCategoryListStyles.RightArrow}
               source={require('../../../assets/NoticeArrow.png')}
             />
           </TouchableOpacity>
         </View>
         <Dividers />
-        <View style={styles.container}>
+        <View style={NoticeCategoryListStyles.Container}>
           <TouchableOpacity
             // onPress={() => navigation.push('NoticeList', {title: 'NFT공지'})}
             onPress={() => naviHander('nft')}
-            style={styles.documentMenu}>
-            <View style={styles.leftContainer}>
-              <View style={styles.leftImg2}>
+            style={NoticeCategoryListStyles.DocumentMenu}>
+            <View style={NoticeCategoryListStyles.LeftContainer}>
+              <View style={NoticeCategoryListStyles.LeftImg2}>
                 <NftNotice></NftNotice>
               </View>
-              <Text style={styles.descriptionTitle}>NFT공지</Text>
+              <Text style={Font.NoticeCategoryText}>NFT공지</Text>
             </View>
             <Image
-              style={styles.rightArrow}
+              style={NoticeCategoryListStyles.RightArrow}
               source={require('../../../assets/NoticeArrow.png')}
             />
           </TouchableOpacity>
         </View>
         <Dividers />
-        <View style={styles.container}>
+        <View style={NoticeCategoryListStyles.Container}>
           <TouchableOpacity
             // onPress={() => navigation.push('NoticeList', {title: '리콜 공지'})}
             onPress={() => naviHander('recall')}
-            style={styles.documentMenu}>
-            <View style={styles.leftContainer}>
-              <View style={styles.leftImg3}>
+            style={NoticeCategoryListStyles.DocumentMenu}>
+            <View style={NoticeCategoryListStyles.LeftContainer}>
+              <View style={NoticeCategoryListStyles.LeftImg3}>
                 <RecallNotice></RecallNotice>
               </View>
-              <Text style={styles.descriptionTitle}>리콜 공지</Text>
+              <Text style={Font.NoticeCategoryText}>리콜 공지</Text>
             </View>
             <Image
-              style={styles.rightArrow}
+              style={NoticeCategoryListStyles.RightArrow}
               source={require('../../../assets/NoticeArrow.png')}
             />
           </TouchableOpacity>
@@ -107,60 +103,5 @@ const NoticeCategory = ({navigation}: any) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    height: Dimensions.get('window').height - 80,
-  },
-  container: {
-    marginHorizontal: 30,
-  },
-  documentMenu: {
-    marginTop: 15,
-    marginBottom: 15,
-
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  leftContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  rightArrow: {
-    flexDirection: 'row',
-  },
-  descriptionTitle: {
-    fontSize: 17,
-    color: '#292929',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-    marginLeft: 10,
-  },
-  leftImg: {
-    backgroundColor: '#C8DFE7',
-    width: 41,
-    height: 41,
-    borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  leftImg2: {
-    backgroundColor: '#ACDFDC',
-    width: 41,
-    height: 41,
-    borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  leftImg3: {
-    backgroundColor: '#9DD6C8',
-    width: 41,
-    height: 41,
-    borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default NoticeCategory;

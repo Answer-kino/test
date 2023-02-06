@@ -10,6 +10,7 @@ const changeStyles = StyleSheet.create({
     ...FontNotoSans.Android.Medium,
     ...Colors[292929],
     ...Weight.Normal,
+    lineHeight: 35,
   },
   TextInputThreeQuartersWrap: {
     width: '100%',
@@ -26,6 +27,7 @@ const changeStyles = StyleSheet.create({
     ...FontNotoSans.Android.Medium,
     ...Colors[292929],
     ...Weight.Normal,
+    alignSelf: 'center',
   },
   TextInputWithBtnWithTimerWrap: {
     width: '25%',
@@ -71,7 +73,7 @@ const changeStyles = StyleSheet.create({
     backgroundColor: '#6DADDB',
     borderRadius: 10,
     height: 51,
-    marginTop: 20,
+    marginTop: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -82,7 +82,7 @@ const mainStyles = StyleSheet.create({
     height: 200,
     backgroundColor: 'white',
     borderRadius: 20,
-    borderBottomRightRadius: 40,
+    // paddingTop: 5,
     ...Platform.select({android: {elevation: 10}}),
   },
   MainNavigationBorder: {
@@ -96,6 +96,11 @@ const mainStyles = StyleSheet.create({
     width: '33%',
     display: 'flex',
     alignItems: 'center',
+  },
+  MainNavigationBorderBtnImg: {
+    width: '100%',
+    height: 105,
+    resizeMode: 'contain',
   },
   MainNavigationBorderBtn: {
     height: '40%',
@@ -118,20 +123,10 @@ const mainStyles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
   },
-  DescriptionTitle: {
-    fontSize: 18,
-    ...Colors[292929],
-    ...Weight.Bold,
-  },
+
   DescriptionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  DescriptionText: {
-    fontSize: 16,
-    lineHeight: 25,
-    ...Colors[292929],
-    ...Weight.Normal,
   },
 
   // 푸터

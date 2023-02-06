@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {
   Alert,
   BackHandler,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -10,6 +9,9 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
+import FindPwdStyles from '../../assets/css/login/findPwd';
+import {Font} from '../../assets/css/global/newFont';
+import {MarginTop} from '../../assets/css/global/margin';
 
 const FindPwd = ({navigation}: any) => {
   const SIGN_SERVICE = new API_SIGN_SERVICE();
@@ -162,20 +164,20 @@ const FindPwd = ({navigation}: any) => {
     }
   };
   return (
-    <View style={styles.full}>
+    <View style={FindPwdStyles.Full}>
       <View>
-        <Text style={styles.TopText}>비밀번호 찾기</Text>
+        <Text style={Font.FindPwdTopText}>비밀번호 찾기</Text>
       </View>
-      <View style={{marginTop: 20}}>
+      <View style={MarginTop(20)}>
         <TextInput
-          style={styles.inputbox1}
+          style={FindPwdStyles.Inputbox1}
           placeholder="차량번호"
           placeholderTextColor="black"
           onChangeText={text => setCarNumber(text)}></TextInput>
 
-        <View style={styles.flexRowWithBtn}>
+        <View style={FindPwdStyles.FlexRowWithBtn}>
           <TextInput
-            style={styles.inputBoxWithBtn}
+            style={FindPwdStyles.InputBoxWithBtn}
             textContentType={'telephoneNumber'}
             keyboardType={'number-pad'}
             maxLength={11}
@@ -188,9 +190,9 @@ const FindPwd = ({navigation}: any) => {
             <></>
           ) : (
             <TouchableOpacity
-              style={styles.inputBtn}
+              style={FindPwdStyles.InputBtn}
               onPress={sendDigitCodeHandler}>
-              <Text style={styles.inputText}>인증요청</Text>
+              <Text style={Font.SignUpCheckBtn}>인증요청</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -200,17 +202,17 @@ const FindPwd = ({navigation}: any) => {
             {isAllowPhone ? (
               <></>
             ) : (
-              <View style={styles.flexRowText}>
-                <Text style={styles.warringMsg}>
+              <View style={FindPwdStyles.FlexRowText}>
+                <Text style={Font.SignUpSendValidNumText}>
                   인증번호를 발송했습니다.(유효시간 4분) 인증번호가오지 않으면
                   입력하신 정보가 정확한지 확인하여주세요. 이미 가입된
                   번호이거나, 가상전화번호는 인증번호를 받을 수 없습니다.
                 </Text>
               </View>
             )}
-            <View style={styles.flexRowWithBtn}>
+            <View style={FindPwdStyles.FlexRowWithBtn}>
               <TextInput
-                style={styles.inputBoxWithBtn}
+                style={FindPwdStyles.InputBoxWithBtn}
                 editable={!isAllowPhone}
                 keyboardType={'number-pad'}
                 maxLength={6}
@@ -220,36 +222,36 @@ const FindPwd = ({navigation}: any) => {
                 // onBlur={checkedDigitCodeHandler()}
               />
               {/* 인증하기를 누르면 임시 비밀번호가 전송되었습니다 문구 보이고 그 밑에 확인 버튼 */}
-              {/* <View>
-                <Text style={styles.inputTimer}>
+              <View>
+                <Text style={Font.SignUpTimer}>
                   {isAllowPhone
                     ? `인증완료`
                     : `${timer.phone.min} : ${timer.phone.sec}`}
                 </Text>
-              </View> */}
+              </View>
             </View>
             {isAllowPhone ? (
               <>
-                <View style={styles.flexRowText}>
-                  <Text style={styles.errorMsg}>인증 완료</Text>
+                <View style={FindPwdStyles.FlexRowText}>
+                  <Text style={Font.FindPwdValidSuccess}>인증 완료</Text>
                 </View>
-                <View style={styles.flexRowText}>
-                  <Text style={styles.warringMsg}>
-                    {`휴대폰 번호로 임시 비밀번호를 보내드렸습니다. 
-  로그인 후 비밀번호를 변경해 주십시오.`}
+                <View style={FindPwdStyles.FlexRowText}>
+                  <Text style={Font.FindPwdSendValidNumText}>
+                    휴대폰 번호로 임시 비밀번호를 보내드렸습니다. 로그인 후
+                    비밀번호를 변경해 주십시오.
                   </Text>
                 </View>
               </>
             ) : (
-              <View style={styles.flexRowText}>
-                <Text style={styles.errorMsg}>
+              <View style={FindPwdStyles.FlexRowText}>
+                <Text style={Font.FindPwdWarningMsg}>
                   인증번호를 다시 확인해주세요.
                 </Text>
               </View>
             )}
             {!valid ? (
               <TouchableOpacity
-                style={styles.lastBtn}
+                style={FindPwdStyles.LastBtn}
                 onPress={checkedDigitCodeHandler()}>
                 <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
                   인증하기
@@ -257,7 +259,7 @@ const FindPwd = ({navigation}: any) => {
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
-                style={styles.lastBtn}
+                style={FindPwdStyles.LastBtn}
                 onPress={() => {
                   navigation.pop();
                 }}>
@@ -280,144 +282,5 @@ const FindPwd = ({navigation}: any) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  full: {
-    height: '100%',
-    width: '100%',
-    paddingTop: 50,
-    paddingHorizontal: 30,
-    backgroundColor: '#DEDEDE',
-  },
-  TopText: {
-    color: '#292929',
-    fontSize: 22,
-    marginLeft: -4,
-    lineHeight: 30,
-    fontWeight: '700',
-    fontFamily: 'Noto Sans',
-  },
-  inputbox1: {
-    backgroundColor: 'white',
-    width: '100%',
-    height: 48,
-    marginTop: 15,
-    borderRadius: 10,
-    paddingLeft: 15,
-    color: 'black',
-  },
-  lastBtnText: {
-    fontWeight: '500',
-    fontFamily: 'Noto Sans',
-    fontSize: 13,
-    lineHeight: 18,
-  },
-  lastBtn: {
-    width: '100%',
-    height: 51,
-    marginTop: 30,
-    borderRadius: 10,
-
-    backgroundColor: '#6DADDB',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  login2Btn: {
-    width: '100%',
-    height: 53,
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    //   backgroundColor: 'white',
-  },
-  login3Btn: {
-    width: '48%',
-    height: 53,
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    //   backgroundColor: 'white',
-  },
-  flexRowWithBtn: {
-    marginTop: 15,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    backgroundColor: 'white',
-    height: 48,
-    paddingLeft: 12,
-    borderRadius: 10,
-  },
-  inputBoxWithBtn: {
-    display: 'flex',
-    flex: 1,
-    color: 'black',
-  },
-  inputBtn: {
-    width: 58,
-    height: 28,
-    borderRadius: 6,
-    backgroundColor: '#879BB9',
-    textAlign: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  inputText: {
-    fontSize: 13,
-    fontWeight: '500',
-    lineHeight: 18,
-    color: '#FFFFFF',
-  },
-  flexRowText: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '85%',
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  warringMsg: {
-    width: '100%',
-    textAlign: 'left',
-    color: '#2D9DB6',
-    fontSize: 12,
-    marginBottom: 10,
-  },
-  inputTimer: {
-    width: 58,
-    fontSize: 14,
-    lineHeight: 18,
-    fontWeight: '400',
-    color: '#898989',
-  },
-  errorMsg: {
-    width: '100%',
-    textAlign: 'left',
-    color: 'red',
-    fontSize: 12,
-    marginBottom: 10,
-  },
-  carNumberText: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 18,
-    color: '#666666',
-  },
-  carNumberText2: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 18,
-    color: '#226EC8',
-  },
-});
 
 export default FindPwd;

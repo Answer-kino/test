@@ -2,14 +2,15 @@ import React, {useEffect, useRef, useState} from 'react';
 import {
   Alert,
   BackHandler,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
+import FindCarNumStyles from '../../assets/css/login/findCarNum';
+import {Font} from '../../assets/css/global/newFont';
+import {MarginRight, MarginTop} from '../../assets/css/global/margin';
 
 const FindCarNum = ({navigation}: any) => {
   const SIGN_SERVICE = new API_SIGN_SERVICE();
@@ -168,14 +169,14 @@ const FindCarNum = ({navigation}: any) => {
     }
   };
   return (
-    <View style={styles.full}>
+    <View style={FindCarNumStyles.Full}>
       <View>
-        <Text style={styles.TopText}>차량번호 확인</Text>
+        <Text style={Font.FindCarNumTopText}>차량번호 확인</Text>
       </View>
-      <View style={{marginTop: 20}}>
-        <View style={styles.flexRowWithBtn}>
+      <View style={MarginTop(20)}>
+        <View style={FindCarNumStyles.FlexRowWithBtn}>
           <TextInput
-            style={styles.inputBoxWithBtn}
+            style={FindCarNumStyles.InputBoxWithBtn}
             textContentType={'telephoneNumber'}
             keyboardType={'number-pad'}
             maxLength={11}
@@ -187,9 +188,9 @@ const FindCarNum = ({navigation}: any) => {
             <></>
           ) : (
             <TouchableOpacity
-              style={styles.inputBtn}
+              style={FindCarNumStyles.InputBtn}
               onPress={sendDigitCodeHandler}>
-              <Text style={styles.inputText}>인증요청</Text>
+              <Text style={Font.SignUpCheckBtn}>인증요청</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -199,39 +200,40 @@ const FindCarNum = ({navigation}: any) => {
             {isAllowPhone ? (
               <></>
             ) : (
-              <View style={styles.flexRowText}>
-                <Text style={styles.warringMsg}>
+              <View style={FindCarNumStyles.FlexRowText}>
+                <Text style={Font.SignUpSendValidNumText}>
                   인증번호를 발송했습니다.(유효시간 4분) 인증번호가오지 않으면
                   입력하신 정보가 정확한지 확인하여주세요. 이미 가입된
                   번호이거나, 가상전화번호는 인증번호를 받을 수 없습니다.
                 </Text>
               </View>
             )}
-            <View style={styles.flexRowWithBtn}>
+            <View style={FindCarNumStyles.FlexRowWithBtn}>
               <TextInput
-                style={styles.inputBoxWithBtn}
+                style={FindCarNumStyles.InputBoxWithBtn}
                 editable={!isAllowPhone}
                 keyboardType={'number-pad'}
                 maxLength={6}
                 returnKeyType="done"
-                placeholder="인증번호 입력하세요"
+                placeholder="인증번호를 입력하세요"
                 onChangeText={setCheckedInfoDistCodeHandler}
               />
-              <View>
-                <Text style={styles.inputTimer}>
-                  {isAllowPhone
-                    ? `인증완료`
-                    : `${timer.phone.min} : ${timer.phone.sec}`}
-                </Text>
-              </View>
+
+              <Text style={Font.SignUpTimer}>
+                {isAllowPhone
+                  ? `인증완료`
+                  : `${timer.phone.min} : ${timer.phone.sec}`}
+              </Text>
             </View>
             {isAllowPhone ? (
               <></>
             ) : (
-              <View style={styles.flexRowText}>
-                <Text style={styles.errorMsg}>
-                  인증번호를 다시 확인해주세요.
-                </Text>
+              <View style={FindCarNumStyles.FlexRowText}>
+                <View style={MarginTop(5)}>
+                  <Text style={Font.SignUpWarningMsg}>
+                    인증번호를 다시 확인해주세요.
+                  </Text>
+                </View>
               </View>
             )}
           </>
@@ -239,15 +241,15 @@ const FindCarNum = ({navigation}: any) => {
           <></>
         )}
         {carNumber && (
-          <View style={styles.flexRowWithBtn}>
-            <Text style={styles.carNumberText}>차량번호: </Text>
-            <Text selectable style={styles.carNumberText2}>
+          <View style={FindCarNumStyles.FlexRowWithBtn}>
+            <Text style={Font.FindCarNumCarNumTextLeft}>차량번호: </Text>
+            <Text selectable style={Font.FindCarNumCarNumTextRight}>
               {carNumber}
             </Text>
           </View>
         )}
         <TouchableOpacity
-          style={styles.lastBtn}
+          style={FindCarNumStyles.LastBtn}
           onPress={() => {
             if (showTextInput.phone && !carNumber) {
               checkedDigitCodeHandler();
@@ -263,143 +265,5 @@ const FindCarNum = ({navigation}: any) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  full: {
-    height: '100%',
-    width: '100%',
-    paddingTop: 50,
-    paddingHorizontal: 30,
-    backgroundColor: '#DEDEDE',
-  },
-  TopText: {
-    color: '#292929',
-    fontSize: 22,
-    marginLeft: -4,
-    lineHeight: 30,
-    fontWeight: '700',
-    fontFamily: 'Noto Sans',
-  },
-  inputbox1: {
-    backgroundColor: 'white',
-    width: '100%',
-    height: 48,
-    marginTop: 15,
-    borderRadius: 10,
-    paddingLeft: 15,
-    color: 'black',
-  },
-  lastBtnText: {
-    fontWeight: '500',
-    fontFamily: 'Noto Sans',
-    fontSize: 13,
-    lineHeight: 18,
-  },
-  lastBtn: {
-    width: '100%',
-    height: 51,
-    marginTop: 30,
-    borderRadius: 10,
-    backgroundColor: '#6DADDB',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  login2Btn: {
-    width: '100%',
-    height: 53,
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    //   backgroundColor: 'white',
-  },
-  login3Btn: {
-    width: '48%',
-    height: 53,
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    //   backgroundColor: 'white',
-  },
-  flexRowWithBtn: {
-    marginTop: 15,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    backgroundColor: 'white',
-    height: 48,
-    paddingLeft: 12,
-    borderRadius: 10,
-  },
-  inputBoxWithBtn: {
-    display: 'flex',
-    flex: 1,
-    color: 'black',
-  },
-  inputBtn: {
-    width: 58,
-    height: 28,
-    borderRadius: 6,
-    backgroundColor: '#879BB9',
-    textAlign: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  inputText: {
-    fontSize: 13,
-    fontWeight: '500',
-    lineHeight: 18,
-    color: '#FFFFFF',
-  },
-  flexRowText: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '85%',
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  warringMsg: {
-    width: '100%',
-    textAlign: 'left',
-    color: '#2D0DB6',
-    fontSize: 12,
-    marginBottom: 10,
-  },
-  inputTimer: {
-    width: 58,
-    fontSize: 14,
-    lineHeight: 18,
-    fontWeight: '400',
-    color: '#898989',
-  },
-  errorMsg: {
-    width: '100%',
-    textAlign: 'left',
-    color: 'red',
-    fontSize: 12,
-    marginBottom: 10,
-  },
-  carNumberText: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 18,
-    color: '#666666',
-  },
-  carNumberText2: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 18,
-    color: '#226EC8',
-  },
-});
 
 export default FindCarNum;

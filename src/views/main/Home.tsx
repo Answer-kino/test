@@ -13,17 +13,11 @@ import {
 import API_HOME_SERVICE from '../../@api/home/home';
 import BottomNav from '../../components/bottomNav/BottomNav';
 import Carousel from '../../components/carousel/Carousel';
-import Contract from '../../assets/contract.svg';
-import Cardocument from '../../assets/cardocument.svg';
-import NftWalletimg from '../../assets/nftWallet.svg';
-import Raceinfoimg from '../../assets/raceinfo.svg';
-import Community from '../../assets/community.svg';
 import Logo from '../../assets/NFTlogo.svg';
 import Hamburger from '../../assets/hamburger.svg';
 import Barcode from '../../assets/barcode.svg';
 import API_BBS_SERVICE from '../../@api/bbs/bbs';
 import API_Mypage from '../../@api/mypage/Mypage';
-import {Divider} from '@rneui/base';
 import {globalStyles} from '../../assets/css/global/styleSheet';
 import {mainStyles} from '../../assets/css/home/home';
 import {MarginBottom, MarginTop} from '../../assets/css/global/margin';
@@ -89,6 +83,7 @@ const Home = ({navigation}: any) => {
     try {
       const result = await BBS_SERVICE.BBS_Main_Notice();
       setNoticeInfo(result);
+      console.log('notice', result);
     } catch (error) {}
   };
 
@@ -191,18 +186,15 @@ const Home = ({navigation}: any) => {
             <View style={globalStyles.MainWrap}>
               <View style={mainStyles.MainNavigationWrap}>
                 <View style={mainStyles.MainNavigationBorderWrap}>
+                  <View style={MarginTop(2)} />
                   <View style={mainStyles.MainNavigationBorder}>
                     <TouchableOpacity
                       style={mainStyles.MainNavigationBorderBtnWrap}
                       onPress={navigationAccessHandler('ContractCheck')}>
                       <View style={{width: '75%'}}>
                         <Image
-                          style={{
-                            width: '100%',
-                            height: 105,
-                            resizeMode: 'contain',
-                          }}
-                          source={require('../../assets/img/main/01.png')}
+                          style={mainStyles.MainNavigationBorderBtnImg}
+                          source={require('../../assets/img/main/main_nav_01.png')}
                         />
                       </View>
                     </TouchableOpacity>
@@ -211,11 +203,7 @@ const Home = ({navigation}: any) => {
                       onPress={navigationAccessHandler('CarDocument')}>
                       <View style={{width: '75%'}}>
                         <Image
-                          style={{
-                            width: '100%',
-                            height: 105,
-                            resizeMode: 'contain',
-                          }}
+                          style={mainStyles.MainNavigationBorderBtnImg}
                           source={require('../../assets/img/main/main_nav_02.png')}
                         />
                       </View>
@@ -225,12 +213,8 @@ const Home = ({navigation}: any) => {
                       onPress={navigationAccessHandler('NFTWallet')}>
                       <View style={{width: '75%'}}>
                         <Image
-                          style={{
-                            width: '100%',
-                            height: 105,
-                            resizeMode: 'contain',
-                          }}
-                          source={require('../../assets/img/main/03.png')}
+                          style={mainStyles.MainNavigationBorderBtnImg}
+                          source={require('../../assets/img/main/main_nav_03.png')}
                         />
                       </View>
                     </TouchableOpacity>
@@ -253,11 +237,7 @@ const Home = ({navigation}: any) => {
                       onPress={navigationAccessHandler('RaceInfo')}>
                       <View style={{width: '75%'}}>
                         <Image
-                          style={{
-                            width: '100%',
-                            height: 105,
-                            resizeMode: 'contain',
-                          }}
+                          style={mainStyles.MainNavigationBorderBtnImg}
                           source={require('../../assets/img/main/main_nav_04.png')}
                         />
                       </View>
@@ -267,21 +247,17 @@ const Home = ({navigation}: any) => {
                       onPress={navigationAccessHandler('CommunityBoardList')}>
                       <View style={{width: '75%'}}>
                         <Image
-                          style={{
-                            width: '100%',
-                            height: 105,
-                            resizeMode: 'contain',
-                          }}
+                          style={mainStyles.MainNavigationBorderBtnImg}
                           source={require('../../assets/img/main/main_nav_05.png')}
                         />
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      style={mainStyles.MainNavigationBorderBtnWrap}>
-                      <View style={mainStyles.MainNavigationBorderBtn}>
-                        <Text style={mainStyles.MainNavigationBorderBtnText} />
+                      style={mainStyles.MainNavigationBorderBtnWrap}
+                      onPress={navigationAccessHandler('CommunityBoardList')}>
+                      <View style={{width: '75%'}}>
+                        <Image style={mainStyles.MainNavigationBorderBtnImg} />
                       </View>
-                      <View style={mainStyles.MainNavigationBorderBtnImgWrap} />
                     </TouchableOpacity>
                   </View>
                   {/* End mainBottomNavigationBorder */}

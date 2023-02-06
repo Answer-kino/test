@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
-  StyleSheet,
   Text,
   View,
-  Dimensions,
   TouchableOpacity,
   TextInput,
   BackHandler,
@@ -12,8 +10,8 @@ import {
   Platform,
   Modal,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
-
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
@@ -27,12 +25,30 @@ import Icon6 from '../../../assets/icon6.svg';
 import {ICommentInfo, IDetailInfo} from '../../../@interface/community';
 import API_HOME_SERVICE from '../../../@api/home/home';
 import {randomNumber__1__6} from '../../../@utility/number';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
+import CommunityStyles from '../../../assets/css/community/community';
+import {Font} from '../../../assets/css/global/newFont';
+import Dividers from '../../../components/divider/Dividers';
+import API_BLOCK_SERVICE from '../../../@api/block/block';
+import {blackReportModalStyles} from '../../../assets/css/modal/blackReportModal';
+import {MarginBottom} from '../../../assets/css/global/margin';
+import {Divider} from '@rneui/base';
 
 const CommunityBoard = ({navigation, route}: any) => {
   const BBS_SERVICE = new API_BBS_SERVICE();
   const HOME_SERVICE = new API_HOME_SERVICE();
-
+  const BLOCK_SERIVCE = new API_BLOCK_SERVICE();
+  const [modalVisibleTop, setModalVisibleTop] = useState(false);
+  const [modalVisibleBot, setModalVisibleBot] = useState(false);
   const [boardIdx, setBoardIdx] = useState();
+  const [userIdx, setUserIdx] = useState({
+    content: 0,
+    comment: 0,
+  });
+  const [carNumberId, setCarNumberId] = useState('');
+  const [targetType, setTargetType] = useState<number>();
+  //댓글 Number넘겨주는 state 추후에 더 생각해볼것
+  const [tempContentNum, setTempContentNum] = useState<string>();
   const [loginId, setLoginId] = useState();
   const [detailInfo, setDetailInfo] = useState<IDetailInfo>();
   const [commentInfo, setCommentInfo] = useState<ICommentInfo[]>();
@@ -48,19 +64,19 @@ const CommunityBoard = ({navigation, route}: any) => {
   const myPageProfileMap = (num: any) => {
     switch (num) {
       case 1:
-        return <Icon1 style={styles.useImg} />;
+        return <Icon1 style={CommunityStyles.UseImg} />;
       case 2:
-        return <Icon2 style={styles.useImg} />;
+        return <Icon2 style={CommunityStyles.UseImg} />;
       case 3:
-        return <Icon3 style={styles.useImg} />;
+        return <Icon3 style={CommunityStyles.UseImg} />;
       case 4:
-        return <Icon4 style={styles.useImg} />;
+        return <Icon4 style={CommunityStyles.UseImg} />;
       case 5:
-        return <Icon5 style={styles.useImg} />;
+        return <Icon5 style={CommunityStyles.UseImg} />;
       case 6:
-        return <Icon6 style={styles.useImg} />;
+        return <Icon6 style={CommunityStyles.UseImg} />;
       default:
-        return <Icon0 style={styles.useImg} />;
+        return <Icon0 style={CommunityStyles.UseImg} />;
     }
   };
 
@@ -80,10 +96,8 @@ const CommunityBoard = ({navigation, route}: any) => {
       // 이미지 number 랜덤으로 하는 부분
       for (let i = 0; i < commentInfo.length; i++) {
         commentInfo[i]['imgNumber'] = randomNumber__1__6();
-        console.log('abc', commentInfo[i]);
       }
       setCommentInfo(commentInfo);
-      console.log('abcd', commentInfo.length);
     } catch (error) {
       console.error(error);
     }
@@ -101,6 +115,115 @@ const CommunityBoard = ({navigation, route}: any) => {
       initBoardPage();
     } catch (error) {
       console.error(error);
+    }
+  };
+  //  게시글차단
+  const blockBoardAxios = async () => {
+    try {
+      const result = await BLOCK_SERIVCE.Block_Board(boardIdx);
+      console.log('게시글차단', result);
+      navigation.replace('CommunityBoardList');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  // 댓글차단
+  const blockCommentAxios = async () => {
+    const IDX_COMMENT = tempContentNum;
+    try {
+      console.log('tw', boardIdx);
+      const result = await BLOCK_SERIVCE.Block_Comment(boardIdx, IDX_COMMENT);
+      getComment();
+      console.log('댓글', result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  //사용자신고
+  const reportUserAxios = async (key: any) => {
+    if (key === 'content') {
+      const targetIdx = userIdx.content;
+      const targetTypeIdx = boardIdx;
+      try {
+        const result = await BLOCK_SERIVCE.Report_User(
+          targetIdx,
+          targetType,
+          targetTypeIdx
+        );
+        Alert.alert('신고되었습니다.');
+        console.log(result);
+      } catch (error) {
+        console.error(error);
+      }
+    } else if (key === 'comment') {
+      const targetIdx = userIdx.comment;
+      const targetTypeIdx = tempContentNum;
+      try {
+        // console.log('h2', targetIdx, targetType, targetTypeIdx);
+        const result = await BLOCK_SERIVCE.Report_User(
+          targetIdx,
+          targetType,
+          targetTypeIdx
+        );
+        Alert.alert('신고되었습니다.');
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      Alert.alert('잘못된 접근입니다.');
+    }
+  };
+  //사용자 차단
+  const blockUserAxios = async (key: any) => {
+    if (key === 'content') {
+      try {
+        console.log('userIdx', userIdx);
+        const result = await BLOCK_SERIVCE.Block_User(userIdx.content);
+        console.log('차단err', result);
+        navigation.replace('CommunityBoardList');
+      } catch (error) {
+        console.error(error);
+      }
+    } else if (key === 'comment') {
+      try {
+        console.log('userIdx', userIdx);
+        const result = await BLOCK_SERIVCE.Block_User(userIdx.comment);
+        console.log('차단err', result);
+        navigation.replace('CommunityBoardList');
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const BlockHandlerContent = (key: any) => {
+    // error핸들링 필요
+    if (key === 'ReportUser') {
+      reportUserAxios('content');
+      setModalVisibleTop(false);
+    }
+    if (key === 'BlockUser') {
+      blockUserAxios('content');
+      setModalVisibleTop(false);
+    }
+    if (key === 'BlockBoard') {
+      blockBoardAxios();
+      setModalVisibleTop(false);
+    }
+  };
+  const BlockHandlerComment = (key: any) => {
+    // error핸들링 필요
+    if (key === 'ReportUser') {
+      reportUserAxios('comment');
+      setModalVisibleBot(false);
+    }
+    if (key === 'BlockUser') {
+      blockUserAxios('comment');
+      setModalVisibleBot(false);
+    }
+    if (key === 'BlockComment') {
+      blockCommentAxios();
+      setModalVisibleBot(false);
     }
   };
 
@@ -127,6 +250,9 @@ const CommunityBoard = ({navigation, route}: any) => {
   }, []);
   useEffect(() => {
     setBoardIdx(route.params?.IDX_BOARD);
+    // setUserIdx(route.params?.IDX_USER);
+    setUserIdx(cur => ({...cur, content: route.params?.IDX_USER}));
+    setCarNumberId(route.params?.carNumber);
   }, [route.params]);
 
   useEffect(() => {
@@ -154,7 +280,7 @@ const CommunityBoard = ({navigation, route}: any) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'android' ? 'position' : 'padding'}
-      style={styles.container2}>
+      style={{flex: 1}}>
       <Modal transparent={true} visible={isLoading}>
         <ActivityIndicator
           size={'large'}
@@ -164,22 +290,176 @@ const CommunityBoard = ({navigation, route}: any) => {
           }}
         />
       </Modal>
+
+      {/* Modal1 */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisibleTop}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisibleTop(false);
+        }}>
+        <View style={blackReportModalStyles.ModalBackGround}>
+          <View style={blackReportModalStyles.ModalWrap}>
+            <View style={blackReportModalStyles.MainWrap}>
+              <View style={blackReportModalStyles.BtnWrap}>
+                <TouchableOpacity
+                  onPress={() => {
+                    BlockHandlerContent('ReportUser');
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalText}>
+                      사용자 신고
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <Divider color="#A6A6A6" />
+                <TouchableOpacity
+                  onPress={() => {
+                    BlockHandlerContent('BlockUser');
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalText}>
+                      사용자 차단
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <Divider color="#A6A6A6" />
+                <TouchableOpacity
+                  onPress={() => {
+                    BlockHandlerContent('BlockBoard');
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalText}>
+                      게시글 차단
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={MarginBottom(10)} />
+              <View style={blackReportModalStyles.BtnWrap}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setModalVisibleTop(false);
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalCancelText}>
+                      취소하기
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {/* Modal1 End */}
+      {/* Modal2 */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisibleBot}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisibleBot(false);
+        }}>
+        <View style={blackReportModalStyles.ModalBackGround}>
+          <View style={blackReportModalStyles.ModalWrap}>
+            <View style={blackReportModalStyles.MainWrap}>
+              <View style={blackReportModalStyles.BtnWrap}>
+                <TouchableOpacity
+                  onPress={() => {
+                    BlockHandlerComment('ReportUser');
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalText}>
+                      사용자 신고
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <Divider color="#A6A6A6" />
+                <TouchableOpacity
+                  onPress={() => {
+                    BlockHandlerComment('BlockUser');
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalText}>
+                      사용자 차단
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <Divider color="#A6A6A6" />
+                <TouchableOpacity
+                  onPress={() => {
+                    BlockHandlerComment('BlockComment');
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalText}>댓글 차단</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={MarginBottom(10)} />
+              <View style={blackReportModalStyles.BtnWrap}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setModalVisibleBot(false);
+                  }}>
+                  <View style={blackReportModalStyles.Btn}>
+                    <Text style={Font.CommunityDetailModalCancelText}>
+                      취소하기
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {/* Modal End */}
       <TopNav navigation={navigation} title="커뮤니티" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
-        <View style={styles.container}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.descriptionTitle}>{detailInfo?.Title}</Text>
-            <Text style={styles.commentLength}>{detailInfo?.CommentCnt}</Text>
+        style={globalStyles.ScrollView}>
+        <View style={CommunityStyles.Container}>
+          <View style={CommunityStyles.CarnumberContainer}>
+            <View style={CommunityStyles.TopImgContainer}>
+              <View style={CommunityStyles.ProfileImg}>
+                {myPageProfileMap(randomNumber__1__6())}
+              </View>
+              <Text style={Font.CommunityDetailCarnumber}>
+                {detailInfo?.userId}
+              </Text>
+            </View>
+            <View>
+              {carNumberId === detailInfo?.userId ? null : (
+                <Text
+                  style={{color: 'black'}}
+                  onPress={() => {
+                    setModalVisibleTop(true);
+                    setTargetType(1);
+                  }}>
+                  • • •
+                </Text>
+              )}
+            </View>
           </View>
-          <View style={styles.content}>
-            <Text style={styles.text}>{detailInfo?.Content}</Text>
+          <View style={CommunityStyles.TitleContainer}>
+            <Text style={Font.CommunityDetailTitle}>{detailInfo?.Title}</Text>
+            <Text style={Font.CommunityDetailCommentCnt}>
+              {detailInfo?.CommentCnt}
+            </Text>
           </View>
-          <View style={styles.endLine}>
+          <View style={CommunityStyles.Content}>
+            <Text style={Font.CommunityDetailContent}>
+              {detailInfo?.Content}
+            </Text>
+          </View>
+
+          <View>
             {loginId === detailInfo?.userId ? (
               <TouchableOpacity
-                style={styles.modifyButton}
+                style={CommunityStyles.ModifyButton}
                 onPress={() => {
                   navigation.navigate('CommunityEdit', {
                     content: detailInfo?.Content,
@@ -187,72 +467,96 @@ const CommunityBoard = ({navigation, route}: any) => {
                     boardIdx: boardIdx,
                   });
                 }}>
-                <Text style={styles.modifyButtonText}>수정</Text>
+                <Text style={Font.CommunityModifyBtn}>수정</Text>
               </TouchableOpacity>
             ) : null}
           </View>
-
-          <Text style={styles.descriptionTitle}>댓글</Text>
-
-          {commentInfo?.map((item, index) => {
-            const comment = item.Comment;
-            const temp = item.CreatedDay;
-            // const imgNum = item.ProfileImg;
-            const imgNum = item.imgNumber;
-
-            const now = new Date();
-            const CreateDay = temp.split('T')[0] + ' ';
-            const diffHour = Number(
-              (
-                (now.getTime() - new Date(temp).getTime()) /
-                1000 /
-                60 /
-                60
-              ).toFixed(0)
-            );
-            const diff2Minute = (
+        </View>
+        <Dividers marginTop="10"></Dividers>
+        <View style={CommunityStyles.Container}>
+          <Text style={Font.CommunityMiddleComment}>댓글</Text>
+        </View>
+        {commentInfo?.map((item, index) => {
+          const comment = item.Comment;
+          const temp = item.CreatedDay;
+          const commentIdx = item.IDX_COMMENT;
+          const IDX_USER = item.IDX_USER;
+          // const imgNum = item.ProfileImg;
+          const imgNum = item.imgNumber;
+          const carNumber = item.CarNumber;
+          const now = new Date();
+          const CreateDay = temp.split('T')[0] + ' ';
+          const diffHour = Number(
+            (
               (now.getTime() - new Date(temp).getTime()) /
               1000 /
+              60 /
               60
-            ).toFixed(0);
-
-            // console.log(
-            //   // (now.getTime() - CreateDay.getTime()) / 60 / 60 / 1000,
-            //   now,
-            //   CreateDay
-            // );
-
-            return (
-              <View key={index} style={styles.commentContainer}>
-                <View style={styles.commentFront}>
-                  <View style={styles.profileImg}>
-                    {myPageProfileMap(imgNum)}
+            ).toFixed(0)
+          );
+          const diff2Minute = Number(
+            ((now.getTime() - new Date(temp).getTime()) / 1000 / 60).toFixed(0)
+          );
+          return (
+            <View key={index}>
+              <View style={CommunityStyles.Container}>
+                <View key={index} style={CommunityStyles.CommentContainer}>
+                  <View style={CommunityStyles.CommentFront}>
+                    <View style={CommunityStyles.ProfileImg}>
+                      {myPageProfileMap(imgNum)}
+                    </View>
+                    <Text style={Font.CommunityDetailCarnumber}>
+                      {carNumber}
+                    </Text>
                   </View>
-                  <Text style={styles.comment}>{comment}</Text>
+                  <Text style={Font.CommunityCommentTime}>
+                    {diffHour > 24
+                      ? CreateDay
+                      : diffHour > 0
+                      ? diffHour + '시간전'
+                      : diffHour < 1 && diff2Minute > 0
+                      ? diff2Minute + '분전'
+                      : '방금전'}
+                  </Text>
                 </View>
-                <Text style={styles.commentAt}>
-                  {diffHour > 24
-                    ? CreateDay
-                    : diffHour < 1
-                    ? diff2Minute + '분전'
-                    : diffHour + '시간전'}
-                </Text>
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text style={Font.CommunityComment}>{comment}</Text>
+                  {carNumberId !== carNumber ? (
+                    <Text
+                      style={{color: 'black'}}
+                      onPress={() => {
+                        setModalVisibleBot(true);
+                        setTempContentNum(commentIdx);
+                        setUserIdx(cur => ({...cur, comment: IDX_USER}));
+                        setTargetType(2);
+                      }}>
+                      • • •
+                    </Text>
+                  ) : null}
+                </View>
               </View>
-            );
-          })}
-
-          <View style={styles.commentInputContainer}>
+              <Dividers></Dividers>
+            </View>
+          );
+        })}
+        <View style={CommunityStyles.Container}>
+          <View style={CommunityStyles.CommentInputContainer}>
             <TextInput
-              style={styles.registInput}
+              style={CommunityStyles.RegistInput}
               value={registComment}
               onChangeText={text => {
                 setRegistComment(text);
               }}
             />
             <TouchableOpacity
-              style={styles.registButton}
+              style={CommunityStyles.RegistButton}
               onPress={() => enrollBtnHandler()}>
-              <Text style={styles.registButtonText}>등록</Text>
+              <Text style={Font.CommunityCommentRegisterBtn}>등록</Text>
             </TouchableOpacity>
           </View>
           <View style={{height: 100, width: 360}}></View>
@@ -262,132 +566,5 @@ const CommunityBoard = ({navigation, route}: any) => {
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  text: {
-    color: 'black',
-  },
-  scrollView: {
-    height: Dimensions.get('window').height - 80,
-  },
-  container: {
-    marginHorizontal: 30,
-    marginTop: 15,
-  },
-  container2: {
-    flex: 1,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-  },
-  content: {
-    marginTop: 10,
-    minHeight: 200,
-  },
-  commentContainer: {
-    marginTop: 15,
-    paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderColor: '#D8D8D8',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    // flex: 1,
-  },
-  descriptionTitle: {
-    fontSize: 17,
-    color: '#292929',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-  },
-  commentLength: {
-    fontSize: 17,
-    color: '#FF4C46',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-    marginLeft: 10,
-  },
-  comment: {
-    fontSize: 14,
-    lineHeight: 22,
-    letterSpacing: -0.05,
-    paddingRight: 10,
-    color: 'black',
-    marginLeft: '3%',
-  },
-  commentAt: {
-    fontSize: 12,
-    lineHeight: 22,
-    letterSpacing: -0.05,
-    flex: 1.2,
-    color: 'black',
-  },
-  commentFront: {
-    flexDirection: 'row',
-    flex: 4,
-    alignItems: 'center',
-  },
-  modifyButton: {
-    backgroundColor: '#6DADDB',
-    width: 50,
-    height: 27,
-    borderRadius: 50,
-    alignItems: 'center',
-  },
-  modifyButtonText: {
-    color: 'white',
-    fontSize: 14,
-    lineHeight: 22,
-  },
-  endLine: {
-    alignItems: 'flex-end',
-    borderBottomWidth: 1,
-    paddingBottom: 7,
-  },
-  profileImg: {
-    backgroundColor: '#A7C1CF',
-    width: 10,
-    height: 10,
-    borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  commentInputContainer: {
-    marginTop: 15,
-    paddingBottom: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  registButton: {
-    backgroundColor: '#6DADDB',
-    width: 47,
-    height: 42,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  registButtonText: {
-    fontSize: 16,
-    color: 'white',
-    lineHeight: 32,
-    flex: 1,
-  },
-  registInput: {
-    backgroundColor: 'white',
-    flex: 3,
-    marginRight: 10,
-    height: 42,
-    borderRadius: 20,
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    color: 'black',
-    borderColor: '#DEDEDE',
-  },
-  useImg: {
-    height: 10,
-    width: 10,
-    marginLeft: '3%',
-  },
-});
 
 export default CommunityBoard;

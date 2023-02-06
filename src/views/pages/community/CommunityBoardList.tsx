@@ -1,26 +1,21 @@
 import {useIsFocused} from '@react-navigation/native';
-import {Divider} from '@rneui/base';
 import React, {useEffect, useState} from 'react';
 import {
-  StyleSheet,
   Text,
   View,
   Image,
-  Dimensions,
   TouchableOpacity,
   BackHandler,
-  FlatList,
   Modal,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-
 import API_BBS_SERVICE from '../../../@api/bbs/bbs';
 import {timeForToday} from '../../../@utility/time';
-import {Weight} from '../../../assets/css/global/font';
+import CommunityListStyles from '../../../assets/css/community/communityList';
+import {Font} from '../../../assets/css/global/newFont';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
-
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import Dividers from '../../../components/divider/Dividers';
 import TopNav from '../../../components/topNav/TopNav';
@@ -29,7 +24,8 @@ const CommunityBoardList = ({navigation, route}: any) => {
   const BBS_SERVICE = new API_BBS_SERVICE();
   const [commnuityList, setCommnuityList] = useState([]);
   const [isLoading, setLoading] = useState(false);
-
+  const [carNumber, setCarNumber] = useState('');
+  const isFocused = useIsFocused();
   const setCommnuityListHandler = async () => {
     try {
       console.log('asdfsadf');
@@ -42,17 +38,30 @@ const CommunityBoardList = ({navigation, route}: any) => {
     }
   };
 
-  const boardLinkHandler = (IDX_BOARD: number) => () => {
-    navigation.navigate('CommunityBoard', {IDX_BOARD});
-  };
-
+  const boardLinkHandler =
+    (IDX_BOARD: number, IDX_USER: number, Blind: boolean, carNumber: string) =>
+    () => {
+      if (Blind) {
+        Alert.alert('차단된 게시글입니다.');
+      } else {
+        navigation.navigate('CommunityBoard', {IDX_BOARD, IDX_USER, carNumber});
+        console.log('IDX', IDX_BOARD);
+      }
+    };
+  // 댓글을 쓰고 뒤로가기를 눌렀을 때 렌더링이 되지 않아 focused 사용
   useEffect(() => {
     setCommnuityListHandler();
-  }, []);
+  }, [isFocused]);
+
+  useEffect(() => {
+    setCarNumber(route.params?.CarNumber);
+  }, [route]);
 
   useEffect(() => {
     const backAction = () => {
-      navigation.pop();
+      setTimeout(() => {
+        navigation.pop();
+      }, 200);
       return true;
     };
 
@@ -77,11 +86,11 @@ const CommunityBoardList = ({navigation, route}: any) => {
       </Modal>
       <TopNav navigation={navigation} title="커뮤니티" />
       <TouchableOpacity
-        style={styles.writeButtonFloat}
+        style={CommunityListStyles.WriteButtonFloat}
         onPress={() => {
           navigation.push('CommunityBoardWrite');
         }}>
-        <View style={styles.writeContainer}>
+        <View style={CommunityListStyles.WriteContainer}>
           <Image source={require('../../../assets/write.png')} />
         </View>
       </TouchableOpacity>
@@ -89,15 +98,7 @@ const CommunityBoardList = ({navigation, route}: any) => {
         contentInsetAdjustmentBehavior="automatic"
         style={globalStyles.ScrollViewBorder}>
         <View style={globalStyles.MainWrap}>
-          <Text
-            style={{
-              fontSize: 19,
-              lineHeight: 35,
-              ...Weight.Bold,
-              color: '#292929',
-            }}>
-            자유게시판
-          </Text>
+          <Text style={Font.CommunityListTopTitle}>자유게시판</Text>
         </View>
         {/* <Divider width={1} style={{marginVertical: 15}} /> */}
         <Dividers marginTop="15" marginBottom="15" />
@@ -108,43 +109,31 @@ const CommunityBoardList = ({navigation, route}: any) => {
             CommentCnt: CommentCnt,
             CreatedDay: tempTime,
             IDX_BOARD,
+            IDX_USER,
+            Blind,
           }: any = item;
           const CreatedDay = timeForToday(tempTime);
 
           return (
             <>
               <View key={index} style={globalStyles.MainWrap}>
-                <TouchableOpacity onPress={boardLinkHandler(IDX_BOARD)}>
-                  <View style={{display: 'flex', flexDirection: 'row'}}>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        lineHeight: 30,
-                        ...Weight.Default,
-                        color: '#101010',
-                      }}>
-                      {Title}{' '}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        lineHeight: 30,
-                        color: '#FF4C46',
-                        ...Weight.Normal,
-                        // ...Colors.Red,
-                      }}>
+                <TouchableOpacity
+                  onPress={boardLinkHandler(
+                    IDX_BOARD,
+                    IDX_USER,
+                    Blind,
+                    carNumber
+                  )}>
+                  <View style={CommunityListStyles.MiddleTopWrap}>
+                    <Text style={Font.CommunityListTitle}>{Title} </Text>
+                    <Text style={Font.CommunityListCommentCountText}>
                       {CommentCnt}
                     </Text>
                   </View>
                 </TouchableOpacity>
 
                 <View>
-                  <Text
-                    style={{
-                      fontSize: 13,
-                      ...Weight.Normal,
-                      color: '#666666',
-                    }}>
+                  <Text style={Font.CommunityListCreatedTime}>
                     {CreatedDay}
                   </Text>
                 </View>
@@ -169,66 +158,5 @@ const CommunityBoardList = ({navigation, route}: any) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    // marginHorizontal: 30,
-    marginTop: 15,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-  },
-  documentMenu: {
-    marginTop: 15,
-    paddingBottom: 15,
-
-    flexGrow: 1,
-  },
-  descriptionTopTitle: {
-    fontSize: 17,
-    color: '#292929',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-    marginLeft: 15,
-    fontWeight: '700',
-  },
-  descriptionTitle: {
-    fontSize: 17,
-    color: '#292929',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-    marginLeft: 15,
-  },
-  comment: {
-    fontSize: 17,
-    color: '#FF4C46',
-    lineHeight: 35,
-    letterSpacing: -0.05,
-    marginLeft: 10,
-  },
-  writeButtonFloat: {
-    backgroundColor: 'black',
-    width: 53,
-    height: 53,
-    zIndex: 1,
-    position: 'absolute',
-    top: Dimensions.get('window').height - 170,
-    bottom: 0,
-    // left: 0,
-    right: '5%',
-    borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  writeContainer: {
-    borderBottomColor: 'white',
-    paddingBottom: 4,
-    borderBottomWidth: 3,
-  },
-  commentAt: {
-    color: '#666666',
-    marginLeft: 15,
-  },
-});
 
 export default CommunityBoardList;

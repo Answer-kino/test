@@ -3,16 +3,12 @@ import TopNav from '../../components/topNav/TopNav';
 import {
   View,
   Text,
-  Image,
-  StyleSheet,
   TouchableOpacity,
   BackHandler,
   Modal,
   Alert,
   Switch,
   ActivityIndicator,
-  ImageBackground,
-  Dimensions,
   ScrollView,
 } from 'react-native';
 import API_Mypage from '../../@api/mypage/Mypage';
@@ -26,11 +22,12 @@ import Icon5 from '../../assets/icon5_big.svg';
 import Icon6 from '../../assets/icon6_big.svg';
 import ModalSelect from '../../assets/modal_select.svg';
 import BottomNav from '../../components/bottomNav/BottomNav';
-import {Divider} from '@rneui/base';
 import {globalStyles} from '../../assets/css/global/styleSheet';
-import {MarginBottom} from '../../assets/css/global/margin';
+import {MarginBottom, MarginLeft} from '../../assets/css/global/margin';
 import {modalStyles} from '../../assets/css/modal/modal';
 import Dividers from '../../components/divider/Dividers';
+import {Font} from '../../assets/css/global/newFont';
+import {MyPageStyles} from '../../assets/css/mypage/mypage';
 
 interface myDatatype {
   CarNumber?: string;
@@ -236,7 +233,9 @@ const Mypage = ({navigation}: any) => {
         <View style={modalStyles.ModalWrap}>
           <View style={modalStyles.MainWrap}>
             <View style={modalStyles.HeaderWrap}>
-              <Text style={modalStyles.HeaderText}>이미지 선택</Text>
+              <View style={{alignItems: 'center'}}>
+                <Text style={Font.MypageModalText}>이미지 선택</Text>
+              </View>
               <TouchableOpacity
                 style={modalStyles.ModalCloseWrap}
                 onPress={() => {
@@ -297,25 +296,13 @@ const Mypage = ({navigation}: any) => {
       <TopNav navigation={navigation} title="마이페이지" />
 
       <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <View
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: Dimensions.get('screen').width,
-            marginTop: '12.5%',
-            marginBottom: '12.5%',
-          }}>
+        <View style={MyPageStyles.TopImageContainer}>
           <View
             style={{
               display: 'flex',
             }}>
             <TouchableOpacity
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
+              style={MyPageStyles.TopImageBackgroud}
               onPress={() => {
                 setModalVisible(true);
               }}>
@@ -326,67 +313,64 @@ const Mypage = ({navigation}: any) => {
         </View>
 
         <View style={globalStyles.MainWrap}>
-          <View style={styles.mainContainerWrap}>
+          <View style={MyPageStyles.MainContainerWrap}>
             {/* tmp */}
-            <View style={styles.mainContainerRowTop}>
+            <View style={MyPageStyles.MainContainerRowTop}>
               <View>
-                <Text style={styles.mainContainerRowText}>차량번호</Text>
+                <Text style={Font.MypageLeftText}>차량번호</Text>
               </View>
               <View>
-                <Text style={styles.mainContainerRowText}>
-                  {myData?.CarNumber}
-                </Text>
+                <Text style={Font.MypageRightText}>{myData?.CarNumber}</Text>
               </View>
             </View>
-            <View style={styles.mainContainerRow}>
+            <View style={MyPageStyles.MainContainerRow}>
               <View>
-                <Text style={styles.mainContainerRowText}>휴대폰번호</Text>
+                <Text style={Font.MypageLeftText}>휴대폰번호</Text>
               </View>
-              <View style={styles.mainContainerRowBtnWrap}>
-                <View style={styles.mainContainerRowRightTextWrap}>
-                  <Text style={styles.mainContainerRowRightText}>
+              <View style={MyPageStyles.MainContainerRowBtnWrap}>
+                <View style={MyPageStyles.MainContainerRowRightTextWrap}>
+                  <Text style={Font.MypageRightText}>
                     {myData.Phone && convertPhone(myData?.Phone)}
                   </Text>
+                  <View style={MarginLeft(5)} />
                   <TouchableOpacity
-                    style={styles.mainContainerRowBtn}
+                    style={MyPageStyles.MainContainerRowBtn}
                     onPress={navigationNaivigateHandlerMap(
                       'ChangePhoneNumber'
                     )}>
-                    <Text style={styles.mainContainerRowBtnText}>변경</Text>
+                    <Text style={Font.MyPageBtnText}>변경</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
-            <View style={styles.mainContainerRow}>
+            <View style={MyPageStyles.MainContainerRow}>
               <View>
-                <Text style={styles.mainContainerRowText}>이메일</Text>
+                <Text style={Font.MypageLeftText}>이메일</Text>
               </View>
-              <View style={styles.mainContainerRowBtnWrap}>
-                <View style={styles.mainContainerRowRightTextWrap}>
-                  <Text style={styles.mainContainerRowRightText}>
-                    {myData?.UserEmail}
-                  </Text>
+              <View style={MyPageStyles.MainContainerRowBtnWrap}>
+                <View style={MyPageStyles.MainContainerRowRightTextWrap}>
+                  <Text style={Font.MypageRightText}>{myData?.UserEmail}</Text>
+                  <View style={MarginLeft(5)} />
                   <TouchableOpacity
-                    style={styles.mainContainerRowBtn}
+                    style={MyPageStyles.MainContainerRowBtn}
                     onPress={navigationNaivigateHandlerMap('ChangeEmail')}>
-                    <Text style={styles.mainContainerRowBtnText}>변경</Text>
+                    <Text style={Font.MyPageBtnText}>변경</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
-            <View style={styles.mainContainerRow}>
+            <View style={MyPageStyles.MainContainerRow}>
               <View>
-                <Text style={styles.mainContainerRowText}>비밀번호</Text>
+                <Text style={Font.MypageLeftText}>비밀번호</Text>
               </View>
-              <View style={styles.mainContainerRowBtnWrap}>
-                <View style={styles.mainContainerRowRightTextWrap}>
-                  <Text style={styles.mainContainerRowRightText}>
-                    *********
-                  </Text>
+              <View style={MyPageStyles.MainContainerRowBtnWrap}>
+                <View style={MyPageStyles.MainContainerRowRightTextWrap}>
+                  <Text style={Font.MypageRightText}>*********</Text>
+                  <View style={MarginLeft(5)} />
                   <TouchableOpacity
-                    style={styles.mainContainerRowBtn}
+                    style={MyPageStyles.MainContainerRowBtn}
                     onPress={navigationReplaceHandler('ChangePassword')}>
-                    <Text style={styles.mainContainerRowBtnText}>변경</Text>
+                    <Text style={Font.MyPageBtnText}>변경</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -398,13 +382,11 @@ const Mypage = ({navigation}: any) => {
               style={{marginTop: 20, marginBottom: 12}}
             /> */}
             <Dividers marginTop="20" marginBottom="12"></Dividers>
-            <View style={styles.mainContainerRow}>
+            <View style={MyPageStyles.MainContainerRow}>
               <View>
-                <Text style={styles.mainContainerRowText}>
-                  마케팅 정보 수신동의
-                </Text>
+                <Text style={Font.MypageLeftText}>마케팅 정보 수신동의</Text>
               </View>
-              <View style={styles.mainContainerRowBtnWrap}>
+              <View style={MyPageStyles.MainContainerRowBtnWrap}>
                 <Switch
                   trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
                   thumbColor={'#FFFFFF'}
@@ -414,11 +396,11 @@ const Mypage = ({navigation}: any) => {
                 />
               </View>
             </View>
-            <View style={styles.mainContainerRow}>
+            <View style={MyPageStyles.MainContainerRow}>
               <View>
-                <Text style={styles.mainContainerRowText}>메일수신동의</Text>
+                <Text style={Font.MypageLeftText}>메일수신동의</Text>
               </View>
-              <View style={styles.mainContainerRowBtnWrap}>
+              <View style={MyPageStyles.MainContainerRowBtnWrap}>
                 <Switch
                   trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
                   thumbColor={'#FFFFFF'}
@@ -428,11 +410,11 @@ const Mypage = ({navigation}: any) => {
                 />
               </View>
             </View>
-            <View style={styles.mainContainerRowBot}>
+            <View style={MyPageStyles.MainContainerRowBot}>
               <View>
-                <Text style={styles.mainContainerRowText}>SNS수신동의</Text>
+                <Text style={Font.MypageLeftText}>SNS수신동의</Text>
               </View>
-              <View style={styles.mainContainerRowBtnWrap}>
+              <View style={MyPageStyles.MainContainerRowBtnWrap}>
                 <Switch
                   trackColor={{false: '#D9D9D9', true: '#6DADDB'}}
                   thumbColor={'#FFFFFF'}
@@ -444,174 +426,16 @@ const Mypage = ({navigation}: any) => {
             </View>
             {/*  */}
           </View>
-          <View style={styles.footerContainerWrap}>
-            <TouchableOpacity
-              style={styles.footerContainerBtn}
-              onPress={patchMyData}>
-              <Text style={styles.footerContainerBtnText}>수정하기</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={patchMyData}>
+            <View style={globalStyles.Button}>
+              <Text style={Font.AllBtnText}>수정하기</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </ScrollView>
       <BottomNav navigation={navigation}></BottomNav>
     </View>
   );
 };
-const styles = StyleSheet.create({
-  full: {
-    backgroundColor: '#F2F6F8',
-    width: Dimensions.get('screen').width,
-    height: '100%',
-  },
-  image: {
-    width: '12%',
-    height: '100%',
-  },
-  text1: {
-    color: 'black',
-    font: 'Noto Sans',
-    fontWeight: '500',
-    fontSize: 15,
-    // lineHeight: 40,
-    marginLeft: '5%',
-    // height: 30,
-  },
-  text2: {
-    display: 'flex',
-    color: 'black',
-    font: 'Noto Sans',
-    fontWeight: '500',
-    fontSize: 15,
-    lineHeight: 30,
-    marginRight: '03%',
-    height: 30,
-  },
-  text3: {
-    color: 'white',
-    font: 'Noto Sans',
-    fontWeight: '500',
-    fontSize: 14,
-    lineHeight: 28,
-  },
-  btn: {
-    backgroundColor: '#879BB9',
-    borderRadius: 6,
-    width: '30%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: '1%',
-    height: '35%',
-    // marginTop: '2%',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba( 0, 0, 0, 0.5 )',
-  },
-  modifyBtn: {
-    color: 'white',
-    backgroundColor: '#6DADDB',
-    width: '80%',
-    borderRadius: 10,
-    height: 60,
-    marginTop: 20,
-    marginLeft: '10%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modifyBtnText: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '700',
-    fontSize: 17,
-  },
-  mainContainerWrap: {
-    display: 'flex',
-    alignSelf: 'center',
-    backgroundColor: 'white',
-    borderRadius: 14,
-    width: '100%',
-  },
-  mainContainerRowTop: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingTop: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  mainContainerRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingTop: 5,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  mainContainerRowBot: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingTop: 5,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingBottom: 10,
-  },
-  mainContainerRowText: {fontSize: 15, color: '#292929'},
-  mainContainerRowBtnWrap: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  mainContainerRowBtn: {
-    display: 'flex',
-    width: 40,
-    height: 26,
-    borderRadius: 6,
-    backgroundColor: '#879BB9',
-    justifyContent: 'center',
-    alignSelf: 'flex-end',
-  },
-  mainContainerRowBtnText: {
-    fontSize: 14,
-    fontWeight: '500',
-    textAlign: 'center',
-    color: 'white',
-  },
-  mainContainerRowRightTextWrap: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  mainContainerRowRightText: {
-    fontSize: 14,
-    fontWeight: '400',
-    color: '#666666',
-    marginBottom: 5,
-    textAlign: 'right',
-    marginRight: 5,
-  },
-  footerContainerWrap: {
-    paddingTop: 20,
-    paddingBottom: 80,
-  },
-  footerContainerBtn: {
-    display: 'flex',
-    alignSelf: 'center',
-    backgroundColor: '#6DADDB',
-    borderRadius: 8,
-    width: '100%',
-    paddingTop: 7.5,
-    paddingBottom: 7.5,
-  },
-  footerContainerBtnText: {
-    textAlign: 'center',
-    fontSize: 17,
-    lineHeight: 40,
-    fontWeight: '500',
-    color: '#ffffff',
-  },
-});
+
 export default Mypage;

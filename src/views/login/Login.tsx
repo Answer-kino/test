@@ -1,14 +1,12 @@
 import {useEffect, useRef, useState} from 'react';
 import {
   ScrollView,
-  StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
   BackHandler,
   Alert,
-  Dimensions,
   Modal,
   ActivityIndicator,
 } from 'react-native';
@@ -16,10 +14,11 @@ import {Divider} from '@rneui/themed';
 import CheckBox from '@react-native-community/checkbox';
 import _ from 'lodash';
 import API_SIGN_SERVICE from '../../@api/sign/sign';
-import ModalCloseBtn from '../../assets/modalclosetbtn.svg';
 import {regExp__pwd, regExp__email} from '../../@utility/reg';
-import AlertCustom_2Btn from '../../components/alert/Alert2btn';
 import AlertCustom_1btn from '../../components/alert/Alert1btn';
+import {SignUpStyles} from '../../assets/css/login/signup';
+import {Font} from '../../assets/css/global/newFont';
+import {MarginLeft} from '../../assets/css/global/margin';
 enum ESignInfoKey {
   carNumber = 'carNumber',
   email = 'email',
@@ -470,7 +469,7 @@ const Login = ({navigation}: any) => {
   }, [navigation]);
 
   return (
-    <View style={styles.full}>
+    <View style={SignUpStyles.Full}>
       <AlertCustom_1btn
         setModalVisible={setModalVisible}
         modalVisible={modalVisible}
@@ -485,72 +484,78 @@ const Login = ({navigation}: any) => {
         />
       </Modal>
       <Modal animationType="fade" transparent={true} visible={signUpModal}>
-        <View style={styles.signUpModalWrap}>
-          <View style={styles.signUpModalView}>
-            <View style={styles.signUpModalTop}>
-              <View style={styles.signUpModalTopHead}>
+        <View style={SignUpStyles.SignUpModalWrap}>
+          <View style={SignUpStyles.SignUpModalView}>
+            <View style={SignUpStyles.SignUpModalTop}>
+              <View style={SignUpStyles.SignUpModalTopHead}>
                 <TouchableOpacity
-                  style={styles.signUpModalTopHeadBtn}
+                  style={SignUpStyles.SignUpModalTopHeadBtn}
                   onPress={signUpSuccessHandler}>
-                  <Text style={styles.signUpModalTopHeadText}>X</Text>
+                  <Text style={Font.SignUpModalClose}>X</Text>
                 </TouchableOpacity>
               </View>
-              <View style={styles.signUpModalTopBody}>
-                <Text style={styles.signUpModalTopBodyTitle}>환영합니다!</Text>
-                <Text style={styles.signUpModalTopBodyContent}>
+              <View style={SignUpStyles.SignUpModalTopBody}>
+                <Text style={Font.SignUpModalTitle}>환영합니다!</Text>
+                <Text style={Font.SignUpModalMiddleTop}>
                   NFT차량 가입이 완료됐습니다.
                 </Text>
-                <Text style={styles.signUpModalTopBodyCarNumber}>
+                <Text style={Font.SignUpModalCarNumber}>
                   차량번호 : {signInfo?.carNumber}
                 </Text>
               </View>
             </View>
-            <View style={styles.signUpModalBottom}>
+            <View style={SignUpStyles.SignUpModalBottom}>
               <TouchableOpacity
-                style={styles.signUpModalBottomBtn}
+                style={SignUpStyles.SignUpModalBottomBtn}
                 onPress={signUpSuccessHandler}>
-                <Text style={styles.signUpModalBottomText}>시작하기</Text>
+                <Text style={Font.SignUpModalBtn}>시작하기</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
       </Modal>
 
-      <View>
-        <Text style={styles.TopText}>회원가입</Text>
+      <View style={SignUpStyles.TopText}>
+        <Text style={Font.SignUpTop}>회원가입</Text>
       </View>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
-        <View style={styles.viewWrap}>
+        style={SignUpStyles.ScrollView}>
+        <View style={SignUpStyles.ViewWrap}>
           {/* 차량번호 */}
-          <View style={styles.flexRowWithBtn}>
+          <View style={SignUpStyles.FlexRowWithBtn}>
             <TextInput
-              style={styles.inputBoxWithBtn}
+              style={SignUpStyles.InputBoxWithBtn}
               placeholder="차량번호"
               onChangeText={setSignInfoHandler(ESignInfoKey.carNumber)}
               placeholderTextColor="#898989"
             />
             <TouchableOpacity
-              style={styles.inputBtn}
+              style={SignUpStyles.InputBtn}
               onPress={carNumberOverLapCheckedHandler}>
-              <Text style={styles.inputText}>중복확인</Text>
+              <Text style={Font.SignUpCheckBtn}>중복확인</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.flexRowText}>
+          <View style={SignUpStyles.FlexRowText}>
             {_.isNull(carNubmerOverLap.status) ? (
               ''
             ) : carNubmerOverLap.status ? (
-              <Text style={styles.errorMsg}>사용 불가능한 차량번호입니다.</Text>
+              <View style={SignUpStyles.MsgContainer}>
+                <Text style={Font.SignUpWarningMsg}>
+                  사용 불가능한 차량번호입니다.
+                </Text>
+              </View>
             ) : (
-              <Text style={styles.successMsg}>사용 가능한 차량번호입니다.</Text>
+              <View style={SignUpStyles.MsgContainer}>
+                <Text style={Font.SignUpMsg}>사용 가능한 차량번호입니다.</Text>
+              </View>
             )}
           </View>
 
           {/* 비밀번호 */}
-          <View style={styles.flexRowinputBox}>
+          <View style={SignUpStyles.FlexRowinputBox}>
             <TextInput
-              style={styles.flexRowinput}
+              style={SignUpStyles.FlexRowinput}
               textContentType={'password'}
               placeholder="비밀번호 (영문+숫자+특수문자 : 8자리이상)"
               secureTextEntry={true}
@@ -560,22 +565,24 @@ const Login = ({navigation}: any) => {
               placeholderTextColor="#898989"
             />
           </View>
-          <View style={styles.flexRowText}>
+          <View style={SignUpStyles.FlexRowText}>
             {_.isNull(pwdChecked.reg) ? (
               ''
             ) : pwdChecked.reg ? (
               ''
             ) : (
-              <Text style={styles.errorMsg}>
-                영문+숫자+특수문자 : 8자리이상을 사용해주세요.
-              </Text>
+              <View style={SignUpStyles.MsgContainer}>
+                <Text style={Font.SignUpWarningMsg}>
+                  영문+숫자+특수문자 : 8자리이상을 사용해주세요.
+                </Text>
+              </View>
             )}
           </View>
 
           {/* 비밀번호 확인 */}
-          <View style={styles.flexRowinputBox}>
+          <View style={SignUpStyles.FlexRowinputBox}>
             <TextInput
-              style={styles.flexRowinput}
+              style={SignUpStyles.FlexRowinput}
               textContentType={'password'}
               secureTextEntry={true}
               maxLength={20}
@@ -585,20 +592,24 @@ const Login = ({navigation}: any) => {
               placeholderTextColor="#898989"
             />
           </View>
-          <View style={styles.flexRowText}>
+          <View style={SignUpStyles.FlexRowText}>
             {_.isNull(pwdChecked.same) ? (
               ''
             ) : pwdChecked.same ? (
               ''
             ) : (
-              <Text style={styles.errorMsg}>비밀번호가 일치하지 않습니다.</Text>
+              <View style={SignUpStyles.MsgContainer}>
+                <Text style={Font.SignUpWarningMsg}>
+                  비밀번호가 일치하지 않습니다.
+                </Text>
+              </View>
             )}
           </View>
 
           {/* 휴대폰 */}
-          <View style={styles.flexRowWithBtn}>
+          <View style={SignUpStyles.FlexRowWithBtn}>
             <TextInput
-              style={styles.inputBoxWithBtn}
+              style={SignUpStyles.InputBoxWithBtn}
               textContentType={'telephoneNumber'}
               keyboardType={'number-pad'}
               maxLength={11}
@@ -610,9 +621,9 @@ const Login = ({navigation}: any) => {
               <></>
             ) : (
               <TouchableOpacity
-                style={styles.inputBtn}
+                style={SignUpStyles.InputBtn}
                 onPress={sendDigitCodeHandler('phone')}>
-                <Text style={styles.inputText}>인증요청</Text>
+                <Text style={Font.SignUpCheckBtn}>인증요청</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -622,17 +633,17 @@ const Login = ({navigation}: any) => {
               {isAllowSignInfo.phone ? (
                 <></>
               ) : (
-                <View style={styles.flexRowText}>
-                  <Text style={styles.warringMsg}>
+                <View style={SignUpStyles.FlexRowText}>
+                  <Text style={Font.SignUpSendValidNumText}>
                     인증번호를 발송했습니다.(유효시간 4분) 인증번호가오지 않으면
                     입력하신 정보가 정확한지 확인하여주세요. 이미 가입된
                     번호이거나, 가상전화번호는 인증번호를 받을 수 없습니다.
                   </Text>
                 </View>
               )}
-              <View style={styles.flexRowWithBtn}>
+              <View style={SignUpStyles.FlexRowWithBtn}>
                 <TextInput
-                  style={styles.inputBoxWithBtn}
+                  style={SignUpStyles.InputBoxWithBtn}
                   editable={!isAllowSignInfo.phone}
                   keyboardType={'number-pad'}
                   maxLength={6}
@@ -641,21 +652,23 @@ const Login = ({navigation}: any) => {
                   onChangeText={setCheckedInfoDistCodeHandler('phone')}
                   onBlur={checkedDigitCodeHandler('phone')}
                 />
-                <View>
-                  <Text style={styles.inputTimer}>
-                    {isAllowSignInfo.phone
-                      ? `인증완료`
-                      : `${timer.phone.min} : ${timer.phone.sec}`}
-                  </Text>
-                </View>
+
+                <Text style={Font.SignUpTimer}>
+                  {' '}
+                  {isAllowSignInfo.phone
+                    ? `인증완료`
+                    : `${timer.phone.min} : ${timer.phone.sec}`}
+                </Text>
               </View>
               {isAllowSignInfo.phone ? (
                 <></>
               ) : (
-                <View style={styles.flexRowText}>
-                  <Text style={styles.errorMsg}>
-                    인증번호를 다시 확인해주세요.
-                  </Text>
+                <View style={SignUpStyles.FlexRowText}>
+                  <View style={SignUpStyles.MsgContainer}>
+                    <Text style={Font.SignUpWarningMsg}>
+                      인증번호를 다시 확인해주세요.
+                    </Text>
+                  </View>
                 </View>
               )}
             </>
@@ -664,9 +677,9 @@ const Login = ({navigation}: any) => {
           )}
 
           {/* 이메일 */}
-          <View style={styles.flexRowWithBtn}>
+          <View style={SignUpStyles.FlexRowWithBtn}>
             <TextInput
-              style={styles.inputBoxWithBtn}
+              style={SignUpStyles.InputBoxWithBtn}
               textContentType={'emailAddress'}
               keyboardType={'email-address'}
               placeholder="이메일"
@@ -677,9 +690,9 @@ const Login = ({navigation}: any) => {
               <></>
             ) : (
               <TouchableOpacity
-                style={styles.inputBtn}
+                style={SignUpStyles.InputBtn}
                 onPress={sendDigitCodeHandler('email')}>
-                <Text style={styles.inputText}>인증요청</Text>
+                <Text style={Font.SignUpCheckBtn}>인증요청</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -689,8 +702,8 @@ const Login = ({navigation}: any) => {
               {isAllowSignInfo.email ? (
                 <></>
               ) : (
-                <View style={styles.flexRowText}>
-                  <Text style={styles.warringMsg}>
+                <View style={SignUpStyles.FlexRowText}>
+                  <Text style={Font.SignUpSendValidNumText}>
                     인증번호를 발송했습니다.(유효시간 4분) 인증번호가오지 않으면
                     입력하신 정보가 정확한지 확인하여주세요. 이미 가입된
                     이메일이거나, 존재하지 않는 이메일은 인증번호를 받을 수
@@ -698,9 +711,9 @@ const Login = ({navigation}: any) => {
                   </Text>
                 </View>
               )}
-              <View style={styles.flexRowWithBtn}>
+              <View style={SignUpStyles.FlexRowWithBtn}>
                 <TextInput
-                  style={styles.inputBoxWithBtn}
+                  style={SignUpStyles.InputBoxWithBtn}
                   editable={!isAllowSignInfo.email}
                   keyboardType={'number-pad'}
                   maxLength={6}
@@ -710,7 +723,7 @@ const Login = ({navigation}: any) => {
                   onBlur={checkedDigitCodeHandler('email')}
                 />
                 <View>
-                  <Text style={styles.inputTimer}>
+                  <Text style={Font.SignUpTimer}>
                     {' '}
                     {isAllowSignInfo.email
                       ? `인증완료`
@@ -718,11 +731,12 @@ const Login = ({navigation}: any) => {
                   </Text>
                 </View>
               </View>
+
               {isAllowSignInfo.email ? (
                 <></>
               ) : (
-                <View style={styles.flexRowText}>
-                  <Text style={styles.errorMsg}>
+                <View style={SignUpStyles.FlexRowText}>
+                  <Text style={Font.SignUpWarningMsg}>
                     인증번호를 다시 확인해주세요.
                   </Text>
                 </View>
@@ -733,8 +747,8 @@ const Login = ({navigation}: any) => {
           )}
 
           {/* 체크박스 */}
-          <View style={styles.checkBoxWrap}>
-            <View style={styles.checkBoxView}>
+          <View style={SignUpStyles.CheckBoxWrap}>
+            <View style={SignUpStyles.CheckBoxView}>
               <CheckBox
                 value={!Object.values(checkBox).some(el => el !== true)}
                 onChange={setAllCheckBoxHandler}
@@ -742,102 +756,110 @@ const Login = ({navigation}: any) => {
                 onTintColor="white"
               />
               <TouchableOpacity
-                style={styles.checkBoxLabelWrap}
+                style={SignUpStyles.CheckBoxLabelWrap}
                 onPress={setAllCheckBoxHandler}>
                 <Text style={{color: '#797979'}}>약관 전체동의</Text>
               </TouchableOpacity>
             </View>
             <Divider width={2} style={{marginBottom: 8, marginTop: 8}} />
 
-            <View style={styles.checkBoxView}>
+            <View style={SignUpStyles.CheckBoxView}>
               <CheckBox
                 value={checkBox.termsOfService}
                 onChange={setCheckBoxHandler('termsOfService')}
                 tintColors={{true: '#747474', false: 'black'}}
               />
               <TouchableOpacity
-                style={styles.checkBoxLabelWrap}
+                style={SignUpStyles.CheckBoxLabelWrap}
                 onPress={setCheckBoxHandler('termsOfService')}>
-                <Text style={styles.requirementsMsg}>필수</Text>
-                <Text style={{color: '#797979'}}>이용약관</Text>
+                <Text style={Font.SignUpEssential}>필수</Text>
+                <View style={MarginLeft(5)}>
+                  <Text style={Font.SignUpCheckBoxRightText}>이용약관</Text>
+                </View>
               </TouchableOpacity>
               <Text
-                style={{color: '#797979'}}
+                style={Font.SignUpCheckBoxRightText}
                 onPress={navigationPushHandler('TermsOfService')}>
                 {' '}
                 [내용보기]
               </Text>
             </View>
-            <View style={styles.checkBoxView}>
+            <View style={SignUpStyles.CheckBoxView}>
               <CheckBox
                 value={checkBox.privacy}
                 onChange={setCheckBoxHandler('privacy')}
                 tintColors={{true: '#747474', false: 'black'}}
               />
               <TouchableOpacity
-                style={styles.checkBoxLabelWrap}
+                style={SignUpStyles.CheckBoxLabelWrap}
                 onPress={setCheckBoxHandler('privacy')}>
-                <Text style={styles.requirementsMsg}>필수</Text>
-                <Text style={{color: '#797979'}}>개인정보수집 및 이용</Text>
+                <Text style={Font.SignUpEssential}>필수</Text>
+                <View style={MarginLeft(5)}>
+                  <Text style={Font.SignUpCheckBoxRightText}>
+                    개인정보수집 및 이용
+                  </Text>
+                </View>
               </TouchableOpacity>
               <Text
-                style={{color: '#797979'}}
+                style={Font.SignUpCheckBoxRightText}
                 onPress={navigationPushHandler('Privacy')}>
                 {' '}
                 [내용보기]
               </Text>
             </View>
-            <View style={styles.checkBoxView}>
+            <View style={SignUpStyles.CheckBoxView}>
               <CheckBox
                 value={checkBox.promotion}
                 onChange={setCheckBoxHandler('promotion')}
                 tintColors={{true: '#747474', false: 'black'}}
               />
               <TouchableOpacity
-                style={styles.checkBoxLabelWrap}
+                style={SignUpStyles.CheckBoxLabelWrap}
                 onPress={setCheckBoxHandler('promotion')}>
-                <Text style={styles.selectionMsg}>선택</Text>
-                <Text style={{color: '#797979'}}>프로모션 정보수신약관</Text>
+                <Text style={Font.SignUpNotEssential}>선택</Text>
+                <View style={MarginLeft(5)}>
+                  <Text style={Font.SignUpCheckBoxRightText}>
+                    프로모션 정보수신약관
+                  </Text>
+                </View>
               </TouchableOpacity>
               <Text
-                style={{color: '#797979'}}
+                style={Font.SignUpCheckBoxRightText}
                 onPress={navigationPushHandler('Promotion')}>
                 {' '}
                 [내용보기]
               </Text>
             </View>
-            <View style={styles.checkBoxView}>
+            <View style={SignUpStyles.CheckBoxView}>
               <CheckBox
                 value={checkBox.snsEmailMarketing}
                 onChange={setCheckBoxHandler('snsEmailMarketing')}
                 tintColors={{true: '#747474', false: 'black'}}
               />
               <TouchableOpacity
-                style={styles.checkBoxLabelWrap}
+                style={SignUpStyles.CheckBoxLabelWrap}
                 onPress={setCheckBoxHandler('snsEmailMarketing')}>
-                <Text style={styles.selectionMsg}>선택</Text>
-                <Text style={{color: '#797979'}}>
-                  마케팅,SNS,이메일 수신동의
-                </Text>
+                <Text style={Font.SignUpNotEssential}>선택</Text>
+                <View style={MarginLeft(5)}>
+                  <Text style={Font.SignUpCheckBoxRightText}>
+                    마케팅,SNS,이메일 수신동의
+                  </Text>
+                </View>
               </TouchableOpacity>
               <Text
-                style={{color: '#797979'}}
+                style={Font.SignUpCheckBoxRightText}
                 onPress={navigationPushHandler('Marketing')}>
                 {' '}
                 [내용보기]
               </Text>
             </View>
-            <View style={styles.checkBoxView}>
-              <Text style={{color: 'red', fontSize: 13}}>
-                이용 약관과 개인정보수집 및 이용 안내에 모두 동의해주세요.
-              </Text>
-            </View>
+            <View style={SignUpStyles.CheckBoxView}></View>
           </View>
-          <View style={styles.flexRow}>
-            <TouchableOpacity style={styles.lastBtn} onPress={signUpHandler}>
-              <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
-                가입하기
-              </Text>
+          <View style={SignUpStyles.FlexRow}>
+            <TouchableOpacity
+              style={SignUpStyles.LastBtn}
+              onPress={signUpHandler}>
+              <Text style={Font.SignUpCheckBtn}>가입하기</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -845,246 +867,5 @@ const Login = ({navigation}: any) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    height: Dimensions.get('window').height,
-  },
-  // signUpModal
-  signUpModalWrap: {
-    display: 'flex',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba( 0, 0, 0, 0.5 )',
-  },
-  signUpModalView: {
-    width: '80%',
-    height: 200,
-    backgroundColor: 'white',
-    display: 'flex',
-    flexDirection: 'column',
-    borderRadius: 15,
-  },
-  signUpModalTop: {height: '75%'},
-  signUpModalTopHead: {
-    display: 'flex',
-    alignItems: 'flex-end',
-  },
-  signUpModalTopHeadBtn: {
-    backgroundColor: 'black',
-    width: 33,
-    height: 33,
-    borderRadius: 100,
-    marginTop: 10,
-    marginRight: 10,
-  },
-  signUpModalTopHeadText: {
-    color: 'white',
-    fontSize: 20,
-    lineHeight: 33,
-    textAlign: 'center',
-  },
-  signUpModalTopBody: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  signUpModalTopBodyTitle: {
-    color: '#292929',
-    fontSize: 20,
-    fontWeight: '700',
-    lineHeight: 35,
-    marginBottom: 10,
-  },
-  signUpModalTopBodyContent: {
-    color: '#666666',
-    fontSize: 14,
-    fontWeight: '500',
-    lineHeight: 20,
-  },
-  signUpModalTopBodyCarNumber: {
-    color: '#226EC8',
-    fontSize: 14,
-    fontWeight: '500',
-    lineHeight: 20,
-  },
-  signUpModalBottom: {
-    display: 'flex',
-    height: '25%',
-    backgroundColor: '#73A2D9',
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-  },
-  signUpModalBottomBtn: {
-    display: 'flex',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  signUpModalBottomText: {
-    color: '#FFFFFF',
-    fontSize: 17,
-    fontWeight: '500',
-    lineHeight: 20,
-  },
-
-  // main
-  full: {
-    height: '100%',
-    width: '100%',
-    backgroundColor: '#DEDEDE',
-  },
-  TopText: {
-    color: '#292929',
-    marginLeft: '7%',
-    marginTop: 50,
-    height: 30,
-    fontSize: 22,
-    fontWeight: '700',
-    fontFamily: 'Noto Sans',
-  },
-  viewWrap: {
-    marginTop: 20,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  flexRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 10,
-    width: '85%',
-  },
-  flexRowText: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '85%',
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  flexRowinputBox: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '85%',
-    backgroundColor: 'white',
-    height: 48,
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  flexRowinput: {
-    display: 'flex',
-    flex: 1,
-    color: 'black',
-    marginLeft: 5,
-  },
-  flexRowWithBtn: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '85%',
-    backgroundColor: 'white',
-    height: 48,
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  inputBoxWithBtn: {
-    display: 'flex',
-    flex: 1,
-    color: 'black',
-    marginLeft: 5,
-  },
-  inputBtn: {
-    width: 58,
-    height: 33,
-    borderRadius: 6,
-    backgroundColor: '#879BB9',
-    textAlign: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 20,
-  },
-  inputTimer: {
-    width: 58,
-    fontSize: 14,
-    lineHeight: 18,
-    fontWeight: '400',
-    color: '#898989',
-  },
-  inputText: {
-    fontSize: 13,
-    fontWeight: '500',
-    lineHeight: 28,
-    color: '#FFFFFF',
-  },
-  checkBoxWrap: {
-    width: '85%',
-  },
-  checkBoxView: {
-    display: 'flex',
-    height: 30,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  checkBoxLabelWrap: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  requirementsMsg: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '600',
-    fontSize: 15,
-    lineHeight: 20,
-    color: '#226EC8',
-    marginRight: 5,
-  },
-  selectionMsg: {
-    fontFamily: 'Noto Sans',
-    fontWeight: '600',
-    fontSize: 15,
-    lineHeight: 20,
-    color: '#000000',
-    marginRight: 5,
-  },
-  successMsg: {
-    width: '100%',
-    textAlign: 'left',
-    color: 'black',
-    fontSize: 12,
-    marginBottom: 10,
-  },
-  warringMsg: {
-    width: '100%',
-    textAlign: 'left',
-    color: '#2D0DB6',
-    fontSize: 12,
-    marginBottom: 10,
-  },
-  errorMsg: {
-    width: '100%',
-    textAlign: 'left',
-    color: 'red',
-    fontSize: 12,
-    marginBottom: 10,
-  },
-  lastBtn: {
-    flex: 1,
-    width: '80%',
-    height: 51,
-    marginTop: 10,
-    borderRadius: 10,
-    backgroundColor: '#6DADDB',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default Login;

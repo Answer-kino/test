@@ -11,7 +11,13 @@ type BlackColor =
   | 'SuvaGrey'
   | 'Grey'
   | 'NightRider';
-type BlueColor = 'DarkCerulean' | 'SummerSky' | 'Denim' | 'Denim2' | 'Pelorous';
+type BlueColor =
+  | 'DarkCerulean'
+  | 'SummerSky'
+  | 'Denim'
+  | 'Denim2'
+  | 'Pelorous'
+  | 'Chambray';
 type RedColor = 'SunsetOrange' | 'Scarlet';
 type WhiteColor = 'White';
 
@@ -81,6 +87,7 @@ const fontsStyleGuide: IFontsStyleGuide = {
       Denim: {color: '#226EC8'},
       Denim2: {color: '#2262AD'},
       Pelorous: {color: '#2D9DB6'},
+      Chambray: {color: '#4A607A'},
     },
     CRed: {
       SunsetOrange: {color: '#FF4C46'},
@@ -170,6 +177,7 @@ const PoppinsBlackText = (
  * @Denim #226EC8
  * @Denim2 #2262AD
  * @Pelorous #2D9DB6
+ * @Chambray #4A607A
  */
 const NotoSansKRBlueText = (
   color: BlueColor,
@@ -194,6 +202,7 @@ const NotoSansKRBlueText = (
  * @Denim #226EC8
  * @Denim2 #2262AD
  * @Pelorous #2D9DB6
+ * @Chambray #4A607A
  */
 const PoppinsBlueText = (
   color: BlueColor,
@@ -279,7 +288,7 @@ const NotoSansKRRedText = (
 
 export const Font = StyleSheet.create({
   // TopNav
-  TopNavTitle: {...NotoSansKRBlackText('Charcoal', 700, 22)},
+  TopNavTitle: {...NotoSansKRBlackText('Charcoal', 700, 22), lineHeight: 28},
 
   // Home
   MainLoginBtnText: {
@@ -310,10 +319,25 @@ export const Font = StyleSheet.create({
   ContractCheckCheckBtn: {...NotoSansKRWhiteText('White', 500, 14)},
   ContractCheckBottomText: {...NotoSansKRBlackText('Nero', 400, 15)},
   //계약확인 Modal
-  ContractCheckModalTop: {...NotoSansKRBlackText('Nero', 700, 20)},
-  ContractCheckModalBottom: {...NotoSansKRBlackText('DimGray', 500, 15)},
-  ContractCheckModalCheckBtn: {...NotoSansKRWhiteText('White', 700, 17)},
-
+  ContractCheckModalTop: {
+    ...NotoSansKRBlackText('Nero', 700, 20),
+    lineHeight: 35,
+  },
+  ContractCheckModalBottom: {
+    ...NotoSansKRBlackText('DimGray', 500, 15),
+    lineHeight: 20,
+  },
+  ContractCheckModalCheckBtn: {
+    ...NotoSansKRWhiteText('White', 700, 17),
+    textAlign: 'center',
+  },
+  //내차 NFT 증빙서류
+  MyCarDocumentTitle: {
+    ...NotoSansKRBlackText('DimGray', 700, 17),
+  },
+  MyCarDocumentContent: {
+    ...NotoSansKRBlackText('Nero', 500, 14),
+  },
   // NFT 전자지갑 == NFT 보증서
   // 내차운행정보 Modal
   CarOperationInformationModalTitle: {...NotoSansKRBlackText('Nero', 700, 20)},
@@ -331,95 +355,220 @@ export const Font = StyleSheet.create({
   },
   CommunityListCreatedTime: {...NotoSansKRBlackText('DimGray', 400, 13)},
   // NoticeCategory
-  NoticeCategoryText: {...NotoSansKRBlackText('Nero', 500, 16)},
+  NoticeCategoryText: {
+    ...NotoSansKRBlackText('Nero', 500, 16),
+    paddingLeft: 10,
+  },
   // MyPage
+  MypageModalText: {...NotoSansKRBlueText('Chambray', 700, 20)},
   MypageLeftText: {...NotoSansKRBlackText('Nero', 500, 15)},
   MypageRightText: {...NotoSansKRBlackText('DimGray', 500, 15)},
-  MyPageBtnText: {...NotoSansKRWhiteText('White', 500, 17)},
+  MyPageBtnText: {...NotoSansKRWhiteText('White', 500, 15)},
   // NFT 보증서
-  NftTitle: {...PoppinsBlackText('Nero', 500, 22)},
-  NftOwnedBy: {...PoppinsBlackText('Nero', 400, 16)},
-  NftCreatedCapital: {...PoppinsBlueText('SummerSky', 400, 16)},
-  NftMainDescriptionTitle: {...PoppinsBlackText('DimGray', 400, 16)},
-  NftMainDescriptionText: {...NotoSansKRBlackText('DimGray', 400, 14)},
+  NftTitle: {...PoppinsBlackText('Nero', 500, 22), lineHeight: 35},
+  NftOwnedBy: {...PoppinsBlackText('Nero', 400, 16), lineHeight: 35},
+  NftCreatedCapital: {...PoppinsBlueText('SummerSky', 400, 16), lineHeight: 35},
+  NftMainDescriptionTitle: {
+    ...PoppinsBlackText('DimGray', 400, 16),
+  },
+  NftMainDescriptionText: {
+    ...NotoSansKRBlackText('DimGray', 400, 14),
+    lineHeight: 22,
+  },
   // 설정
   SettingTitle: {...PoppinsBlueText('Denim', 700, 17)},
   SettingLeftText: {...NotoSansKRBlackText('DimGray', 500, 15)},
   SettingRightText: {...NotoSansKRBlackText('DimGray', 500, 15)},
   //회원가입
-  SignUpTop: {...NotoSansKRBlackText('Nero', 700, 22)},
-  SignUpTextInputPlaceholder: {...NotoSansKRBlackText('SuvaGrey', 400, 14)},
-  SignUpTextInput: {...NotoSansKRBlackText('Nero', 400, 14)},
+  SignUpTop: {...NotoSansKRBlackText('Nero', 700, 22), lineHeight: 30},
   SignUpCheckBtn: {...NotoSansKRWhiteText('White', 500, 13)},
-  SignUpPossibleCarNum: {...NotoSansKRBlackText('Nero', 400, 13)},
-  SignUpImPossibleCarNum: {...NotoSansKRRedText('SunsetOrange', 400, 13)},
+  SignUpMsg: {
+    ...NotoSansKRBlackText('Nero', 400, 13),
+    textAlign: 'left',
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  SignUpTimer: {
+    ...NotoSansKRBlackText('SuvaGrey', 400, 14),
+    paddingRight: 10,
+  },
+
+  SignUpWarningMsg: {
+    ...NotoSansKRRedText('SunsetOrange', 400, 13),
+    textAlign: 'left',
+    lineHeight: 15,
+    // paddingTop: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
   SignUpAllAgree: {...NotoSansKRBlackText('Grey', 400, 16)},
-  SignUpEssential: {...NotoSansKRBlueText('Denim', 400, 15)},
-  SignUpNotEssential: {...NotoSansKRBlackText('Charcoal', 400, 15)},
-  SignUpCheckBoxRightText: {...NotoSansKRBlackText('Grey', 400, 15)},
+  SignUpEssential: {...NotoSansKRBlueText('Denim', 400, 15), lineHeight: 20},
+  SignUpNotEssential: {
+    ...NotoSansKRBlackText('Charcoal', 400, 15),
+    lineHeight: 20,
+  },
+  SignUpCheckBoxRightText: {
+    ...NotoSansKRBlackText('Grey', 400, 15),
+    lineHeight: 20,
+  },
   SignUpCheckBoxWarningText: {...NotoSansKRRedText('Scarlet', 400, 14)},
-  SignUpCheckBoxSendValidNumText: {...NotoSansKRBlueText('Pelorous', 400, 13)},
-  SignUpModalTitle: {...NotoSansKRBlackText('Nero', 700, 20)},
-  SignUpModalMiddleTop: {...NotoSansKRBlackText('DimGray', 500, 14)},
-  SignUpModalCarNumber: {...NotoSansKRBlueText('Denim', 700, 14)}, //600없음
-  SignUpModalBtn: {...NotoSansKRWhiteText('White', 500, 17)},
+  SignUpSendValidNumText: {
+    ...NotoSansKRBlueText('Pelorous', 400, 13),
+    lineHeight: 18,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  SignUpValidComplete: {
+    ...NotoSansKRBlackText('SuvaGrey', 400, 13),
+  },
+  SignUpModalTitle: {...NotoSansKRBlackText('Nero', 700, 20), lineHeight: 35},
+  SignUpModalMiddleTop: {
+    ...NotoSansKRBlackText('DimGray', 500, 14),
+    lineHeight: 20,
+  },
+  SignUpModalCarNumber: {
+    ...NotoSansKRBlueText('Denim', 700, 14),
+    lineHeight: 20,
+  }, //600없음
+  SignUpModalBtn: {...NotoSansKRWhiteText('White', 500, 17), lineHeight: 20},
+  SignUpModalClose: {
+    ...NotoSansKRWhiteText('White', 500, 20),
+    textAlign: 'center',
+    lineHeight: 33,
+  },
   //로그인
-  SignInTitle: {...NotoSansKRBlackText('Nero', 700, 22)},
-  SignInInputPlaceHolder: {...NotoSansKRBlackText('SuvaGrey', 400, 14)},
-  SignInInputText: {...NotoSansKRBlackText('Nero', 400, 14)},
-  SignInSubmitBtnText: {...NotoSansKRWhiteText('White', 500, 16)},
-  SignInHalfBtnText: {...NotoSansKRBlackText('DimGray', 400, 15)},
-  SignInFullBtnLeftText: {...NotoSansKRBlackText('DimGray', 400, 15)},
-  SignInFullBtnRightText: {...NotoSansKRBlueText('Pelorous', 400, 18)},
+  SignInTitle: {...NotoSansKRBlackText('Nero', 700, 22), lineHeight: 30},
+  SignInSubmitBtnText: {
+    ...NotoSansKRWhiteText('White', 500, 16),
+    lineHeight: 18,
+  },
+  SignInHalfBtnText: {
+    ...NotoSansKRBlackText('DimGray', 400, 15),
+    lineHeight: 18,
+  },
+  SignInFullBtnLeftText: {
+    ...NotoSansKRBlackText('DimGray', 400, 15),
+    lineHeight: 18,
+  },
+  SignInFullBtnRightText: {
+    ...NotoSansKRBlueText('Pelorous', 400, 18),
+    lineHeight: 20,
+    // letterSpacing: -5,
+  },
+  //내차 운행정보
+  RaceInfoText: {
+    ...NotoSansKRBlackText('Charcoal', 500, 14),
+  },
   //이용약관
-  TermsOfServiceTitle: {...NotoSansKRBlackText('Nero', 500, 18)},
-  TermsOfServiceContent: {...NotoSansKRBlackText('DimGray', 500, 14)},
+  TermsOfServiceTitle: {
+    ...NotoSansKRBlackText('Nero', 500, 18),
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 15,
+    lineHeight: 35,
+  },
+  TermsOfServiceContent: {
+    ...NotoSansKRBlackText('DimGray', 500, 14),
+    lineHeight: 22,
+    paddingRight: 15,
+    paddingLeft: 15,
+    paddingTop: 15,
+  },
   TermsOfServiceCheckBtn: {...NotoSansKRWhiteText('White', 500, 16)},
   //사이드메뉴
   SideMenuCarNumber: {...NotoSansKRBlueText('Denim2', 700, 17)},
-  SideMenuMenuName: {...NotoSansKRBlackText('Matterhorn', 500, 15)},
+  SideMenuMenuName: {
+    ...NotoSansKRBlackText('Matterhorn', 500, 15),
+    alignItems: 'center',
+  },
   //자주묻는질문 // 공지사항
   QuestionQmark: {...NotoSansKRBlueText('Denim2', 700, 18)},
   QuestionTitle: {...NotoSansKRBlackText('Matterhorn', 400, 16)},
-  QuestionContent: {...NotoSansKRBlackText('Charcoal', 500, 15)},
-  //문의하기, 문의하기수정하기
-  InquiryTop: {...NotoSansKRBlackText('Charcoal', 700, 18)},
+  QuestionContent: {...NotoSansKRBlackText('Charcoal', 500, 15), padding: 10},
+  //문의하기, 문의하기수정하기 inputbox확인
+  InquiryTop: {...NotoSansKRBlackText('Charcoal', 700, 18), lineHeight: 35},
   InquiryInputboxPlaceholder: {...NotoSansKRBlackText('SuvaGrey', 400, 15)},
   InquiryInputbox: {...NotoSansKRBlackText('Nero', 400, 15)},
   InquiryBtn: {...NotoSansKRWhiteText('White', 500, 17)},
   //커뮤니티디테일
+  CommunityDetailModalText: {...NotoSansKRRedText('SunsetOrange', 500, 18)},
+  CommunityDetailModalCancelText: {...NotoSansKRBlackText('DimGray', 500, 18)},
+  CommunityDetailCarnumber: {
+    ...NotoSansKRBlackText('DimGray', 500, 13),
+    // paddingLeft: 10,
+  },
   CommunityDetailTitle: {...NotoSansKRBlackText('Black2', 500, 18)},
+  CommunityDetailCommentCnt: {
+    ...NotoSansKRRedText('SunsetOrange', 500, 16),
+    paddingLeft: 10,
+  },
   CommunityDetailContent: {...NotoSansKRBlackText('DimGray', 500, 15)},
   CommunityModifyBtn: {...NotoSansKRWhiteText('White', 700, 14)},
-  CommunityComment: {...NotoSansKRBlackText('DimGray', 500, 14)},
+  CommunityMiddleComment: {...NotoSansKRBlackText('DimGray', 700, 15)},
+  CommunityComment: {
+    ...NotoSansKRBlackText('DimGray', 500, 14),
+  },
   CommunityCommentTime: {...NotoSansKRBlackText('DimGray', 500, 12)},
   CommunityCommentInputBox: {...NotoSansKRBlackText('Nero', 500, 14)},
   CommunityCommentInputBoxPlaceholder: {
     ...NotoSansKRBlackText('SuvaGrey', 500, 14),
   },
   CommunityCommentRegisterBtn: {...NotoSansKRWhiteText('White', 700, 16)},
-  //공지사항
+  //공지사항리스트
   NoticeTopTitle: {...NotoSansKRBlackText('Nero', 700, 19)},
-  NoticeTitle: {...NotoSansKRBlackText('Matterhorn', 500, 18)},
-  NoticeTimeCategory: {...NotoSansKRBlackText('DimGray', 400, 15)},
+  NoticeTitle: {...NotoSansKRBlackText('Matterhorn', 500, 18), lineHeight: 35},
+  NoticeTimeCategory: {
+    ...NotoSansKRBlackText('DimGray', 400, 15),
+    lineHeight: 35,
+  },
   //비밀번호변경
   ChangePwdInputBox: {...NotoSansKRBlackText('Nero', 400, 15)},
   ChangePwdInputBoxPlaceholder: {...NotoSansKRBlackText('SuvaGrey', 400, 15)},
   ChangePwdCheckBtn: {...NotoSansKRWhiteText('White', 500, 17)},
+  ChangePwdWarningMsg: {
+    ...NotoSansKRRedText('SunsetOrange', 400, 13),
+    textAlign: 'left',
+    lineHeight: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+  },
   //차량번호찾기
-  FindCarNumTopText: {...NotoSansKRBlackText('Nero', 700, 22)},
+  FindCarNumTopText: {...NotoSansKRBlackText('Nero', 700, 22), lineHeight: 30},
   FindCarNumInput: {...NotoSansKRBlackText('Nero', 400, 14)},
   FindCarNumPlaceholder: {...NotoSansKRBlackText('SuvaGrey', 400, 14)},
   FindCarNumCertificationBtn: {...NotoSansKRWhiteText('White', 500, 13)},
-  FindCarNumCarNumTextLeft: {...NotoSansKRBlackText('DimGray', 700, 16)}, //600없음
-  FindCarNumCarNumTextRight: {...NotoSansKRBlueText('Denim', 700, 16)},
+  FindCarNumCarNumTextLeft: {
+    ...NotoSansKRBlackText('DimGray', 700, 16),
+    lineHeight: 18,
+  }, //600없음
+  FindCarNumCarNumTextRight: {
+    ...NotoSansKRBlueText('Denim', 700, 16),
+    lineHeight: 18,
+    padding: 5,
+  },
   FindCarNumCheckBtn: {...NotoSansKRWhiteText('White', 500, 16)},
   //비밀번호찾기
-  FindPwdTopText: {...NotoSansKRBlackText('Nero', 700, 22)},
+  FindPwdTopText: {...NotoSansKRBlackText('Nero', 700, 22), lineHeight: 30},
   FindPwdInput: {...NotoSansKRBlackText('Nero', 400, 14)},
   FindPwdPlaceholder: {...NotoSansKRBlackText('SuvaGrey', 400, 14)},
+  FindPwdWarningMsg: {
+    ...NotoSansKRRedText('SunsetOrange', 400, 13),
+    textAlign: 'left',
+    lineHeight: 15,
+    paddingTop: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
   FindPwdCertificationBtn: {...NotoSansKRWhiteText('White', 500, 13)},
-  FindPwdSendValidNumText: {...NotoSansKRBlueText('Pelorous', 400, 13)},
+  FindPwdValidSuccess: {
+    ...NotoSansKRBlackText('SuvaGrey', 400, 13),
+    paddingLeft: 10,
+  },
+  FindPwdSendValidNumText: {
+    ...NotoSansKRBlueText('Pelorous', 400, 13),
+    paddingLeft: 10,
+    // lineHeight: 10,
+  },
   FindPwdLoginBtn: {...NotoSansKRWhiteText('White', 500, 16)},
   //커뮤니티글쓰기
   CommunityWriteTopTitle: {...NotoSansKRBlackText('Nero', 700, 19)},
@@ -434,7 +583,16 @@ export const Font = StyleSheet.create({
   NoticeDetailCheckBtn: {...NotoSansKRBlackText('NightRider', 500, 17)},
   //문의글보기
   InquiryListMark: {...NotoSansKRBlueText('Denim2', 700, 18)},
-  InquiryListTitle: {...NotoSansKRBlackText('Matterhorn', 400, 16)},
-  InquiryListContent: {...NotoSansKRBlackText('Charcoal', 500, 15)},
+  InquiryListTitle: {
+    ...NotoSansKRBlackText('Matterhorn', 400, 16),
+    paddingHorizontal: 10,
+  },
+  InquiryListContent: {
+    ...NotoSansKRBlackText('Charcoal', 500, 15),
+    paddingVertical: 17,
+    paddingHorizontal: 10,
+  },
   InquiryListBtn: {...NotoSansKRWhiteText('White', 500, 14)},
+  //공통 버튼
+  AllBtnText: {...NotoSansKRWhiteText('White', 500, 17)},
 });

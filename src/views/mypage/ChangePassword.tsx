@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react';
 import {
   Alert,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -14,10 +13,10 @@ import API_Mypage from '../../@api/mypage/Mypage';
 import TopNav from '../../components/topNav/TopNav';
 import {regExp__pwd} from '../../@utility/reg';
 import _ from 'lodash';
-import API_SIGN_SERVICE from '../../@api/sign/sign';
 import {changeStyles} from '../../assets/css/mypage/change';
 import {globalStyles} from '../../assets/css/global/styleSheet';
 import {MarginTop} from '../../assets/css/global/margin';
+import {Font} from '../../assets/css/global/newFont';
 
 const ChangePassword = ({navigation}: any) => {
   const MYPAGE_SERVICE = new API_Mypage();
@@ -157,7 +156,7 @@ const ChangePassword = ({navigation}: any) => {
         ) : pwdChecked.reg ? (
           <View style={MarginTop(15)} />
         ) : (
-          <Text style={changeStyles.ErrorText}>
+          <Text style={Font.ChangePwdWarningMsg}>
             숫자,영문,특수문자 포함하여 8자리 이상 입력해주세요.
           </Text>
         )}
@@ -184,7 +183,7 @@ const ChangePassword = ({navigation}: any) => {
         ) : pwdChecked.same ? (
           <View style={MarginTop(15)} />
         ) : (
-          <Text style={changeStyles.ErrorText}>
+          <Text style={Font.FindPwdWarningMsg}>
             새로운 비밀번호가 다릅니다.
           </Text>
         )}

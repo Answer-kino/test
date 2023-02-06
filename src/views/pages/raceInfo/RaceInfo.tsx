@@ -1,31 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import {
-  ScrollView,
   StyleSheet,
   Text,
   View,
   Dimensions,
   FlatList,
-  Image,
   BackHandler,
   Modal,
-  Alert,
   TouchableOpacity,
 } from 'react-native';
-
-import image1 from '../../../assets/monitoring.png';
-import image2 from '../../../assets/scan.png';
-import image3 from '../../../assets/DashBoard.png';
-import image4 from '../../../assets/fuel.png';
-import image5 from '../../../assets/drive_records.png';
-import image6 from '../../../assets/daily.png';
-import image7 from '../../../assets/HUD.png';
-import image8 from '../../../assets/drive_style.png';
-import image9 from '../../../assets/expendables_maintanence.png';
 import BottomNav from '../../../components/bottomNav/BottomNav';
 import TopNav from '../../../components/topNav/TopNav';
 import ModalCloseBtn from '../../../assets/modalclosetbtn.svg';
-
+import RaceInfoStyles from '../../../assets/css/raceInfo/raceInfo';
+import {Font} from '../../../assets/css/global/newFont';
+import Monitoring from '../../../assets/img/raceInfo/monitoring.svg';
+import DashBoard from '../../../assets/img/raceInfo/dashBoard.svg';
+import Fuel from '../../../assets/img/raceInfo/fuel.svg';
+import DrivingRecord from '../../../assets/img/raceInfo/drivingRecord.svg';
+import DrivingLog from '../../../assets/img/raceInfo/drivingLog.svg';
+import HUD from '../../../assets/img/raceInfo/HUD.svg';
+import CarCheck from '../../../assets/img/raceInfo/carCheck.svg';
+import DrivingStyle from '../../../assets/img/raceInfo/drivingStyle.svg';
+import Management from '../../../assets/img/raceInfo/comsumableManagement.svg';
 interface ItemProps {
   title: string;
   img: string;
@@ -33,19 +30,19 @@ interface ItemProps {
 
 const Item = (props: ItemProps) => {
   return (
-    <View style={styles.itemContainer}>
-      <View style={styles.item}>
-        {props.img === '1' && <Image source={image1} />}
-        {props.img === '2' && <Image source={image2} />}
-        {props.img === '3' && <Image source={image3} />}
-        {props.img === '4' && <Image source={image4} />}
-        {props.img === '5' && <Image source={image5} />}
-        {props.img === '6' && <Image source={image6} />}
-        {props.img === '7' && <Image source={image7} />}
-        {props.img === '8' && <Image source={image8} />}
-        {props.img === '9' && <Image source={image9} />}
+    <View style={RaceInfoStyles.ItemContainer}>
+      <View style={RaceInfoStyles.Item}>
+        {props.img === '1' && <Monitoring />}
+        {props.img === '2' && <CarCheck />}
+        {props.img === '3' && <DashBoard />}
+        {props.img === '4' && <Fuel />}
+        {props.img === '5' && <DrivingRecord />}
+        {props.img === '6' && <DrivingLog />}
+        {props.img === '7' && <HUD />}
+        {props.img === '8' && <DrivingStyle />}
+        {props.img === '9' && <Management />}
       </View>
-      <Text style={{color: 'black', fontSize: 14}}>{props.title}</Text>
+      <Text style={Font.RaceInfoText}>{props.title}</Text>
     </View>
   );
 };
