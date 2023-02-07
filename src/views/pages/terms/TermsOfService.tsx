@@ -5,7 +5,7 @@ import TermsOfServiceStyles from '../../../assets/css/termsOfService/termsOfServ
 import {Font} from '../../../assets/css/global/newFont';
 import {MarginTop} from '../../../assets/css/global/margin';
 import {globalStyles} from '../../../assets/css/global/styleSheet';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native';
 
 const TermsOfService = ({navigation}: any) => {
   useEffect(() => {
@@ -43,38 +43,33 @@ const TermsOfService = ({navigation}: any) => {
                 </Text>
                 <View style={TermsOfServiceStyles.BodyContent1Wrap}>
                   <Text style={Font.TermsOfServiceContent}>
-                    ①에이치오토 서비스 : 에이치오토 서비스는 회사가 제공하는
-                    운전자 편의 서비스로서, 이용자에게 자동차와 관련된 각종
-                    차량정보, 운행통계, 소모품 관리, 실시간 대쉬보드 기능 등을
-                    제공하는 종합 차량정보 서비스이며, "에이치오토 서비스"로
-                    통칭됩니다(이하 "서비스"라 합니다). 서비스는 모바일
-                    어플리케이션 및 웹페이지(https://infocarmobility.com/)를
-                    통해서 제공됩니다.
+                    ① MYCARNFT란 이용자가 서비스를 이용하기 위하여 접속하는
+                    스마트폰 애플리케이션을 말합니다.
                   </Text>
                   <Text style={Font.TermsOfServiceContent}>
-                    ②회원 : 회원이라 함은 모바일 어플리케이션 및 웹페이지에
-                    접속하여 이 약관에 따라 "서비스"에 개인정보를 제공하여
-                    회원등록을 한 자로서, "서비스"의 정보를 지속적으로
-                    제공받으며 "서비스"를 계속적으로 이용할 수 있는 자를
+                    ② ‘이용자’라 함은 사이트에 접속하여 서비스를 이용하는 회원
+                    및 비회원을 말합니다.
+                  </Text>
+                  <Text style={Font.TermsOfServiceContent}>
+                    ③ ‘회원’이라 함은 사이트의 다양한 서비스를 지속적으로
+                    이용하기 위하여 인증서 등록절차를 거쳐 회원으로 가입한 자를
                     말합니다.
                   </Text>
                   <Text style={Font.TermsOfServiceContent}>
-                    ③차량 자가진단장치(On-board diagnostics) : 회사의 서비스를
-                    제공받기 위해 회원의 비용과 책임 하에 차량 OBD 단자에
-                    장착시켜야 하는 단말장치(이하 "단말장치"라 합니다)를
-                    말합니다.
+                    ④ ‘회원 탈퇴’라 함은 회원의 의사에 따라 인증서 등록취소
+                    절차를 거쳐 회원으로서의 지위를 종료시키는 행위를 말합니다.
                   </Text>
                   <Text style={Font.TermsOfServiceContent}>
-                    ④게시물 : 게시물이라 함은 회원이 서비스를 이용함에 있어서
-                    서비스에 게시한 부호, 문자, 음성, 음향, 화상, 동영상 등의
-                    정보 형태의 글, 사진, 동영상 및 각종 파일과 링크 등을
-                    의미합니다
+                    ⑤ ‘비회원’이라 함은 사이트의 일부 서비스만을 이용하기 위하여
+                    회원으로 가입하지 않고 서비스를 이용하는 자를 말합니다.
                   </Text>
                   <Text style={Font.TermsOfServiceContent}>
-                    ⑤(인터넷) 서버 : 서버는 특수한 형태로 하드디스크에 담겨진
-                    정보들을 서버접속자에게 공개해주는 컴퓨터를 말합니다.
-                    일반적으로 여러 정보들을 서버에서 관리하고, 일반 사용자들은
-                    컴퓨터를 이용하여 서버에 접속하고 서버의 정보를 이용합니다.
+                    ⑥ ‘NFT’보증서라 함은 블록체인을 기반으로 완성된 디지털
+                    NFT보증서 입니다.
+                  </Text>
+                  <Text style={Font.TermsOfServiceContent}>
+                    ⑦ ‘NFT’등록이라 함은 에이치오토 주관하여 블록체인을 기반으로
+                    발행된 디지털 보증서를 등록하는 것을 말합니다.
                   </Text>
                 </View>
               </View>
@@ -88,7 +83,7 @@ const TermsOfService = ({navigation}: any) => {
                   효력이 발생합니다.
                 </Text>
                 <Text style={Font.TermsOfServiceContent}>
-                  ②회사는 회원이 회사의 홈페이지 또는 회사로부터 제공 받은
+                  ②회사는 회원이 회사의 홈페이지 또는 회사로부터 제공받은
                   응용프로그램(Application)에서 서비스 이용 동의 확인에 관하여
                   동의를 표시한 경우, 이용자가 이 약관의 내용을 모두 읽고 이를
                   충분히 이해하였으며, 이를 적용하는 것에 동의한 것으로
@@ -125,21 +120,11 @@ const TermsOfService = ({navigation}: any) => {
                   한 번만 하면 됩니다.
                 </Text>
                 <Text style={Font.TermsOfServiceContent}>
-                  ②회사는 Google, Facebook, Apple 인증을 통해 이용자를 인증하기
-                  때문에 서비스 이용 시 별도의 ID와 비밀번호를 요청하지
-                  않습니다.
-                </Text>
-                <Text style={Font.TermsOfServiceContent}>
-                  ③회원인증시 Google, Facebook, Apple 인증을 통해 Google,
-                  Facebook, Apple 계정의 아이디/이메일/display Name을 이용자
-                  정보에 저장합니다.
-                </Text>
-                <Text style={Font.TermsOfServiceContent}>
-                  ④타인의 이메일 주소를 도용하여 인증신청을 한 회원의 모든
+                  ②타인의 이메일 주소를 도용하여 인증신청을 한 회원의 모든
                   정보는 삭제되며, 관계법령에 따라 처벌을 받을 수 있습니다.
                 </Text>
                 <Text style={Font.TermsOfServiceContent}>
-                  ⑤회사는 회원인증신청 이용자 중 다음 각 호에 해당하는 경우
+                  ③회사는 회원인증신청 이용자 중 다음 각 호에 해당하는 경우
                   인증신청을 허락하지 않을 수 있습니다.
                 </Text>
                 <Text style={Font.TermsOfServiceContent}>
@@ -159,10 +144,10 @@ const TermsOfService = ({navigation}: any) => {
                   포함)
                 </Text>
                 <Text style={Font.TermsOfServiceContent}>
-                  ⑥이용자가 회원 인증 후 서비스를 사용한 기록(차량 정보,
-                  진단이력, 차계부 기록, 주행기록)은 모두 서버에 저장 및
-                  이용되며 앱을 삭제하거나 로그아웃하여도 저장된 기록은 삭제되지
-                  않습니다.
+                  ④이용자가 회원 인증 후 서비스를 사용한 기록(NFT보증서확인,
+                  차량등록증확인, 보험가입증명서 확인, 커뮤니티 등)은 모두
+                  서버에 저장 및 이용되며 앱을 삭제하거나 로그아웃 하여도 저장된
+                  기록은 삭제되지 않습니다.
                 </Text>
               </View>
               <View style={MarginTop(20)}>
@@ -172,7 +157,7 @@ const TermsOfService = ({navigation}: any) => {
                 <View style={{display: 'flex', flexDirection: 'column'}}>
                   <Text style={Font.TermsOfServiceContent}>
                     ①회원이 다음 각 호의 사유에 해당하는 경우, 회사는 회원자격을
-                    상실(제한,정지)시킬 수 있습니다. 단, 회사는 사전에 소명할
+                    상실(제한, 정지)시킬 수 있습니다. 단, 회사는 사전에 소명할
                     기회를 회원에게 부여합니다.
                   </Text>
                   <Text style={Font.TermsOfServiceContent}>
@@ -186,8 +171,8 @@ const TermsOfService = ({navigation}: any) => {
                   <Text style={Font.TermsOfServiceContent}>
                     ②회사가 회원자격을 상실시키는 경우에는 고객의 서비스 해지 시
                     고객정보를 즉시 삭제합니다. 다만, 개인을 식별할 수 있는
-                    정보를 제거한 후 차량운행정보를 통계화하여 서비스 개선 및
-                    기타 사업 목적을 위해 보관합니다.
+                    정보를 제거한 후 서비스 개선 및 기타 사업 목적을 위해
+                    보관합니다.
                   </Text>
                 </View>
               </View>
@@ -214,7 +199,7 @@ const TermsOfService = ({navigation}: any) => {
                 <View style={{display: 'flex', flexDirection: 'column'}}>
                   <Text style={Font.TermsOfServiceContent}>
                     ①이 약관에 기초하여 이용자가 이용할 수 있는 서비스의 내용은
-                    별도로 정합니다. (별표 1참조)
+                    별도로 정합니다.
                   </Text>
                   <Text style={Font.TermsOfServiceContent}>
                     ②회사는 이용자에게 사전 통지 후 서비스의 일부 혹은 전부를
@@ -239,8 +224,8 @@ const TermsOfService = ({navigation}: any) => {
                     경우에는 서비스의 제공을 일시적으로 중단할 수 있습니다. 이
                     경우 회사는 제6조(회원에 대한 통지)에서 정한 방법으로
                     회원에게 통지합니다. 다만, 회사가 사전에 통지할 수 없는
-                    부득이한 사유(예:예상치 못한 시스템, 통신장애 등)가 있는
-                    경우 사후에 통지 할 수 있습니다.
+                    부득이한 사유(예: 예상치 못한 시스템, 통신장애 등)가 있는
+                    경우 사후에 통지할 수 있습니다.
                   </Text>
                   <Text style={Font.TermsOfServiceContent}>
                     1.시스템 보수를 정기적으로, 또는 긴급히 행하는 경우
@@ -260,15 +245,12 @@ const TermsOfService = ({navigation}: any) => {
                     5.통신사업자에 의해 통신 서비스가 정지된 경우
                   </Text>
                   <Text style={Font.TermsOfServiceContent}>
-                    6.OBD 단말장치에 장애가 발생한 경우
-                  </Text>
-                  <Text style={Font.TermsOfServiceContent}>
-                    7.그 외 운용 또는 기술상, 회사가 서비스 제공의 일시적인
+                    6.그 외 운용 또는 기술상, 회사가 서비스 제공의 일시적인
                     중단이 필요하다고 판단한 경우
                   </Text>
                   <Text style={Font.TermsOfServiceContent}>
-                    ③회사는 필요한 경우 정기점검을 실시 할 수 있으며,
-                    정기점검시간은 서비스제공화면에 공지한 바에 따릅니다.
+                    ③회사는 필요한 경우 정기점검을 실시할 수 있으며,
+                    정기점검시간은 서비스 제공화면에 공지한 바에 따릅니다.
                   </Text>
                   <Text style={Font.TermsOfServiceContent}>
                     ④회사는 2항 및 3항의 사유로 서비스 제공이 일시적으로
@@ -291,8 +273,7 @@ const TermsOfService = ({navigation}: any) => {
                 </Text>
                 <Text style={Font.TermsOfServiceContent}>
                   ③회원 본인 이외에 제3자 이용에 따른 모든 책임은 회원에게
-                  있습니다. 회원은 Google, Facebook, Apple 계정 등에 대한
-                  관리책임을 집니다.
+                  있습니다.
                 </Text>
                 <Text style={Font.TermsOfServiceContent}>
                   ④회원은 회사가 사전 서면 승인한 경우를 제외하고 영리 목적 혹은
@@ -311,7 +292,7 @@ const TermsOfService = ({navigation}: any) => {
                 <Text style={Font.TermsOfServiceContent}>
                   ⑦회원은 회사가 보유한 자신의 개인정보 및 서비스 이용 정보를
                   개인적 사유(앱 미사용 등)로 삭제하고자 하는 경우, 반드시 전화
-                  및 웹사이트 등 문의를 통해 삭제 요청을 해야하며 삭제 요청 시
+                  및 웹사이트 등 문의를 통해 삭제 요청을 해야 하며 삭제 요청 시
                   회사는 즉시 요청 정보를 삭제합니다.
                 </Text>
               </View>
@@ -484,7 +465,7 @@ const TermsOfService = ({navigation}: any) => {
                 <TouchableOpacity
                   style={TermsOfServiceStyles.Button}
                   onPress={() => {
-                    navigation.pop();
+                    navigation.goBack();
                   }}>
                   <Text style={globalStyles.ButtonText}>확인</Text>
                 </TouchableOpacity>

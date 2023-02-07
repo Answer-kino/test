@@ -1,8 +1,15 @@
 import {useEffect} from 'react';
-import {View, Text, ScrollView, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  BackHandler,
+  TouchableOpacity,
+} from 'react-native';
 import TopNav from '../../../components/topNav/TopNav';
 import TermsOfServiceStyles from '../../../assets/css/termsOfService/termsOfService';
 import {Font} from '../../../assets/css/global/newFont';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
 
 const Promotion = ({navigation}: any) => {
   useEffect(() => {
@@ -37,6 +44,13 @@ const Promotion = ({navigation}: any) => {
                 서비스에 대해 별도 수신 동의를 받을 수 있으며, 이때에도 수신
                 동의에 대해 별도로 안내하고 동의를 받습니다.
               </Text>
+              <TouchableOpacity
+                style={TermsOfServiceStyles.Button}
+                onPress={() => {
+                  navigation.goBack();
+                }}>
+                <Text style={globalStyles.ButtonText}>확인</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>

@@ -31,7 +31,7 @@ const TermsOfServiceStyles = StyleSheet.create({
     marginTop: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 50,
+    marginBottom: 30,
   },
 });
 

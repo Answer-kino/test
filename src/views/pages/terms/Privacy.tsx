@@ -1,6 +1,14 @@
 import {useEffect} from 'react';
-import {View, Text, StyleSheet, ScrollView, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  BackHandler,
+  TouchableOpacity,
+} from 'react-native';
 import {Font} from '../../../assets/css/global/newFont';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
 import TermsOfServiceStyles from '../../../assets/css/termsOfService/termsOfService';
 import TopNav from '../../../components/topNav/TopNav';
 
@@ -644,6 +652,13 @@ const Privacy = ({navigation}: any) => {
                   </Text>
                 </View>
               </View>
+              <TouchableOpacity
+                style={TermsOfServiceStyles.Button}
+                onPress={() => {
+                  navigation.goBack();
+                }}>
+                <Text style={globalStyles.ButtonText}>확인</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>

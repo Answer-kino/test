@@ -1,5 +1,14 @@
 import {useEffect} from 'react';
-import {View, Text, StyleSheet, ScrollView, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  BackHandler,
+  TouchableOpacity,
+} from 'react-native';
+import {globalStyles} from '../../../assets/css/global/styleSheet';
+import TermsOfServiceStyles from '../../../assets/css/termsOfService/termsOfService';
 import TopNav from '../../../components/topNav/TopNav';
 
 const Marketing = ({navigation}: any) => {
@@ -56,6 +65,13 @@ const Marketing = ({navigation}: any) => {
               </Text>
             </View>
           </View>
+          <TouchableOpacity
+            style={TermsOfServiceStyles.Button}
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <Text style={globalStyles.ButtonText}>확인</Text>
+          </TouchableOpacity>
         </ScrollView>
         <View style={{marginTop: '10%', backgroundColor: '#F2F6F8'}}></View>
       </View>
