@@ -83,7 +83,7 @@ const CommunityBoard = ({navigation, route}: any) => {
   const getCommunityBoardDetail = async () => {
     try {
       const detailInfo: any = await BBS_SERVICE.BBS_Community_Detail(boardIdx);
-
+      console.log('디테일', detailInfo);
       setDetailInfo(detailInfo);
     } catch (error) {
       console.error(error);
@@ -94,9 +94,9 @@ const CommunityBoard = ({navigation, route}: any) => {
     try {
       const commentInfo: any = await BBS_SERVICE.BBS_Comment(boardIdx);
       // 이미지 number 랜덤으로 하는 부분
-      for (let i = 0; i < commentInfo.length; i++) {
-        commentInfo[i]['imgNumber'] = randomNumber__1__6();
-      }
+      // for (let i = 0; i < commentInfo.length; i++) {
+      //   commentInfo[i]['imgNumber'] = randomNumber__1__6();
+      // }
       setCommentInfo(commentInfo);
     } catch (error) {
       console.error(error);
@@ -121,7 +121,7 @@ const CommunityBoard = ({navigation, route}: any) => {
   const blockBoardAxios = async () => {
     try {
       const result = await BLOCK_SERIVCE.Block_Board(boardIdx);
-      console.log('게시글차단', result);
+      // console.log('게시글차단', result);
       navigation.replace('CommunityBoardList');
     } catch (error) {
       console.error(error);
@@ -131,10 +131,10 @@ const CommunityBoard = ({navigation, route}: any) => {
   const blockCommentAxios = async () => {
     const IDX_COMMENT = tempContentNum;
     try {
-      console.log('tw', boardIdx);
+      // console.log('tw', boardIdx);
       const result = await BLOCK_SERIVCE.Block_Comment(boardIdx, IDX_COMMENT);
       getComment();
-      console.log('댓글', result);
+      // console.log('댓글', result);
     } catch (error) {
       console.error(error);
     }
@@ -177,18 +177,18 @@ const CommunityBoard = ({navigation, route}: any) => {
   const blockUserAxios = async (key: any) => {
     if (key === 'content') {
       try {
-        console.log('userIdx', userIdx);
+        // console.log('userIdx', userIdx);
         const result = await BLOCK_SERIVCE.Block_User(userIdx.content);
-        console.log('차단err', result);
+        // console.log('차단err', result);
         navigation.replace('CommunityBoardList');
       } catch (error) {
         console.error(error);
       }
     } else if (key === 'comment') {
       try {
-        console.log('userIdx', userIdx);
+        // console.log('userIdx', userIdx);
         const result = await BLOCK_SERIVCE.Block_User(userIdx.comment);
-        console.log('차단err', result);
+        // console.log('차단err', result);
         navigation.replace('CommunityBoardList');
       } catch (error) {
         console.error(error);
@@ -271,10 +271,6 @@ const CommunityBoard = ({navigation, route}: any) => {
     );
 
     return () => backHandler.remove();
-  }, []);
-
-  useEffect(() => {
-    console.log(new Date());
   }, []);
 
   return (
@@ -425,7 +421,7 @@ const CommunityBoard = ({navigation, route}: any) => {
           <View style={CommunityStyles.CarnumberContainer}>
             <View style={CommunityStyles.TopImgContainer}>
               <View style={CommunityStyles.ProfileImg}>
-                {myPageProfileMap(randomNumber__1__6())}
+                {myPageProfileMap(detailInfo?.ProfileImg)}
               </View>
               <Text style={Font.CommunityDetailCarnumber}>
                 {detailInfo?.userId}
@@ -482,6 +478,7 @@ const CommunityBoard = ({navigation, route}: any) => {
           const commentIdx = item.IDX_COMMENT;
           const IDX_USER = item.IDX_USER;
           // const imgNum = item.ProfileImg;
+          const profileImg = item.ProfileImg;
           const imgNum = item.imgNumber;
           const carNumber = item.CarNumber;
           const now = new Date();
@@ -497,13 +494,14 @@ const CommunityBoard = ({navigation, route}: any) => {
           const diff2Minute = Number(
             ((now.getTime() - new Date(temp).getTime()) / 1000 / 60).toFixed(0)
           );
+          // console.log(commentInfo);
           return (
             <View key={index}>
               <View style={CommunityStyles.Container}>
                 <View key={index} style={CommunityStyles.CommentContainer}>
                   <View style={CommunityStyles.CommentFront}>
                     <View style={CommunityStyles.ProfileImg}>
-                      {myPageProfileMap(imgNum)}
+                      {myPageProfileMap(profileImg)}
                     </View>
                     <Text style={Font.CommunityDetailCarnumber}>
                       {carNumber}

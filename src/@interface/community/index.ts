@@ -3,6 +3,7 @@ interface IDetailInfo {
   CommentCnt: string;
   Content: string;
   userId: string;
+  ProfileImg: number;
 }
 
 interface ICommentInfo {
